@@ -1,3 +1,5 @@
+// Page pattern: none. Dev-only component gallery (not shipped in production builds); it does not
+// map to the ten product patterns. See docs/ui-page-patterns.md.
 import { useState } from 'react';
 import {
   Button,

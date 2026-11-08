@@ -1,3 +1,5 @@
+// Page pattern: none. Dev-only engine harness (not shipped in production builds); it mixes a
+// form, a list and a generator on purpose and is superseded by /forge. See docs/ui-page-patterns.md.
 import { useMemo, useState } from 'react';
 import {
   DEFAULT_LINES,

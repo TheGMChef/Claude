@@ -1,3 +1,5 @@
+// Page pattern: 4 - Dashboard / Overview (page-patterns). A read-only glance whose actions link
+// out to a mode. No KPI tiles yet: it is a launcher until real status exists. See docs/ui-page-patterns.md.
 import { Link } from 'react-router-dom';
 import { MODES } from './modes';
 

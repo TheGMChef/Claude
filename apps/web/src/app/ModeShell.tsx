@@ -1,3 +1,6 @@
+// Page pattern: TEMPORARY PLACEHOLDER (not a catalogue pattern). Prep, Table, Codex and Forge are
+// stubs for later projects; each one's target pattern is recorded in docs/ui-page-patterns.md.
+// Replace this shell per mode instead of growing it.
 import { Link } from 'react-router-dom';
 import { MODES } from './modes';
 
