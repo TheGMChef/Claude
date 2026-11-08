@@ -207,6 +207,15 @@ entries:
     }
   });
 
+  it('rejects a table with no entries as a schema error (never reaches the runtime)', () => {
+    const res = validateUserPack('kind: table\nid: user.npc.nothing\nentries: []\n');
+    expect(res.ok).toBe(false);
+    if (res.ok) return;
+    expect(res.errors.map((e) => [e.code, e.message, e.path])).toEqual([
+      ['schema', 'a table needs at least 1 entry', 'user-pack[0]#entries'],
+    ]);
+  });
+
   it('rejects an empty pack with a schema error', () => {
     for (const src of ['', '---\n', []]) {
       const res = validateUserPack(src);

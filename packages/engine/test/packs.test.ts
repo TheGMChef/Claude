@@ -18,6 +18,12 @@ describe('starter packs', () => {
     expect(lintPack(fantasyPack)).toEqual([]);
   });
 
+  it('ship no empty table', () => {
+    for (const pack of [corePack, fantasyPack]) {
+      for (const t of Object.values(pack.tables)) expect(t.entries.length, t.id).toBeGreaterThan(0);
+    }
+  });
+
   it('generates the stored fantasy.npc snapshot for a fixed seed', async () => {
     const card = generate(lib, 'fantasy.npc', {
       seed: 'TEST-0001',

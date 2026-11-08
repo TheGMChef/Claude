@@ -21,6 +21,12 @@ describe('schemas', () => {
     expect(t.entries[0]).toEqual({ text: 'a thing', weight: 1, tags: [], safety: [] });
     expect(t.tags).toEqual([]);
   });
+  it('rejects a table with no entries, with a readable schema message', () => {
+    const res = TableSrc.safeParse({ ...table, entries: [] });
+    expect(res.success).toBe(false);
+    if (res.success) return;
+    expect(res.error.issues[0]?.message).toBe('a table needs at least 1 entry');
+  });
   it('rejects weight 0 and negative', () => {
     expect(TableSrc.safeParse({ ...table, entries: [{ text: 'x', weight: 0 }] }).success).toBe(
       false,

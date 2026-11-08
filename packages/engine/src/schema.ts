@@ -18,7 +18,7 @@ export const TableSrc = z.strictObject({
   id: z.string().min(1),
   title: z.string().optional(),
   tags: Tags,
-  entries: z.array(EntrySrc),
+  entries: z.array(EntrySrc).min(1, { message: 'a table needs at least 1 entry' }),
 });
 
 /** Part token in a name pattern: `name`, `name?` or `name?:0.3`. */

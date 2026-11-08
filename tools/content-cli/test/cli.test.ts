@@ -33,7 +33,7 @@ describe('fixtures', () => {
     ['dup-id', 'duplicate-id'],
     ['unresolved', 'unresolved-ref'],
     ['cycle', 'cycle'],
-    ['empty', 'empty-table'],
+    ['empty', 'schema'],
     ['bad-safety', 'unknown-safety-tag'],
     ['unknown-tag', 'unknown-tag'],
     ['missing-source', 'missing-source'],
@@ -89,7 +89,9 @@ describe('cli main', () => {
     const io = { out: [] as string[], err: [] as string[] };
     expect(main(['lint', fx('empty')], io)).toBe(1);
     expect(io.out).toHaveLength(1);
-    expect(io.out[0]).toMatch(/^empty-table \S*src\/tables\.yaml#?\S* .+/);
+    expect(io.out[0]).toMatch(
+      /^schema \S*src\/tables\.yaml#entries a table needs at least 1 entry$/,
+    );
     expect(main(['lint', fx('good')], { out: [], err: [] })).toBe(0);
   });
 
