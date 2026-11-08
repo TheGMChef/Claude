@@ -27,7 +27,7 @@ pnpm test            vitest, all packages (engine globalSetup rebuilds content p
 pnpm content:lint    lint every content pack
 pnpm content:build   compile packs to dist/ (gitignored)
 pnpm build           content:build, then build the web app
-pnpm e2e             Playwright (added in the last plan task)
+pnpm e2e --trace off  Playwright e2e/a11y/offline (builds with --mode e2e; needs content built)
 ```
 
 Before committing, run `pnpm lint && pnpm typecheck && pnpm test`.

@@ -15,8 +15,9 @@ const children: RouteObject[] = [
 ];
 
 // Dev pages: lazy-loaded inside a statically-replaced gate so production builds drop them.
-// Widen the gate here (Task 17 adds the e2e mode); both sides are replaced at build time.
-if (import.meta.env.DEV) {
+// The gate is also open for `vite build --mode e2e` so Playwright can reach them; both sides are
+// replaced at build time, so a normal production build drops these pages entirely.
+if (import.meta.env.DEV || import.meta.env.MODE === 'e2e') {
   const KitPage = lazy(() => import('../dev/KitPage').then((m) => ({ default: m.KitPage })));
   const ForgePreview = lazy(() =>
     import('../dev/ForgePreview').then((m) => ({ default: m.ForgePreview })),

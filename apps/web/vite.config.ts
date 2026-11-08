@@ -37,6 +37,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    // Playwright specs live in e2e/ and run under `pnpm e2e`.
+    exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
     // R25: compile the content packs (dist/*.json) before any test imports them.
     globalSetup: ['../../packages/engine/vitest.global-setup.ts'],
     setupFiles: ['./src/test-setup.ts'],
