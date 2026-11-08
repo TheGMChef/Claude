@@ -6,7 +6,7 @@ import type { CompiledPack } from './schema';
 import { findCycle, templateRefs } from './template';
 import type { TemplateAst } from './template';
 
-export type LintKind = 'table' | 'generator' | 'oracle' | 'culture';
+export type LintKind = 'table' | 'generator' | 'oracle' | 'culture' | 'deck';
 
 /** Maps a definition to the path prefix used in error messages (a file, or the bare id). */
 export type Locate = (kind: LintKind, id: string) => string;
@@ -137,6 +137,20 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
     o.meaning.forEach((m, i) => {
       if (!tables[m])
         err('unresolved-ref', `table "${m}" not found`, `${locate('oracle', o.id)}#meaning[${i}]`);
+    });
+  }
+
+  for (const d of Object.values(pack.decks)) {
+    d.cards.forEach((c, i) => {
+      for (const s of c.safety ?? []) {
+        if (!safety.has(s)) {
+          err(
+            'unknown-safety-tag',
+            `unknown safety tag "${s}"`,
+            `${locate('deck', d.id)}#cards[${i}]`,
+          );
+        }
+      }
     });
   }
 

@@ -6,6 +6,7 @@ import {
   askOracle,
   batch,
   cardToShare,
+  drawMove,
   generate,
   reroll,
 } from '@prepdesk/engine';
@@ -24,6 +25,7 @@ vi.mock('@prepdesk/engine', async (importOriginal) => {
     askOracle: vi.fn(actual.askOracle),
     batch: vi.fn(actual.batch),
     generate: vi.fn(actual.generate),
+    drawMove: vi.fn(actual.drawMove),
   };
 });
 
@@ -76,6 +78,7 @@ describe('ForgePreview', () => {
     seedCounter = 0;
     vi.mocked(askOracle).mockClear();
     vi.mocked(batch).mockClear();
+    vi.mocked(drawMove).mockClear();
     warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
   });
   afterEach(() => warn.mockRestore());
@@ -303,6 +306,42 @@ describe('ForgePreview', () => {
         safety: { lines: ['child-harm', 'violence'], veils: ['gore'] },
       }),
     );
+  });
+
+  it('moves: the deck honours the safety settings and stamps a blocked or veiled draw (I6)', async () => {
+    const { user } = setup();
+    const moves = screen.getByRole('region', { name: 'Moves' });
+    await user.click(screen.getByRole('checkbox', { name: 'Line violence' }));
+    await user.click(screen.getByRole('checkbox', { name: 'Veil fire' }));
+    await user.click(within(moves).getByRole('button', { name: 'Draw a move' }));
+    expect(drawMove).toHaveBeenLastCalledWith(
+      lib,
+      'core.gm-moves',
+      expect.objectContaining({ safety: { lines: ['child-harm', 'violence'], veils: ['fire'] } }),
+    );
+    expect(within(moves).queryByText('BLOCKED')).toBeNull();
+
+    vi.mocked(drawMove).mockReturnValueOnce({
+      id: 'x',
+      text: 'Smoke on the hill',
+      prompt: 'Who lit it?',
+      blocked: false,
+      veiled: ['fire'],
+    });
+    await user.click(within(moves).getByRole('button', { name: 'Draw a move' }));
+    expect(within(moves).getByText('VEILED')).toBeInTheDocument();
+    expect(within(moves).getByText('fire')).toBeInTheDocument();
+
+    vi.mocked(drawMove).mockReturnValueOnce({
+      id: '',
+      text: '—',
+      prompt: '',
+      blocked: true,
+      veiled: [],
+    });
+    await user.click(within(moves).getByRole('button', { name: 'Draw a move' }));
+    expect(within(moves).getByTestId('move-text')).toHaveTextContent('—');
+    expect(within(moves).getByText('BLOCKED')).toBeInTheDocument();
   });
 
   it('a tag cannot be both Line and Veil', async () => {

@@ -123,6 +123,18 @@ entries:
       expect(res.errors[0]?.message).toMatch(/at least 1 card/);
     });
 
+    it('accepts safety tags on deck cards and rejects unknown ones', () => {
+      const ok = validateUserPack([deck([{ id: 'burn', text: 'Burn it', safety: ['fire'] }])]);
+      expect(ok.ok).toBe(true);
+      if (ok.ok) expect(ok.pack.decks['user.moves']?.cards[0]?.safety).toEqual(['fire']);
+      const bad = validateUserPack([deck([{ id: 'burn', text: 'Burn it', safety: ['flames'] }])]);
+      expect(bad.ok).toBe(false);
+      if (bad.ok) return;
+      expect(bad.errors.map((e) => [e.code, e.message, e.path])).toEqual([
+        ['unknown-safety-tag', 'unknown safety tag "flames"', 'user-pack[0]#cards[0]'],
+      ]);
+    });
+
     it('a valid pack never makes askOracle or drawMove throw, even with every tag lined', () => {
       const res = validateUserPack([
         ...tables,
@@ -138,7 +150,9 @@ entries:
           const r = askOracle(lib, 'user.oracle', likelihood, { seed: `s${i}`, safety });
           expect(r.meaning.every((w) => w !== '')).toBe(true);
         }
-        expect(drawMove(lib, 'user.moves', { seed: `s${i}`, exclude: ['only'] }).id).toBe('only');
+        expect(drawMove(lib, 'user.moves', { seed: `s${i}`, exclude: ['only'], safety }).id).toBe(
+          'only',
+        );
       }
     });
   });

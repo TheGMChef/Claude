@@ -50,6 +50,16 @@ const pack = {
         { id: 'c', text: 'C', prompt: 'pc' },
       ],
     },
+    't.dark': {
+      id: 't.dark',
+      title: 'Dark moves',
+      cards: [
+        { id: 'fight', text: 'Start a fight', safety: ['violence'] },
+        { id: 'pyre', text: 'Light the pyre', safety: ['fire', 'death'] },
+        { id: 'calm', text: 'Let it rest' },
+        { id: 'smoke', text: 'Smoke on the hill', safety: ['fire'] },
+      ],
+    },
   },
   vocabulary: [],
 } as unknown as CompiledPack;
@@ -210,5 +220,60 @@ describe('drawMove', () => {
   });
   it('throws missing-source for unknown deck', () => {
     expect(() => drawMove(lib, 'nope')).toThrow(ContentError);
+  });
+  it('returns an ordinary card with blocked false and no veils', () => {
+    expect(drawMove(lib, 't.deck', { seed: 'k' })).toMatchObject({ blocked: false, veiled: [] });
+  });
+});
+
+describe('drawMove safety (I6)', () => {
+  const lined = (...lines: string[]) => ({ lines, veils: [] });
+
+  it('never returns a lined card', () => {
+    const seen = new Set<string>();
+    for (let i = 0; i < 200; i++) {
+      const c = drawMove(lib, 't.dark', { seed: `d${i}`, safety: lined('fire') });
+      expect(['fight', 'calm']).toContain(c.id);
+      seen.add(c.id);
+    }
+    expect(seen).toEqual(new Set(['fight', 'calm']));
+  });
+
+  it('exclude falls back to the safe cards, never to lined ones', () => {
+    for (let i = 0; i < 100; i++) {
+      const c = drawMove(lib, 't.dark', {
+        seed: `e${i}`,
+        safety: lined('fire', 'violence'),
+        exclude: ['calm'],
+      });
+      expect(c.id).toBe('calm');
+    }
+  });
+
+  it('when every card is lined, returns the blocked card', () => {
+    const dark = loadPacks([
+      {
+        ...pack,
+        decks: {
+          'u.d': { id: 'u.d', title: 'D', cards: [{ id: 'x', text: 'X', safety: ['fire'] }] },
+        },
+      },
+    ]);
+    expect(
+      drawMove(dark, 'u.d', { seed: 'b', safety: lined('fire'), exclude: ['x'] }),
+    ).toStrictEqual({ id: '', text: '—', prompt: '', blocked: true, veiled: [] });
+  });
+
+  it('reports the veiled tags a drawn card carries', () => {
+    const veils = { lines: [], veils: ['fire', 'war'] };
+    const byId = new Map<string, string[]>();
+    for (let i = 0; i < 200; i++) {
+      const c = drawMove(lib, 't.dark', { seed: `v${i}`, safety: veils });
+      byId.set(c.id, c.veiled);
+    }
+    expect(byId.get('pyre')).toEqual(['fire']);
+    expect(byId.get('smoke')).toEqual(['fire']);
+    expect(byId.get('fight')).toEqual([]);
+    expect(byId.get('calm')).toEqual([]);
   });
 });

@@ -158,8 +158,14 @@ export function ForgePreview() {
     [oracleSeed, likelihood, context.safety],
   );
   const move = useMemo(
-    () => (moveSeed === null ? null : drawMove(lib, DECK, { seed: moveSeed })),
-    [moveSeed],
+    () =>
+      moveSeed === null
+        ? null
+        : drawMove(lib, DECK, {
+            seed: moveSeed,
+            safety: context.safety ?? { lines: [], veils: [] },
+          }),
+    [moveSeed, context.safety],
   );
 
   const newNpc = () => {
@@ -385,6 +391,23 @@ export function ForgePreview() {
             {move && (
               <p className="forge__result">
                 <strong data-testid="move-text">{move.text}</strong>
+                {move.blocked && (
+                  <>
+                    {' '}
+                    <Stamp tone="pencil" rotate={-3}>
+                      BLOCKED
+                    </Stamp>
+                  </>
+                )}
+                {move.veiled.length > 0 && (
+                  <>
+                    {' '}
+                    <Stamp tone="pencil" rotate={-3}>
+                      VEILED
+                    </Stamp>{' '}
+                    <span className="forge__muted">{move.veiled.join(', ')}</span>
+                  </>
+                )}
                 <br />
                 <span data-testid="move-prompt">{move.prompt}</span>
               </p>

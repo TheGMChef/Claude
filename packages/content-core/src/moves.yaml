@@ -1,3 +1,6 @@
+# Safety review (I6): a card that touches a safety-vocabulary topic carries `safety: [tag]`, like a
+# table entry; drawMove never draws a card behind a Line. Each move below was reviewed and none
+# names a vocabulary topic (they are abstract GM moves), so none is tagged.
 kind: deck
 id: core.gm-moves
 title: GM moves

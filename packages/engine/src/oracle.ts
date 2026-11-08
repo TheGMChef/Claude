@@ -21,7 +21,15 @@ export type OracleResult = {
   veiled: string[];
 };
 
-export type MoveCard = { id: string; text: string; prompt: string };
+/** A drawn move. When safety lines exclude every card: `{ id: '', text: '—', prompt: '', blocked: true }`. */
+export type MoveCard = {
+  id: string;
+  text: string;
+  prompt: string;
+  blocked: boolean;
+  /** Veiled safety tags the card carries. */
+  veiled: string[];
+};
 
 function missing(kind: string, id: string): never {
   throw new ContentError('missing-source', `${kind} "${id}" not found`, id, '');
@@ -101,20 +109,36 @@ export function askOracle(
   };
 }
 
+/**
+ * I6: lines are applied first and never relaxed (R22); `exclude` is relaxed when it would empty
+ * the safe cards, falling back to the safe cards only.
+ */
 export function drawMove(
   lib: Library,
   deckId: string,
-  opts: { seed?: string; exclude?: string[] } = {},
+  opts: { seed?: string; exclude?: string[]; safety?: SafetySettings } = {},
 ): MoveCard {
   const deck = lib.deck(deckId);
   if (!deck) missing('deck', deckId);
   if (deck.cards.length === 0) {
     throw new ContentError('missing-source', `deck "${deckId}" has no cards`, deckId, '');
   }
+  const lines = opts.safety?.lines ?? [];
+  const safe = deck.cards.filter((c) => !(c.safety ?? []).some((t) => lines.includes(t)));
+  if (safe.length === 0) {
+    return { id: '', text: BLOCKED_VALUE, prompt: '', blocked: true, veiled: [] };
+  }
   const excluded = new Set(opts.exclude ?? []);
-  const eligible = deck.cards.filter((c) => !excluded.has(c.id));
-  const pool = eligible.length > 0 ? eligible : deck.cards;
+  const eligible = safe.filter((c) => !excluded.has(c.id));
+  const pool = eligible.length > 0 ? eligible : safe;
   const rng = createRng(toSeed(opts.seed), 'move', deckId);
   const card = pool[rng.int(pool.length)] as (typeof pool)[number];
-  return { id: card.id, text: card.text, prompt: card.prompt ?? '' };
+  const veils = opts.safety?.veils ?? [];
+  return {
+    id: card.id,
+    text: card.text,
+    prompt: card.prompt ?? '',
+    blocked: false,
+    veiled: veils.filter((v) => (card.safety ?? []).includes(v)),
+  };
 }

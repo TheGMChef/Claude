@@ -95,6 +95,7 @@ export const DeckSrc = z.strictObject({
         id: z.string().min(1),
         text: z.string(),
         prompt: z.string().optional(),
+        safety: z.array(z.string()).optional(),
       }),
     )
     .min(1, { message: 'a deck needs at least 1 card' }),
@@ -193,7 +194,8 @@ export type CompiledOracle = {
 export type CompiledDeck = {
   id: string;
   title: string;
-  cards: Array<{ id: string; text: string; prompt?: string }>;
+  /** `safety`: vocabulary tags, as on table entries (I6). */
+  cards: Array<{ id: string; text: string; prompt?: string; safety?: string[] }>;
 };
 
 export type CompiledPack = {
