@@ -4,7 +4,7 @@ import { nameWithRng, normalizeName } from './names';
 import type { NameResult } from './names';
 import { renderTemplate } from './render';
 import type { Context, RenderEnv } from './render';
-import { CROCKFORD, createRng, hashSeed, newSeed, normalizeSeed } from './rng';
+import { CROCKFORD, createRng, toSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, CompiledGenerator, FieldSource } from './schema';
 import { selectEntry } from './select';
@@ -91,24 +91,6 @@ function seedFrom(rng: Rng): string {
   let s = '';
   for (let i = 0; i < 8; i++) {
     s += CROCKFORD.charAt(rng.int(32));
-    if (i === 3) s += '-';
-  }
-  return s;
-}
-
-/**
- * R21: a valid code is normalised (`test0001` -> `TEST-0001`); other text maps to a stable code
- * derived from its hash; no seed -> a fresh random code.
- */
-function toSeed(input: string | undefined): string {
-  if (input === undefined) return newSeed();
-  const valid = normalizeSeed(input);
-  if (valid !== null) return valid;
-  const [h1, h2] = hashSeed('seed', input);
-  const bits = (BigInt(h1) << 32n) | BigInt(h2);
-  let s = '';
-  for (let i = 0; i < 8; i++) {
-    s += CROCKFORD.charAt(Number((bits >> BigInt(5 * i)) & 31n));
     if (i === 3) s += '-';
   }
   return s;

@@ -71,3 +71,21 @@ export function normalizeSeed(input: string): string | null {
   if (!/^[0-9A-HJKMNP-TV-Z]{8}$/.test(s)) return null;
   return `${s.slice(0, 4)}-${s.slice(4)}`;
 }
+
+/**
+ * R21: a valid code is normalised (`test0001` -> `TEST-0001`); other text maps to a stable code
+ * derived from its hash; no seed -> a fresh random code.
+ */
+export function toSeed(input: string | undefined): string {
+  if (input === undefined) return newSeed();
+  const valid = normalizeSeed(input);
+  if (valid !== null) return valid;
+  const [h1, h2] = hashSeed('seed', input);
+  const bits = (BigInt(h1) << 32n) | BigInt(h2);
+  let s = '';
+  for (let i = 0; i < 8; i++) {
+    s += CROCKFORD.charAt(Number((bits >> BigInt(5 * i)) & 31n));
+    if (i === 3) s += '-';
+  }
+  return s;
+}

@@ -29,3 +29,5 @@ export {
 } from './generate';
 export type { BatchRequest, Card, CardField, GenOptions, RollResult } from './generate';
 export { validateUserPack } from './userPack';
+export { askOracle, oracleOutcome, drawMove } from './oracle';
+export type { Likelihood, OracleResult, MoveCard } from './oracle';
