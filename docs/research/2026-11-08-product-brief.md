@@ -35,7 +35,7 @@
 | Content license | Open: anyone can use generated content and the tables |
 | Name | **Prep Desk** |
 
-### Assumptions I made (please correct)
+### Assumptions (confirmed by owner, 2026-11-08)
 - **The five genres:** Fantasy (launch), Sci-fi / space opera, Horror (gothic + cosmic), Cyberpunk, Modern supernatural / investigation. Post-apocalyptic is the first expansion candidate.
 - **"Prep Desk"** is the product name. The modes inside it: *Prep* (the interview), *Table* (live), *Codex* (everything you know), *Forge* (all generators and your own tables).
 - **Full encounter balancing** is system-specific, so it lives in system packs (5e first, via SRD 5.2, CC-BY-4.0).
