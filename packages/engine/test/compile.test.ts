@@ -111,6 +111,13 @@ describe('compileDocs', () => {
   it('resolves generator field sources and display, keeping field-name refs', () => {
     const { pack, errors } = compileDocs(manifest, [
       doc('t.yaml', { kind: 'table', id: 'fantasy.npc.role', entries: [{ text: 'smith' }] }),
+      doc('o.yaml', {
+        kind: 'generator',
+        id: 'fantasy.other',
+        title: 'O',
+        fields: {},
+        display: 'x',
+      }),
       doc('g.yaml', {
         kind: 'generator',
         id: 'fantasy.npc',
@@ -118,19 +125,29 @@ describe('compileDocs', () => {
         fields: {
           name: { name: 'full' },
           role: { table: 'role' },
-          sub: { gen: 'fantasy.npc' },
+          sub: { gen: 'other' },
           picks: { pick: { table: 'fantasy.npc.role', count: 2 } },
           line: { template: 'the {role} {npc.role|cap}' },
         },
         display: '{name}, {role|a}',
       }),
     ]);
-    // role -> sibling of owner "fantasy.npc" is "fantasy.role" (absent), then pack-level "fantasy.role"
-    expect(errors.map((e) => e.code)).toContain('missing-source');
+    expect(errors).toEqual([]);
     const g = pack.generators['fantasy.npc'];
     expect(Object.keys(g?.fields ?? {})).toEqual(['name', 'role', 'sub', 'picks', 'line']);
+    expect(g?.fields['sub']).toEqual({ gen: 'fantasy.other' });
     expect(g?.fields['picks']).toEqual({ pick: { table: 'fantasy.npc.role', count: 2 } });
-    expect(g?.fields['line']).toEqual({ template: 'the {role} {fantasy.npc.role|cap}' });
+    // generator-owned refs try <generatorId>.<ref> first: table "role" -> fantasy.npc.role
+    expect(g?.fields['role']).toEqual({ table: 'fantasy.npc.role' });
+    // `role` is also a field name, so it stays a short field ref (R10); `npc.role` resolves
+    expect(g?.fields['line']).toEqual({
+      template: [
+        'the ',
+        { slot: { kind: 'table', ref: 'role' }, mods: [] },
+        ' ',
+        { slot: { kind: 'table', ref: 'fantasy.npc.role' }, mods: [{ kind: 'cap' }] },
+      ],
+    });
     expect(g?.display).toEqual([
       { slot: { kind: 'name', part: 'full' }, mods: [] },
       ', ',

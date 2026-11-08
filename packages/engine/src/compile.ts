@@ -19,7 +19,7 @@ import type {
   TableSource,
 } from './schema';
 import { parseTemplate } from './template';
-import type { Modifier, Slot, TemplateAst } from './template';
+import type { TemplateAst } from './template';
 
 type Doc = { file: string; data: unknown };
 
@@ -35,45 +35,20 @@ function locator(path: ReadonlyArray<PropertyKey>): string {
   );
 }
 
-const esc = (s: string): string => s.replace(/[{}]/g, (c) => `\\${c}`);
-
-function slotText(slot: Slot): string {
-  switch (slot.kind) {
-    case 'table':
-      return slot.ref;
-    case 'ctx':
-      return `ctx.${slot.path}`;
-    case 'gen':
-      return `gen:${slot.generator}.${slot.field}`;
-    case 'name':
-      return slot.part === 'full' ? 'name' : `name:${slot.part}`;
-  }
-}
-
-function modText(m: Modifier): string {
-  return m.kind === 'or' ? `or:${esc(m.fallback)}` : m.kind;
-}
-
-/** Inverse of `parseTemplate`; used to store template fields with resolved ids. */
-function renderTemplate(ast: TemplateAst): string {
-  return ast
-    .map((el) =>
-      typeof el === 'string'
-        ? esc(el)
-        : `{${esc(slotText(el.slot))}${el.mods.map((m) => `|${modText(m)}`).join('')}}`,
-    )
-    .join('');
-}
-
-/** Sibling `a.b.<ref>`, then `<packId>.<ref>`, then `<ref>` as an absolute id. */
+/**
+ * Sibling `a.b.<ref>`, then `<packId>.<ref>`, then `<ref>` as an absolute id (R9). For refs owned
+ * by a generator (`ownedByGenerator`), `<generatorId>.<ref>` is tried first (R11).
+ */
 function resolver(
   owner: string,
   packId: string,
   exists: (id: string) => boolean,
+  ownedByGenerator = false,
 ): (ref: string) => string {
   const dot = owner.lastIndexOf('.');
   return (ref) => {
-    const candidates = dot > 0 ? [`${owner.slice(0, dot)}.${ref}`] : [];
+    const candidates = ownedByGenerator ? [`${owner}.${ref}`] : [];
+    if (dot > 0) candidates.push(`${owner.slice(0, dot)}.${ref}`);
     candidates.push(`${packId}.${ref}`, ref);
     return candidates.find(exists) ?? ref;
   };
@@ -144,18 +119,24 @@ export function compileDocs(
       return null;
     }
   };
-  /** Rewrites table/gen slot refs to absolute ids; `fieldNames` refs (generator-local) are kept. */
+  /**
+   * Rewrites table/gen slot refs to absolute ids.
+   * R10: inside a generator's template fields and display, a table ref equal to one of the
+   * generator's own field names is a field ref and is deliberately kept short; `{name}` stays a
+   * name slot (the runtime resolves field refs first, so a `name` field wins).
+   */
   const resolveAst = (
     ast: TemplateAst,
     owner: string,
-    fieldNames: ReadonlySet<string> = new Set(),
+    fieldNames?: ReadonlySet<string>,
   ): TemplateAst => {
-    const table = resolver(owner, packId, (id) => tableIds.has(id));
-    const gen = resolver(owner, packId, (id) => genIds.has(id));
+    const generatorOwned = fieldNames !== undefined;
+    const table = resolver(owner, packId, (id) => tableIds.has(id), generatorOwned);
+    const gen = resolver(owner, packId, (id) => genIds.has(id), generatorOwned);
     return ast.map((el) => {
       if (typeof el === 'string') return el;
       const { slot } = el;
-      if (slot.kind === 'table' && !fieldNames.has(slot.ref)) {
+      if (slot.kind === 'table' && !fieldNames?.has(slot.ref)) {
         return { ...el, slot: { ...slot, ref: table(slot.ref) } };
       }
       if (slot.kind === 'gen') return { ...el, slot: { ...slot, generator: gen(slot.generator) } };
@@ -210,8 +191,8 @@ export function compileDocs(
   for (const g of generators) {
     const base = fileOf('generator', g.id);
     const fieldNames = new Set(Object.keys(g.fields));
-    const table = resolver(g.id, packId, (id) => tableIds.has(id));
-    const gen = resolver(g.id, packId, (id) => genIds.has(id));
+    const table = resolver(g.id, packId, (id) => tableIds.has(id), true);
+    const gen = resolver(g.id, packId, (id) => genIds.has(id), true);
     const fields: Record<string, FieldSource> = {};
     for (const [name, src] of Object.entries(g.fields)) {
       if ('table' in src) fields[name] = { table: table(src.table) };
@@ -220,9 +201,7 @@ export function compileDocs(
         fields[name] = { pick: { ...src.pick, table: table(src.pick.table) } };
       else if ('template' in src) {
         const parsed = parse(src.template, `${base}#fields.${name}`);
-        fields[name] = {
-          template: parsed ? renderTemplate(resolveAst(parsed, g.id, fieldNames)) : src.template,
-        };
+        fields[name] = { template: parsed ? resolveAst(parsed, g.id, fieldNames) : [src.template] };
       } else fields[name] = src;
     }
     const display = parse(g.display, `${base}#display`);

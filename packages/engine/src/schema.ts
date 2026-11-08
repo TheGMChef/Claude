@@ -133,7 +133,7 @@ export type DocumentSource = z.input<typeof DocumentSrc>;
 
 export type FieldSource =
   | { table: string }
-  | { template: string }
+  | { template: TemplateAst }
   | { name: 'full' | 'given' | 'family' }
   | { culture: string }
   | { gen: string }

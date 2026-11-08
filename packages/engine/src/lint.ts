@@ -1,7 +1,7 @@
 import { ContentError } from './errors';
 import { SAFETY_VOCABULARY } from './safety';
 import type { CompiledPack } from './schema';
-import { findCycle, parseTemplate, templateRefs } from './template';
+import { findCycle, templateRefs } from './template';
 import type { TemplateAst } from './template';
 
 export type LintKind = 'table' | 'generator' | 'oracle';
@@ -77,14 +77,6 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
     }
   }
 
-  const parseField = (text: string, path: string): TemplateAst | null => {
-    try {
-      return parseTemplate(text);
-    } catch (e) {
-      err('schema', e instanceof Error ? e.message : String(e), path);
-      return null;
-    }
-  };
   for (const p of all) {
     for (const g of Object.values(p.generators)) {
       const own = p === pack;
@@ -109,11 +101,8 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
           }
           out.push(`generator:${src.gen}`);
         } else if ('template' in src) {
-          const ast = parseField(src.template, path);
-          if (ast) {
-            if (own) checkAst(ast, path, fieldNames);
-            edges(ast, out, fieldNames);
-          }
+          if (own) checkAst(src.template, path, fieldNames);
+          edges(src.template, out, fieldNames);
         }
       }
       if (own) checkAst(g.display, `${base}#display`, fieldNames);
