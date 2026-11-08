@@ -3,6 +3,7 @@
 A free, tablet-first improv kit for tabletop game masters: generators, a live "Table Mode", a six-step prep interview and a campaign wiki. System-agnostic core with optional system packs. No AI in the product at launch.
 
 Read before changing anything:
+
 - Spec: `docs/superpowers/specs/2026-11-08-foundations-and-content-engine-design.md` (binding)
 - Plan: `docs/superpowers/plans/2026-11-08-foundations-and-content-engine.md`
 - Product brief and decisions: `docs/research/2026-11-08-product-brief.md`
