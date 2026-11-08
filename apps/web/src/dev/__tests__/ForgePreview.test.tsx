@@ -180,6 +180,29 @@ describe('ForgePreview', () => {
     expect(screen.getByText('BLOCKED')).toBeInTheDocument();
   });
 
+  it('toggling a Line on and off rerolls nothing and restores the locked value (M2/R28)', async () => {
+    const [seed, tag] = seedWithTaggedRole();
+    const { user } = setup();
+    await user.type(screen.getByLabelText('Paste a code'), seed);
+    await user.click(screen.getByRole('button', { name: 'Load' }));
+    const before = snapshot();
+    await user.click(screen.getByRole('button', { name: 'Lock role' }));
+    // An unrelated tag: the role is not affected, and nothing else may reshuffle either.
+    const other = SAFETY_VOCABULARY.find((t) => t !== tag && t !== 'child-harm') ?? '';
+    await user.click(screen.getByRole('checkbox', { name: `Line ${other}` }));
+    await user.click(screen.getByRole('checkbox', { name: `Line ${other}` }));
+    expect(snapshot()).toEqual(before);
+
+    await user.click(screen.getByRole('checkbox', { name: `Line ${tag}` }));
+    expect(valueOf('role')).toBe('—');
+    expect(snapshot().filter((_, i) => FIELDS[i] !== 'role')).toEqual(
+      before.filter((_, i) => FIELDS[i] !== 'role'),
+    );
+    await user.click(screen.getByRole('checkbox', { name: `Line ${tag}` }));
+    expect(snapshot()).toEqual(before);
+    expect(screen.queryByText('BLOCKED')).not.toBeInTheDocument();
+  });
+
   it('a Veil keeps the value and stamps the card VEILED', async () => {
     const [seed, tag] = seedWithTaggedRole();
     const { user } = setup();
@@ -187,8 +210,6 @@ describe('ForgePreview', () => {
     await user.click(screen.getByRole('button', { name: 'Load' }));
     const role = valueOf('role');
     expect(screen.queryByText('VEILED')).not.toBeInTheDocument();
-    // Safety changes reroll unlocked fields, so lock the role to keep the tagged entry in place.
-    await user.click(screen.getByRole('button', { name: 'Lock role' }));
     await user.click(screen.getByRole('checkbox', { name: `Veil ${tag}` }));
     expect(screen.getByText('VEILED')).toBeInTheDocument();
     expect(valueOf('role')).toBe(role);

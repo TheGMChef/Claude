@@ -20,6 +20,7 @@ export type { NameOptions, NameResult } from './names';
 export {
   BLOCKED_DISPLAY,
   BLOCKED_VALUE,
+  applySafety,
   batch,
   cardFromShare,
   cardToShare,

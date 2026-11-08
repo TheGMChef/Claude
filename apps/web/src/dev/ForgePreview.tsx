@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import {
   DEFAULT_LINES,
   SAFETY_VOCABULARY,
+  applySafety,
   askOracle,
   batch,
   cardFromShare,
@@ -178,10 +179,11 @@ export function ForgePreview() {
   const setSafety = (nextLines: string[], nextVeils: string[]) => {
     setLines(nextLines);
     setVeils(nextVeils);
-    // Lines override locks (R22), so re-apply to the card on screen straight away.
+    // Lines override locks (R22), so re-apply to the card on screen straight away. applySafety
+    // rerolls nothing: unrelated fields stay and a hidden value returns when its line goes (M2).
     if (card) {
       const safety = { lines: nextLines, veils: nextVeils };
-      setCard(reroll(lib, card, { locks: lockedNames(card), context: { ...context, safety } }));
+      setCard(applySafety(lib, card, { context: { ...context, safety } }));
     }
   };
 

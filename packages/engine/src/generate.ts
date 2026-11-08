@@ -19,6 +19,11 @@ export type CardField = {
   /** Present (true) when selection had to loosen a filter (prefer/require/exclude/genre, or the
    * name guard) to fill this field. */
   relaxed?: boolean;
+  /**
+   * Set only on a blocked field whose content a CURRENT line now hides (R22 / applySafety): the
+   * original value, sources and relaxed mark, restored when the line is removed (M2).
+   */
+  hidden?: { value: string; sources: string[]; relaxed?: boolean };
 };
 
 /** JSON-serialisable copy of a Context (the campaign hook is dropped), stored on a card. */
@@ -345,45 +350,53 @@ function freshPlan(gen: CompiledGenerator): Plan {
   return Object.fromEntries(Object.keys(gen.fields).map((k) => [k, { nonce: 0, locked: false }]));
 }
 
-/** Fills fields in field order, then renders display with the field values (R15). */
-function assemble(
+/** A freshly generated field. Optional keys are present only when true. */
+function fieldFrom(r: Part, locked: boolean, nonce: number): CardField {
+  const field: CardField = {
+    value: r.blocked ? BLOCKED_VALUE : r.text,
+    locked,
+    nonce,
+    sources: r.sources,
+  };
+  if (r.blocked) field.blocked = true;
+  else if (r.relaxed) field.relaxed = true;
+  return field;
+}
+
+/**
+ * Safety beats locks (R22) without losing content (M2): a field whose original content (its
+ * `hidden` value, else its visible value) carries a current line is blocked and keeps the original
+ * in `hidden`; otherwise the original is shown. A field blocked at generation (nothing hidden) is
+ * returned unchanged.
+ */
+function guard(lib: Library, field: CardField, lines: string[]): CardField {
+  const { value, locked, nonce, sources, relaxed, hidden } = field;
+  if (field.blocked && !hidden) return field;
+  const original = hidden ?? { value, sources, ...(relaxed ? { relaxed } : {}) };
+  if (safetyOf(lib, original.sources, lines).length > 0) {
+    return { value: BLOCKED_VALUE, locked, nonce, sources: [], blocked: true, hidden: original };
+  }
+  const shown: CardField = { value: original.value, locked, nonce, sources: original.sources };
+  if (original.relaxed) shown.relaxed = true;
+  return shown;
+}
+
+/** Renders the display over the finished fields (R15, I5) and computes the card flags. */
+function finish(
   state: State,
   depth: number,
   gen: CompiledGenerator,
   seed: string,
   ctx: Context,
-  plan: Plan,
+  fields: Record<string, CardField>,
 ): Built {
-  const fields: Record<string, CardField> = {};
   const values: Record<string, string> = {};
   const veiled: string[] = [];
   let relaxed = false;
-  for (const [name, src] of Object.entries(gen.fields)) {
-    const p = plan[name] ?? { nonce: 0, locked: false };
-    const r = genField(state, depth, src, createRng(seed, name, p.nonce), ctx);
-    let field: CardField;
-    if (p.keep) {
-      // Locked: value, sources, nonce and relaxed mark stay exactly.
-      // R22: safety beats locks, so kept content now behind a line is blocked.
-      field = { ...p.keep, locked: true };
-      if (safetyOf(state.lib, p.keep.sources, ctx.safety?.lines ?? []).length > 0) {
-        field.value = BLOCKED_VALUE;
-        field.blocked = true;
-      }
-    } else {
-      field = {
-        value: r.blocked ? BLOCKED_VALUE : r.text,
-        locked: p.locked,
-        nonce: p.nonce,
-        sources: r.sources,
-      };
-      if (r.blocked) field.blocked = true;
-      else if (r.relaxed) field.relaxed = true;
-    }
+  for (const [name, field] of Object.entries(fields)) {
+    values[name] = field.value;
     relaxed ||= field.relaxed === true;
     if (!field.blocked) safetyOf(state.lib, field.sources, veilsOf(ctx), veiled);
-    fields[name] = field;
-    values[name] = field.value;
   }
   const extra: Part = { text: '', sources: [], blocked: false, relaxed: false };
   const env = makeEnv(state, depth, ctx, createRng(seed, '$display'), extra, values);
@@ -401,6 +414,27 @@ function assemble(
     displaySources,
     flags: { veiled, relaxed: relaxed || d.relaxed },
   };
+}
+
+/** Fills fields in field order, then renders display with the field values (R15). */
+function assemble(
+  state: State,
+  depth: number,
+  gen: CompiledGenerator,
+  seed: string,
+  ctx: Context,
+  plan: Plan,
+): Built {
+  const fields: Record<string, CardField> = {};
+  for (const [name, src] of Object.entries(gen.fields)) {
+    const p = plan[name] ?? { nonce: 0, locked: false };
+    const rng = createRng(seed, name, p.nonce);
+    // Locked: value, sources, nonce and relaxed mark stay exactly, unless a line now hides them.
+    fields[name] = p.keep
+      ? guard(state.lib, { ...p.keep, locked: true }, ctx.safety?.lines ?? [])
+      : fieldFrom(genField(state, depth, src, rng, ctx), p.locked, p.nonce);
+  }
+  return finish(state, depth, gen, seed, ctx, fields);
 }
 
 function requireGenerator(lib: Library, id: string): CompiledGenerator {
@@ -473,6 +507,43 @@ export function reroll(
     else plan[name] = { nonce: prev ? prev.nonce + 1 : 0, locked: locks.has(name) };
   }
   const built = assemble(newState(lib, ctx, false), 0, gen, card.seed, ctx, plan);
+  return toCard(lib, card.id, gen, card.seed, ctx, built);
+}
+
+/**
+ * Re-evaluates safety on an existing card without rerolling anything (M2/R28). Only `safety` (and
+ * the campaign hook) are taken from `opts.context`; the rest is the card's own context.
+ * - A field whose content carries a current line is blocked and keeps it in `hidden`.
+ * - A blocked field whose lines were removed is restored from `hidden`.
+ * - A field blocked at generation (nothing hidden) is regenerated at its own nonce, but only when
+ *   a line was removed; adding lines never fills it.
+ * - Every other field is untouched (value, sources, nonce). Veils, display and flags are
+ *   recomputed.
+ */
+export function applySafety(lib: Library, card: Card, opts: { context?: Context } = {}): Card {
+  const gen = requireGenerator(lib, card.generatorId);
+  const base = card.context as Context;
+  const ctx: Context = { ...base };
+  delete ctx.safety;
+  if (opts.context) {
+    if (opts.context.safety) ctx.safety = opts.context.safety;
+    if (opts.context.campaign) ctx.campaign = opts.context.campaign;
+  } else if (base.safety) ctx.safety = base.safety;
+  const lines = ctx.safety?.lines ?? [];
+  const removed = (base.safety?.lines ?? []).some((l) => !lines.includes(l));
+  const state = newState(lib, ctx, false);
+  const fields: Record<string, CardField> = {};
+  for (const [name, src] of Object.entries(gen.fields)) {
+    const f = card.fields[name];
+    if (f && !(f.blocked && !f.hidden)) fields[name] = guard(lib, f, lines);
+    else if (f && !removed) fields[name] = f;
+    else {
+      const nonce = f?.nonce ?? 0;
+      const r = genField(state, 0, src, createRng(card.seed, name, nonce), ctx);
+      fields[name] = fieldFrom(r, f?.locked ?? false, nonce);
+    }
+  }
+  const built = finish(state, 0, gen, card.seed, ctx, fields);
   return toCard(lib, card.id, gen, card.seed, ctx, built);
 }
 
