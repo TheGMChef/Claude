@@ -23,9 +23,13 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
     errors.push(new ContentError(code, message, path, pack.id));
   };
   const all = [pack, ...deps];
-  const tables = Object.assign({}, ...all.map((p) => p.tables)) as CompiledPack['tables'];
+  // Null prototype: a ref such as `constructor` must not resolve to an Object.prototype member (I2).
+  const tables = Object.assign(
+    Object.create(null),
+    ...all.map((p) => p.tables),
+  ) as CompiledPack['tables'];
   const generators = Object.assign(
-    {},
+    Object.create(null),
     ...all.map((p) => p.generators),
   ) as CompiledPack['generators'];
   const vocabulary = new Set(all.flatMap((p) => p.vocabulary));
@@ -42,7 +46,7 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
       } else if (slot.kind === 'gen') {
         const g = generators[slot.generator];
         if (!g) err('unresolved-ref', `generator "${slot.generator}" not found`, path);
-        else if (!(slot.field in g.fields)) {
+        else if (!Object.hasOwn(g.fields, slot.field)) {
           err('missing-source', `generator "${slot.generator}" has no field "${slot.field}"`, path);
         }
       }

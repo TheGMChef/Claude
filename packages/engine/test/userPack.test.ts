@@ -1,4 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
+import { compileDocs } from '../src/compile';
+import { generate, rollTable } from '../src/generate';
 import { loadPacks } from '../src/library';
 import { askOracle, drawMove } from '../src/oracle';
 import { SAFETY_VOCABULARY } from '../src/safety';
@@ -139,6 +141,70 @@ entries:
         expect(drawMove(lib, 'user.moves', { seed: `s${i}`, exclude: ['only'] }).id).toBe('only');
       }
     });
+  });
+
+  it('a user entry cannot read the context prototype chain (I2)', () => {
+    const res = validateUserPack({
+      kind: 'table',
+      id: 'user.t.probe',
+      entries: [{ text: 'x {ctx.constructor}{ctx.toString}{ctx.settlement.constructor} y' }],
+    });
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const r = rollTable(loadPacks([res.pack]), 'user.t.probe', {
+      seed: 'AAAA-0000',
+      context: { settlement: { name: 'Saltmere' } },
+    });
+    warn.mockRestore();
+    expect(r.text).toBe('x  y');
+  });
+
+  it('refs named like Object.prototype members are unresolved, and never throw (I2)', () => {
+    const g = {
+      kind: 'generator',
+      id: 'user.g',
+      title: 'g',
+      fields: { a: { template: 'hi' } },
+      display: '{a}',
+    };
+    const withRef = (text: string) => [
+      g,
+      {
+        kind: 'generator',
+        id: 'user.h',
+        title: 'h',
+        fields: { b: { template: text } },
+        display: '{b}',
+      },
+    ];
+    const cases: Array<[string, string]> = [
+      ['{gen:user.g.constructor}', 'missing-source'],
+      ['{gen:user.g.__proto__}', 'missing-source'],
+      ['{gen:constructor.x}', 'unresolved-ref'],
+      ['{constructor}', 'unresolved-ref'],
+      ['{toString}', 'unresolved-ref'],
+    ];
+    for (const [text, code] of cases) {
+      const res = validateUserPack(withRef(text));
+      expect(res.ok, text).toBe(false);
+      if (res.ok) continue;
+      expect(
+        res.errors.map((e) => e.code),
+        text,
+      ).toEqual([code]);
+      // Even past lint (a pack loaded without validation), generation must not throw.
+      const pack = compileDocs(
+        { id: 'user', version: '0', title: 'u' },
+        withRef(text).map((data, i) => ({ file: `d${i}`, data })),
+      ).pack;
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      expect(
+        () => generate(loadPacks([pack]), 'user.h', { seed: 'AAAA-0000' }),
+        text,
+      ).not.toThrow();
+      warn.mockRestore();
+    }
   });
 
   it('rejects an empty pack with a schema error', () => {

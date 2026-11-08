@@ -144,6 +144,44 @@ describe('renderTemplate', () => {
     expect(render('{name:family} {gen:g.x.title}').text).toBe('name-family g.x.title');
   });
 
+  describe('own properties only (I2)', () => {
+    const ctx: Context = {
+      settlement: { name: 'Saltmere', size: 3, walled: false, gates: ['n'] },
+      fn: () => 'leak',
+    };
+    const prod = (over: Partial<RenderEnv> = {}) => mkEnv({ mode: 'prod', ...over }, ctx);
+
+    it('ctx paths never reach the prototype chain', () => {
+      for (const path of [
+        'constructor',
+        'toString',
+        '__proto__',
+        'hasOwnProperty',
+        'settlement.constructor',
+        'settlement.__proto__',
+        'settlement.name.length',
+        '__proto__.constructor',
+      ]) {
+        expect(render(`x{ctx.${path}}y`, prod()).text, path).toBe('xy');
+      }
+    });
+
+    it('ctx values must be primitives: functions and objects render as missing', () => {
+      expect(render('{ctx.fn}|{ctx.settlement}|{ctx.settlement.gates}', prod()).text).toBe('||');
+      expect(
+        render('{ctx.settlement.name} {ctx.settlement.size} {ctx.settlement.walled}', prod()).text,
+      ).toBe('Saltmere 3 false');
+    });
+
+    it('field refs are own-property lookups: constructor, __proto__ and toString are not fields', () => {
+      const env = prod({ fields: { role: 'smith' } });
+      expect(render('{role}|{constructor}|{__proto__}|{toString}|{hasOwnProperty}', env).text).toBe(
+        'smith||||',
+      );
+      expect(render('{name}', prod({ fields: {} })).text).toBe('name-full');
+    });
+  });
+
   it('envs sharing a warned set warn once per key across all of them', () => {
     const warned = new Set<string>();
     render('{ctx.nope}', mkEnv({ warned }));

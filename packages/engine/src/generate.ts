@@ -186,8 +186,8 @@ function makeEnv(
     resolveName: (part) => namePart(nameFor(state, ctx, rng), part),
     resolveGen: (generatorId, field, subCtx) => {
       const sub = subCard(state, depth, generatorId, subCtx, rng);
-      const f = sub?.fields[field];
-      if (!f) return '';
+      if (!sub || !Object.hasOwn(sub.fields, field)) return '';
+      const f = sub.fields[field] as CardField;
       extra.sources.push(...f.sources);
       if (f.blocked) extra.blocked = true;
       return f.value;

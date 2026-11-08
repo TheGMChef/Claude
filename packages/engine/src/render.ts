@@ -57,15 +57,27 @@ function warnOnce(env: RenderEnv, key: string): void {
   console.warn(`[prepdesk] missing value: ${key}`);
 }
 
+/** Own property only, so `constructor`, `__proto__` and friends never resolve (I2). */
+function own(obj: unknown, key: string): unknown {
+  if (obj === null || typeof obj !== 'object' || !Object.hasOwn(obj, key)) return undefined;
+  return (obj as Record<string, unknown>)[key];
+}
+
+/** A ctx path, walked through own properties; only a string, number or boolean renders. */
 function readCtx(ctx: Context, path: string): string | undefined {
-  if (path.startsWith('campaign.')) return ctx.campaign?.get(path.slice('campaign.'.length));
-  let cur: unknown = ctx;
-  for (const key of path.split('.')) {
-    if (cur === null || typeof cur !== 'object') return undefined;
-    cur = (cur as Record<string, unknown>)[key];
+  if (path.startsWith('campaign.')) {
+    const campaign = own(ctx, 'campaign') as Context['campaign'];
+    return campaign?.get(path.slice('campaign.'.length));
   }
-  if (cur === undefined || cur === null) return undefined;
-  return typeof cur === 'object' ? undefined : String(cur);
+  let cur: unknown = ctx;
+  for (const key of path.split('.')) cur = own(cur, key);
+  const t = typeof cur;
+  return t === 'string' || t === 'number' || t === 'boolean' ? String(cur) : undefined;
+}
+
+function fieldValue(fields: Record<string, string> | undefined, key: string): string | undefined {
+  const v = own(fields, key);
+  return typeof v === 'string' ? v : undefined;
 }
 
 function applyMod(text: string, mod: Modifier): string {
@@ -92,12 +104,14 @@ export function renderTemplate(ast: TemplateAst, env: RenderEnv, depth = 0): Ren
       }
       case 'gen':
         return env.resolveGen(slot.generator, slot.field, env.ctx);
-      case 'name':
-        if (slot.part === 'full' && fields?.name !== undefined) return fields.name;
+      case 'name': {
+        const name = fieldValue(fields, 'name');
+        if (slot.part === 'full' && name !== undefined) return name;
         return env.resolveName(slot.part);
+      }
       case 'table': {
-        const fieldValue = fields?.[slot.ref];
-        if (fieldValue !== undefined) return fieldValue;
+        const value = fieldValue(fields, slot.ref);
+        if (value !== undefined) return value;
         const table = env.lib.table(slot.ref);
         if (!table) return undefined;
         if (depth + 1 > MAX_DEPTH) return '';
