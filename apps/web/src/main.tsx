@@ -6,6 +6,7 @@ import { ThemeProvider } from './app/ThemeProvider';
 import './styles/fonts.css';
 import './styles/tokens.css';
 import './styles/base.css';
+import './kit/kit.css';
 
 const root = document.getElementById('root');
 if (!root) throw new Error('missing #root');

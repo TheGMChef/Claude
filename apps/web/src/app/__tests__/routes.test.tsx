@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RouterProvider, createMemoryRouter } from 'react-router-dom';
@@ -16,6 +16,11 @@ function renderAt(path: string) {
 }
 
 describe('routes', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    delete document.documentElement.dataset.theme;
+  });
+
   it.each([
     ['/prep', 'Prep'],
     ['/table', 'Table'],
@@ -55,9 +60,27 @@ describe('routes', () => {
     expect(btn).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('theme toggle sets data-theme', async () => {
+  it('theme toggle cycles auto, day, night, auto', async () => {
     renderAt('/');
-    await userEvent.click(screen.getByRole('button', { name: /theme/i }));
-    expect(document.documentElement.dataset.theme).toBeDefined();
+    const root = document.documentElement;
+    expect(root.dataset.theme).toBeUndefined();
+    await userEvent.click(screen.getByRole('button', { name: /^Theme: Auto/ }));
+    expect(root.dataset.theme).toBe('light');
+    await userEvent.click(screen.getByRole('button', { name: /^Theme: Day/ }));
+    expect(root.dataset.theme).toBe('dark');
+    await userEvent.click(screen.getByRole('button', { name: /^Theme: Night/ }));
+    expect(root.dataset.theme).toBeUndefined();
+    expect(screen.getByRole('button', { name: /^Theme: Auto/ })).toBeInTheDocument();
+  });
+
+  it('Escape closes the menu and returns focus to the Menu button', async () => {
+    renderAt('/');
+    const btn = screen.getByRole('button', { name: 'Menu' });
+    await userEvent.click(btn);
+    expect(btn).toHaveAttribute('aria-expanded', 'true');
+    await userEvent.tab();
+    await userEvent.keyboard('{Escape}');
+    expect(btn).toHaveAttribute('aria-expanded', 'false');
+    expect(btn).toHaveFocus();
   });
 });

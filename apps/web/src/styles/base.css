@@ -11,7 +11,6 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  overflow-x: hidden;
   color: var(--ink);
   background-color: var(--paper);
   background-image: radial-gradient(circle, var(--dot) 1px, transparent 1.2px);
@@ -77,8 +76,7 @@ a {
 }
 
 .topbar__link,
-.topbar__menu,
-.topbar__theme {
+.topbar__menu {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -97,12 +95,11 @@ a {
 
 .topbar__link[aria-current='page'] {
   background: var(--highlight);
-  color: #1f1b16;
+  color: var(--on-highlight);
 }
 
 .topbar__theme {
   margin-left: auto;
-  border-color: var(--ink-muted);
 }
 
 .topbar__menu {

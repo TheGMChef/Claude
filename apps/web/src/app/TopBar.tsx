@@ -1,20 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { IconButton } from '../kit';
 import { MODES } from './modes';
 import { useTheme } from './ThemeProvider';
 import type { ThemeChoice } from './theme';
 
 const NEXT: Record<ThemeChoice, ThemeChoice> = { system: 'light', light: 'dark', dark: 'system' };
+const WORD: Record<ThemeChoice, string> = { system: 'Auto', light: 'Day', dark: 'Night' };
 
 export function TopBar() {
   const [open, setOpen] = useState(false);
   const { choice, setChoice } = useTheme();
+  const menuRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        menuRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
   return (
     <header className="topbar">
       <Link to="/" className="topbar__wordmark">
         Prep Desk
       </Link>
       <button
+        ref={menuRef}
         type="button"
         className="topbar__menu"
         aria-expanded={open}
@@ -30,14 +46,12 @@ export function TopBar() {
           </NavLink>
         ))}
       </nav>
-      <button
-        type="button"
+      <IconButton
         className="topbar__theme"
-        aria-label={`Theme: ${choice}. Switch to ${NEXT[choice]}`}
+        icon={choice === 'dark' ? 'moon' : 'sun'}
+        label={`Theme: ${WORD[choice]} — switch to ${WORD[NEXT[choice]]}`}
         onClick={() => setChoice(NEXT[choice])}
-      >
-        {choice === 'dark' ? 'Night' : choice === 'light' ? 'Day' : 'Auto'}
-      </button>
+      />
     </header>
   );
 }
