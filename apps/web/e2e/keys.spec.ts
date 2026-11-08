@@ -92,31 +92,67 @@ test('the selected tab and the current page are pressed in', async ({ page }) =>
   expect(await translateY(current)).toBeCloseTo(DEPTH, 1);
 });
 
-test('no pill shapes remain on pressable controls or their rings', async ({ page }) => {
-  for (const [path, h1] of [
-    ['/kit', 'Kit'],
-    ['/forge-preview', 'Forge preview'],
-    ['/', 'Prep Desk'],
+// Selector for everything that must not be a pill: pressables, their ink rings, and the
+// rectangular surfaces (tags, notice card, cards, fields).
+const SHAPES =
+  'button, a[href], [role="tab"], button .ink-outline, a .ink-outline, ' +
+  '.chip, .update-chip, .card, input, textarea';
+
+test('no pill shapes remain on controls, rings, tags, cards or fields', async ({ page }) => {
+  for (const [path, ready, expectKinds] of [
+    ['/kit', 'Keys', ['.chip', '.card', 'input', 'textarea', '[role="tab"]']],
+    ['/forge-preview', 'Lock name', ['.card', 'input']],
+    ['/', 'Prep Desk', ['.update-chip']],
   ] as const) {
     await page.goto(path);
-    await expect(page.getByRole('heading', { level: 1, name: h1, exact: true })).toBeVisible();
-    const { scanned, pills } = await page.evaluate(() => {
-      const sel = 'button, a[href], [role="tab"], button .ink-outline, a .ink-outline';
-      const els = [...document.querySelectorAll<HTMLElement>(sel)];
-      const pills = els
-        .filter((el) => {
-          const s = getComputedStyle(el);
-          return [
-            s.borderTopLeftRadius,
-            s.borderTopRightRadius,
-            s.borderBottomLeftRadius,
-            s.borderBottomRightRadius,
-          ].some((r) => parseFloat(r) >= 100);
-        })
-        .map((el) => el.outerHTML.slice(0, 100));
-      return { scanned: els.length, pills };
-    });
-    expect(scanned, `${path} scanned controls`).toBeGreaterThan(3);
+    if (path === '/forge-preview') {
+      await page.getByRole('button', { name: 'New NPC' }).click();
+      await expect(page.getByRole('button', { name: ready })).toBeVisible();
+    } else if (path === '/kit') {
+      await expect(page.getByRole('heading', { name: ready }).first()).toBeVisible();
+    } else {
+      await expect(page.getByRole('heading', { level: 1, name: ready })).toBeVisible();
+      // UpdateChip only renders while a service worker update is waiting, which e2e can't
+      // stage; mount its container class so its computed shape is still checked.
+      await page.evaluate(() => {
+        const d = document.createElement('div');
+        d.className = 'update-chip';
+        d.textContent = 'Update ready';
+        document.body.appendChild(d);
+      });
+    }
+    const { kinds, pills } = await page.evaluate(
+      ({ sel, expectKinds }) => {
+        const els = [...document.querySelectorAll<HTMLElement>(sel)];
+        // A corner is a pill corner when its computed radius reaches half the smaller side
+        // (computed values resolve vmax/vh/em to px; percentages are resolved here).
+        const px = (v: string, side: number) =>
+          v.trim().endsWith('%') ? (parseFloat(v) / 100) * side : parseFloat(v);
+        const pills = els
+          .filter((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.width === 0 || r.height === 0) return false;
+            const s = getComputedStyle(el);
+            const limit = Math.min(r.width, r.height) / 2;
+            return [
+              s.borderTopLeftRadius,
+              s.borderTopRightRadius,
+              s.borderBottomLeftRadius,
+              s.borderBottomRightRadius,
+            ].some((c) => {
+              const [h = '0', v = h] = c.split(' ');
+              return px(h, r.width) >= limit || px(v, r.height) >= limit;
+            });
+          })
+          .map((el) => el.outerHTML.slice(0, 100));
+        const kinds = Object.fromEntries(
+          expectKinds.map((k) => [k, document.querySelectorAll(k).length]),
+        );
+        return { kinds, pills };
+      },
+      { sel: SHAPES, expectKinds: [...expectKinds] },
+    );
+    for (const [k, n] of Object.entries(kinds)) expect(n, `${path} has ${k}`).toBeGreaterThan(0);
     expect(pills, path).toEqual([]);
   }
 });

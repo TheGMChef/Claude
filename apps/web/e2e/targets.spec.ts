@@ -66,3 +66,20 @@ for (const { path, ready, min } of PAGES) {
     expect(small, path).toEqual([]);
   });
 }
+
+test.describe('phone Menu', () => {
+  test.skip(({ viewport }) => viewport?.width !== 390, 'the Menu only shows at phone width');
+
+  test("the open Menu's stacked links are at least 44x44", async ({ page }) => {
+    await page.goto('/');
+    await expect(page.getByRole('heading', { level: 1, name: 'Prep Desk' })).toBeVisible();
+    await page.getByRole('button', { name: 'Menu' }).click();
+    const nav = page.locator('#topbar-modes');
+    await expect(nav).toBeVisible();
+    await expect(nav.getByRole('link')).toHaveCount(4);
+    const { checked, small } = await measureTargets(page);
+    // wordmark, Menu, theme, 4 open mode links, 4 home links
+    expect(checked).toBeGreaterThanOrEqual(11);
+    expect(small).toEqual([]);
+  });
+});

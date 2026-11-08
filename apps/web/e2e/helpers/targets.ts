@@ -10,15 +10,16 @@ export interface TargetReport {
 const SELECTOR = 'button, a[href], input, select, textarea, [role="tab"]';
 
 /**
- * Measures every visible interactive element. A box of at least 44×44 passes outright. A smaller
- * box passes only if real hit-testing proves a 44×44 tap area: at the four corners of a 44×44
- * square centred on it (inset 1px), `elementsFromPoint` must return the element or a descendant.
- * That covers pseudo-element expanders (e.g. the chip remove `::after`) that layout APIs can't see.
+ * Measures every visible interactive element. A box of at least 43.5×43.5 passes outright. A
+ * smaller box passes only if real hit-testing proves the same area: at the four corners of a
+ * 43.5×43.5 square centred on it, and at its centre, the TOPMOST element (`elementsFromPoint(...)[0]`) must be the
+ * element or a descendant, so a target covered by a sibling fails. A pseudo-element expander
+ * (e.g. the chip remove `::after`) hit-tests as its own element, which layout APIs can't see.
  */
 export function measureTargets(page: Page): Promise<TargetReport> {
   return page.evaluate((sel) => {
     const MIN = 43.5;
-    const HALF = 22 - 1;
+    const HALF = MIN / 2; // corners of a 43.5 square: the same bar a whole box must clear
     const all = [...document.querySelectorAll<HTMLElement>(sel)];
     let checked = 0;
     const small: TargetReport['small'] = [];
@@ -39,13 +40,16 @@ export function measureTargets(page: Page): Promise<TargetReport> {
       const cy = r.top + r.height / 2;
       const missed: string[] = [];
       for (const [dx, dy] of [
+        [0, 0],
         [-HALF, -HALF],
         [HALF, -HALF],
         [-HALF, HALF],
         [HALF, HALF],
       ] as const) {
-        const hits = document.elementsFromPoint(cx + dx, cy + dy);
-        if (!hits.some((n) => n === box || box.contains(n))) missed.push(`${dx},${dy}`);
+        const top = document.elementsFromPoint(cx + dx, cy + dy)[0];
+        if (!top || !(top === box || box.contains(top))) {
+          missed.push(`${dx},${dy}: ${top ? top.tagName + '.' + top.className : 'nothing'}`);
+        }
       }
       if (missed.length) {
         small.push({ el: el.outerHTML.slice(0, 100), w: r.width, h: r.height, missed });
