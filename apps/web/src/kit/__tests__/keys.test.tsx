@@ -73,9 +73,10 @@ describe('key recipe (CSS text)', () => {
     expect(BASE).toContain(".topbar__link[aria-current='page']");
   });
 
-  it('only transform and box-shadow transition, and reduced motion turns it off', () => {
+  it('only transform and box-shadow transition, on the 100ms motion token, and reduced motion turns it off', () => {
+    expect(TOKENS).toMatch(/--motion-100:\s*100ms/);
     expect(KIT).toMatch(
-      /transition:\s*\n?\s*transform 90ms ease-out,\s*\n?\s*box-shadow 90ms ease-out/,
+      /transition:\s*\n?\s*transform var\(--motion-100\) ease-out,\s*\n?\s*box-shadow var\(--motion-100\) ease-out/,
     );
     expect(KIT).toMatch(/prefers-reduced-motion: reduce\)\s*\{[^@]*\.btn[^@]*transition:\s*none/);
   });

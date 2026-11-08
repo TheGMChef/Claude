@@ -77,8 +77,8 @@
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition:
-    transform 90ms ease-out,
-    box-shadow 90ms ease-out;
+    transform var(--motion-100) ease-out,
+    box-shadow var(--motion-100) ease-out;
 }
 
 .key:active:not(:disabled),

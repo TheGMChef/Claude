@@ -60,7 +60,7 @@ test('keys only transition transform and box-shadow', async ({ page }) => {
     return { property: s.transitionProperty, duration: s.transitionDuration };
   });
   expect(t.property).toBe('transform, box-shadow');
-  expect(t.duration).toBe('0.09s, 0.09s');
+  expect(t.duration).toBe('0.1s, 0.1s');
 });
 
 test.describe('reduced motion', () => {

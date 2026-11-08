@@ -20,6 +20,11 @@
   --key-face-hover: #f8f2e6;
   --key-solid-hover: #38312a;
 
+  /* Motion durations (VectorLab motion scale): 100 / 150 / 200 / 300 only */
+  --motion-100: 100ms;
+  --motion-150: 150ms;
+  --motion-200: 200ms;
+
   --radius-card: 4px;
   --radius-tag: 6px;
   --radius-key: 10px;
