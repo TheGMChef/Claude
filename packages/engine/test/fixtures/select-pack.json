@@ -1,0 +1,84 @@
+{
+  "id": "sel",
+  "version": "1.0.0",
+  "tables": {
+    "sel.t.weights": {
+      "id": "sel.t.weights",
+      "tags": [],
+      "entries": [
+        { "id": "sel.t.weights#0", "ast": ["a"], "weight": 1, "tags": [], "safety": [] },
+        { "id": "sel.t.weights#1", "ast": ["b"], "weight": 2, "tags": [], "safety": [] },
+        { "id": "sel.t.weights#2", "ast": ["c"], "weight": 7, "tags": [], "safety": [] }
+      ]
+    },
+    "sel.t.tags": {
+      "id": "sel.t.tags",
+      "tags": [],
+      "entries": [
+        {
+          "id": "sel.t.tags#0",
+          "ast": ["urban debt"],
+          "weight": 1,
+          "tags": ["urban", "debt"],
+          "safety": []
+        },
+        {
+          "id": "sel.t.tags#1",
+          "ast": ["urban family"],
+          "weight": 1,
+          "tags": ["urban", "family"],
+          "safety": []
+        },
+        { "id": "sel.t.tags#2", "ast": ["rural"], "weight": 1, "tags": ["rural"], "safety": [] },
+        {
+          "id": "sel.t.tags#3",
+          "ast": ["scifi urban"],
+          "weight": 1,
+          "tags": ["scifi", "urban"],
+          "safety": []
+        }
+      ]
+    },
+    "sel.t.safety": {
+      "id": "sel.t.safety",
+      "tags": [],
+      "entries": [
+        {
+          "id": "sel.t.safety#0",
+          "ast": ["brawl"],
+          "weight": 1,
+          "tags": [],
+          "safety": ["violence"]
+        },
+        { "id": "sel.t.safety#1", "ast": ["blaze"], "weight": 1, "tags": [], "safety": ["fire"] },
+        { "id": "sel.t.safety#2", "ast": ["calm"], "weight": 1, "tags": [], "safety": [] }
+      ]
+    },
+    "sel.t.allviolent": {
+      "id": "sel.t.allviolent",
+      "tags": [],
+      "entries": [
+        {
+          "id": "sel.t.allviolent#0",
+          "ast": ["x"],
+          "weight": 1,
+          "tags": [],
+          "safety": ["violence"]
+        },
+        {
+          "id": "sel.t.allviolent#1",
+          "ast": ["y"],
+          "weight": 1,
+          "tags": [],
+          "safety": ["violence", "gore"]
+        }
+      ]
+    },
+    "sel.t.empty": { "id": "sel.t.empty", "tags": [], "entries": [] }
+  },
+  "cultures": {},
+  "generators": {},
+  "oracles": {},
+  "decks": {},
+  "vocabulary": []
+}

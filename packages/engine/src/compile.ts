@@ -23,6 +23,9 @@ import type { TemplateAst } from './template';
 
 type Doc = { file: string; data: unknown };
 
+/** Namespaced id: at least two dot-separated segments of `[a-z0-9][a-z0-9_-]*` (R13). */
+const ID_FORMAT = /^[a-z0-9][a-z0-9_-]*(\.[a-z0-9][a-z0-9_-]*)+$/;
+
 function locator(path: ReadonlyArray<PropertyKey>): string {
   if (path.length === 0) return '';
   return (
@@ -85,6 +88,10 @@ export function compileDocs(
     const d = parsed.data;
     if (d.kind === 'vocabulary') {
       for (const t of d.tags) if (!vocabulary.includes(t)) vocabulary.push(t);
+      continue;
+    }
+    if (!ID_FORMAT.test(d.id)) {
+      fail('schema', `invalid ${d.kind} id "${d.id}": expected <pack>.<area>.<name>`, `${file}#id`);
       continue;
     }
     const key = `${d.kind}:${d.id}`;

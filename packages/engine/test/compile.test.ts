@@ -224,4 +224,17 @@ describe('compileDocs', () => {
     ]);
     expect(errors.map((e) => [e.code, e.path])).toEqual([['unknown-tag', 'src/t.yaml#entries[1]']]);
   });
+
+  it('rejects malformed ids (e.g. __proto__, y) and accepts namespaced ones', () => {
+    const t = (id: string): unknown => ({ kind: 'table', id, entries: [{ text: 'x' }] });
+    for (const bad of ['__proto__', 'y']) {
+      const { pack, errors } = compileDocs(manifest, [doc('bad.yaml', t(bad))]);
+      expect(errors.map((e) => e.code)).toEqual(['schema']);
+      expect(errors[0]?.path).toBe('bad.yaml#id');
+      expect(Object.keys(pack.tables)).toEqual([]);
+    }
+    const ok = compileDocs(manifest, [doc('ok.yaml', t('fantasy.npc.want'))]);
+    expect(ok.errors).toEqual([]);
+    expect(Object.keys(ok.pack.tables)).toEqual(['fantasy.npc.want']);
+  });
 });
