@@ -1,0 +1,60 @@
+kind: culture
+id: fantasy.culture.imperial
+name: Imperial coast
+genre: fantasy
+voice:
+  summary: formal, full titles, a little too polite
+  tips:
+    - 'Use the whole name and title, every time: "Magistrate Aurel Tantis".'
+    - 'Wrap every refusal in thanks: "how very kind, and how impossible".'
+    - Apologise for things that are not your fault, at length.
+names:
+  given:
+    pattern: [start, mid?:0.4, end]
+    parts:
+      start:
+        [
+          Cas,
+          Aur,
+          Sev,
+          Val,
+          Luc,
+          Oct,
+          Mar,
+          Flav,
+          Ter,
+          Cor,
+          Jul,
+          Ves,
+          Ott,
+          Al,
+          Pell,
+          Ser,
+          Tib,
+          Emil,
+          Dor,
+          Hon,
+        ]
+      mid: [er, el, en, ar, is, av, ic, ent]
+      end: [a, ia, el, in, us, ian, ius, ene, o, ina, ello, ane, iel, ine, ette, ilde]
+  family:
+    pattern: [start, end]
+    parts:
+      start:
+        [Vell, Tant, Calv, Mor, Var, Sab, Drus, Pell, Cint, Ser, Leon, Aur, Quint, Dom, Lucr, Fabr]
+      end: [ane, is, o, ari, ino, ius, enne, ora, ance, elli, ato, ian, esse]
+  format: '{given} {family}'
+  examples:
+    - Cassia Vellane
+    - Aurel Tantis
+    - Severin Oko
+    - Vesperine Calvari
+    - Octavo Serance
+    - Terezia Pellora
+    - Marcellin Drusenne
+    - Lucia Morino
+    - Alessin Varo
+  exampleChance: 0.25
+  # Keep imperial names polished: no harsh clusters or doubled vowels.
+  banned:
+    ['(.)\1\1', '^.{0,2}$', '[aeiou]{3}', 'aa', 'ii', 'uu', 'ae', 'kk', '[wqx]', '(\w{2,3})\1']

@@ -1,0 +1,12 @@
+kind: generator
+id: fantasy.npc
+title: Instant NPC
+fields:
+  name: { name: full }
+  role: { table: fantasy.npc.role }
+  look: { table: fantasy.npc.look }
+  want: { table: fantasy.npc.want }
+  secret: { table: fantasy.npc.secret }
+  voice: { culture: voice.summary }
+  tell: { table: fantasy.npc.tell }
+display: '{name}, {role|a}'

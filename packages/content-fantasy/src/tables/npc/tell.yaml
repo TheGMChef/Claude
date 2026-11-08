@@ -1,0 +1,29 @@
+kind: table
+id: fantasy.npc.tell
+title: Their tell
+tags: [npc]
+entries:
+  - text: taps the table twice before answering
+  - text: never sits with their back to a door
+  - text: calls everyone "friend", enemies included
+  - text: hums the same three notes when nervous
+  - text: recounts coins they have already counted
+    tags: [trade]
+  - text: repeats your last few words before replying
+  - text: laughs a beat too late
+  - text: touches a pendant whenever a god is named
+    tags: [faith]
+    safety: [religion]
+  - text: straightens anything crooked within reach
+  - text: will not say a certain name aloud
+  - text: speaks to animals more warmly than to people
+  - text: glances at the window whenever the bells ring
+  - text: always has something to eat in hand
+  - text: cracks their knuckles one finger at a time
+  - text: whispers small talk and blurts out the important parts
+  - text: sniffs anything before touching it
+  - text: mentions what everything they wear cost
+    tags: [trade]
+  - text: names their tools and apologises to them
+  - text: finishes other people's sentences, usually wrongly
+  - text: winks at the end of every lie

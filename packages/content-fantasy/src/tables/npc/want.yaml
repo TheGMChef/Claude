@@ -1,0 +1,46 @@
+kind: table
+id: fantasy.npc.want
+title: What they want right now
+tags: [npc]
+entries:
+  - text: to sell a map they can't read to someone who can
+    tags: [trade]
+  - text: to learn who keeps leaving coins on their doorstep
+  - text: to clear their brother's name before the assizes
+    tags: [family]
+  - text: to repay the moneylender before the debt passes to their children
+    tags: [debt, family]
+  - text: someone to deliver a sealed letter, no questions asked
+  - text: to buy back the family boat from a smug rival
+    tags: [coastal, family]
+  - text: to leave town before anyone checks the ledger
+    tags: [crime, debt]
+  - text: a guide across the fen after dark
+    tags: [wilderness]
+  - text: to find out who really owns the warehouse on Cinder Lane
+    tags: [urban, crime]
+  - text: to see the guild that blacklisted them humiliated in public
+    tags: [urban, trade]
+  - text: to be forgiven by a sister who won't open her door
+    tags: [family]
+  - text: proof that the shrine's miracle was staged
+    tags: [faith]
+    safety: [religion]
+  - text: a buyer for a relic they swear is genuine
+    tags: [faith, trade]
+    safety: [religion]
+  - text: to win back a wager they never should have made
+    tags: [debt]
+  - text: someone else to take the blame for the granary fire
+    tags: [crime]
+    safety: [fire]
+  - text: a seat on the town council, whatever it costs
+    tags: [urban]
+  - text: to stop the new road being cut through their orchard
+    tags: [rural]
+  - text: passage on the next ship south, paid for by somebody else
+    tags: [coastal]
+  - text: an apprentice who can keep a secret
+    tags: [magic]
+  - text: to know why the well water has started tasting sweet
+    tags: [rural, magic]

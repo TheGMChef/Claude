@@ -1,0 +1,50 @@
+kind: table
+id: fantasy.npc.role
+title: Who they are
+tags: [npc]
+entries:
+  - text: eel-trap mender
+    tags: [rural, coastal]
+  - text: toll-bridge keeper
+    tags: [rural, trade]
+  - text: lamplighter on the dock ward
+    tags: [urban, coastal]
+  - text: retired sellsword who brews cider now
+    tags: [rural]
+    safety: [violence]
+  - text: moneylender's runner
+    tags: [urban, debt]
+  - text: ferry pilot who knows every sandbar
+    tags: [coastal, trade]
+  - text: under-archivist at the guild hall
+    tags: [urban]
+  - text: travelling knife-grinder
+    tags: [trade]
+  - text: shrine-keeper with more keys than visitors
+    tags: [faith]
+    safety: [religion]
+  - text: salt merchant
+    tags: [coastal, trade]
+  - text: hedge-witch who sells charms by the dozen
+    tags: [rural, magic]
+  - text: court scribe in quiet disgrace
+    tags: [noble]
+  - text: gravedigger
+    tags: [rural]
+    safety: [death]
+  - text: smuggler who passes for a fisher
+    tags: [coastal, crime]
+  - text: stablehand at a coaching inn
+    tags: [rural]
+  - text: tax assessor
+    tags: [urban, debt]
+  - text: town crier with a cold
+    tags: [urban]
+  - text: mapmaker short on commissions
+    tags: [trade]
+  - text: watch sergeant near the end of a long shift
+    tags: [urban]
+    safety: [police]
+  - text: midwife
+    tags: [rural, family]
+    safety: [pregnancy]

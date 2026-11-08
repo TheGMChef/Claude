@@ -1,0 +1,61 @@
+{
+  "display": "Ulel Hal, a town crier with a cold",
+  "fields": {
+    "name": {
+      "value": "Ulel Hal",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.culture.marsh"
+      ]
+    },
+    "role": {
+      "value": "town crier with a cold",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.npc.role#16"
+      ]
+    },
+    "look": {
+      "value": "hair braided with river reeds",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.npc.look#7"
+      ]
+    },
+    "want": {
+      "value": "to stop the new road being cut through their orchard",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.npc.want#16"
+      ]
+    },
+    "secret": {
+      "value": "they stopped believing in the god they still preach for",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.npc.secret#12"
+      ]
+    },
+    "voice": {
+      "value": "slow vowels, drop the final g, never says no",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.culture.marsh"
+      ]
+    },
+    "tell": {
+      "value": "repeats your last few words before replying",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.npc.tell#5"
+      ]
+    }
+  }
+}

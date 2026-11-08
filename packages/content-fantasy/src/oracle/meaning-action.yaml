@@ -1,0 +1,35 @@
+kind: table
+id: fantasy.meaning.action
+title: 'Meaning: action'
+tags: [oracle]
+entries:
+  - text: betray
+  - text: protect
+  - text: bargain
+  - text: reveal
+  - text: hide
+  - text: abandon
+  - text: summon
+  - text: steal
+  - text: mend
+  - text: follow
+  - text: deceive
+  - text: honour
+  - text: hunt
+  - text: release
+  - text: bind
+  - text: warn
+  - text: scatter
+  - text: claim
+  - text: forgive
+  - text: test
+  - text: delay
+  - text: gather
+  - text: trespass
+  - text: flee
+  - text: inherit
+  - text: persuade
+  - text: uncover
+  - text: surrender
+  - text: challenge
+  - text: return

@@ -1,0 +1,20 @@
+{
+  "name": "@prepdesk/content-fantasy",
+  "version": "0.1.0",
+  "private": true,
+  "license": "CC-BY-4.0",
+  "type": "module",
+  "exports": {
+    "./fantasy.json": "./dist/fantasy.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE-CONTENT"
+  ],
+  "prepdesk": {
+    "id": "fantasy",
+    "version": "0.1.0",
+    "title": "Fantasy starter",
+    "genre": "fantasy"
+  }
+}

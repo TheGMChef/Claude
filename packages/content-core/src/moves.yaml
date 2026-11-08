@@ -1,0 +1,40 @@
+kind: deck
+id: core.gm-moves
+title: GM moves
+cards:
+  - id: tick-the-threat
+    text: Move a threat one step closer
+    prompt: What changed while nobody was watching?
+  - id: name-the-price
+    text: Name the price before they pay
+    prompt: What will this cost, and who collects it?
+  - id: split-the-path
+    text: Force a choice between two goods
+    prompt: Which two things can't both be saved?
+  - id: rival-gains
+    text: Let a rival get ahead
+    prompt: Who just won something, and how will the party find out?
+  - id: shift-the-ground
+    text: Change something they took for granted
+    prompt: What about this place is no longer true?
+  - id: quiet-voice
+    text: Bring a background face forward
+    prompt: Who has been standing at the edge of the scene, and what do they finally say?
+  - id: break-a-tool
+    text: Break something they rely on
+    prompt: Which tool, ally or plan stops working right now?
+  - id: yes-with-strings
+    text: Grant the request, with strings attached
+    prompt: They get what they reached for, so what comes along with it?
+  - id: old-choice-returns
+    text: Bring back an earlier choice
+    prompt: Which past decision catches up with them here?
+  - id: tempting-shortcut
+    text: Offer a faster, worse way
+    prompt: What quicker route is open, and what is wrong with it?
+  - id: thread-surfaces
+    text: Let a secret slip into view
+    prompt: Which secret could surface right now, and who sees it first?
+  - id: paint-the-pause
+    text: Stop and describe the moment
+    prompt: What do they hear, smell and notice before anyone acts?

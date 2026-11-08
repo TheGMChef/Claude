@@ -1,0 +1,35 @@
+kind: table
+id: fantasy.meaning.theme
+title: 'Meaning: theme'
+tags: [oracle]
+entries:
+  - text: debt
+  - text: oath
+  - text: rumour
+  - text: legacy
+  - text: hunger
+  - text: pride
+  - text: map
+  - text: storm
+  - text: border
+  - text: secret
+  - text: rival
+  - text: gift
+  - text: ruin
+  - text: memory
+  - text: home
+  - text: coin
+  - text: letter
+  - text: witness
+  - text: key
+  - text: harvest
+  - text: crown
+  - text: stranger
+  - text: mistake
+  - text: promise
+  - text: shelter
+  - text: road
+  - text: mask
+  - text: song
+  - text: envy
+  - text: freedom

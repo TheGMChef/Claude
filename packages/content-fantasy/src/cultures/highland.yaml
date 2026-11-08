@@ -1,0 +1,73 @@
+kind: culture
+id: fantasy.culture.highland
+name: Highland
+genre: fantasy
+voice:
+  summary: clipped, hard consonants, rhetorical questions
+  tips:
+    - Cut words short; hit every k and t like a hammer.
+    - 'Answer with a question: "And who else would carry it?"'
+    - 'Measure things in winters and climbs: "three winters back".'
+names:
+  given:
+    pattern: [start, end]
+    parts:
+      start:
+        [
+          Bra,
+          Kor,
+          Ges,
+          Dra,
+          Tor,
+          Hak,
+          Gar,
+          Rhu,
+          Ska,
+          Vor,
+          Kel,
+          Dag,
+          Bru,
+          Ket,
+          Strom,
+          Gud,
+          Har,
+          Tak,
+          Dur,
+          Ost,
+        ]
+      end: [kka, vel, sa, k, n, gar, rik, th, mar, d, ra, ek, ta, gra, va, dek]
+  family:
+    pattern: [start, end]
+    parts:
+      start: [Dun, Ath, Rhun, Gorm, Brak, Strath, Carn, Dor, Kell, Tarr, Crag, Hold]
+      end: ['', mor, e, rig, holm, ach, gard, ek, ra]
+  format: '{given} {family}'
+  examples:
+    - Brakka Dunmor
+    - Korvel Athe
+    - Gessa Rhun
+    - Haldek Carn
+    - Dagra Strathe
+    - Vorna Kell
+    - Skarrik Gorm
+    - Ketta Dunrig
+    - Tormar Cragholm
+  exampleChance: 0.25
+  # Keep highland names hard but sayable: no soft glides, long vowels or unpronounceable clusters.
+  banned:
+    [
+      '(.)\1\1',
+      '^.{0,2}$',
+      'aa',
+      'ee',
+      'oo',
+      'ii',
+      'uu',
+      '[wyqz]',
+      'hh',
+      'dd',
+      'kk\b',
+      '^\S+[^aeiou\s]{3}',
+      '^\S*[^aeiour\s]n\b',
+      '(\w{2,3})\1',
+    ]

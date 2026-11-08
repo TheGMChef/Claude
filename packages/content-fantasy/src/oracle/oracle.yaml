@@ -1,0 +1,9 @@
+kind: oracle
+id: fantasy.oracle
+odds:
+  certain: { yes: 90, extreme: 15 }
+  likely: { yes: 70, extreme: 10 }
+  even: { yes: 50, extreme: 8 }
+  unlikely: { yes: 30, extreme: 5 }
+  remote: { yes: 10, extreme: 3 }
+meaning: [fantasy.meaning.action, fantasy.meaning.theme]

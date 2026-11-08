@@ -1,0 +1,36 @@
+kind: table
+id: fantasy.npc.look
+title: What you notice first
+tags: [npc]
+entries:
+  - text: a coat two sizes too big, pockets clinking
+  - text: ink stains up to the elbows
+  - text: one boot patched with sailcloth
+    tags: [coastal]
+  - text: a burn scar across the knuckles, kept out of sight
+    safety: [fire]
+  - text: smells of woodsmoke and cloves
+  - text: a crooked nose and a very straight back
+  - text: spotless gloves they never take off
+  - text: hair braided with river reeds
+    tags: [rural]
+  - text: a walking cane topped with polished brass
+    tags: [noble]
+  - text: fingertips dyed green from the vats
+    tags: [trade]
+  - text: a cough they keep apologising for
+  - text: a prayer cord wound around one wrist
+    tags: [faith]
+    safety: [religion]
+  - text: bright borrowed clothes that don't match their manners
+  - text: an earring made from a fishhook
+    tags: [coastal]
+  - text: spectacles pushed up on their head, squinting anyway
+  - text: a ship tattoo, the name crudely corrected
+    tags: [coastal]
+  - text: a soldier's coat with the badges cut off
+    safety: [war]
+  - text: nails bitten to the quick
+  - text: moves very quietly for someone so large
+  - text: a wedding ring worn on a cord around the neck
+    tags: [family]

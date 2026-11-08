@@ -30,6 +30,10 @@ importers:
         specifier: ^2.1.0
         version: 2.1.9(@types/node@22.20.5)
 
+  packages/content-core: {}
+
+  packages/content-fantasy: {}
+
   packages/engine:
     dependencies:
       yaml:

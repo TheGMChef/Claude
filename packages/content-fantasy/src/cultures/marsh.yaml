@@ -1,0 +1,49 @@
+kind: culture
+id: fantasy.culture.marsh
+name: Marsh-folk
+genre: fantasy
+voice:
+  summary: slow vowels, drop the final g, never says no
+  tips:
+    - Stretch the vowels; nobody out here hurries.
+    - 'Refuse sideways: "tide''s not right for that."'
+    - 'Swear by the water: "by the low tide", "mud take it".'
+names:
+  given:
+    pattern: [start, mid?:0.4, end]
+    parts:
+      start: [O, Il, Tam, Wen, Mer, Fen, Ul, El, Ar, Ves, Lor, Nel, Sel, Hal, Ro, Ne, Bel, Mo]
+      mid: [dr, s, wy, l, n, r, th]
+      end: [in, a, sin, row, na, el, ey, wen, ith, on, ia, ell, ra]
+  family:
+    pattern: [start, end]
+    parts:
+      start: [Vey, Mer, Fen, Brack, Sal, Reed, Wil, Mos, Tull, Hal, Sedge, Lun, Rill, Moor]
+      end: ['', row, wick, by, more, ling, low, mere, water]
+  format: '{given} {family}'
+  examples:
+    - Odrin Vey
+    - Ilsa Merrow
+    - Tamsin Fenwick
+    - Wenna Brack
+    - Elowen Reedby
+    - Ulla Mosling
+    - Nessa Tullow
+    - Orrin Salmere
+    - Belwyn Sedgewater
+  exampleChance: 0.25
+  # Keep marsh names soft: no consonant pile-ups or y-glides in the given name, no stutters.
+  banned:
+    [
+      '(.)\1\1',
+      '^.{0,2}$',
+      'aa',
+      'ii',
+      'uu',
+      '[qxz]',
+      'ww',
+      'yw',
+      '^\S*[^aeiouy\s]{3}',
+      '^\S*y[aeiou]',
+      '(\w{2,3})\1',
+    ]

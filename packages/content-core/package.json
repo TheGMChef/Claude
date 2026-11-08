@@ -1,0 +1,19 @@
+{
+  "name": "@prepdesk/content-core",
+  "version": "0.1.0",
+  "private": true,
+  "license": "CC-BY-4.0",
+  "type": "module",
+  "exports": {
+    "./core.json": "./dist/core.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE-CONTENT"
+  ],
+  "prepdesk": {
+    "id": "core",
+    "version": "0.1.0",
+    "title": "Prep Desk core"
+  }
+}
