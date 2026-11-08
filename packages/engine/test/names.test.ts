@@ -185,13 +185,38 @@ describe('generateName', () => {
   });
 
   it('rule (c) alone rejects a shared three-letter prefix outside the last-8 window', () => {
-    const c = tiny({ given: ['Odwen', 'Pellow'] });
+    // 'odrxyzq' is 4 edits from 'odrin' (so (b) accepts it) and starts with 'o' only via the
+    // out-of-window 'Odrin', so (a) does not apply: only (c) can reject it.
+    const c = tiny({ given: ['Odrxyzq', 'Pellow'] });
     const avoid = ['Odrin', 'Aaa', 'Bbb', 'Ccc', 'Ddd', 'Eee', 'Fff', 'Ggg', 'Hhh'];
     const rng = createRng('c-only');
     for (let i = 0; i < 100; i++) {
       const r = nameWithRng(c, rng, { avoidNames: avoid });
       expect(r.given).toBe('Pellow');
       expect(r.relaxed).toBe(false);
+    }
+  });
+
+  it('relaxes (c) before (b): the prefix-sharing name wins over the close one', () => {
+    // Odrxyzq fails only (c); Ozrin fails only (b) (and (a)). Stage 1 (b+c) rejects both;
+    // stage 2 (only b) accepts Odrxyzq. Dropping (b) first would let Ozrin win instead.
+    const c = tiny({ given: ['Odrxyzq', 'Ozrin'] });
+    const rng = createRng('c-before-b');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { avoidNames: ['Odrin'] });
+      expect(r.given).toBe('Odrxyzq');
+      expect(r.given.toLowerCase().slice(0, 3)).toBe('odr');
+      expect(r.relaxed).toBe(true);
+    }
+  });
+
+  it('prefers a valid-but-guard-failing name over a clean-but-excluded one', () => {
+    const c = tiny({ given: ['Oswin', 'Bxx'] });
+    const rng = createRng('valid-over-clean');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { avoidNames: ['Oswin'], exclude: new Set(['bxx']) });
+      expect(r.given).toBe('Oswin');
+      expect(r.relaxed).toBe(true);
     }
   });
 
