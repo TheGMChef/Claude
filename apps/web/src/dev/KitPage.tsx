@@ -57,16 +57,50 @@ function Sample({ theme }: { theme: 'light' | 'dark' }) {
     <div className="kit-theme" data-theme={theme}>
       <h2>{theme === 'light' ? 'Light' : 'Dark'}</h2>
 
-      <Group title="Buttons">
+      <Group title="Keys">
         <Button>Solid</Button>
         <Button variant="outline">Outline</Button>
         <Button variant="dashed">Dashed</Button>
-        <Button size="lg">Large</Button>
+      </Group>
+
+      <Group title="Large keys">
+        <Button size="lg">Stuck?</Button>
         <Button variant="outline" size="lg">
           Large outline
         </Button>
-        <Button disabled>Disabled</Button>
+        <Button variant="dashed" size="lg">
+          Large dashed
+        </Button>
+      </Group>
+
+      {/* .is-pressed mirrors :active so a screenshot can show the pressed state */}
+      <Group title="Pressed">
+        <Button className="is-pressed">Solid</Button>
+        <Button variant="outline" className="is-pressed">
+          Outline
+        </Button>
+        <Button variant="dashed" className="is-pressed">
+          Dashed
+        </Button>
+        <IconButton icon="dice" label="Roll again (pressed)" className="is-pressed" />
+      </Group>
+
+      <Group title="Disabled">
+        <Button disabled>Solid</Button>
+        <Button variant="outline" disabled>
+          Outline
+        </Button>
+        <Button variant="dashed" disabled>
+          Dashed
+        </Button>
+        <IconButton icon="dice" label="Roll again (disabled)" disabled />
+      </Group>
+
+      <Group title="Icon keys">
         <IconButton icon="dice" label="Roll again" />
+        <IconButton icon="copy" label="Copy" />
+        <IconButton icon="lock" label="Unlock name" aria-pressed={true} />
+        <IconButton icon="unlock" label="Lock role" aria-pressed={false} />
       </Group>
 
       <Group title="Cards">
