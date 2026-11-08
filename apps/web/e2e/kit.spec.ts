@@ -57,26 +57,4 @@ test('/kit and /forge-preview: every button and link has an accessible name', as
   }
 });
 
-test('interactive targets are at least 44x44 CSS px', async ({ page }) => {
-  for (const path of ['/kit', '/forge-preview', '/']) {
-    await page.goto(path);
-    const { checked, small } = await page.evaluate(() => {
-      const sel = 'button, a[href], input, select, textarea, [role="tab"]';
-      const all = [...document.querySelectorAll<HTMLElement>(sel)];
-      const small = all
-        .map((el) => {
-          // A checkbox/radio is sized by its 44px label; judge the label instead.
-          const box =
-            el instanceof HTMLInputElement && (el.type === 'checkbox' || el.type === 'radio')
-              ? (el.closest('label') ?? el)
-              : el;
-          const r = box.getBoundingClientRect();
-          return { el: el.outerHTML.slice(0, 100), w: r.width, h: r.height, hidden: r.width === 0 };
-        })
-        .filter((x) => !x.hidden && (x.w < 43.5 || x.h < 43.5));
-      return { checked: all.length, small };
-    });
-    expect(checked, `${path} has interactive elements`).toBeGreaterThan(3);
-    expect(small, path).toEqual([]);
-  }
-});
+// Touch-target checks live in targets.spec.ts (hit-tested, with per-page floors; R33).

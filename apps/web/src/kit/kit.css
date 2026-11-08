@@ -191,11 +191,16 @@
   line-height: 1;
 }
 
-/* 44x44 touch target around the small remove key */
+/* 44x44 touch target centred on the small remove key. Sized explicitly: insets would
+   resolve against the padding box and lose the border width. */
 .chip__remove::after {
   content: '';
   position: absolute;
-  inset: -11px -10px;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 
 /* Stamp */

@@ -1,0 +1,68 @@
+import { expect, test } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { measureTargets } from './helpers/targets';
+
+// Touch targets: at least 44×44, proven by box size or by hit-testing (R33).
+test.skip(
+  ({ viewport }) => viewport?.width !== 1194 && viewport?.width !== 390,
+  'target checks run on tablet-landscape and phone',
+);
+
+// Each page waits for its real content (dev pages are lazy-loaded), then must measure at least
+// `min` elements so the check can never silently shrink to the top bar again. Floors come from a
+// green run: tablet top bar = 6 (wordmark, 4 modes, theme); phone top bar = 3 (wordmark, Menu,
+// theme). Each mode page adds 3 links to the other modes, home adds 4; /kit measured 62/59 and
+// /forge-preview 80/77 (tablet/phone).
+type Floor = { tablet: number; phone: number };
+const PAGES: { path: string; ready: (p: Page) => Locator; min: Floor }[] = [
+  {
+    path: '/',
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'Prep Desk' }),
+    min: { tablet: 10, phone: 7 },
+  },
+  {
+    path: '/prep',
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'Prep' }),
+    min: { tablet: 9, phone: 6 },
+  },
+  {
+    path: '/table',
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'Table' }),
+    min: { tablet: 9, phone: 6 },
+  },
+  {
+    path: '/codex',
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'Codex' }),
+    min: { tablet: 9, phone: 6 },
+  },
+  {
+    path: '/forge',
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'Forge' }),
+    min: { tablet: 9, phone: 6 },
+  },
+  {
+    path: '/kit',
+    ready: (p) => p.getByRole('heading', { name: 'Keys' }).first(),
+    min: { tablet: 55, phone: 52 },
+  },
+  {
+    path: '/forge-preview',
+    ready: (p) => p.getByRole('button', { name: 'Lock name' }),
+    min: { tablet: 72, phone: 70 },
+  },
+];
+
+for (const { path, ready, min } of PAGES) {
+  test(`${path}: interactive targets are at least 44x44`, async ({ page }, testInfo) => {
+    await page.goto(path);
+    if (path === '/forge-preview') {
+      await page.getByRole('button', { name: 'New NPC' }).click();
+    }
+    await expect(ready(page)).toBeVisible();
+    const { checked, small } = await measureTargets(page);
+    testInfo.annotations.push({ type: 'checked', description: `${path}: ${checked}` });
+    const floor = testInfo.project.name === 'phone' ? min.phone : min.tablet;
+    expect(checked, `${path} measured elements`).toBeGreaterThanOrEqual(floor);
+    expect(small, path).toEqual([]);
+  });
+}
