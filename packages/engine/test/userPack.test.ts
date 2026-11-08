@@ -82,4 +82,14 @@ entries:
     expect(res.ok).toBe(true);
     if (res.ok) expect(res.pack.version).toBe('3');
   });
+
+  it('rejects an empty pack with a schema error', () => {
+    for (const src of ['', '---\n', []]) {
+      const res = validateUserPack(src);
+      expect(res.ok).toBe(false);
+      if (res.ok) continue;
+      expect(res.errors.map((e) => e.code)).toEqual(['schema']);
+      expect(res.errors[0]?.message).toMatch(/empty/);
+    }
+  });
 });

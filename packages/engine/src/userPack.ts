@@ -36,7 +36,9 @@ function toDocs(src: unknown): { manifest: PackManifest; docs: Doc[]; errors: Co
     const datas: unknown[] = [];
     parsed.forEach((doc, i) => {
       for (const e of doc.errors) schemaError(`YAML: ${e.message}`, docName(i));
-      if (doc.errors.length === 0 && doc.contents !== null) datas.push(doc.toJS());
+      if (doc.errors.length > 0) return;
+      const data: unknown = doc.toJS();
+      if (data !== null && data !== undefined) datas.push(data); // skip empty documents
     });
     if (errors.length > 0) return { manifest: DEFAULT_MANIFEST, docs: [], errors };
     value = datas.length === 1 ? datas[0] : datas;
@@ -65,6 +67,10 @@ export function validateUserPack(src: string | object, deps: CompiledPack[] = []
   try {
     const { manifest, docs, errors } = toDocs(src);
     if (errors.length > 0) return { ok: false, errors };
+    if (docs.length === 0) {
+      const empty = new ContentError('schema', 'pack is empty', '', manifest.id);
+      return { ok: false, errors: [empty] };
+    }
     for (const { file, data } of docs) {
       if (!isRecord(data) || data.kind === 'vocabulary' || typeof data.id !== 'string') continue;
       if (!data.id.startsWith(NAMESPACE)) {

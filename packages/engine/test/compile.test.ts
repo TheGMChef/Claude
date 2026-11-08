@@ -147,7 +147,7 @@ describe('compileDocs', () => {
           role: { table: 'role' },
           sub: { gen: 'other' },
           picks: { pick: { table: 'fantasy.npc.role', count: 2 } },
-          line: { template: 'the {role} {npc.role|cap}' },
+          line: { template: 'the {npc.role|cap}' },
         },
         display: '{name}, {role|a}',
       }),
@@ -159,12 +159,9 @@ describe('compileDocs', () => {
     expect(g?.fields['picks']).toEqual({ pick: { table: 'fantasy.npc.role', count: 2 } });
     // generator-owned refs try <generatorId>.<ref> first: table "role" -> fantasy.npc.role
     expect(g?.fields['role']).toEqual({ table: 'fantasy.npc.role' });
-    // `role` is also a field name, so it stays a short field ref (R10); `npc.role` resolves
     expect(g?.fields['line']).toEqual({
       template: [
         'the ',
-        { slot: { kind: 'table', ref: 'role' }, mods: [] },
-        ' ',
         { slot: { kind: 'table', ref: 'fantasy.npc.role' }, mods: [{ kind: 'cap' }] },
       ],
     });
@@ -173,6 +170,22 @@ describe('compileDocs', () => {
       ', ',
       { slot: { kind: 'table', ref: 'role' }, mods: [{ kind: 'a' }] },
     ]);
+  });
+
+  it('rejects field refs in template fields: only display may use them (R23)', () => {
+    const { errors } = compileDocs(manifest, [
+      doc('t.yaml', { kind: 'table', id: 'fantasy.npc.role', entries: [{ text: 'smith' }] }),
+      doc('g.yaml', {
+        kind: 'generator',
+        id: 'fantasy.npc',
+        title: 'NPC',
+        fields: { role: { table: 'role' }, line: { template: 'the {role}' } },
+        display: '{role|cap}',
+      }),
+    ]);
+    expect(errors.map((e) => e.code)).toEqual(['unresolved-ref']);
+    expect(errors[0]?.path).toBe('g.yaml#fields.line');
+    expect(errors[0]?.message).toMatch(/field "role".*display/);
   });
 
   it('compiles oracles and decks', () => {

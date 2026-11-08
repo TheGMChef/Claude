@@ -1,6 +1,14 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ContentError } from '../src/errors';
-import { batch, cardFromShare, cardToShare, generate, reroll, rollTable } from '../src/generate';
+import {
+  BLOCKED_DISPLAY,
+  batch,
+  cardFromShare,
+  cardToShare,
+  generate,
+  reroll,
+  rollTable,
+} from '../src/generate';
 import type { Card, RollResult } from '../src/generate';
 import { normalizeName } from '../src/names';
 import type { NameResult } from '../src/names';
@@ -258,5 +266,61 @@ describe('batch', () => {
 
   it('throws missing-source for unknown ids', () => {
     expect(() => batch(lib, [{ cultureId: 'test.nope', count: 1 }])).toThrow(ContentError);
+  });
+});
+
+describe('seed normalisation (R21)', () => {
+  const SEED_FORMAT = /^[0-9A-HJKMNP-TV-Z]{4}-[0-9A-HJKMNP-TV-Z]{4}$/;
+
+  it('derives a valid, stable seed code from arbitrary text', () => {
+    const a = generate(lib, 'test.npc', { seed: 'hello', context: marsh });
+    const b = generate(lib, 'test.npc', { seed: 'hello', context: marsh });
+    expect(a.seed).toMatch(SEED_FORMAT);
+    expect(b.seed).toBe(a.seed);
+    expect(b.fields).toEqual(a.fields);
+    const rerolled = reroll(lib, a, { locks: ['name'] });
+    const res = cardFromShare(lib, 'test.npc', cardToShare(lib, rerolled), marsh);
+    expect(res.ok).toBe(true);
+    if (res.ok) expect(res.card.fields).toEqual(rerolled.fields);
+    expect(generate(lib, 'test.npc', { seed: 'other text', context: marsh }).seed).not.toBe(a.seed);
+  });
+
+  it('treats spellings of the same code identically in rollTable and batch', () => {
+    expect(rollTable(lib, 'test.npc.role', { seed: 'test-0001' })).toEqual(
+      rollTable(lib, 'test.npc.role', { seed: 'TEST0001' }),
+    );
+    const req = [{ cultureId: 'test.culture.marsh', count: 5 }];
+    expect(batch(lib, req, { seed: 'test-0001' })).toEqual(batch(lib, req, { seed: 'TEST0001' }));
+    expect(generate(lib, 'test.npc', { seed: 'test-0001', context: marsh }).seed).toBe('TEST-0001');
+  });
+});
+
+describe('safety beats locks (R22)', () => {
+  it('blocks a locked field whose kept entry is now behind a line', () => {
+    const base = generate(lib, 'test.npc', { seed: SEED, context: marsh });
+    const locked = reroll(lib, base, { locks: ['secret'] });
+    expect(locked.fields.secret?.value).toBe(base.fields.secret?.value);
+    const lined = reroll(lib, locked, {
+      context: { ...marsh, safety: { lines: ['violence'], veils: [] } },
+    });
+    expect(lined.fields.secret).toMatchObject({
+      value: '—',
+      blocked: true,
+      locked: true,
+      nonce: 0,
+    });
+    expect(lined.display).toBe(BLOCKED_DISPLAY);
+    expect(lined.fields.name?.blocked).toBeUndefined();
+  });
+
+  it('recomputes veiled for kept fields under the current veils', () => {
+    const base = generate(lib, 'test.npc', { seed: SEED, context: marsh });
+    expect(base.flags.veiled).toEqual([]);
+    const veiled = reroll(lib, base, {
+      locks: ['secret'],
+      context: { ...marsh, safety: { lines: [], veils: ['violence'] } },
+    });
+    expect(veiled.fields.secret?.value).toBe(base.fields.secret?.value);
+    expect(veiled.flags.veiled).toEqual(['violence']);
   });
 });

@@ -118,6 +118,23 @@ describe('lintPack', () => {
     ]);
   });
 
+  it("flags a template field that references its own generator's field (R23)", () => {
+    const p = pack({
+      tables: table('p.a.b', [entry('p.a.b#0', ['x'])]),
+      generators: {
+        'p.g': {
+          id: 'p.g',
+          title: 'G',
+          fields: { role: { table: 'p.a.b' }, line: { template: ['a ', ref('role')] } },
+          display: [ref('role'), ref('line')],
+        },
+      },
+    });
+    const errors = lintPack(p);
+    expect(errors.map((e) => e.code)).toEqual(['unresolved-ref']);
+    expect(errors[0]?.message).toMatch(/field "role".*display/);
+  });
+
   it('flags a gen slot whose field does not exist', () => {
     const p = pack({
       generators: {

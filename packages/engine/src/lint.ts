@@ -103,7 +103,23 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
           }
           out.push(`generator:${src.gen}`);
         } else if ('template' in src) {
-          if (own) checkAst(src.template, path, fieldNames);
+          if (own) {
+            // R23: field refs (R10) are display-only, so share codes reproduce cards exactly.
+            for (const el of src.template) {
+              if (
+                typeof el !== 'string' &&
+                el.slot.kind === 'table' &&
+                fieldNames.has(el.slot.ref)
+              ) {
+                err(
+                  'unresolved-ref',
+                  `field "${el.slot.ref}" can only be referenced from display, not from a template field`,
+                  path,
+                );
+              }
+            }
+            checkAst(src.template, path, fieldNames);
+          }
           edges(src.template, out, fieldNames);
         }
       }

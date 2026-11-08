@@ -4,7 +4,7 @@ import { nameWithRng, normalizeName } from './names';
 import type { NameResult } from './names';
 import { renderTemplate } from './render';
 import type { Context, RenderEnv } from './render';
-import { CROCKFORD, createRng, newSeed, normalizeSeed } from './rng';
+import { CROCKFORD, createRng, hashSeed, newSeed, normalizeSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, CompiledGenerator, FieldSource } from './schema';
 import { selectEntry } from './select';
@@ -96,6 +96,24 @@ function seedFrom(rng: Rng): string {
   return s;
 }
 
+/**
+ * R21: a valid code is normalised (`test0001` -> `TEST-0001`); other text maps to a stable code
+ * derived from its hash; no seed -> a fresh random code.
+ */
+function toSeed(input: string | undefined): string {
+  if (input === undefined) return newSeed();
+  const valid = normalizeSeed(input);
+  if (valid !== null) return valid;
+  const [h1, h2] = hashSeed('seed', input);
+  const bits = (BigInt(h1) << 32n) | BigInt(h2);
+  let s = '';
+  for (let i = 0; i < 8; i++) {
+    s += CROCKFORD.charAt(Number((bits >> BigInt(5 * i)) & 31n));
+    if (i === 3) s += '-';
+  }
+  return s;
+}
+
 /** R19: with no cultureId, pick one from the seed among cultures of ctx.genre (else all). */
 function resolveContext(lib: Library, ctx: Context, seed: string): Context {
   if (ctx.cultureId !== undefined) {
@@ -118,18 +136,19 @@ function serialisable(ctx: Context): Record<string, unknown> {
   return JSON.parse(JSON.stringify(out)) as Record<string, unknown>;
 }
 
-/** Veiled tags of the entries named in `sources` (`<tableId>#<index>`), first-seen order. */
-function veiledOf(lib: Library, sources: string[], ctx: Context, into: string[] = []): string[] {
-  const veils = ctx.safety?.veils ?? [];
-  if (veils.length === 0) return into;
+/** Which of `tags` the entries named in `sources` (`<tableId>#<index>`) carry, first-seen order. */
+function safetyOf(lib: Library, sources: string[], tags: string[], into: string[] = []): string[] {
+  if (tags.length === 0) return into;
   for (const src of sources) {
     const m = /^(.+)#(\d+)$/.exec(src);
     const entry = m ? lib.table(m[1] as string)?.entries[Number(m[2])] : undefined;
     if (!entry) continue;
-    for (const v of veils) if (entry.safety.includes(v) && !into.includes(v)) into.push(v);
+    for (const t of tags) if (entry.safety.includes(t) && !into.includes(t)) into.push(t);
   }
   return into;
 }
+
+const veilsOf = (ctx: Context): string[] => ctx.safety?.veils ?? [];
 
 function readCulturePath(culture: CompiledCulture, path: string): string | undefined {
   let cur: unknown = culture;
@@ -255,18 +274,12 @@ function rollInto(
   return out;
 }
 
-function genField(
-  state: State,
-  depth: number,
-  src: FieldSource,
-  rng: Rng,
-  ctx: Context,
-  values: Record<string, string>,
-): Part {
+function genField(state: State, depth: number, src: FieldSource, rng: Rng, ctx: Context): Part {
   if ('table' in src) return rollInto(state, depth, src.table, rng, ctx);
   if ('template' in src) {
     const extra: Part = { text: '', sources: [], blocked: false, relaxed: false };
-    const r = renderTemplate(src.template, makeEnv(state, depth, ctx, rng, extra, values));
+    // R23: field refs are display-only, so template fields render without field values.
+    const r = renderTemplate(src.template, makeEnv(state, depth, ctx, rng, extra));
     return {
       text: r.text,
       sources: [...r.sources, ...extra.sources],
@@ -345,11 +358,16 @@ function assemble(
   let anyBlocked = false;
   for (const [name, src] of Object.entries(gen.fields)) {
     const p = plan[name] ?? { nonce: 0, locked: false };
-    const r = genField(state, depth, src, createRng(seed, name, p.nonce), ctx, values);
+    const r = genField(state, depth, src, createRng(seed, name, p.nonce), ctx);
     let field: CardField;
     if (p.keep) {
       // Locked: value, sources and nonce stay exactly; the regeneration only recovers `relaxed`.
+      // R22: safety beats locks, so kept content now behind a line is blocked.
       field = { ...p.keep, locked: true };
+      if (safetyOf(state.lib, p.keep.sources, ctx.safety?.lines ?? []).length > 0) {
+        field.value = BLOCKED_VALUE;
+        field.blocked = true;
+      }
     } else {
       field = {
         value: r.blocked ? BLOCKED_VALUE : r.text,
@@ -361,7 +379,7 @@ function assemble(
     }
     relaxed ||= r.relaxed;
     anyBlocked ||= field.blocked === true;
-    veiledOf(state.lib, field.sources, ctx, veiled);
+    if (!field.blocked) safetyOf(state.lib, field.sources, veilsOf(ctx), veiled);
     fields[name] = field;
     values[name] = field.value;
   }
@@ -369,7 +387,7 @@ function assemble(
   const env = makeEnv(state, depth, ctx, createRng(seed, '$display'), extra, values);
   const d = renderTemplate(gen.display, env);
   const displaySources = [...d.sources, ...extra.sources];
-  veiledOf(state.lib, displaySources, ctx, veiled);
+  safetyOf(state.lib, displaySources, veilsOf(ctx), veiled);
   const displayBlocked = anyBlocked || d.blocked || extra.blocked;
   return {
     fields,
@@ -424,7 +442,7 @@ function cardWith(
 
 export function generate(lib: Library, generatorId: string, opts: GenOptions = {}): Card {
   const gen = requireGenerator(lib, generatorId);
-  const seed = opts.seed !== undefined ? (normalizeSeed(opts.seed) ?? opts.seed) : newSeed();
+  const seed = toSeed(opts.seed);
   const ctx = opts.context ?? {};
   return cardWith(lib, newState(lib, ctx, false), gen, seed, ctx);
 }
@@ -490,14 +508,14 @@ function rollWith(state: State, tableId: string, rng: Rng, ctx: Context): RollRe
     sources: r.sources,
     relaxed: r.relaxed,
     blocked: r.blocked,
-    veiled: veiledOf(state.lib, r.sources, ctx),
+    veiled: r.blocked ? [] : safetyOf(state.lib, r.sources, veilsOf(ctx)),
   };
 }
 
 /** One entry of a table, rendered. A blocked roll has text '—'. */
 export function rollTable(lib: Library, tableId: string, opts: GenOptions = {}): RollResult {
   if (!lib.table(tableId)) missing('table', tableId);
-  const seed = opts.seed ?? newSeed();
+  const seed = toSeed(opts.seed);
   const ctx = resolveContext(lib, opts.context ?? {}, seed);
   return rollWith(newState(lib, ctx, false), tableId, createRng('table', tableId, seed), ctx);
 }
@@ -517,7 +535,7 @@ export function batch(
       if (!lib.table(req.tableId)) missing('table', req.tableId);
     } else if (!lib.culture(req.cultureId)) missing('culture', req.cultureId);
   }
-  const base = opts.seed ?? newSeed();
+  const base = toSeed(opts.seed);
   const ctx = opts.context ?? {};
   const state = newState(lib, ctx, true);
   const out: Array<Card | RollResult | NameResult> = [];
