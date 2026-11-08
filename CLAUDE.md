@@ -55,3 +55,12 @@ Before committing, run `pnpm lint && pnpm typecheck && pnpm test`.
 ## Subagent-driven build
 
 The plan is being executed task by task by fresh subagents, each reviewed before the next starts. The controller keeps a ledger at `.superpowers/sdd/2026-11-08-foundations-and-content-engine/progress.md` (gitignored). It records progress, deferred minor findings, and every numbered controller ruling (`R1`, `R2`, …). If a session restarts, trust the ledger and `git log`, and never redo a task marked complete.
+
+## UI/UX skills
+
+Taste, a11y, bans, voice, and icon library for this project live in `.ux-profile.md`.
+Run `setup-ui-ux-skills` again only to change those defaults.
+Before UI or microcopy work, read `.ux-profile.md`, then the matching domain skill (page-patterns, viewports, forms, surfaces, loaders, empty-states, copy, motion).
+Before creating a new page, read `page-patterns` and name the pattern. Do not write page markup until the pattern is named.
+Layouts must pass `viewports` at 375px and 1280px.
+Before finishing UI, run `ux-audit`.
