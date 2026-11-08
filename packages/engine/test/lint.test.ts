@@ -27,6 +27,7 @@ function pack(over: Partial<CompiledPack> = {}): CompiledPack {
     generators: {},
     oracles: {},
     decks: {},
+    situations: {},
     vocabulary: [],
     ...over,
   };

@@ -35,6 +35,7 @@ const pack = {
   generators: {},
   oracles: {},
   decks: {},
+  situations: {},
   vocabulary: [],
 } as unknown as CompiledPack;
 const lib = loadPacks([pack]);

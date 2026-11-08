@@ -6,6 +6,7 @@ import type {
   CompiledGenerator,
   CompiledOracle,
   CompiledPack,
+  CompiledSituation,
   CompiledTable,
 } from './schema';
 
@@ -18,6 +19,7 @@ export type Library = {
   generator(id: string): CompiledGenerator | undefined;
   oracle(id: string): CompiledOracle | undefined;
   deck(id: string): CompiledDeck | undefined;
+  situation(id: string): CompiledSituation | undefined;
 };
 
 /**
@@ -31,6 +33,7 @@ export function loadPacks(packs: CompiledPack[]): Library {
   const generators = new Map<string, CompiledGenerator>();
   const oracles = new Map<string, CompiledOracle>();
   const decks = new Map<string, CompiledDeck>();
+  const situations = new Map<string, CompiledSituation>();
   const owner = new Map<string, string>();
 
   const add = <T>(map: Map<string, T>, kind: string, packId: string, record: Record<string, T>) => {
@@ -58,6 +61,7 @@ export function loadPacks(packs: CompiledPack[]): Library {
       ['generator', pack.generators],
       ['oracle', pack.oracles],
       ['deck', pack.decks],
+      ['situation', pack.situations ?? {}],
     ];
     for (const [kind, record] of groups) {
       for (const id of Object.keys(record)) {
@@ -78,6 +82,7 @@ export function loadPacks(packs: CompiledPack[]): Library {
     add(generators, 'generator', pack.id, pack.generators);
     add(oracles, 'oracle', pack.id, pack.oracles);
     add(decks, 'deck', pack.id, pack.decks);
+    add(situations, 'situation', pack.id, pack.situations ?? {});
   }
 
   const byTag = new Map<string, CompiledCulture>();
@@ -103,5 +108,6 @@ export function loadPacks(packs: CompiledPack[]): Library {
     generator: (id) => generators.get(id),
     oracle: (id) => oracles.get(id),
     deck: (id) => decks.get(id),
+    situation: (id) => situations.get(id),
   };
 }

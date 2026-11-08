@@ -230,6 +230,7 @@ describe('loadPacks', () => {
     generators: {},
     oracles: {},
     decks: {},
+    situations: {},
   });
 
   it('looks up by absolute id', () => {

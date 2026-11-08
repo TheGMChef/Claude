@@ -37,6 +37,8 @@ describe('fixtures', () => {
     ['bad-safety', 'unknown-safety-tag'],
     ['unknown-tag', 'unknown-tag'],
     ['missing-source', 'missing-source'],
+    ['situation-facets', 'schema'],
+    ['situation-namespace', 'namespace'],
   ];
   it.each(failing)('%s yields exactly %s', (dir, code) => {
     const { errors } = compileDir(dir);

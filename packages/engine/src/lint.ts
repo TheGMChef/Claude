@@ -6,7 +6,10 @@ import type { CompiledPack } from './schema';
 import { findCycle, templateRefs } from './template';
 import type { TemplateAst } from './template';
 
-export type LintKind = 'table' | 'generator' | 'oracle' | 'culture' | 'deck';
+export type LintKind = 'table' | 'generator' | 'oracle' | 'culture' | 'deck' | 'situation';
+
+/** Path of table `tableId`'s entry `index` in error messages. */
+export type EntryPath = (tableId: string, index: number) => string;
 
 /** Maps a definition to the path prefix used in error messages (a file, or the bare id). */
 export type Locate = (kind: LintKind, id: string) => string;
@@ -17,7 +20,12 @@ const byId: Locate = (_kind, id) => id;
  * Lint rules over a compiled pack. `compileDocs` runs this with a file-aware locator; the public
  * `lintPack` uses ids as locators.
  */
-export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locate): ContentError[] {
+export function lintWith(
+  pack: CompiledPack,
+  deps: CompiledPack[],
+  locate: Locate,
+  entryPath: EntryPath = (tableId, i) => `${locate('table', tableId)}#entries[${i}]`,
+): ContentError[] {
   const errors: ContentError[] = [];
   const err = (code: ContentError['code'], message: string, path: string): void => {
     errors.push(new ContentError(code, message, path, pack.id));
@@ -65,7 +73,7 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
     const base = locate('table', t.id);
     if (t.entries.length === 0) err('empty-table', `table "${t.id}" has no entries`, base);
     t.entries.forEach((e, i) => {
-      const path = `${base}#entries[${i}]`;
+      const path = entryPath(t.id, i);
       for (const s of e.safety) {
         if (!safety.has(s)) err('unknown-safety-tag', `unknown safety tag "${s}"`, path);
       }

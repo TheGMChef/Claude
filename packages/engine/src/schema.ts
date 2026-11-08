@@ -6,6 +6,9 @@ import type { TemplateAst } from './template';
 const Weight = z.number().positive().default(1);
 const Tags = z.array(z.string()).default([]);
 
+export const FACETS = ['enemy', 'friend', 'complication', 'thing', 'place', 'pressure'] as const;
+export type Facet = (typeof FACETS)[number];
+
 const EntrySrc = z.strictObject({
   text: z.string(),
   weight: Weight,
@@ -101,6 +104,26 @@ export const DeckSrc = z.strictObject({
     .min(1, { message: 'a deck needs at least 1 card' }),
 });
 
+const FacetEntries = z.array(EntrySrc).min(3, { message: 'a facet needs at least 3 entries' });
+
+export const SituationSrc = z.strictObject({
+  kind: z.literal('situation'),
+  id: z.string().min(1),
+  title: z.string().min(1),
+  summary: z.string(),
+  weight: Weight.optional(),
+  tags: Tags,
+  safety: z.array(z.string()).default([]),
+  facets: z.strictObject({
+    enemy: FacetEntries,
+    friend: FacetEntries,
+    complication: FacetEntries,
+    thing: FacetEntries,
+    place: FacetEntries,
+    pressure: FacetEntries,
+  }),
+});
+
 export const VocabularySrc = z.strictObject({
   kind: z.literal('vocabulary'),
   tags: z.array(z.string()),
@@ -120,6 +143,7 @@ export const DocumentSrc = z.discriminatedUnion('kind', [
   GeneratorSrc,
   OracleSrc,
   DeckSrc,
+  SituationSrc,
   VocabularySrc,
 ]);
 
@@ -128,6 +152,7 @@ export type CultureSource = z.input<typeof CultureSrc>;
 export type GeneratorSource = z.input<typeof GeneratorSrc>;
 export type OracleSource = z.input<typeof OracleSrc>;
 export type DeckSource = z.input<typeof DeckSrc>;
+export type SituationSource = z.input<typeof SituationSrc>;
 export type VocabularySource = z.input<typeof VocabularySrc>;
 export type PackManifest = z.infer<typeof PackManifestSrc>;
 export type DocumentSource = z.input<typeof DocumentSrc>;
@@ -149,6 +174,8 @@ export type CompiledEntry = {
   weight: number;
   tags: string[];
   safety: string[];
+  /** Set only on situation index entries: the id of the situation the entry stands for. */
+  ref?: string;
 };
 
 export type CompiledTable = {
@@ -198,6 +225,17 @@ export type CompiledDeck = {
   cards: Array<{ id: string; text: string; prompt?: string; safety?: string[] }>;
 };
 
+export type CompiledSituation = {
+  id: string;
+  title: string;
+  summary: string;
+  genre?: string;
+  tags: string[];
+  safety: string[];
+  /** Facet name to the id of the table holding that facet's entries. */
+  facets: Record<Facet, string>;
+};
+
 export type CompiledPack = {
   id: string;
   version: string;
@@ -207,5 +245,6 @@ export type CompiledPack = {
   generators: Record<string, CompiledGenerator>;
   oracles: Record<string, CompiledOracle>;
   decks: Record<string, CompiledDeck>;
+  situations: Record<string, CompiledSituation>;
   vocabulary: string[];
 };

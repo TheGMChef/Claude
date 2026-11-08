@@ -1,0 +1,29 @@
+kind: situation
+id: fx.situation.test
+title: Test situation
+summary: A fixture.
+tags: [situation]
+facets:
+  enemy:
+    - text: enemy 1
+    - text: enemy 2
+  friend:
+    - text: friend 1
+    - text: friend 2
+    - text: friend 3
+  complication:
+    - text: complication 1
+    - text: complication 2
+    - text: complication 3
+  thing:
+    - text: thing 1
+    - text: thing 2
+    - text: thing 3
+  place:
+    - text: place 1
+    - text: place 2
+    - text: place 3
+  pressure:
+    - text: pressure 1
+    - text: pressure 2
+    - text: pressure 3

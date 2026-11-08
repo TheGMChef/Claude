@@ -15,6 +15,7 @@ const packOf = (c: CompiledCulture): CompiledPack => ({
   generators: {},
   oracles: {},
   decks: {},
+  situations: {},
   vocabulary: [],
 });
 const lib = loadPacks([packOf(marsh)]);

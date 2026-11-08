@@ -42,6 +42,7 @@ describe('culture tags in the library', () => {
     generators: {},
     oracles: {},
     decks: {},
+    situations: {},
     vocabulary: [],
   });
 

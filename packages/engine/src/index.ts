@@ -9,6 +9,7 @@ export * from './errors';
 export * from './schema';
 export { compileDocs } from './compile';
 export { lintPack } from './lint';
+export type { EntryPath } from './lint';
 export { loadPacks } from './library';
 export type { Library } from './library';
 export { selectEntry } from './select';

@@ -2,13 +2,14 @@ import type { ZodIssue } from 'zod';
 import { ContentError } from './errors';
 import { lintWith } from './lint';
 import type { LintKind } from './lint';
-import { DocumentSrc } from './schema';
+import { DocumentSrc, FACETS } from './schema';
 import type {
   CompiledCulture,
   CompiledDeck,
   CompiledGenerator,
   CompiledOracle,
   CompiledPack,
+  CompiledSituation,
   CompiledTable,
   CultureSource,
   DeckSource,
@@ -16,6 +17,7 @@ import type {
   GeneratorSource,
   OracleSource,
   PackManifest,
+  SituationSource,
   TableSource,
 } from './schema';
 import { parseTemplate } from './template';
@@ -73,6 +75,9 @@ export function compileDocs(
   const generators: GeneratorSource[] = [];
   const oracles: OracleSource[] = [];
   const decks: DeckSource[] = [];
+  const situations: SituationSource[] = [];
+  const indexId = `${packId}.situations`;
+  const facetTableId = (situationId: string, facet: string): string => `${situationId}.${facet}`;
   const vocabulary: string[] = [];
   const files = new Map<string, string>();
   const seen = new Set<string>();
@@ -99,17 +104,42 @@ export function compileDocs(
       fail('duplicate-id', `duplicate ${d.kind} id "${d.id}"`, file);
       continue;
     }
+    if (d.kind === 'situation') {
+      if (!d.id.startsWith(`${packId}.situation.`)) {
+        fail(
+          'namespace',
+          `situation id "${d.id}" must start with "${packId}.situation."`,
+          `${file}#id`,
+        );
+        continue;
+      }
+      // The situation owns six facet tables; the first one also claims the pack's index table.
+      const derived = FACETS.map((f) => facetTableId(d.id, f));
+      if (situations.length === 0) derived.push(indexId);
+      const clash = derived.find((id) => seen.has(`table:${id}`));
+      if (clash !== undefined) {
+        fail('duplicate-id', `situation "${d.id}" would define table "${clash}" twice`, file);
+        continue;
+      }
+    }
     seen.add(key);
     files.set(key, file);
+    if (d.kind === 'situation') {
+      for (const f of FACETS) seen.add(`table:${facetTableId(d.id, f)}`);
+      seen.add(`table:${indexId}`);
+    }
     if (d.kind === 'table') tables.push(d);
     else if (d.kind === 'culture') cultures.push(d);
     else if (d.kind === 'generator') generators.push(d);
     else if (d.kind === 'oracle') oracles.push(d);
+    else if (d.kind === 'situation') situations.push(d);
     else decks.push(d);
   }
 
   const tableIds = new Set([
     ...tables.map((t) => t.id),
+    ...situations.flatMap((st) => FACETS.map((f) => facetTableId(st.id, f))),
+    ...(situations.length > 0 ? [indexId] : []),
     ...deps.flatMap((p) => Object.keys(p.tables)),
   ]);
   const genIds = new Set([
@@ -160,6 +190,7 @@ export function compileDocs(
     generators: {},
     oracles: {},
     decks: {},
+    situations: {},
     vocabulary,
   };
 
@@ -178,6 +209,61 @@ export function compileDocs(
     const compiled: CompiledTable = { id: t.id, tags: t.tags ?? [], entries };
     if (t.title !== undefined) compiled.title = t.title;
     out.tables[t.id] = compiled;
+  }
+
+  // Where lint should point for the entries of derived tables (facet entries, index entries).
+  const derivedPath = new Map<string, (i: number) => string>();
+  const indexSituations: SituationSource[] = [];
+  for (const st of situations) {
+    const base = fileOf('situation', st.id);
+    const tags = st.tags ?? [];
+    const facetIds = {} as CompiledSituation['facets'];
+    for (const f of FACETS) {
+      const id = facetTableId(st.id, f);
+      facetIds[f] = id;
+      const entries = st.facets[f].map((e, i) => {
+        const path = `${base}#facets.${f}[${i}]`;
+        const parsed = parse(e.text, path);
+        return {
+          id: `${id}#${i}`,
+          ast: parsed ? resolveAst(parsed, id) : [e.text],
+          weight: e.weight ?? 1,
+          tags: e.tags ?? [],
+          safety: e.safety ?? [],
+        };
+      });
+      out.tables[id] = { id, title: `${st.title}: ${f}`, tags, entries };
+      derivedPath.set(id, (i) => `${base}#facets.${f}[${i}]`);
+    }
+    const compiled: CompiledSituation = {
+      id: st.id,
+      title: st.title,
+      summary: st.summary,
+      tags,
+      safety: st.safety ?? [],
+      facets: facetIds,
+    };
+    if (manifest.genre !== undefined) compiled.genre = manifest.genre;
+    out.situations[st.id] = compiled;
+    indexSituations.push(st);
+  }
+  if (indexSituations.length > 0) {
+    out.tables[indexId] = {
+      id: indexId,
+      title: 'Situations',
+      tags: [],
+      entries: indexSituations.map((st, i) => ({
+        id: `${indexId}#${i}`,
+        ast: [st.title],
+        weight: st.weight ?? 1,
+        tags: st.tags ?? [],
+        safety: st.safety ?? [],
+        ref: st.id,
+      })),
+    };
+    derivedPath.set(indexId, (i) =>
+      fileOf('situation', (indexSituations[i] as SituationSource).id),
+    );
   }
 
   for (const c of cultures) {
@@ -252,6 +338,9 @@ export function compileDocs(
     out.decks[d.id] = compiled;
   }
 
-  errors.push(...lintWith(out, deps, (kind: LintKind, id: string) => fileOf(kind, id)));
+  const locate = (kind: LintKind, id: string): string => fileOf(kind, id);
+  const entryPath = (tableId: string, i: number): string =>
+    derivedPath.get(tableId)?.(i) ?? `${locate('table', tableId)}#entries[${i}]`;
+  errors.push(...lintWith(out, deps, locate, entryPath));
   return { pack: out, errors };
 }
