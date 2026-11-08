@@ -17,7 +17,7 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/forge-preview');
 
-  await page.getByRole('button', { name: 'New NPC' }).click();
+  await page.getByRole('button', { name: 'Create NPC' }).click();
   const first = await snapshot(page);
 
   await page.getByRole('button', { name: 'Lock name' }).click();
@@ -39,7 +39,7 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context
   expect(pasted).toBe(code);
 
   // Start a different card, then load the copied code: it must be identical to the rerolled one.
-  await page.getByRole('button', { name: 'New NPC' }).click();
+  await page.getByRole('button', { name: 'Create NPC' }).click();
   expect(await snapshot(page)).not.toEqual(second);
   await page.getByLabel('Paste a code').fill(pasted);
   await page.getByRole('button', { name: 'Load' }).click();
@@ -49,7 +49,7 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context
 
 test('a bad code shows the error and keeps the card', async ({ page }) => {
   await page.goto('/forge-preview');
-  await page.getByRole('button', { name: 'New NPC' }).click();
+  await page.getByRole('button', { name: 'Create NPC' }).click();
   const before = await snapshot(page);
   await page.getByLabel('Paste a code').fill('nonsense code');
   await page.getByRole('button', { name: 'Load' }).click();
@@ -79,7 +79,7 @@ test('a Line blocks a locked field whose entry carries the tag (safety beats loc
 
 test('/forge-preview has no serious or critical axe violations', async ({ page }) => {
   await page.goto('/forge-preview');
-  await page.getByRole('button', { name: 'New NPC' }).click();
+  await page.getByRole('button', { name: 'Create NPC' }).click();
   await page.getByRole('button', { name: 'Ask', exact: true }).click();
   const { violations } = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();
   expect(

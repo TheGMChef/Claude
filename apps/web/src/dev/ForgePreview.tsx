@@ -208,7 +208,7 @@ export function ForgePreview() {
           </h2>
           <Tabs tabs={CULTURES} value={cultureId} onChange={setCultureId} label="Culture" />
           <div className="forge__actions">
-            <Button onClick={newNpc}>New NPC</Button>
+            <Button onClick={newNpc}>Create NPC</Button>
             <Button variant="outline" onClick={rerollCard} disabled={!card}>
               Reroll
             </Button>
@@ -234,7 +234,7 @@ export function ForgePreview() {
             </>
           ) : (
             <p className="forge__muted">
-              <MarginNote>press New NPC to begin</MarginNote>
+              <MarginNote>press Create NPC to begin</MarginNote>
             </p>
           )}
           <form
@@ -250,6 +250,12 @@ export function ForgePreview() {
               onChange={(e) => {
                 setPasted(e.target.value);
                 setPasteError(false);
+              }}
+              onFocus={() => setPasteError(false)}
+              onBlur={() => {
+                if (pasted.trim() && !cardFromShare(lib, GENERATOR, pasted, context).ok) {
+                  setPasteError(true);
+                }
               }}
               autoComplete="off"
               spellCheck={false}
@@ -286,7 +292,7 @@ export function ForgePreview() {
               autoComplete="off"
             />
             <Button variant="outline" onClick={() => setNameSeed(newSeed())}>
-              More names
+              Show more names
             </Button>
           </section>
 

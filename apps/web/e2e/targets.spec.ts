@@ -56,7 +56,7 @@ for (const { path, ready, min } of PAGES) {
   test(`${path}: interactive targets are at least 44x44`, async ({ page }, testInfo) => {
     await page.goto(path);
     if (path === '/forge-preview') {
-      await page.getByRole('button', { name: 'New NPC' }).click();
+      await page.getByRole('button', { name: 'Create NPC' }).click();
     }
     await expect(ready(page)).toBeVisible();
     const { checked, small } = await measureTargets(page);
