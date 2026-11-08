@@ -3,6 +3,7 @@ import { compileDocs } from '../src/compile';
 import {
   BLOCKED_DISPLAY,
   BLOCKED_VALUE,
+  applySafety,
   batch,
   cardFromShare,
   cardToShare,
@@ -124,7 +125,8 @@ const docs = [
       // A {gen:} slot whose sub-field (all fire-tagged) blocks whenever fire is lined.
       omen: { template: 'an omen of {gen:p.sub.spark}' },
     },
-    display: '{name}, {role}: {look}; {friend}; {traits}',
+    // Display-only content too (I3): a nested table slot and a {gen:} slot rendered only here.
+    display: '{name}, {role}: {look}; {friend}; {traits} | {p.deep} | {gen:p.sub.who}',
   },
 ];
 
@@ -157,7 +159,18 @@ function settings(rng: Rng, base: SafetySettings = { lines: [], veils: [] }): Sa
 
 /** Per path: which tags were seen (visible) in each field while not lined; proves reachability. */
 const reach: Record<string, Record<string, Set<string>>> = {};
-const stats = { checked: 0, fieldsOk: 0, fieldsBlocked: 0, displays: 0, rolls: 0, omenBlocked: 0 };
+const stats = {
+  checked: 0,
+  fieldsOk: 0,
+  fieldsBlocked: 0,
+  displays: 0,
+  rolls: 0,
+  omenBlocked: 0,
+  toggles: 0,
+  hidden: 0,
+  restored: 0,
+  refilled: 0,
+};
 
 function noteReach(path: string, where: string, text: string, safety: SafetySettings): void {
   const byField = (reach[path] ??= {});
@@ -210,6 +223,7 @@ function checkCard(path: string, card: Card, safety: SafetySettings): void {
       continue;
     }
     stats.fieldsOk++;
+    must(f.hidden === undefined, `${label}: visible field carries hidden content`);
     // Blocked content anywhere inside a field must block the field, never show up as text.
     must(!f.value.includes(BLOCKED_VALUE), `${label}: unflagged block in "${f.value}"`);
     checkText(label, f.value, f.sources, safety, card.flags.veiled);
@@ -217,7 +231,9 @@ function checkCard(path: string, card: Card, safety: SafetySettings): void {
   }
   if (card.display !== BLOCKED_DISPLAY) {
     stats.displays++;
+    must(!card.display.includes(BLOCKED_VALUE), `${path} ${card.seed}: unflagged block in display`);
     checkText(`${path} ${card.seed} display`, card.display, null, safety, card.flags.veiled);
+    noteReach(path, 'display', card.display, safety);
   }
 }
 
@@ -305,8 +321,69 @@ describe('generation-level safety property (I3)', () => {
     }
   });
 
+  it('applySafety toggles: lines on never leak and never reroll; off restores exactly (2,000 cards)', () => {
+    for (let i = 0; i < 2000; i++) {
+      const rng = createRng('toggle', i);
+      const base = settings(rng);
+      let card = generate(lib, GEN, {
+        seed: `t${i}`,
+        context: { cultureId: culture, safety: base },
+      });
+      const locks = LOCKABLE.filter(() => rng.next() < 0.5);
+      if (locks.length > 0) card = reroll(lib, card, { locks });
+      const ctx = (safety: SafetySettings) => ({ cultureId: culture, safety });
+
+      // Lines on: nothing lined shows, nothing unaffected changes.
+      const on = settings(rng, base);
+      const lined = applySafety(lib, card, { context: ctx(on) });
+      stats.toggles++;
+      checkCard('toggle', lined, on);
+      for (const name of FIELDS) {
+        const before = card.fields[name] as Card['fields'][string];
+        const after = lined.fields[name] as Card['fields'][string];
+        must(after.nonce === before.nonce, `toggle ${i} ${name}: nonce changed`);
+        must(after.locked === before.locked, `toggle ${i} ${name}: lock changed`);
+        if (after.hidden) stats.hidden++;
+        if (!after.blocked) {
+          must(after.value === before.value, `toggle ${i} ${name}: value rerolled`);
+          must(
+            after.sources.join() === before.sources.join(),
+            `toggle ${i} ${name}: sources changed`,
+          );
+        }
+      }
+
+      // Lines off again: the card comes back exactly.
+      const back = applySafety(lib, lined, { context: ctx(base) });
+      must(
+        JSON.stringify(back) === JSON.stringify(card),
+        `toggle ${i}: restore differs\n${JSON.stringify(back)}\n${JSON.stringify(card)}`,
+      );
+      stats.restored++;
+
+      // Some base lines removed: refilled fields are fresh and still safe.
+      const fewer = { lines: base.lines.filter(() => rng.next() < 0.5), veils: base.veils };
+      const freed = applySafety(lib, card, { context: ctx(fewer) });
+      stats.toggles++;
+      checkCard('toggle', freed, fewer);
+      for (const name of FIELDS) {
+        if (card.fields[name]?.blocked && !freed.fields[name]?.blocked) stats.refilled++;
+      }
+    }
+  });
+
   it('is not vacuous: every path reached tagged content in every field, and fields often survive', () => {
-    expect(stats.checked).toBe(10_000);
+    expect(stats.checked).toBe(10_000 + stats.toggles);
+    expect(stats.toggles).toBe(4_000);
+    for (const path of ['generate', 'reroll', 'share', 'batch', 'toggle']) {
+      expect(reach[path]?.display?.size ?? 0, `${path}.display`).toBe(TAGS.length);
+    }
+    expect(stats.restored).toBe(2_000);
+    expect(stats.hidden).toBeGreaterThan(500);
+    expect(stats.refilled).toBeGreaterThan(100);
+    for (const field of ['role', 'look', 'friend', 'traits']) {
+      expect(reach.toggle?.[field]?.size ?? 0, `toggle.${field}`).toBeGreaterThanOrEqual(4);
+    }
     expect(stats.rolls).toBe(2_000);
     expect(stats.fieldsOk).toBeGreaterThan(stats.fieldsBlocked);
     expect(stats.displays).toBeGreaterThan(2_000);
