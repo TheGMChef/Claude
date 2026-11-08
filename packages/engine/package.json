@@ -8,6 +8,7 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.include=src --coverage.reporter=text --coverage.thresholds.lines=90 --coverage.thresholds.statements=90 --coverage.thresholds.functions=90",
     "bench": "vitest bench"
   },
   "dependencies": {
