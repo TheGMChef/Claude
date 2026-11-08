@@ -1,0 +1,28 @@
+{
+  "id": "fx.culture.marsh",
+  "name": "Marsh folk",
+  "voice": {
+    "summary": "Slow, wet vowels; trailing sentences.",
+    "tips": ["Drop the ends of words.", "Hum between thoughts."]
+  },
+  "names": {
+    "given": {
+      "pattern": ["a", "b", "c?:0.3"],
+      "parts": {
+        "a": ["Od", "Br", "Mel", "Tas", "Wen", "Kor", "Pell", "Hesk", "Ul", "Yar", "Sib", "Dun"],
+        "b": ["rin", "ran", "a", "e", "ik", "ow", "ith", "un"],
+        "c": ["n", "s", "a"]
+      }
+    },
+    "family": {
+      "pattern": ["f", "g?"],
+      "parts": {
+        "f": ["Vey", "Reed", "Mire", "Sedge", "Hollin", "Tarn"],
+        "g": ["", "-and-", "ford"]
+      }
+    }
+  },
+  "examples": ["Odrin Vey", "Mella Reed", "Bram Tarn"],
+  "exampleChance": 0.25,
+  "banned": ["^Kor", "ith"]
+}

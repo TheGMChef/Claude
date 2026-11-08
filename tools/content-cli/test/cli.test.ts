@@ -44,8 +44,14 @@ describe('fixtures', () => {
     expect(errors[0]?.packId).toBe('fx');
     expect(errors[0]?.path).toMatch(/^.*src\/tables\.yaml/);
   });
+});
 
-  it.todo('weak-culture yields weak-culture (Task 8 wires generateName)');
+describe('weak-culture fixture', () => {
+  it('yields exactly weak-culture, located in the culture file', () => {
+    const { errors } = compileDir('weak-culture');
+    expect(errors.map((e) => e.code)).toEqual(['weak-culture']);
+    expect(errors[0]?.path).toMatch(/src\/culture\.yaml/);
+  });
 });
 
 describe('readPackDir', () => {

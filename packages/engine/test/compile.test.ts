@@ -7,6 +7,11 @@ const doc = (file: string, data: unknown): { file: string; data: unknown } => ({
 
 const vocab = doc('src/vocab.yaml', { kind: 'vocabulary', tags: ['debt', 'urban'] });
 
+const RICH = {
+  pattern: ['a', 'b'],
+  parts: { a: ['ba', 'de', 'fi', 'go', 'hu', 'ja'], b: ['ka', 'le', 'mi', 'no', 'pu', 'ra'] },
+};
+
 describe('compileDocs', () => {
   it('compiles a table with entry ids, parsed asts and defaults', () => {
     const { pack, errors } = compileDocs(manifest, [
@@ -81,7 +86,7 @@ describe('compileDocs', () => {
         name: 'Marsh-folk',
         voice: { summary: 's', tips: ['t'] },
         names: {
-          given: { pattern: ['a'], parts: { a: ['x'] } },
+          given: RICH,
           format: '{given}',
           examples: ['Odrin'],
           exampleChance: 0.25,
@@ -93,19 +98,19 @@ describe('compileDocs', () => {
         id: 'fantasy.culture.plain',
         name: 'Plain',
         voice: { summary: 's', tips: [] },
-        names: { given: { pattern: ['a'], parts: { a: ['x'] } } },
+        names: { given: RICH },
       }),
     ]);
     expect(errors).toEqual([]);
     const c = pack.cultures['fantasy.culture.marsh'];
     expect(c).toMatchObject({ examples: ['Odrin'], exampleChance: 0.25, banned: ['aa'] });
     expect(c?.names).toEqual({
-      given: { pattern: ['a'], parts: { a: ['x'] } },
+      given: RICH,
       format: '{given}',
     });
     const p = pack.cultures['fantasy.culture.plain'];
     expect(p).toMatchObject({ examples: [], exampleChance: 0, banned: [] });
-    expect(p?.names).toEqual({ given: { pattern: ['a'], parts: { a: ['x'] } } });
+    expect(p?.names).toEqual({ given: RICH });
   });
 
   it('resolves generator field sources and display, keeping field-name refs', () => {

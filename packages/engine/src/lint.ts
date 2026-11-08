@@ -1,10 +1,12 @@
 import { ContentError } from './errors';
+import { nameWithRng, normalizeName } from './names';
+import { createRng } from './rng';
 import { SAFETY_VOCABULARY } from './safety';
 import type { CompiledPack } from './schema';
 import { findCycle, templateRefs } from './template';
 import type { TemplateAst } from './template';
 
-export type LintKind = 'table' | 'generator' | 'oracle';
+export type LintKind = 'table' | 'generator' | 'oracle' | 'culture';
 
 /** Maps a definition to the path prefix used in error messages (a file, or the bare id). */
 export type Locate = (kind: LintKind, id: string) => string;
@@ -133,8 +135,21 @@ export function lintWith(pack: CompiledPack, deps: CompiledPack[], locate: Locat
     );
   }
 
-  // TODO(Task 8): weak-culture rule. A culture that cannot produce 20 distinct valid names in 500
-  // tries is reported here once generateName exists; this task deliberately does not import it.
+  for (const c of Object.values(pack.cultures)) {
+    const rng = createRng('lint', c.id);
+    const seen = new Set<string>();
+    for (let i = 0; i < 500 && seen.size < 20; i++) {
+      const r = nameWithRng(c, rng, { exclude: seen });
+      if (!r.relaxed) seen.add(normalizeName(r.name));
+    }
+    if (seen.size < 20) {
+      err(
+        'weak-culture',
+        `culture "${c.id}" produced only ${seen.size} distinct valid names in 500 tries (need 20)`,
+        locate('culture', c.id),
+      );
+    }
+  }
 
   return errors;
 }

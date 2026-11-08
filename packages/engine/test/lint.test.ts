@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { lintPack } from '../src/lint';
-import type { CompiledPack, CompiledEntry } from '../src/schema';
+import type { CompiledPack, CompiledEntry, CompiledCulture } from '../src/schema';
+import marshJson from './fixtures/marsh.culture.json';
 import type { TemplateAst } from '../src/template';
 
 const entry = (
@@ -146,5 +147,20 @@ describe('lintPack', () => {
     expect(lintPack(p).map((e) => e.code)).toEqual(['unresolved-ref']);
   });
 
-  it.todo('flags a culture that cannot produce 20 distinct valid names in 500 tries (Task 8)');
+  it('flags a culture that cannot produce 20 distinct valid names in 500 tries', () => {
+    const weak = {
+      ...(marshJson as CompiledCulture),
+      exampleChance: 0,
+      examples: [],
+      banned: [],
+      names: { given: { pattern: ['a'], parts: { a: ['X', 'Y'] } } },
+    };
+    const errs = lintPack(pack({ cultures: { [weak.id]: weak } }));
+    expect(errs.map((e) => e.code)).toEqual(['weak-culture']);
+  });
+
+  it('passes a healthy culture', () => {
+    const c = marshJson as CompiledCulture;
+    expect(lintPack(pack({ cultures: { [c.id]: c } }))).toEqual([]);
+  });
 });

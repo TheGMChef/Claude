@@ -15,3 +15,5 @@ export { selectEntry } from './select';
 export type { TagFilter, Selection } from './select';
 export { renderTemplate } from './render';
 export type { Context, RenderEnv, RenderResult } from './render';
+export { generateName, nameWithRng, normalizeName } from './names';
+export type { NameOptions, NameResult } from './names';
