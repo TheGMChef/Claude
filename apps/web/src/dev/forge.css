@@ -119,11 +119,14 @@
 }
 
 .forge__names {
+  padding: var(--space-3) var(--space-4);
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--space-1) var(--space-4);
   margin: 0;
-  padding: 0;
   list-style: none;
 }
 
@@ -143,8 +146,11 @@
 .forge__safety {
   display: grid;
   margin: 0;
-  padding: 0;
+  padding: 0 var(--space-4);
   list-style: none;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-card);
 }
 
 .forge__tag {
@@ -153,6 +159,10 @@
   align-items: center;
   gap: var(--space-1) var(--space-4);
   border-top: 1px solid var(--rule);
+}
+
+.forge__tag:first-child {
+  border-top: 0;
 }
 
 .forge__tag-name {
@@ -184,7 +194,7 @@
   white-space: nowrap;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
   .forge__cols {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }

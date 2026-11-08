@@ -418,7 +418,7 @@ textarea.field__control {
   min-width: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 767.98px) {
   .kit-page {
     grid-template-columns: minmax(0, 1fr);
   }
