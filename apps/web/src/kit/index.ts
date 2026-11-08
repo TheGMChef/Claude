@@ -10,3 +10,7 @@ export { MarginNote } from './MarginNote';
 export { SectionLabel } from './SectionLabel';
 export { Icon } from './Icon';
 export type { IconName } from './Icon';
+export { Tabs } from './Tabs';
+export { Clock } from './Clock';
+export { Field } from './Field';
+export { DockButton } from './DockButton';

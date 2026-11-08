@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+import { KitPage } from '../dev/KitPage';
 import { App } from './App';
 import { Home } from './Home';
 import { ModeShell } from './ModeShell';
@@ -16,11 +17,7 @@ if (import.meta.env.DEV) {
   children.push(
     {
       path: 'kit',
-      element: (
-        <main className="shell">
-          <h1>Kit</h1>
-        </main>
-      ),
+      element: <KitPage />,
     },
     {
       path: 'forge-preview',
