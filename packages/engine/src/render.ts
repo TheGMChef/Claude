@@ -5,13 +5,18 @@ import { selectEntry } from './select';
 import type { TagFilter } from './select';
 import type { Modifier, Slot, TemplateAst } from './template';
 
+/** Spec §4.2: read-only campaign hook; the Codex implements it (sub-project 3). */
+export type CampaignLookup = {
+  get(path: string): string | undefined;
+};
+
 export type Context = {
   genre?: string;
   cultureId?: string;
   tags?: TagFilter;
   safety?: SafetySettings;
   avoidNames?: string[];
-  campaign?: { get(path: string): string | undefined };
+  campaign?: CampaignLookup;
   [key: string]: unknown;
 };
 

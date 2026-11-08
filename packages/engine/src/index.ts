@@ -14,7 +14,7 @@ export type { Library } from './library';
 export { selectEntry } from './select';
 export type { TagFilter, Selection } from './select';
 export { renderTemplate } from './render';
-export type { Context, RenderEnv, RenderResult } from './render';
+export type { CampaignLookup, Context, RenderEnv, RenderResult } from './render';
 export { generateName, nameWithRng, normalizeName } from './names';
 export type { NameOptions, NameResult } from './names';
 export {
@@ -27,7 +27,14 @@ export {
   reroll,
   rollTable,
 } from './generate';
-export type { BatchRequest, Card, CardField, GenOptions, RollResult } from './generate';
+export type {
+  BatchRequest,
+  Card,
+  CardField,
+  GenOptions,
+  RollResult,
+  SerializableContext,
+} from './generate';
 export { validateUserPack } from './userPack';
 export { askOracle, oracleOutcome, drawMove } from './oracle';
-export type { Likelihood, OracleResult, MoveCard } from './oracle';
+export type { OracleResult, MoveCard } from './oracle';

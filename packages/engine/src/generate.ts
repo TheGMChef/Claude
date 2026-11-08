@@ -20,6 +20,9 @@ export type CardField = {
   blocked?: boolean;
 };
 
+/** JSON-serialisable copy of a Context (the campaign hook is dropped), stored on a card. */
+export type SerializableContext = Record<string, unknown>;
+
 export type Card = {
   id: string;
   generatorId: string;
@@ -27,7 +30,7 @@ export type Card = {
   seed: string;
   fields: Record<string, CardField>;
   display: string;
-  context: Record<string, unknown>;
+  context: SerializableContext;
   flags: { veiled: string[]; relaxed: boolean };
 };
 
@@ -112,10 +115,10 @@ function resolveContext(lib: Library, ctx: Context, seed: string): Context {
 }
 
 /** JSON-serialisable copy of the context; the campaign hook is dropped. */
-function serialisable(ctx: Context): Record<string, unknown> {
+function serialisable(ctx: Context): SerializableContext {
   const out: Record<string, unknown> = {};
   for (const [k, v] of Object.entries(ctx)) if (k !== 'campaign') out[k] = v;
-  return JSON.parse(JSON.stringify(out)) as Record<string, unknown>;
+  return JSON.parse(JSON.stringify(out)) as SerializableContext;
 }
 
 /** Which of `tags` the entries named in `sources` (`<tableId>#<index>`) carry, first-seen order. */

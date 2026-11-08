@@ -4,9 +4,8 @@ import { renderTemplate } from './render';
 import type { RenderEnv } from './render';
 import { createRng, toSeed } from './rng';
 import type { SafetySettings } from './safety';
+import type { Likelihood } from './schema';
 import { selectEntry } from './select';
-
-export type Likelihood = 'certain' | 'likely' | 'even' | 'unlikely' | 'remote';
 
 export type OracleResult = {
   roll: number;
