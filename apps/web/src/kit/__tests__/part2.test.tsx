@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -77,5 +79,38 @@ describe('kit part 2', () => {
     render(<DockButton icon="npc" label="NPC" onClick={onClick} />);
     await userEvent.click(screen.getByRole('button', { name: 'NPC' }));
     expect(onClick).toHaveBeenCalled();
+  });
+
+  it('Field keeps label binding when caller passes an id', () => {
+    render(<Field label="Custom" id="custom" />);
+    const input = screen.getByLabelText('Custom');
+    expect(input).toHaveAttribute('id', 'custom');
+    expect(screen.getByText('Custom')).toHaveAttribute('for', 'custom');
+  });
+
+  it('Tabs falls back to first tab stop when value matches nothing', () => {
+    render(<Tabs tabs={TABS} value="zzz" onChange={() => {}} label="S" />);
+    expect(screen.getAllByRole('tab').map((t) => t.tabIndex)).toEqual([0, -1, -1]);
+  });
+
+  it('Tabs ignores keys with modifiers', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<Tabs tabs={TABS} value="a" onChange={onChange} label="S" />);
+    screen.getByRole('tab', { name: 'Alpha' }).focus();
+    await user.keyboard('{Alt>}{ArrowRight}{/Alt}{Control>}{End}{/Control}{Meta>}{Home}{/Meta}');
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('Clock coerces NaN to 0 and disables Tick when full', () => {
+    const { rerender } = render(<Clock segments={4} filled={NaN} label="X" />);
+    expect(screen.getByRole('img', { name: 'X. Clock: 0 of 4' })).toBeInTheDocument();
+    rerender(<Clock segments={4} filled={4} label="X" onTick={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Tick +1' })).toBeDisabled();
+  });
+
+  it('tokens.css light block also targets [data-theme=light]', () => {
+    const css = readFileSync(resolve(__dirname, '../../styles/tokens.css'), 'utf8');
+    expect(css).toMatch(/:root,\s*\[data-theme='light'\]\s*\{/);
   });
 });

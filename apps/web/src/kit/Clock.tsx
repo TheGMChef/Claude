@@ -23,7 +23,7 @@ function wedge(i: number, n: number): string {
 }
 
 export function Clock({ segments, filled, label, onTick }: ClockProps) {
-  const count = Math.max(0, Math.min(segments, Math.round(filled)));
+  const count = Math.max(0, Math.min(segments, Math.round(Number.isNaN(filled) ? 0 : filled)));
   const indices = Array.from({ length: segments }, (_, i) => i);
   return (
     <div className="clock">
@@ -46,7 +46,7 @@ export function Clock({ segments, filled, label, onTick }: ClockProps) {
         </g>
       </svg>
       {onTick && (
-        <Button variant="outline" onClick={onTick}>
+        <Button variant="outline" onClick={onTick} disabled={count >= segments}>
           Tick +1
         </Button>
       )}

@@ -108,6 +108,8 @@ function Sample({ theme }: { theme: 'light' | 'dark' }) {
       </Group>
 
       <Group title="Clocks">
+        <Clock segments={4} filled={0} label="Empty" />
+        <Clock segments={4} filled={4} label="Full" />
         <Clock segments={4} filled={1} label="Four" />
         <Clock segments={6} filled={3} label="Six" />
         <Clock segments={8} filled={5} label="Eight" />

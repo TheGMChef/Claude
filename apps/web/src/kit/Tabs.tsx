@@ -11,6 +11,8 @@ export interface TabsProps {
 export function Tabs({ tabs, value, onChange, label }: TabsProps) {
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
 
+  const hasSelected = tabs.some((t) => t.id === value);
+
   const select = (index: number) => {
     const tab = tabs[index];
     if (!tab) return;
@@ -19,6 +21,7 @@ export function Tabs({ tabs, value, onChange, label }: TabsProps) {
   };
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
     const last = tabs.length - 1;
     let next: number;
     switch (e.key) {
@@ -45,6 +48,7 @@ export function Tabs({ tabs, value, onChange, label }: TabsProps) {
     <div role="tablist" aria-label={label} className="tabs">
       {tabs.map((t, i) => {
         const selected = t.id === value;
+        const stop = hasSelected ? selected : i === 0;
         return (
           <button
             key={t.id}
@@ -54,7 +58,7 @@ export function Tabs({ tabs, value, onChange, label }: TabsProps) {
             type="button"
             role="tab"
             aria-selected={selected}
-            tabIndex={selected ? 0 : -1}
+            tabIndex={stop ? 0 : -1}
             className={selected ? 'tabs__tab tabs__tab--active' : 'tabs__tab'}
             onClick={() => onChange(t.id)}
             onKeyDown={(e) => onKeyDown(e, i)}

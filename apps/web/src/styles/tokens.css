@@ -1,4 +1,5 @@
-:root {
+:root,
+[data-theme='light'] {
   --paper: #f3ede1;
   --card: #fffdf8;
   --ink: #1f1b16;
