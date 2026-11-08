@@ -189,8 +189,3 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }
-
-/* Tap targets: the kit's tabs are 32px tall; this page needs 44px. */
-.forge .tabs__tab {
-  min-height: 44px;
-}

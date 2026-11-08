@@ -71,7 +71,8 @@ a {
 
 .topbar__nav {
   display: flex;
-  gap: var(--space-1);
+  align-items: center;
+  gap: var(--space-2);
   flex: 1;
 }
 
@@ -83,19 +84,25 @@ a {
   min-height: 44px;
   min-width: 44px;
   padding: 0 var(--space-4);
-  border: 1px solid transparent;
-  border-radius: var(--radius-pill);
-  background: transparent;
-  color: var(--ink);
   font: inherit;
   font-weight: 600;
   text-decoration: none;
-  cursor: pointer;
 }
 
+/* Current page: the key stays pressed in (kit.css) on a highlighter face */
 .topbar__link[aria-current='page'] {
-  background: var(--highlight);
+  --key-face: var(--highlight);
+  --key-face-hover-c: var(--highlight);
+  --key-edge-c: var(--ink);
   color: var(--on-highlight);
+}
+
+/* An open menu is a key held down */
+.topbar__menu[aria-expanded='true'] {
+  transform: translateY(var(--key-d));
+  box-shadow:
+    0 0 0 var(--key-edge-c),
+    0 1px 2px var(--card-shadow);
 }
 
 .topbar__theme {
@@ -105,7 +112,6 @@ a {
 .topbar__menu {
   display: none;
   margin-left: auto;
-  border-color: var(--ink-muted);
 }
 
 @media (max-width: 767px) {
@@ -120,6 +126,7 @@ a {
     order: 5;
     flex-basis: 100%;
     flex-direction: column;
+    align-items: stretch;
   }
   .topbar__nav[data-open='true'] {
     display: flex;

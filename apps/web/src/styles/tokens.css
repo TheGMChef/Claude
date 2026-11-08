@@ -12,11 +12,21 @@
   --dot: rgb(31 27 22 / 0.12);
   --on-highlight: #1f1b16;
   --card-shadow: rgb(60 45 25 / 0.08);
-  --radius-lg-btn: 18px;
   --text-note: 14px;
 
+  /* Keys (R31): the hard edge under a raised control, and its hover face */
+  --key-edge: #3b342b;
+  --key-edge-solid: #5a4c3c;
+  --key-face-hover: #f8f2e6;
+  --key-solid-hover: #38312a;
+
   --radius-card: 4px;
-  --radius-pill: 999px;
+  --radius-tag: 6px;
+  --radius-key: 10px;
+  --radius-panel: 12px;
+  --radius-key-lg: 14px;
+  --key-depth: 3px;
+  --key-depth-lg: 4px;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -56,6 +66,10 @@
   --stamp: #f08c78;
   --dot: rgb(239 232 219 / 0.1);
   --card-shadow: transparent;
+  --key-edge: #8f8576;
+  --key-edge-solid: #a1957f;
+  --key-face-hover: #2e2923;
+  --key-solid-hover: #fffaf0;
   color-scheme: dark;
 }
 
@@ -72,6 +86,10 @@
     --stamp: #f08c78;
     --dot: rgb(239 232 219 / 0.1);
     --card-shadow: transparent;
+    --key-edge: #8f8576;
+    --key-edge-solid: #a1957f;
+    --key-face-hover: #2e2923;
+    --key-solid-hover: #fffaf0;
     color-scheme: dark;
   }
 }
