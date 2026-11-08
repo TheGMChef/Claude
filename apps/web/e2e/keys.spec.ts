@@ -106,7 +106,7 @@ test('no pill shapes remain on controls, rings, tags, cards or fields', async ({
   ] as const) {
     await page.goto(path);
     if (path === '/forge-preview') {
-      await page.getByRole('button', { name: 'New NPC' }).click();
+      await page.getByRole('button', { name: 'Create NPC' }).click();
       await expect(page.getByRole('button', { name: ready })).toBeVisible();
     } else if (path === '/kit') {
       await expect(page.getByRole('heading', { name: ready }).first()).toBeVisible();
