@@ -227,6 +227,19 @@ describe('relaxed per field (R14)', () => {
     expect(plain.flags.relaxed).toBe(false);
   });
 
+  it('a name field never carries the mark, even when the name guard gives up', () => {
+    const avoidNames = (
+      batch(lib, [{ cultureId: 'test.culture.marsh', count: 60 }], {
+        seed: 'AVOID',
+      }) as NameResult[]
+    ).map((n) => n.name);
+    for (let i = 0; i < 30; i++) {
+      const card = generate(lib, 'test.npc', { seed: `NR${i}`, context: { ...marsh, avoidNames } });
+      expect(Object.hasOwn(card.fields.name ?? {}, 'relaxed'), `NR${i}`).toBe(false);
+      expect(card.flags.relaxed).toBe(false);
+    }
+  });
+
   it('a locked field keeps its own relaxed mark; flags.relaxed follows the fields', () => {
     const card = generate(lib, 'test.npc', { seed: SEED, context: loose });
     const next = reroll(lib, card, { locks: ['role'], context: marsh });

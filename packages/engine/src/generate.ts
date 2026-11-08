@@ -17,8 +17,8 @@ export type CardField = {
   nonce: number;
   sources: string[];
   blocked?: boolean;
-  /** Present (true) when selection had to loosen a filter (prefer/require/exclude/genre, or the
-   * name guard) to fill this field. */
+  /** Present (true) when selection had to loosen a filter (prefer/require/exclude/genre) to fill
+   * this field. The name guard loosening is not marked. */
   relaxed?: boolean;
   /**
    * Set only on a blocked field whose content a CURRENT line now hides (R22 / applySafety): the
@@ -286,7 +286,8 @@ function genField(state: State, depth: number, src: FieldSource, rng: Rng, ctx: 
       text: namePart(n, src.name),
       sources: n ? [n.cultureId] : [],
       blocked: false,
-      relaxed: n?.relaxed ?? false,
+      // The name guard loosening is not a filter relaxation (R14 mark is prefer/require/exclude/genre).
+      relaxed: false,
     };
   }
   if ('culture' in src) {
