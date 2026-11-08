@@ -67,6 +67,7 @@ type Built = {
   fields: Record<string, CardField>;
   display: string;
   displayBlocked: boolean;
+  /** Provenance of the display text: the fields it references plus its own slots. */
   displaySources: string[];
   flags: Card['flags'];
 };
@@ -295,7 +296,7 @@ function genField(state: State, depth: number, src: FieldSource, rng: Rng, ctx: 
     if (!sub) return { text: '', sources: [], blocked: false, relaxed: false };
     return {
       text: sub.display,
-      sources: [...Object.values(sub.fields).flatMap((f) => f.sources), ...sub.displaySources],
+      sources: sub.displaySources,
       blocked: sub.displayBlocked,
       relaxed: sub.flags.relaxed,
     };
@@ -321,6 +322,22 @@ function genField(state: State, depth: number, src: FieldSource, rng: Rng, ctx: 
   return out;
 }
 
+/**
+ * Fields the display text shows (I5): field refs, and `{name}` when the generator has a `name`
+ * field (render resolves it from the field; `{name:given}`/`{name:family}` draw afresh).
+ */
+function displayRefs(gen: CompiledGenerator): string[] {
+  const refs: string[] = [];
+  for (const el of gen.display) {
+    if (typeof el === 'string') continue;
+    const { slot } = el;
+    const ref =
+      slot.kind === 'table' ? slot.ref : slot.kind === 'name' && slot.part === 'full' ? 'name' : '';
+    if (Object.hasOwn(gen.fields, ref) && !refs.includes(ref)) refs.push(ref);
+  }
+  return refs;
+}
+
 function freshPlan(gen: CompiledGenerator): Plan {
   return Object.fromEntries(Object.keys(gen.fields).map((k) => [k, { nonce: 0, locked: false }]));
 }
@@ -338,7 +355,6 @@ function assemble(
   const values: Record<string, string> = {};
   const veiled: string[] = [];
   let relaxed = false;
-  let anyBlocked = false;
   for (const [name, src] of Object.entries(gen.fields)) {
     const p = plan[name] ?? { nonce: 0, locked: false };
     const r = genField(state, depth, src, createRng(seed, name, p.nonce), ctx);
@@ -361,7 +377,6 @@ function assemble(
       if (r.blocked) field.blocked = true;
     }
     relaxed ||= r.relaxed;
-    anyBlocked ||= field.blocked === true;
     if (!field.blocked) safetyOf(state.lib, field.sources, veilsOf(ctx), veiled);
     fields[name] = field;
     values[name] = field.value;
@@ -369,9 +384,12 @@ function assemble(
   const extra: Part = { text: '', sources: [], blocked: false, relaxed: false };
   const env = makeEnv(state, depth, ctx, createRng(seed, '$display'), extra, values);
   const d = renderTemplate(gen.display, env);
-  const displaySources = [...d.sources, ...extra.sources];
-  safetyOf(state.lib, displaySources, veilsOf(ctx), veiled);
-  const displayBlocked = anyBlocked || d.blocked || extra.blocked;
+  const slotSources = [...d.sources, ...extra.sources];
+  safetyOf(state.lib, slotSources, veilsOf(ctx), veiled);
+  const refs = displayRefs(gen);
+  const displayBlocked =
+    refs.some((f) => fields[f]?.blocked === true) || d.blocked || extra.blocked;
+  const displaySources = [...refs.flatMap((f) => fields[f]?.sources ?? []), ...slotSources];
   return {
     fields,
     display: displayBlocked ? BLOCKED_DISPLAY : d.text,

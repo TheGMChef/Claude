@@ -195,7 +195,10 @@ describe('safety', () => {
     });
     expect(card.fields.secret).toMatchObject({ value: '—', blocked: true });
     expect(card.fields.role?.blocked).toBeUndefined();
-    expect(card.display).toBe('nothing fits your safety settings');
+    // I5: the display ('{name}, {role|a}') does not use the secret, so it stays.
+    expect(card.display).toMatch(
+      new RegExp(`^${card.fields.name?.value}, an? ${card.fields.role?.value}$`),
+    );
   });
 
   it('lists veiled tags in flags', () => {
@@ -309,7 +312,7 @@ describe('safety beats locks (R22)', () => {
       locked: true,
       nonce: 0,
     });
-    expect(lined.display).toBe(BLOCKED_DISPLAY);
+    expect(lined.display).not.toBe(BLOCKED_DISPLAY); // I5: the display does not use the secret
     expect(lined.fields.name?.blocked).toBeUndefined();
   });
 
