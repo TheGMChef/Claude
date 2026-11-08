@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
+  DEFAULT_LINES,
   SAFETY_VOCABULARY,
   askOracle,
   batch,
@@ -53,6 +54,7 @@ const lockedNames = (card: Card): string[] =>
 function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: string) => void }) {
   return (
     <KitCard variant="ruled">
+      <SectionLabel>{lib.culture(String(card.context.cultureId))?.name ?? ''}</SectionLabel>
       <h2 className="forge__display">{card.display}</h2>
       {card.flags.veiled.length > 0 && (
         <p className="forge__flags">
@@ -96,7 +98,7 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
 
 export function ForgePreview() {
   const [cultureId, setCultureId] = useState(CULTURES[0]?.id ?? '');
-  const [lines, setLines] = useState<string[]>([]);
+  const [lines, setLines] = useState<string[]>(DEFAULT_LINES);
   const [veils, setVeils] = useState<string[]>([]);
   const [avoidText, setAvoidText] = useState('');
   const [nameSeed, setNameSeed] = useState(() => newSeed());
@@ -106,6 +108,7 @@ export function ForgePreview() {
   const [pasted, setPasted] = useState('');
   const [pasteError, setPasteError] = useState(false);
   const [copyFailed, setCopyFailed] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const avoidNames = useMemo(
     () =>
@@ -147,6 +150,7 @@ export function ForgePreview() {
     setCard(generate(lib, GENERATOR, { seed: newSeed(), context }));
     setPasteError(false);
     setCopyFailed(false);
+    setCopied(false);
   };
 
   const toggleLock = (field: string) => {
@@ -176,7 +180,9 @@ export function ForgePreview() {
     try {
       await navigator.clipboard.writeText(code);
       setCopyFailed(false);
+      setCopied(true);
     } catch {
+      setCopied(false);
       setCopyFailed(true);
     }
   };
@@ -185,6 +191,7 @@ export function ForgePreview() {
     const res = cardFromShare(lib, GENERATOR, pasted, context);
     if (res.ok) {
       setCard(res.card);
+      setCopied(false);
       setPasteError(false);
     } else {
       setPasteError(true);
@@ -218,6 +225,11 @@ export function ForgePreview() {
                   <IconButton icon="copy" label="Copy share code" onClick={() => void copy()} />
                 </div>
                 {copyFailed && <p className="forge__muted">{COPY_FAILED}</p>}
+                {copied && (
+                  <p role="status" className="forge__muted">
+                    Copied
+                  </p>
+                )}
               </div>
             </>
           ) : (
@@ -235,7 +247,10 @@ export function ForgePreview() {
             <Field
               label="Paste a code"
               value={pasted}
-              onChange={(e) => setPasted(e.target.value)}
+              onChange={(e) => {
+                setPasted(e.target.value);
+                setPasteError(false);
+              }}
               autoComplete="off"
               spellCheck={false}
             />

@@ -47,9 +47,9 @@ describe('routes', () => {
     expect(within(main).getByRole('link', { name: /Table/ })).toBeInTheDocument();
   });
 
-  it('registers dev routes under DEV', () => {
+  it('registers dev routes under DEV (lazy-loaded)', async () => {
     renderAt('/kit');
-    expect(screen.getByRole('heading', { name: 'Kit' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Kit' })).toBeInTheDocument();
   });
 
   it('top bar menu button toggles aria-expanded', async () => {

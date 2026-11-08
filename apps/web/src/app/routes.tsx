@@ -1,6 +1,6 @@
+import { Suspense, lazy } from 'react';
+import type { ReactNode } from 'react';
 import type { RouteObject } from 'react-router-dom';
-import { ForgePreview } from '../dev/ForgePreview';
-import { KitPage } from '../dev/KitPage';
 import { App } from './App';
 import { Home } from './Home';
 import { ModeShell } from './ModeShell';
@@ -14,16 +14,17 @@ const children: RouteObject[] = [
   })),
 ];
 
+// Dev pages: lazy-loaded inside a statically-replaced gate so production builds drop them.
+// Widen the gate here (Task 17 adds the e2e mode); both sides are replaced at build time.
 if (import.meta.env.DEV) {
+  const KitPage = lazy(() => import('../dev/KitPage').then((m) => ({ default: m.KitPage })));
+  const ForgePreview = lazy(() =>
+    import('../dev/ForgePreview').then((m) => ({ default: m.ForgePreview })),
+  );
+  const page = (node: ReactNode) => <Suspense fallback={null}>{node}</Suspense>;
   children.push(
-    {
-      path: 'kit',
-      element: <KitPage />,
-    },
-    {
-      path: 'forge-preview',
-      element: <ForgePreview />,
-    },
+    { path: 'kit', element: page(<KitPage />) },
+    { path: 'forge-preview', element: page(<ForgePreview />) },
   );
 }
 
