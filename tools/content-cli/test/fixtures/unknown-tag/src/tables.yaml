@@ -1,0 +1,5 @@
+kind: table
+id: fx.a.b
+entries:
+  - text: one
+    tags: [mystery]

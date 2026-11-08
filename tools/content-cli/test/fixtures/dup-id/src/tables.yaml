@@ -1,0 +1,9 @@
+kind: table
+id: fx.a.b
+entries:
+  - text: one
+---
+kind: table
+id: fx.a.b
+entries:
+  - text: two

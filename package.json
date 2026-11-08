@@ -11,8 +11,8 @@
     "lint": "eslint . --ext .ts,.tsx,.cjs,.mjs && prettier --check .",
     "typecheck": "pnpm -r --if-present run typecheck",
     "test": "vitest run",
-    "content:build": "pnpm -r --if-present run content:build",
-    "content:lint": "pnpm -r --if-present run content:lint",
+    "content:build": "for d in packages/content-*; do [ -d \"$d\" ] || continue; tsx tools/content-cli/src/cli.ts build \"$d\" || exit 1; done",
+    "content:lint": "for d in packages/content-*; do [ -d \"$d\" ] || continue; tsx tools/content-cli/src/cli.ts lint \"$d\" || exit 1; done",
     "build": "pnpm -r --if-present run build",
     "e2e": "pnpm -r --if-present run e2e"
   },
@@ -21,6 +21,7 @@
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.57.0",
     "prettier": "^3.3.0",
+    "tsx": "^4.23.15",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
   }

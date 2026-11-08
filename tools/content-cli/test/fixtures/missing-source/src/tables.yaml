@@ -1,0 +1,12 @@
+kind: table
+id: fx.a.b
+entries:
+  - text: one
+---
+kind: generator
+id: fx.gen
+title: G
+fields:
+  a: { table: fx.a.b }
+  b: { table: fx.a.missing }
+display: '{a}'

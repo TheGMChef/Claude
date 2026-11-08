@@ -1,0 +1,8 @@
+kind: culture
+id: fx.culture.tiny
+name: Tiny
+voice: { summary: s, tips: [] }
+names:
+  given:
+    pattern: [a]
+    parts: { a: [X] }

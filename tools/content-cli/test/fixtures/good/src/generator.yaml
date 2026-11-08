@@ -1,0 +1,16 @@
+kind: generator
+id: fx.npc
+title: Instant NPC
+fields:
+  name: { name: full }
+  role: { table: fx.npc.role }
+  want: { table: fx.npc.want }
+display: '{name}, {role|a}'
+---
+kind: deck
+id: fx.moves
+title: Moves
+cards:
+  - id: reveal
+    text: Reveal an unwelcome truth
+    prompt: What do they learn?

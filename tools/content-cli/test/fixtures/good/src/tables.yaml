@@ -1,0 +1,21 @@
+kind: table
+id: fx.npc.role
+title: Role
+tags: [npc]
+entries:
+  - text: a ferry clerk
+    tags: [urban]
+  - text: a debt collector
+    weight: 2
+    tags: [debt]
+    safety: [violence]
+---
+kind: table
+id: fx.npc.want
+entries:
+  - text: to pay off {deadline} owed by {role|a}
+---
+kind: table
+id: fx.npc.deadline
+entries:
+  - text: the next full moon

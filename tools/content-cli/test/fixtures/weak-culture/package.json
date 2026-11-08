@@ -1,0 +1,10 @@
+{
+  "name": "fx-weak-culture",
+  "private": true,
+  "version": "1.0.0",
+  "prepdesk": {
+    "id": "fx",
+    "version": "1.0.0",
+    "title": "Fixture weak-culture"
+  }
+}

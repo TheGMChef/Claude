@@ -1,0 +1,4 @@
+kind: table
+id: fx.a.b
+entries:
+  - text: 'see {fx.a.nowhere}'

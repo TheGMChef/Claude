@@ -7,3 +7,5 @@ export * from './template';
 export * from './safety';
 export * from './errors';
 export * from './schema';
+export { compileDocs } from './compile';
+export { lintPack } from './lint';

@@ -1,0 +1,16 @@
+kind: culture
+id: fx.culture.marsh
+name: Marsh-folk
+voice:
+  summary: slow vowels
+  tips: [Stretch the vowels.]
+names:
+  given:
+    pattern: [start, mid?, end]
+    parts:
+      start: [O, Il, Tam]
+      mid: [dr, s]
+      end: [in, a, sin]
+  examples: [Odrin]
+  exampleChance: 0.25
+  banned: ['aa']
