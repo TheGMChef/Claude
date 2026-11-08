@@ -219,7 +219,7 @@ id: core.gm-moves
 title: GM moves
 cards:
   - id: reveal-unwelcome-truth
-    text: Reveal an unwelcome truth
+    text: Let a quiet promise come due
     prompt: What do they learn that they really didn't want to know?
 ```
 
@@ -312,6 +312,7 @@ interface OracleResult {
   roll: number; likelihood: Likelihood
   answer: 'yes' | 'no'; modifier?: 'and' | 'but'
   meaning: [string, string]
+  blocked: boolean; veiled: string[]   // a word hidden by a Line shows '—' and sets blocked
 }
 ```
 

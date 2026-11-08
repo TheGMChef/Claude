@@ -33,7 +33,7 @@ pnpm build           content:build, then build the web app
 pnpm e2e --trace off  Playwright e2e/a11y/offline (builds with --mode e2e; needs content built)
 ```
 
-Before committing, run `pnpm lint && pnpm typecheck && pnpm test`.
+Before committing, run `pnpm lint && pnpm typecheck && pnpm test && pnpm test:coverage`.
 
 ## Hard rules
 
