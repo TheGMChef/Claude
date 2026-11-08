@@ -1,5 +1,6 @@
 export interface InkOutlineProps {
-  radius?: number;
+  /** px, or a CSS length such as `var(--radius-key)` so the ring tracks its key */
+  radius?: number | string;
   dashed?: boolean;
 }
 

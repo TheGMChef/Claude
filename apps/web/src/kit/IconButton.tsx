@@ -1,5 +1,6 @@
 import type { ButtonHTMLAttributes } from 'react';
 import { Icon } from './Icon';
+import { InkOutline } from './InkOutline';
 import type { IconName } from './Icon';
 
 export interface IconButtonProps extends Omit<
@@ -14,11 +15,12 @@ export function IconButton({ icon, label, className, type = 'button', ...rest }:
   return (
     <button
       type={type}
-      className={['icon-btn', className].filter(Boolean).join(' ')}
+      className={['key', 'icon-btn', className].filter(Boolean).join(' ')}
       aria-label={label}
       title={label}
       {...rest}
     >
+      <InkOutline radius="var(--radius-key)" />
       <Icon name={icon} />
     </button>
   );

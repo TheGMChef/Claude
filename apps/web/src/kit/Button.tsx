@@ -14,11 +14,16 @@ export function Button({
   children,
   ...rest
 }: ButtonProps) {
-  const cls = ['btn', `btn--${variant}`, `btn--${size}`, className].filter(Boolean).join(' ');
+  const cls = ['key', 'btn', `btn--${variant}`, `btn--${size}`, className]
+    .filter(Boolean)
+    .join(' ');
   return (
     <button type={type} className={cls} {...rest}>
       {variant !== 'solid' && (
-        <InkOutline radius={size === 'lg' ? 18 : 999} dashed={variant === 'dashed'} />
+        <InkOutline
+          radius={size === 'lg' ? 'var(--radius-key-lg)' : 'var(--radius-key)'}
+          dashed={variant === 'dashed'}
+        />
       )}
       {children}
     </button>

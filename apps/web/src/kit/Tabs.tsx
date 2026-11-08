@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import type { KeyboardEvent } from 'react';
+import { InkOutline } from './InkOutline';
 
 export interface TabsProps {
   tabs: { id: string; label: string }[];
@@ -59,10 +60,11 @@ export function Tabs({ tabs, value, onChange, label }: TabsProps) {
             role="tab"
             aria-selected={selected}
             tabIndex={stop ? 0 : -1}
-            className={selected ? 'tabs__tab tabs__tab--active' : 'tabs__tab'}
+            className={selected ? 'key tabs__tab tabs__tab--active' : 'key tabs__tab'}
             onClick={() => onChange(t.id)}
             onKeyDown={(e) => onKeyDown(e, i)}
           >
+            <InkOutline radius="var(--radius-key)" />
             {t.label}
           </button>
         );

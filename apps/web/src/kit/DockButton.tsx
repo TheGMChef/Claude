@@ -10,8 +10,12 @@ export interface DockButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonEle
 
 export function DockButton({ icon, label, className, type = 'button', ...rest }: DockButtonProps) {
   return (
-    <button type={type} className={['dock-btn', className].filter(Boolean).join(' ')} {...rest}>
-      <InkOutline radius={12} />
+    <button
+      type={type}
+      className={['key', 'dock-btn', className].filter(Boolean).join(' ')}
+      {...rest}
+    >
+      <InkOutline radius="var(--radius-key-lg)" />
       <Icon name={icon} size={22} />
       <span className="dock-btn__label">{label}</span>
     </button>

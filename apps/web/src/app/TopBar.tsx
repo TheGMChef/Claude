@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { IconButton } from '../kit';
+import { IconButton, InkOutline } from '../kit';
 import type { IconName } from '../kit';
 import { MODES } from './modes';
 import { useTheme } from './ThemeProvider';
@@ -34,16 +34,23 @@ export function TopBar() {
       <button
         ref={menuRef}
         type="button"
-        className="topbar__menu"
+        className="key topbar__menu"
         aria-expanded={open}
         aria-controls="topbar-modes"
         onClick={() => setOpen((o) => !o)}
       >
+        <InkOutline radius="var(--radius-key)" />
         Menu
       </button>
       <nav id="topbar-modes" className="topbar__nav" data-open={open} aria-label="Modes">
         {MODES.map((m) => (
-          <NavLink key={m.path} to={m.path} className="topbar__link" onClick={() => setOpen(false)}>
+          <NavLink
+            key={m.path}
+            to={m.path}
+            className="key topbar__link"
+            onClick={() => setOpen(false)}
+          >
+            <InkOutline radius="var(--radius-key)" />
             {m.title}
           </NavLink>
         ))}

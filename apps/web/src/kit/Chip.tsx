@@ -11,7 +11,7 @@ export function Chip({ children, onRemove, removeLabel }: ChipProps) {
       {onRemove && (
         <button
           type="button"
-          className="chip__remove"
+          className="key chip__remove"
           aria-label={removeLabel}
           title={removeLabel}
           onClick={onRemove}
