@@ -183,3 +183,82 @@ describe('key components', () => {
     ).not.toBeNull();
   });
 });
+
+describe('key polish (CSS text)', () => {
+  it('dark bevel edge is darker than the face so it reads as a shadow', () => {
+    for (const start of ["[data-theme='dark']", ":root:not([data-theme='light'])"]) {
+      const m = /--key-edge-solid:\s*#([0-9a-f]{6})/.exec(block(start));
+      expect(m, start).not.toBeNull();
+      const lum = (hex: string) => {
+        const c = [0, 2, 4].map((i) => {
+          const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+          return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+        });
+        return 0.2126 * (c[0] ?? 0) + 0.7152 * (c[1] ?? 0) + 0.0722 * (c[2] ?? 0);
+      };
+      const edge = lum(m?.[1] ?? '');
+      const paper = lum('191714');
+      expect((edge + 0.05) / (paper + 0.05)).toBeGreaterThanOrEqual(3);
+      expect(edge).toBeLessThan(lum('a1957f') * 0.6);
+    }
+  });
+
+  it('a pressed key gets a sunk face and an inset top shadow (mirrors .is-pressed)', () => {
+    const pressed =
+      /\.key:active:not\(:disabled\),\s*\.key\.is-pressed[^{]*\{([^}]*)\}/.exec(KIT)?.[1] ?? '';
+    expect(pressed).toMatch(/inset 0 \d+px/);
+    expect(pressed).toMatch(/background:\s*var\(--key-pressed-face\)/);
+    expect(KIT).toMatch(/--key-pressed-face:\s*var\(--key-face-sunk\)/);
+    for (const t of ['--key-face-sunk', '--key-inset']) {
+      expect(block(":root,\n[data-theme='light']")).toContain(t);
+      expect(block("[data-theme='dark']")).toContain(t);
+      expect(block(":root:not([data-theme='light'])")).toContain(t);
+    }
+  });
+
+  it('the wordmark mirrors the key depth so it shares the raised keys centre line', () => {
+    expect(rule(BASE, '.topbar__wordmark')).toMatch(/margin-bottom:\s*var\(--key-depth\)/);
+  });
+
+  it('the open phone menu is a two-column grid of keys', () => {
+    expect(BASE).toMatch(
+      /\.topbar__nav\[data-open='true'\]\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/,
+    );
+  });
+
+  it('chip remove expander extends outward, not over the label', () => {
+    const exp = rule(KIT, '.chip__remove::after');
+    expect(exp).not.toMatch(/translate\(-50%/);
+    expect(rule(KIT, '.chip__remove')).toMatch(/margin:\s*0/);
+  });
+});
+
+describe('z-index scale (guard)', () => {
+  it('tokens define the scale and the dock clearance hook', () => {
+    expect(TOKENS).toMatch(/--z-content:\s*0/);
+    expect(TOKENS).toMatch(/--z-dock:\s*30/);
+    expect(TOKENS).toMatch(/--z-notice:\s*40/);
+    expect(TOKENS).toMatch(/--z-tooltip:\s*50/);
+    expect(TOKENS).toMatch(/--dock-clearance:\s*0px/);
+  });
+
+  it('the update notice clears the dock and uses the notice layer', () => {
+    const n = rule(KIT, '.update-chip');
+    expect(n).toMatch(/z-index:\s*var\(--z-notice\)/);
+    expect(n).toMatch(
+      /bottom:\s*calc\(var\(--dock-clearance,\s*0px\)\s*\+\s*max\(var\(--space-4\),\s*env\(safe-area-inset-bottom\)\)\)/,
+    );
+    expect(rule(KIT, '.tip')).toMatch(/z-index:\s*var\(--z-tooltip\)/);
+  });
+
+  it('no component CSS hard-codes a z-index number', () => {
+    // Every component stylesheet; a new one must be added here (tokens.css is the only home of numbers)
+    for (const [name, text] of [
+      ['kit.css', KIT],
+      ['base.css', BASE],
+      ['forge.css', FORGE],
+    ]) {
+      expect(text, name).not.toMatch(/z-index:\s*-?\d/);
+    }
+  });
+});

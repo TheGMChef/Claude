@@ -14,6 +14,11 @@
   pointer-events: none;
 }
 
+.key > .ink-outline {
+  /* Overlap the hard edge by a hair so ring and edge merge instead of showing a paper gap */
+  inset: -0.5px -0.5px -1px;
+}
+
 .ink-outline--dashed {
   border-style: dashed;
   border-width: 1.4px;
@@ -64,6 +69,7 @@
   --key-edge-c: var(--key-edge);
   --key-face: var(--card);
   --key-face-hover-c: var(--key-face-hover);
+  --key-pressed-face: var(--key-face-sunk);
   position: relative;
   margin-bottom: var(--key-d);
   border: 0;
@@ -81,21 +87,26 @@
     box-shadow var(--motion-100) ease-out;
 }
 
-.key:active:not(:disabled),
-.key.is-pressed,
-.key[aria-pressed='true'],
-.key[aria-selected='true'],
-.key[aria-current='page'] {
-  transform: translateY(var(--key-d));
-  box-shadow:
-    0 0 0 var(--key-edge-c),
-    0 1px 2px var(--card-shadow);
-}
-
 @media (hover: hover) {
   .key:hover:not(:disabled) {
     background: var(--key-face-hover-c);
   }
+}
+
+/* Pressed (after hover so it wins): the face sinks, the edge collapses, and an inset top
+   shadow plus a darker face make the sunk state unmistakable on light keys too */
+.key:active:not(:disabled),
+.key.is-pressed,
+.key[aria-pressed='true'],
+.key[aria-selected='true'],
+.key[aria-expanded='true'],
+.key[aria-current='page'] {
+  background: var(--key-pressed-face);
+  transform: translateY(var(--key-d));
+  box-shadow:
+    0 0 0 var(--key-edge-c),
+    inset 0 2px 3px var(--key-inset),
+    0 1px 2px var(--card-shadow);
 }
 
 .key:disabled {
@@ -136,6 +147,7 @@
 
 .btn--solid {
   --key-face: var(--ink);
+  --key-pressed-face: var(--key-face);
   --key-edge-c: var(--key-edge-solid);
   --key-face-hover-c: var(--key-solid-hover);
   color: var(--card);
@@ -156,6 +168,7 @@
 .icon-btn[aria-pressed='true'] {
   --key-face: var(--paper);
   --key-face-hover-c: var(--paper);
+  --key-pressed-face: var(--paper);
 }
 
 /* Chip: the body is a flat tag; only its remove control is a key */
@@ -182,8 +195,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 22px;
+  width: 32px;
+  height: 28px;
+  margin: 0;
   padding: 0;
   border: 1.2px solid var(--key-edge);
   border-radius: var(--radius-tag);
@@ -191,16 +205,16 @@
   line-height: 1;
 }
 
-/* 44x44 touch target centred on the small remove key. Sized explicitly: insets would
-   resolve against the padding box and lose the border width. */
+/* 44x44 touch target. The key is 32 wide, so it reaches only 6px each way sideways: into the
+   8px gap before it and out past the chip's right edge, never over the label. The extra
+   height goes above and below. Sized explicitly: insets resolve against the padding box. */
 .chip__remove::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: -8px;
+  left: -7px;
   width: 44px;
   height: 44px;
-  transform: translate(-50%, -50%);
 }
 
 /* Stamp */
@@ -289,6 +303,7 @@
 
 .tabs__tab--active {
   --key-face: var(--ink);
+  --key-pressed-face: var(--ink);
   --key-face-hover-c: var(--key-solid-hover);
   color: var(--card);
 }
@@ -441,6 +456,7 @@ textarea.field__control {
   .key.is-pressed,
   .key[aria-pressed='true'],
   .key[aria-selected='true'],
+  .key[aria-expanded='true'],
   .key[aria-current='page'] {
     border: 2px solid Highlight;
   }
@@ -449,8 +465,8 @@ textarea.field__control {
 /* Update notice: a small card fixed bottom-center, clear of the home indicator */
 .update-chip {
   position: fixed;
-  z-index: 50;
-  bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  z-index: var(--z-notice);
+  bottom: calc(var(--dock-clearance, 0px) + max(var(--space-4), env(safe-area-inset-bottom)));
   left: 50%;
   display: flex;
   align-items: center;
@@ -470,7 +486,7 @@ textarea.field__control {
 /* Tooltip (icon-only controls): a small L3 card, opacity-only entrance, never in the way of hits */
 .tip {
   position: fixed;
-  z-index: 60;
+  z-index: var(--z-tooltip);
   max-width: calc(100vw - 2 * var(--space-2));
   padding: var(--space-1) var(--space-3);
   border: 1px solid var(--ink-muted);

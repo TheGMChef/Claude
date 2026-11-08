@@ -19,6 +19,16 @@
   --key-edge-solid: #5a4c3c;
   --key-face-hover: #f8f2e6;
   --key-solid-hover: #38312a;
+  --key-face-sunk: #ece3d0;
+  --key-inset: rgb(60 45 25 / 0.28);
+
+  /* Layers: tokens only, no bare z-index numbers in component CSS */
+  --z-content: 0;
+  --z-dock: 30;
+  --z-notice: 40;
+  --z-tooltip: 50;
+  /* Height a docked surface (Table Mode dock) adds so the update notice sits above it */
+  --dock-clearance: 0px;
 
   /* Motion durations (VectorLab motion scale): 100 / 150 / 200 / 300 only */
   --motion-100: 100ms;
@@ -72,9 +82,11 @@
   --dot: rgb(239 232 219 / 0.1);
   --card-shadow: transparent;
   --key-edge: #8f8576;
-  --key-edge-solid: #a1957f;
+  --key-edge-solid: #766c5b;
   --key-face-hover: #2e2923;
   --key-solid-hover: #fffaf0;
+  --key-face-sunk: #100e0c;
+  --key-inset: rgb(0 0 0 / 0.55);
   color-scheme: dark;
 }
 
@@ -92,9 +104,11 @@
     --dot: rgb(239 232 219 / 0.1);
     --card-shadow: transparent;
     --key-edge: #8f8576;
-    --key-edge-solid: #a1957f;
+    --key-edge-solid: #766c5b;
     --key-face-hover: #2e2923;
     --key-solid-hover: #fffaf0;
+    --key-face-sunk: #100e0c;
+    --key-inset: rgb(0 0 0 / 0.55);
     color-scheme: dark;
   }
 }

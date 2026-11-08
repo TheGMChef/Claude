@@ -156,3 +156,34 @@ test('no pill shapes remain on controls, rings, tags, cards or fields', async ({
     expect(pills, path).toEqual([]);
   }
 });
+
+test('a pressed outline key looks sunk: different face and an inset shadow', async ({ page }) => {
+  await openKit(page);
+  for (const theme of ['light', 'dark']) {
+    const scope = page.locator(`.kit-theme[data-theme="${theme}"]`);
+    const look = (el: Locator) =>
+      el.evaluate((n) => {
+        const s = getComputedStyle(n);
+        return { bg: s.backgroundColor, shadow: s.boxShadow };
+      });
+    const raised = await look(scope.locator('.btn--outline:not(.is-pressed)').first());
+    const pressed = await look(scope.locator('.btn--outline.is-pressed').first());
+    expect(pressed.bg, theme).not.toBe(raised.bg);
+    expect(pressed.shadow, theme).toContain('inset');
+    expect(raised.shadow, theme).not.toContain('inset');
+  }
+});
+
+test('the wordmark shares the raised keys centre line', async ({ page }) => {
+  await page.goto('/');
+  const centre = (el: Locator) =>
+    el.evaluate((n) => {
+      const r = n.getBoundingClientRect();
+      return r.top + r.height / 2;
+    });
+  const word = await centre(page.locator('.topbar__wordmark'));
+  const key = await centre(page.locator('.topbar__link').first());
+  const theme = await centre(page.locator('.topbar__theme'));
+  expect(Math.abs(word - key)).toBeLessThanOrEqual(0.5);
+  expect(Math.abs(word - theme)).toBeLessThanOrEqual(0.5);
+});

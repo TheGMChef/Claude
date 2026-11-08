@@ -80,6 +80,13 @@ test.describe('phone Menu', () => {
     const { checked, small } = await measureTargets(page);
     // wordmark, Menu, theme, 4 open mode links, 4 home links
     expect(checked).toBeGreaterThanOrEqual(11);
+    // the open menu is a 2x2 grid of keys
+    const cols = await nav.evaluate((n) => getComputedStyle(n).gridTemplateColumns.split(' '));
+    expect(cols).toHaveLength(2);
+    const tops = await nav
+      .getByRole('link')
+      .evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
+    expect(new Set(tops).size).toBe(2);
     expect(small).toEqual([]);
   });
 });

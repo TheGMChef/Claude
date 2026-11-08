@@ -63,6 +63,8 @@ a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  /* Same depth the keys reserve below their face, so the wordmark shares their centre line */
+  margin-bottom: var(--key-depth);
   font-family: var(--font-display);
   font-weight: 700;
   font-size: var(--text-21);
@@ -97,14 +99,6 @@ a {
   color: var(--on-highlight);
 }
 
-/* An open menu is a key held down */
-.topbar__menu[aria-expanded='true'] {
-  transform: translateY(var(--key-d));
-  box-shadow:
-    0 0 0 var(--key-edge-c),
-    0 1px 2px var(--card-shadow);
-}
-
 .topbar__theme {
   margin-left: auto;
 }
@@ -129,7 +123,9 @@ a {
     align-items: stretch;
   }
   .topbar__nav[data-open='true'] {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2) var(--space-3);
   }
 }
 
