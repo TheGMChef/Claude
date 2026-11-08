@@ -64,6 +64,17 @@ const docs = [
     entries: [{ text: 'calm' }, { text: 'tense', safety: ['violence'] }, { text: 'bright' }],
   },
   {
+    // A nested path: under a fire line, picking the first entry blocks; a violence line shrinks the
+    // pool so the same roll could land on the plain entry instead.
+    kind: 'table',
+    id: 'a.t.path',
+    entries: [
+      { text: 'a dark path', safety: ['violence'] },
+      { text: 'towards {a.t.omen}' },
+      { text: 'a plain path' },
+    ],
+  },
+  {
     kind: 'generator',
     id: 'a.npc',
     title: 'NPC',
@@ -72,6 +83,7 @@ const docs = [
       look: { table: 'a.t.look' },
       secret: { table: 'a.t.secret' },
       omen: { table: 'a.t.omen' },
+      path: { table: 'a.t.path' },
     },
     display: '{role|cap}, {look}, {a.t.mood}',
   },
@@ -202,6 +214,20 @@ describe('applySafety (M2/R28)', () => {
     const freed = applySafety(lib, card, { context: ctx() });
     const fresh = generate(lib, GEN, { seed: 'GENB-0001', context: ctx() });
     expect(freed.fields.omen).toStrictEqual(fresh.fields.omen);
+  });
+
+  it('adding a line never fills a field blocked at generation, even where a fresh roll would', () => {
+    let n = 0;
+    for (let i = 0; i < 400 && n < 5; i++) {
+      const seed = `GROW${i}`;
+      const card = generate(lib, GEN, { seed, context: ctx(['fire']) });
+      const fresh = generate(lib, GEN, { seed, context: ctx(['fire', 'violence']) });
+      if (!card.fields.path?.blocked || fresh.fields.path?.blocked) continue;
+      const more = applySafety(lib, card, { context: ctx(['fire', 'violence']) });
+      expect(more.fields.path, seed).toStrictEqual(card.fields.path);
+      n++;
+    }
+    expect(n).toBe(5);
   });
 
   it('recomputes veils and the display without touching values', () => {
