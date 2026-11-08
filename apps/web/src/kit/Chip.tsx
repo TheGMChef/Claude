@@ -1,12 +1,10 @@
 import type { ReactNode } from 'react';
 
-export interface ChipProps {
-  children: ReactNode;
-  onRemove?: () => void;
-  removeLabel?: string;
-}
+export type ChipProps = { children: ReactNode } & (
+  { onRemove?: undefined; removeLabel?: undefined } | { onRemove: () => void; removeLabel: string }
+);
 
-export function Chip({ children, onRemove, removeLabel = 'Remove' }: ChipProps) {
+export function Chip({ children, onRemove, removeLabel }: ChipProps) {
   return (
     <span className="chip">
       <span className="chip__text">{children}</span>

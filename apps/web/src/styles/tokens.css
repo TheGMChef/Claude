@@ -10,6 +10,9 @@
   --stamp: #b23a26;
   --dot: rgb(31 27 22 / 0.12);
   --on-highlight: #1f1b16;
+  --card-shadow: rgb(60 45 25 / 0.08);
+  --radius-lg-btn: 18px;
+  --text-note: 14px;
 
   --radius-card: 4px;
   --radius-pill: 999px;
@@ -51,6 +54,7 @@
   --highlight: #e8c25a;
   --stamp: #f08c78;
   --dot: rgb(239 232 219 / 0.1);
+  --card-shadow: transparent;
   color-scheme: dark;
 }
 
@@ -66,6 +70,7 @@
     --highlight: #e8c25a;
     --stamp: #f08c78;
     --dot: rgb(239 232 219 / 0.1);
+    --card-shadow: transparent;
     color-scheme: dark;
   }
 }

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { IconButton } from '../kit';
+import type { IconName } from '../kit';
 import { MODES } from './modes';
 import { useTheme } from './ThemeProvider';
 import type { ThemeChoice } from './theme';
 
 const NEXT: Record<ThemeChoice, ThemeChoice> = { system: 'light', light: 'dark', dark: 'system' };
+const ICON: Record<ThemeChoice, IconName> = { system: 'auto', light: 'sun', dark: 'moon' };
 const WORD: Record<ThemeChoice, string> = { system: 'Auto', light: 'Day', dark: 'Night' };
 
 export function TopBar() {
@@ -48,7 +50,7 @@ export function TopBar() {
       </nav>
       <IconButton
         className="topbar__theme"
-        icon={choice === 'dark' ? 'moon' : 'sun'}
+        icon={ICON[choice]}
         label={`Theme: ${WORD[choice]} — switch to ${WORD[NEXT[choice]]}`}
         onClick={() => setChoice(NEXT[choice])}
       />

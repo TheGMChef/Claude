@@ -31,6 +31,7 @@ const ICONS: IconName[] = [
   'unlock',
   'dice',
   'copy',
+  'auto',
 ];
 
 describe('kit part 1', () => {
@@ -58,6 +59,56 @@ describe('kit part 1', () => {
     expect(screen.getByRole('article')).toHaveStyle({ transform: 'rotate(1deg)' });
   });
 
+  it('Card tilt 0 has no transform; negative tilt clamps', () => {
+    render(
+      <>
+        <Card>flat</Card>
+        <Card tilt={-5}>neg</Card>
+      </>,
+    );
+    const [flat, neg] = screen.getAllByRole('article');
+    expect(flat?.getAttribute('style') ?? '').not.toContain('transform');
+    expect(neg).toHaveStyle({ transform: 'rotate(-1deg)' });
+  });
+
+  it('outline and dashed buttons render exactly one ink outline; solid none', () => {
+    render(
+      <>
+        <Button variant="solid">S</Button>
+        <Button variant="outline">O</Button>
+        <Button variant="dashed">D</Button>
+      </>,
+    );
+    const q = (n: string) =>
+      screen.getByRole('button', { name: n }).querySelectorAll('.ink-outline');
+    expect(q('S')).toHaveLength(0);
+    expect(q('O')).toHaveLength(1);
+    expect(q('O')[0]).not.toHaveClass('ink-outline--dashed');
+    expect(q('D')).toHaveLength(1);
+    expect(q('D')[0]).toHaveClass('ink-outline--dashed');
+  });
+
+  it('Chip without onRemove has no remove button', () => {
+    render(<Chip>Plain</Chip>);
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('struck Highlight announces used state', () => {
+    render(<Highlight struck>word</Highlight>);
+    expect(screen.getByText('(used)')).toBeInTheDocument();
+  });
+
+  it('MarginNote renders arrows', () => {
+    const { container } = render(
+      <>
+        <MarginNote arrow="right">a</MarginNote>
+        <MarginNote arrow="left">b</MarginNote>
+      </>,
+    );
+    expect(container.textContent).toContain('a →');
+    expect(container.textContent).toContain('← b');
+  });
+
   it('Card renders variants and custom element', () => {
     render(
       <Card variant="taped" as="section">
@@ -69,7 +120,7 @@ describe('kit part 1', () => {
 
   it('Highlight struck has class', () => {
     render(<Highlight struck>used</Highlight>);
-    expect(screen.getByText('used')).toHaveClass('hl', 'hl--struck');
+    expect(document.querySelector('mark')).toHaveClass('hl', 'hl--struck');
   });
 
   it('InkOutline is aria-hidden', () => {

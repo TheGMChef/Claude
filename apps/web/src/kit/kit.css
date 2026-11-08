@@ -14,6 +14,11 @@
   pointer-events: none;
 }
 
+.ink-outline--dashed {
+  border-style: dashed;
+  border-width: 1.4px;
+}
+
 /* Card */
 .card {
   position: relative;
@@ -21,17 +26,7 @@
   background: var(--card);
   color: var(--ink);
   border-radius: var(--radius-card);
-  box-shadow: 0 6px 14px rgb(60 45 25 / 0.08);
-}
-
-[data-theme='dark'] .card {
-  box-shadow: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .card {
-    box-shadow: none;
-  }
+  box-shadow: 0 6px 14px var(--card-shadow);
 }
 
 .card--ruled {
@@ -92,20 +87,12 @@
   height: 68px;
   padding: 0 var(--space-7);
   font-size: var(--text-17);
-  border-radius: 18px;
+  border-radius: var(--radius-lg-btn);
 }
 
 .btn--solid {
   background: var(--ink);
   color: var(--card);
-}
-
-.btn--outline {
-  border: 1.4px solid var(--ink);
-}
-
-.btn--dashed {
-  border: 1.4px dashed var(--ink);
 }
 
 .btn:disabled,
@@ -194,6 +181,18 @@
   );
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .hl--struck {
   text-decoration: line-through;
   text-decoration-color: var(--ink);
@@ -203,7 +202,7 @@
 .margin-note {
   display: inline-block;
   font-family: var(--font-hand);
-  font-size: 14px;
+  font-size: var(--text-note);
   color: var(--pencil);
   transform: rotate(-3deg);
 }

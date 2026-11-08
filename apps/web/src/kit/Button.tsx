@@ -17,7 +17,9 @@ export function Button({
   const cls = ['btn', `btn--${variant}`, `btn--${size}`, className].filter(Boolean).join(' ');
   return (
     <button type={type} className={cls} {...rest}>
-      {variant !== 'solid' && <InkOutline radius={size === 'lg' ? 18 : 999} />}
+      {variant !== 'solid' && (
+        <InkOutline radius={size === 'lg' ? 18 : 999} dashed={variant === 'dashed'} />
+      )}
       {children}
     </button>
   );
