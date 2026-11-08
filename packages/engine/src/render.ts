@@ -24,6 +24,8 @@ export type RenderEnv = {
   mode: 'dev' | 'prod';
   /** Already-generated field values: a table slot whose ref is a key, or `{name}` when `name` exists. */
   fields?: Record<string, string>;
+  /** Shared warn de-dup set; envs sharing one set warn once per key across all of them. */
+  warned?: Set<string>;
 };
 
 export type RenderResult = {
@@ -36,11 +38,11 @@ export type RenderResult = {
 
 const MAX_DEPTH = 8;
 
-// One warning set per env, so each missing path/ref warns once per env.
+// One warning set per env (or env.warned when given), so each missing path/ref warns once.
 const warnedByEnv = new WeakMap<RenderEnv, Set<string>>();
 
 function warnOnce(env: RenderEnv, key: string): void {
-  let warned = warnedByEnv.get(env);
+  let warned = env.warned ?? warnedByEnv.get(env);
   if (!warned) {
     warned = new Set();
     warnedByEnv.set(env, warned);

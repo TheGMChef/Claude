@@ -143,4 +143,12 @@ describe('renderTemplate', () => {
   it('resolves name and gen slots through injected resolvers', () => {
     expect(render('{name:family} {gen:g.x.title}').text).toBe('name-family g.x.title');
   });
+
+  it('envs sharing a warned set warn once per key across all of them', () => {
+    const warned = new Set<string>();
+    render('{ctx.nope}', mkEnv({ warned }));
+    render('{ctx.nope}', mkEnv({ warned }));
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warned.has('ctx.nope')).toBe(true);
+  });
 });

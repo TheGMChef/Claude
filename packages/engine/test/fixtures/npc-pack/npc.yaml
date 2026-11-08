@@ -1,0 +1,24 @@
+kind: generator
+id: test.npc
+title: Test NPC
+fields:
+  name: { name: full }
+  role: { table: role }
+  look: { template: '{test.npc.build} build, {test.npc.feature}' }
+  want: { table: want }
+  secret: { table: secret }
+  traits: { pick: { table: trait, count: 2 } }
+  home: { template: '{test.npc.place} in {ctx.settlement.name|or:nowhere}' }
+display: '{name}, {role|a}'
+---
+kind: generator
+id: test.tavern
+title: Test tavern
+fields:
+  sign: { template: 'The {test.tavern.sign}' }
+  keeper: { gen: test.npc }
+  keeper_name: { template: '{gen:test.npc.name}' }
+  keeper_home: { template: '{gen:test.npc.home}' }
+  voice: { culture: voice.summary }
+  tips: { culture: voice.tips }
+display: '{sign}, kept by {keeper}'

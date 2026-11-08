@@ -1,0 +1,60 @@
+{
+  "name": {
+    "value": "Merna Reed",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.culture.marsh"
+    ]
+  },
+  "role": {
+    "value": "tax collector",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.role#33"
+    ]
+  },
+  "look": {
+    "value": "stooped build, bright green eyes",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.build#2",
+      "test.npc.feature#3"
+    ]
+  },
+  "want": {
+    "value": "to stop the rain",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.want#32"
+    ]
+  },
+  "secret": {
+    "value": "duelled the captain",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.secret#25"
+    ]
+  },
+  "traits": {
+    "value": "stubborn; secretive",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.trait#1",
+      "test.npc.trait#17"
+    ]
+  },
+  "home": {
+    "value": "the old mill in nowhere",
+    "locked": false,
+    "nonce": 0,
+    "sources": [
+      "test.npc.place#4"
+    ]
+  }
+}

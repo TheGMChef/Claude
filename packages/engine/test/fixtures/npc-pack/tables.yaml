@@ -1,0 +1,231 @@
+kind: table
+id: test.npc.role
+entries:
+  - { text: innkeeper }
+  - { text: ferryman }
+  - { text: eel-catcher }
+  - { text: reed-cutter }
+  - { text: herbalist }
+  - { text: toll-keeper }
+  - { text: boatwright }
+  - { text: midwife }
+  - { text: netmaker }
+  - { text: lamplighter }
+  - { text: salt-trader }
+  - { text: grave-digger }
+  - { text: fowler }
+  - { text: peat-cutter }
+  - { text: weaver }
+  - { text: cooper }
+  - { text: smith }
+  - { text: priest of the tide }
+  - { text: hedge-witch }
+  - { text: mapmaker }
+  - { text: bargeman }
+  - { text: thatcher }
+  - { text: rat-catcher }
+  - { text: fishwife }
+  - { text: watchman }
+  - { text: tanner }
+  - { text: chandler }
+  - { text: brewer }
+  - { text: miller }
+  - { text: shepherd }
+  - { text: storyteller }
+  - { text: scribe }
+  - { text: healer }
+  - { text: tax collector }
+  - { text: ex-soldier }
+  - { text: orphan runner }
+  - { text: old sailor }
+  - { text: apprentice mage }
+  - { text: wandering tinker }
+  - { text: ice-cutter }
+---
+kind: table
+id: test.npc.build
+entries:
+  - { text: wiry }
+  - { text: heavy }
+  - { text: stooped }
+  - { text: tall }
+  - { text: slight }
+  - { text: broad }
+  - { text: lanky }
+  - { text: compact }
+---
+kind: table
+id: test.npc.feature
+entries:
+  - { text: a missing tooth }
+  - { text: ink-stained fingers }
+  - { text: a burn scar }
+  - { text: bright green eyes }
+  - { text: a braided beard }
+  - { text: a limp }
+  - { text: a hoarse voice }
+  - { text: a tattooed neck }
+---
+kind: table
+id: test.npc.want
+entries:
+  - { text: to pay off a debt }
+  - { text: to find a lost sister }
+  - { text: to leave town quietly }
+  - { text: to win back a lover }
+  - { text: to sell a cursed ring }
+  - { text: to learn to read }
+  - { text: to buy a boat }
+  - { text: to clear their name }
+  - { text: to see the sea once }
+  - { text: to bury a friend properly }
+  - { text: to be left alone }
+  - { text: to open a shop }
+  - { text: to marry well }
+  - { text: to impress a rival }
+  - { text: to recover a stolen ledger }
+  - { text: to find a cure }
+  - { text: to keep a promise }
+  - { text: to break a promise }
+  - { text: to forget something }
+  - { text: to be remembered }
+  - { text: to join the guard }
+  - { text: to quit the guard }
+  - { text: to map the marsh }
+  - { text: to catch the great eel }
+  - { text: to apologise }
+  - { text: to get rich fast }
+  - { text: to protect a secret }
+  - { text: to expose a liar }
+  - { text: to find a teacher }
+  - { text: to sleep through the night }
+  - { text: to repair the old bridge }
+  - { text: to bring rain }
+  - { text: to stop the rain }
+  - { text: to sell their story }
+  - { text: to inherit the mill }
+  - { text: to be forgiven }
+  - { text: to go home }
+  - { text: to start over }
+  - { text: to find the heir }
+  - { text: to get a dog }
+---
+kind: table
+id: test.npc.secret
+entries:
+  - { text: once killed a man in a duel, safety: [violence] }
+  - { text: burned down the old mill, safety: [violence] }
+  - { text: beat a debtor half to death, safety: [violence] }
+  - { text: led a riot last spring, safety: [violence] }
+  - { text: hired a cutthroat, safety: [violence] }
+  - { text: broke a guard's arm, safety: [violence] }
+  - { text: still carries a bloody knife, safety: [violence] }
+  - { text: ambushed a tax wagon, safety: [violence] }
+  - { text: started the tavern brawl, safety: [violence] }
+  - { text: maimed a rival's hand, safety: [violence] }
+  - { text: drowned a thief's horse, safety: [violence] }
+  - { text: poisoned the well once, safety: [violence] }
+  - { text: fought in the pits, safety: [violence] }
+  - { text: whipped an apprentice, safety: [violence] }
+  - { text: shot a deserter, safety: [violence] }
+  - { text: set a mantrap on the path, safety: [violence] }
+  - { text: strangled a watchdog, safety: [violence] }
+  - { text: beat the old priest, safety: [violence] }
+  - { text: threw a man off the bridge, safety: [violence] }
+  - { text: slashed a sail-maker, safety: [violence] }
+  - { text: broke into a house with a club, safety: [violence] }
+  - { text: bloodied the mayor's nose, safety: [violence] }
+  - { text: torched a rival's boat, safety: [violence] }
+  - { text: hunts people for coin, safety: [violence] }
+  - { text: left a man for dead, safety: [violence] }
+  - { text: duelled the captain, safety: [violence] }
+  - { text: stabbed a smuggler, safety: [violence] }
+  - { text: clubbed a bailiff, safety: [violence] }
+  - { text: kicked in the chapel door, safety: [violence] }
+  - { text: ran a gang of leg-breakers, safety: [violence] }
+  - { text: wrecked the toll-house, safety: [violence] }
+  - { text: buried someone in the bog, safety: [violence] }
+  - { text: cut the ferry rope mid-river, safety: [violence] }
+  - { text: fought a bear for money, safety: [violence] }
+  - { text: blinded a cheat, safety: [violence] }
+  - { text: sank a fishing boat, safety: [violence] }
+  - { text: attacked the lamplighter, safety: [violence] }
+  - { text: raided a farm, safety: [violence] }
+  - { text: mutilated a scarecrow-effigy of the lord, safety: [violence] }
+  - { text: deserted after a massacre, safety: [violence] }
+---
+kind: table
+id: test.npc.trait
+entries:
+  - { text: curious }
+  - { text: stubborn }
+  - { text: kind }
+  - { text: greedy }
+  - { text: anxious }
+  - { text: cheerful }
+  - { text: blunt }
+  - { text: sly }
+  - { text: pious }
+  - { text: lazy }
+  - { text: brave }
+  - { text: vain }
+  - { text: patient }
+  - { text: jumpy }
+  - { text: loyal }
+  - { text: bitter }
+  - { text: generous }
+  - { text: secretive }
+  - { text: loud }
+  - { text: gentle }
+---
+kind: table
+id: test.npc.place
+entries:
+  - { text: the eel market }
+  - { text: the north dyke }
+  - { text: a reed hut }
+  - { text: the toll-house }
+  - { text: the old mill }
+  - { text: a houseboat }
+  - { text: the chapel loft }
+  - { text: the salt pans }
+  - { text: the ferry stage }
+  - { text: a stilt house }
+  - { text: the bog road }
+  - { text: the lamp tower }
+  - { text: the fish sheds }
+  - { text: the tannery yard }
+  - { text: the watch house }
+  - { text: a peat barn }
+  - { text: the brewery }
+  - { text: the willow row }
+  - { text: the broken bridge }
+  - { text: the harbour wall }
+  - { text: the cooper's lane }
+  - { text: the weaving hall }
+  - { text: a cellar }
+  - { text: the smithy }
+  - { text: the granary }
+  - { text: the long jetty }
+  - { text: the sluice gate }
+  - { text: the mudflats }
+  - { text: the herb garden }
+  - { text: the graveyard }
+  - { text: the river fork }
+  - { text: the shrine island }
+  - { text: the net lofts }
+  - { text: the muster field }
+  - { text: the counting house }
+  - { text: the dye works }
+  - { text: the lantern street }
+  - { text: the ice house }
+  - { text: the old fort }
+  - { text: the sheep pens }
+---
+kind: table
+id: test.tavern.sign
+entries:
+  - { text: Drowned Lantern }
+  - { text: Laughing Eel }
+  - { text: Low Tide }
+  - { text: Crooked Oar }

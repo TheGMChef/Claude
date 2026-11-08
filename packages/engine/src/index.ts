@@ -17,3 +17,15 @@ export { renderTemplate } from './render';
 export type { Context, RenderEnv, RenderResult } from './render';
 export { generateName, nameWithRng, normalizeName } from './names';
 export type { NameOptions, NameResult } from './names';
+export {
+  BLOCKED_DISPLAY,
+  BLOCKED_VALUE,
+  batch,
+  cardFromShare,
+  cardToShare,
+  generate,
+  reroll,
+  rollTable,
+} from './generate';
+export type { BatchRequest, Card, CardField, GenOptions, RollResult } from './generate';
+export { validateUserPack } from './userPack';

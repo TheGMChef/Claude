@@ -1,0 +1,46 @@
+kind: culture
+id: test.culture.marsh
+name: Marsh-folk
+genre: fantasy
+voice:
+  summary: slow vowels, never says no
+  tips:
+    - Stretch the vowels.
+    - Refuse indirectly.
+names:
+  given:
+    pattern: [start, mid?, end]
+    parts:
+      start: [O, Il, Tam, Wen, Mer, Fen, Bel, Cor, Dun, Har, Lis, Pel]
+      mid: [dr, s, ra, wy, l, th]
+      end: [in, a, sin, row, na, el, is, et, an, on]
+  family:
+    pattern: [start, end]
+    parts:
+      start: [Vey, Mer, Fen, Brack, Sal, Reed, Tarn, Hollin]
+      end: ['', row, wick, by, more]
+  format: '{given} {family}'
+  examples: [Odrin Vey, Ilsa Merrow, Tamsin Fenwick, Wenna Brack]
+  exampleChance: 0.1
+  banned: ['(.)\1\1', '^.{0,2}$', 'aa']
+---
+kind: culture
+id: test.culture.peak
+name: Peak-folk
+genre: fantasy
+voice:
+  summary: clipped consonants, counts everything
+  tips:
+    - Speak in numbers.
+names:
+  given:
+    pattern: [start, end]
+    parts:
+      start: [Kv, Thr, Skr]
+      end: [ag, im, ul, ek, ott, ask]
+  family:
+    pattern: [start]
+    parts:
+      start: [Stonecut, Highcairn, Iceford]
+  format: '{given} {family}'
+  banned: []
