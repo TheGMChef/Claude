@@ -1,6 +1,6 @@
 import { ContentError } from './errors';
 import type { Library } from './library';
-import { createRng, newSeed } from './rng';
+import { createRng, toSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, NameParts } from './schema';
 
@@ -176,7 +176,7 @@ export function generateName(lib: Library, cultureId: string, opts: NameOptions 
   if (!culture) {
     throw new ContentError('missing-source', `culture "${cultureId}" not found`, cultureId, '');
   }
-  const rng = createRng('name', cultureId, opts.seed ?? newSeed());
+  const rng = createRng('name', cultureId, toSeed(opts.seed));
   return nameWithRng(culture, rng, {
     avoidNames: opts.avoidNames ?? [],
     exclude: opts.exclude ?? new Set(),

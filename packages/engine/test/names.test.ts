@@ -48,6 +48,15 @@ describe('generateName', () => {
     );
   });
 
+  it('normalises the seed like the other entry points (M3, R21)', () => {
+    const name = (seed: string) => generateName(lib, marsh.id, { seed }).name;
+    const spellings = ['k7q2-m9xd', 'K7Q2M9XD', ' k7q2 m9xd ', 'K7Q2-M9XD'];
+    for (let i = 0; i < 20; i++) {
+      const variants = spellings.map((s) => name(s.replace(/2/, String(i % 10))));
+      expect(new Set(variants).size).toBe(1);
+    }
+  });
+
   it('throws missing-source for an unknown culture', () => {
     expect(() => generateName(lib, 'nope')).toThrow(ContentError);
   });
