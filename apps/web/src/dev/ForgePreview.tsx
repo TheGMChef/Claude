@@ -310,6 +310,23 @@ export function ForgePreview() {
                 <span data-testid="oracle-meaning">
                   {oracle.meaning[0]} / {oracle.meaning[1]}
                 </span>
+                {oracle.blocked && (
+                  <>
+                    {' '}
+                    <Stamp tone="pencil" rotate={-3}>
+                      BLOCKED
+                    </Stamp>
+                  </>
+                )}
+                {oracle.veiled.length > 0 && (
+                  <>
+                    {' '}
+                    <Stamp tone="pencil" rotate={-3}>
+                      VEILED
+                    </Stamp>{' '}
+                    <span className="forge__muted">{oracle.veiled.join(', ')}</span>
+                  </>
+                )}
               </p>
             )}
           </section>

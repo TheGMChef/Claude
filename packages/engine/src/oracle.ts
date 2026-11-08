@@ -1,4 +1,5 @@
 import { ContentError } from './errors';
+import { BLOCKED_VALUE } from './generate';
 import type { Library } from './library';
 import { renderTemplate } from './render';
 import type { RenderEnv } from './render';
@@ -12,7 +13,12 @@ export type OracleResult = {
   likelihood: Likelihood;
   answer: 'yes' | 'no';
   modifier?: 'and' | 'but';
+  /** A word that safety lines block is BLOCKED_VALUE ('—'). */
   meaning: [string, string];
+  /** True when either meaning word is blocked. */
+  blocked: boolean;
+  /** Veiled safety tags carried by the two words (union, first-seen order). */
+  veiled: string[];
 };
 
 export type MoveCard = { id: string; text: string; prompt: string };
@@ -56,12 +62,18 @@ export function askOracle(
   const { yes, extreme } = oracle.odds[likelihood];
   const outcome = oracleOutcome(roll, yes, extreme);
 
-  const word = (tableId: string, index: number): string => {
+  const veiled: string[] = [];
+  const addVeils = (tags: string[]): void => {
+    for (const t of tags) if (!veiled.includes(t)) veiled.push(t);
+  };
+  // I7: a word that safety lines block (top-level or nested) is BLOCKED_VALUE, never ''.
+  const word = (tableId: string, index: number): { text: string; blocked: boolean } => {
     const table = lib.table(tableId);
     if (!table) missing('table', tableId);
     const rng = createRng(seed, 'meaning', index);
-    const { entry } = selectEntry(table, rng, opts.safety ? { safety: opts.safety } : {});
-    if (!entry) return '';
+    const sel = selectEntry(table, rng, opts.safety ? { safety: opts.safety } : {});
+    if (sel.blocked) return { text: BLOCKED_VALUE, blocked: true };
+    if (!sel.entry) return { text: '', blocked: false };
     const env: RenderEnv = {
       lib,
       ctx: opts.safety ? { safety: opts.safety } : {},
@@ -70,10 +82,23 @@ export function askOracle(
       resolveGen: () => '',
       mode: 'prod',
     };
-    return renderTemplate(entry.ast, env).text;
+    const r = renderTemplate(sel.entry.ast, env);
+    if (r.blocked) return { text: BLOCKED_VALUE, blocked: true };
+    addVeils(sel.veiled);
+    addVeils(r.veiled);
+    return { text: r.text, blocked: false };
   };
 
-  return { roll, likelihood, ...outcome, meaning: [word(idA, 0), word(idB, 1)] };
+  const a = word(idA, 0);
+  const b = word(idB, 1);
+  return {
+    roll,
+    likelihood,
+    ...outcome,
+    meaning: [a.text, b.text],
+    blocked: a.blocked || b.blocked,
+    veiled,
+  };
 }
 
 export function drawMove(

@@ -256,6 +256,32 @@ describe('ForgePreview', () => {
     expect(screen.getByTestId('move-text').textContent).not.toBe('');
   });
 
+  it('oracle: a blocked meaning word shows the marker with BLOCKED and VEILED stamps (I7)', async () => {
+    const { user } = setup();
+    const oracle = screen.getByRole('region', { name: 'Oracle' });
+    vi.mocked(askOracle).mockImplementationOnce((...args) => ({
+      ...vi.mocked(askOracle).getMockImplementation()!(...args),
+      meaning: ['—', 'storm'],
+      blocked: true,
+      veiled: ['fire'],
+    }));
+    await user.click(within(oracle).getByRole('button', { name: 'Ask' }));
+    expect(within(oracle).getByTestId('oracle-meaning')).toHaveTextContent('— / storm');
+    expect(within(oracle).getByText('BLOCKED')).toBeInTheDocument();
+    expect(within(oracle).getByText('VEILED')).toBeInTheDocument();
+    expect(within(oracle).getByText('fire')).toBeInTheDocument();
+  });
+
+  it('oracle: an ordinary answer shows no stamps', async () => {
+    const { user } = setup();
+    const oracle = screen.getByRole('region', { name: 'Oracle' });
+    await user.click(within(oracle).getByRole('button', { name: 'Ask' }));
+    const ans = vi.mocked(askOracle).mock.results.at(-1)?.value as ReturnType<typeof askOracle>;
+    expect(ans).toMatchObject({ blocked: false, veiled: [] });
+    expect(within(oracle).queryByText('BLOCKED')).toBeNull();
+    expect(within(oracle).queryByText('VEILED')).toBeNull();
+  });
+
   it('field rows are a valid list: no <dl> whose rows hold buttons (axe dlitem/definition-list)', async () => {
     const { user } = setup();
     await user.click(screen.getByRole('button', { name: 'New NPC' }));

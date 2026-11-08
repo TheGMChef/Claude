@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { drawMove, askOracle, oracleOutcome } from '../src/oracle';
 import { loadPacks } from '../src/library';
 import { ContentError } from '../src/errors';
+import { BLOCKED_VALUE } from '../src/generate';
+import { parseTemplate } from '../src/template';
 import type { CompiledPack } from '../src/schema';
 
 const lit = (text: string) => [text];
@@ -106,6 +108,73 @@ describe('askOracle', () => {
       expect((e as ContentError).code).toBe('missing-source');
     }
   });
+  describe('safety on meaning words (I7)', () => {
+    const tagged = (id: string, entries: Array<[string, string[]]>) => ({
+      id,
+      title: id,
+      tags: [],
+      entries: entries.map(([text, safety], i) => ({
+        id: `${id}#${i}`,
+        ast: parseTemplate(text),
+        weight: 1,
+        tags: [],
+        safety,
+      })),
+    });
+    const safe = loadPacks([
+      {
+        ...pack,
+        tables: {
+          ...pack.tables,
+          'u.gore': tagged('u.gore', [
+            ['grim', ['gore']],
+            ['grislier', ['gore']],
+          ]),
+          'u.wrap': tagged('u.wrap', [['a {u.gore} omen', []]]),
+          'u.fire': tagged('u.fire', [['ember', ['fire']]]),
+          'u.deep': tagged('u.deep', [['ash and {u.fire}', ['drowning']]]),
+        },
+        oracles: {
+          'u.top': { ...pack.oracles['t.oracle'], id: 'u.top', meaning: ['u.gore', 't.sub'] },
+          'u.nest': { ...pack.oracles['t.oracle'], id: 'u.nest', meaning: ['t.act', 'u.wrap'] },
+          'u.veil': { ...pack.oracles['t.oracle'], id: 'u.veil', meaning: ['u.fire', 'u.deep'] },
+        },
+      } as CompiledPack,
+    ]);
+    const lines = { lines: ['gore'], veils: [] };
+
+    it('a fully lined meaning table gives the blocked marker and blocked: true', () => {
+      for (let i = 0; i < 30; i++) {
+        const r = askOracle(safe, 'u.top', 'even', { seed: `s${i}`, safety: lines });
+        expect(r.meaning[0]).toBe(BLOCKED_VALUE);
+        expect(r.meaning[1]).not.toBe('');
+        expect(r.blocked).toBe(true);
+      }
+    });
+
+    it('a nested slot that lines block blocks its word too', () => {
+      const r = askOracle(safe, 'u.nest', 'even', { seed: 'x', safety: lines });
+      expect(r.meaning).toEqual([expect.not.stringMatching(/^$/), BLOCKED_VALUE]);
+      expect(r.blocked).toBe(true);
+    });
+
+    it('unblocked results report blocked: false and no veils', () => {
+      const r = askOracle(safe, 'u.top', 'even', { seed: 'x' });
+      expect(r.meaning[0]).toMatch(/^gri/);
+      expect(r).toMatchObject({ blocked: false, veiled: [] });
+    });
+
+    it('veiled is the union across both words, top-level and nested entries', () => {
+      const r = askOracle(safe, 'u.veil', 'even', {
+        seed: 'x',
+        safety: { lines: [], veils: ['fire', 'drowning'] },
+      });
+      expect(r.meaning).toEqual(['ember', 'ash and ember']);
+      expect(r.blocked).toBe(false);
+      expect([...r.veiled].sort()).toEqual(['drowning', 'fire']);
+    });
+  });
+
   it('names the real problem when a hand-built oracle lacks two meaning tables (I1)', () => {
     const one = loadPacks([
       {
