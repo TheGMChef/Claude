@@ -32,6 +32,7 @@ const ORACLE = 'fantasy.oracle';
 const DECK = 'core.gm-moves';
 const BAD_CODE = "That code doesn't look right. Check it and try again.";
 const COPY_FAILED = "Couldn't copy — select the code instead.";
+const LOOSENED_NOTE = 'Loosened: nothing matched every setting, so a filter was relaxed here.';
 
 const CULTURES = [
   { id: 'fantasy.culture.marsh', label: 'Marsh-folk' },
@@ -83,6 +84,14 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
                 <Stamp tone="pencil" rotate={-3}>
                   BLOCKED
                 </Stamp>
+              )}
+              {f.relaxed && !f.blocked && (
+                <>
+                  <Stamp tone="pencil" rotate={-3}>
+                    LOOSENED
+                  </Stamp>
+                  <span className="forge__sr"> {LOOSENED_NOTE}</span>
+                </>
               )}
             </div>
             <IconButton

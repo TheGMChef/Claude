@@ -210,6 +210,33 @@ describe('safety', () => {
   });
 });
 
+describe('relaxed per field (R14)', () => {
+  const loose = { ...marsh, tags: { require: ['no-such-tag'] } };
+
+  it('marks each field whose selection was relaxed, and only those', () => {
+    const card = generate(lib, 'test.npc', { seed: SEED, context: loose });
+    for (const f of ['role', 'look', 'want', 'secret', 'traits', 'home']) {
+      expect(card.fields[f]?.relaxed, f).toBe(true);
+    }
+    expect(Object.hasOwn(card.fields.name ?? {}, 'relaxed')).toBe(false);
+    expect(card.flags.relaxed).toBe(true);
+
+    const plain = generate(lib, 'test.npc', { seed: SEED, context: marsh });
+    for (const f of Object.values(plain.fields)) expect(Object.hasOwn(f, 'relaxed')).toBe(false);
+    expect(plain.flags.relaxed).toBe(false);
+  });
+
+  it('a locked field keeps its own relaxed mark; flags.relaxed follows the fields', () => {
+    const card = generate(lib, 'test.npc', { seed: SEED, context: loose });
+    const next = reroll(lib, card, { locks: ['role'], context: marsh });
+    expect(next.fields.role).toMatchObject({ value: card.fields.role?.value, relaxed: true });
+    expect(Object.hasOwn(next.fields.want ?? {}, 'relaxed')).toBe(false);
+    expect(next.flags.relaxed).toBe(true);
+    const unlocked = reroll(lib, next, { locks: [], context: marsh });
+    expect(unlocked.flags.relaxed).toBe(false);
+  });
+});
+
 describe('rollTable', () => {
   it('rolls one entry deterministically with provenance', () => {
     const a = rollTable(lib, 'test.npc.role', { seed: SEED });

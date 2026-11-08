@@ -16,6 +16,9 @@ export type CardField = {
   nonce: number;
   sources: string[];
   blocked?: boolean;
+  /** Present (true) when selection had to loosen a filter (prefer/require/exclude/genre, or the
+   * name guard) to fill this field. */
+  relaxed?: boolean;
 };
 
 /** JSON-serialisable copy of a Context (the campaign hook is dropped), stored on a card. */
@@ -360,7 +363,7 @@ function assemble(
     const r = genField(state, depth, src, createRng(seed, name, p.nonce), ctx);
     let field: CardField;
     if (p.keep) {
-      // Locked: value, sources and nonce stay exactly; the regeneration only recovers `relaxed`.
+      // Locked: value, sources, nonce and relaxed mark stay exactly.
       // R22: safety beats locks, so kept content now behind a line is blocked.
       field = { ...p.keep, locked: true };
       if (safetyOf(state.lib, p.keep.sources, ctx.safety?.lines ?? []).length > 0) {
@@ -375,8 +378,9 @@ function assemble(
         sources: r.sources,
       };
       if (r.blocked) field.blocked = true;
+      else if (r.relaxed) field.relaxed = true;
     }
-    relaxed ||= r.relaxed;
+    relaxed ||= field.relaxed === true;
     if (!field.blocked) safetyOf(state.lib, field.sources, veilsOf(ctx), veiled);
     fields[name] = field;
     values[name] = field.value;

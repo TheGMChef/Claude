@@ -16,6 +16,7 @@ vi.mock('@prepdesk/engine', async (importOriginal) => {
     newSeed: vi.fn(() => `0000-${String(++seedCounter).padStart(4, '0')}`),
     askOracle: vi.fn(actual.askOracle),
     batch: vi.fn(actual.batch),
+    generate: vi.fn(actual.generate),
   };
 });
 
@@ -297,6 +298,20 @@ describe('ForgePreview', () => {
     expect(ans).toMatchObject({ blocked: false, veiled: [] });
     expect(within(oracle).queryByText('BLOCKED')).toBeNull();
     expect(within(oracle).queryByText('VEILED')).toBeNull();
+  });
+
+  it('stamps LOOSENED on a field whose selection was relaxed, with a spoken explanation (R14)', async () => {
+    const { user } = setup();
+    const real = vi.mocked(generate).getMockImplementation()!;
+    vi.mocked(generate).mockImplementationOnce((...args) => {
+      const card = real(...args);
+      return { ...card, fields: { ...card.fields, role: { ...card.fields.role!, relaxed: true } } };
+    });
+    await user.click(screen.getByRole('button', { name: 'Create NPC' }));
+    const role = screen.getByRole('group', { name: 'role' });
+    expect(within(role).getByText('LOOSENED')).toBeInTheDocument();
+    expect(role).toHaveTextContent(/nothing matched every setting/);
+    expect(screen.getAllByText('LOOSENED')).toHaveLength(1);
   });
 
   it('field rows are a valid list: no <dl> whose rows hold buttons (axe dlitem/definition-list)', async () => {
