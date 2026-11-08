@@ -324,3 +324,32 @@ describe('safety beats locks (R22)', () => {
     expect(veiled.flags.veiled).toEqual(['violence']);
   });
 });
+
+describe('card ids without crypto.randomUUID (M4: http LAN origins are not secure contexts)', () => {
+  const V4 = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+  const real = globalThis.crypto;
+
+  beforeEach(() => {
+    // Insecure context: getRandomValues exists, randomUUID does not.
+    vi.stubGlobal('crypto', {
+      getRandomValues: (a: Uint8Array) => real.getRandomValues(a),
+    });
+  });
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('generate, reroll and cardFromShare work and give RFC 4122 v4 ids', () => {
+    const card = generate(lib, 'test.npc', { seed: 'M4M4-0001', context: marsh });
+    const again = reroll(lib, card, { locks: ['name'] });
+    const shared = cardFromShare(lib, 'test.npc', cardToShare(lib, card), marsh);
+    if (!shared.ok) throw new Error('share failed');
+    for (const id of [card.id, again.id, shared.card.id]) expect(id).toMatch(V4);
+    expect(again.id).toBe(card.id);
+    expect(shared.card.id).not.toBe(card.id);
+    const ids = new Set(
+      Array.from({ length: 200 }, () => generate(lib, 'test.npc', { context: marsh }).id),
+    );
+    expect(ids.size).toBe(200);
+  });
+});

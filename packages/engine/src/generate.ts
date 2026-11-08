@@ -4,13 +4,11 @@ import { nameWithRng, normalizeName } from './names';
 import type { NameResult } from './names';
 import { renderTemplate } from './render';
 import type { Context, RenderEnv } from './render';
-import { CROCKFORD, createRng, toSeed } from './rng';
+import { CROCKFORD, createRng, randomId, toSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, CompiledGenerator, FieldSource } from './schema';
 import { selectEntry } from './select';
 import { decodeShare, encodeShare } from './share';
-
-declare const crypto: { randomUUID(): string };
 
 export type CardField = {
   value: string;
@@ -422,7 +420,7 @@ function cardWith(
 ): Card {
   const resolved = resolveContext(lib, ctx, seed);
   const built = assemble(state, 0, gen, seed, resolved, freshPlan(gen));
-  return toCard(lib, crypto.randomUUID(), gen, seed, resolved, built);
+  return toCard(lib, randomId(), gen, seed, resolved, built);
 }
 
 export function generate(lib: Library, generatorId: string, opts: GenOptions = {}): Card {
@@ -483,7 +481,7 @@ export function cardFromShare(
   );
   const ctx = resolveContext(lib, context, seed);
   const built = assemble(newState(lib, ctx, false), 0, gen, seed, ctx, plan);
-  return { ok: true, card: toCard(lib, crypto.randomUUID(), gen, seed, ctx, built) };
+  return { ok: true, card: toCard(lib, randomId(), gen, seed, ctx, built) };
 }
 
 function rollWith(state: State, tableId: string, rng: Rng, ctx: Context): RollResult {
