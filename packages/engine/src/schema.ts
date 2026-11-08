@@ -110,7 +110,7 @@ export const SituationSrc = z.strictObject({
   kind: z.literal('situation'),
   id: z.string().min(1),
   title: z.string().min(1),
-  summary: z.string(),
+  summary: z.string().min(1),
   weight: Weight.optional(),
   tags: Tags,
   safety: z.array(z.string()).default([]),

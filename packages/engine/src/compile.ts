@@ -104,6 +104,12 @@ export function compileDocs(
       fail('duplicate-id', `duplicate ${d.kind} id "${d.id}"`, file);
       continue;
     }
+    // A situation id and a table id share one namespace in the Library, so they may not meet.
+    const other = d.kind === 'table' ? 'situation' : d.kind === 'situation' ? 'table' : null;
+    if (other !== null && seen.has(`${other}:${d.id}`)) {
+      fail('duplicate-id', `${d.kind} id "${d.id}" is also defined as a ${other}`, file);
+      continue;
+    }
     if (d.kind === 'situation') {
       if (!d.id.startsWith(`${packId}.situation.`)) {
         fail(
@@ -116,9 +122,13 @@ export function compileDocs(
       // The situation owns six facet tables; the first one also claims the pack's index table.
       const derived = FACETS.map((f) => facetTableId(d.id, f));
       if (situations.length === 0) derived.push(indexId);
-      const clash = derived.find((id) => seen.has(`table:${id}`));
+      const clash = derived.find((id) => seen.has(`table:${id}`) || seen.has(`situation:${id}`));
       if (clash !== undefined) {
-        fail('duplicate-id', `situation "${d.id}" would define table "${clash}" twice`, file);
+        fail(
+          'duplicate-id',
+          `situation "${d.id}" would define table "${clash}", which is already defined`,
+          file,
+        );
         continue;
       }
     }
@@ -213,7 +223,8 @@ export function compileDocs(
 
   // Where lint should point for the entries of derived tables (facet entries, index entries).
   const derivedPath = new Map<string, (i: number) => string>();
-  const indexSituations: SituationSource[] = [];
+  // Contract for the generator layer: facet entries do NOT inherit the situation's `safety`. Only
+  // the index entry carries it; authors tag facet entries themselves.
   for (const st of situations) {
     const base = fileOf('situation', st.id);
     const tags = st.tags ?? [];
@@ -245,14 +256,13 @@ export function compileDocs(
     };
     if (manifest.genre !== undefined) compiled.genre = manifest.genre;
     out.situations[st.id] = compiled;
-    indexSituations.push(st);
   }
-  if (indexSituations.length > 0) {
+  if (situations.length > 0) {
     out.tables[indexId] = {
       id: indexId,
       title: 'Situations',
       tags: [],
-      entries: indexSituations.map((st, i) => ({
+      entries: situations.map((st, i) => ({
         id: `${indexId}#${i}`,
         ast: [st.title],
         weight: st.weight ?? 1,
@@ -261,9 +271,7 @@ export function compileDocs(
         ref: st.id,
       })),
     };
-    derivedPath.set(indexId, (i) =>
-      fileOf('situation', (indexSituations[i] as SituationSource).id),
-    );
+    derivedPath.set(indexId, (i) => fileOf('situation', (situations[i] as SituationSource).id));
   }
 
   for (const c of cultures) {
