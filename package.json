@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx,.cjs,.mjs && prettier --check .",
-    "typecheck": "pnpm -r --if-present run typecheck",
+    "typecheck": "pnpm content:build && pnpm -r --if-present run typecheck",
     "test": "vitest run",
     "content:build": "for d in packages/content-*; do [ -d \"$d\" ] || continue; tsx tools/content-cli/src/cli.ts build \"$d\" || exit 1; done",
     "content:lint": "for d in packages/content-*; do [ -d \"$d\" ] || continue; tsx tools/content-cli/src/cli.ts lint \"$d\" || exit 1; done",

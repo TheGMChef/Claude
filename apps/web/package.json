@@ -9,7 +9,7 @@
     "build": "tsc --noEmit && vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "build:e2e": "tsc --noEmit && vite build --mode e2e",
+    "build:e2e": "pnpm --workspace-root content:build && tsc --noEmit && vite build --mode e2e",
     "e2e": "playwright test"
   },
   "dependencies": {

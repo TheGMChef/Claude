@@ -22,7 +22,7 @@ tools/content-cli/      thin file reader over the engine's compile and lint
 
 ```
 pnpm lint            eslint + prettier --check
-pnpm typecheck       all packages
+pnpm typecheck       content:build, then typecheck all packages
 pnpm test            vitest, all packages (engine globalSetup rebuilds content packs)
 pnpm content:lint    lint every content pack
 pnpm content:build   compile packs to dist/ (gitignored)
