@@ -63,8 +63,8 @@ describe('selectEntry', () => {
     const base = (tally(tbl('sel.t.tags'), {}).get('sel.t.tags#1') ?? 0) / N;
     const pref =
       (tally(tbl('sel.t.tags'), { tags: { prefer: ['family'] } }).get('sel.t.tags#1') ?? 0) / N;
-    expect(base).toBeCloseTo(0.25, 1);
-    expect(pref).toBeCloseTo(0.5, 1); // 3/(3+1+1+1)
+    expect(Math.abs(base - 0.25)).toBeLessThan(0.02);
+    expect(Math.abs(pref - 0.5)).toBeLessThan(0.02); // 3/(3+1+1+1)
     const r = selectEntry(tbl('sel.t.tags'), createRng('p'), { tags: { prefer: ['family'] } });
     expect(r.relaxed).toBe(false);
   });
@@ -74,7 +74,7 @@ describe('selectEntry', () => {
       (tally(tbl('sel.t.tags'), { tags: { prefer: ['family', 'urban'] } }).get('sel.t.tags#1') ??
         0) / N;
     // urban entries (0,1,3) weigh 3 each, rural 1: 3/10
-    expect(pref).toBeCloseTo(0.3, 1);
+    expect(Math.abs(pref - 0.3)).toBeLessThan(0.02);
   });
 
   it('relaxes an unsatisfiable require', () => {
@@ -166,6 +166,58 @@ describe('selectEntry', () => {
       safety: { lines: ['violence'], veils: [] },
     });
     expect(r).toEqual({ entry: null, blocked: false, relaxed: false, veiled: [] });
+  });
+});
+
+describe('selectEntry genre and relaxation order', () => {
+  const scifi: CompiledTable = {
+    id: 'sel.t.scifi',
+    tags: [],
+    entries: [
+      { id: 'sel.t.scifi#0', ast: ['a'], weight: 1, tags: ['scifi'], safety: [] },
+      { id: 'sel.t.scifi#1', ast: ['b'], weight: 1, tags: ['scifi'], safety: ['violence'] },
+    ],
+  };
+
+  it('relaxes genre last when it alone empties the pool', () => {
+    const r = selectEntry(scifi, createRng('g'), { genre: 'fantasy' });
+    expect(r.entry).not.toBeNull();
+    expect(r.relaxed).toBe(true);
+    expect(r.blocked).toBe(false);
+  });
+
+  it('genre relaxation still honours lines', () => {
+    const rng = createRng('g2');
+    for (let i = 0; i < 200; i++) {
+      const r = selectEntry(scifi, rng, {
+        genre: 'fantasy',
+        safety: { lines: ['violence'], veils: [] },
+      });
+      expect(r.entry?.id).toBe('sel.t.scifi#0');
+    }
+  });
+
+  it('blocked when lines exclude every entry, regardless of genre', () => {
+    const all: CompiledTable = {
+      ...scifi,
+      entries: scifi.entries.map((e) => ({ ...e, safety: ['violence'] })),
+    };
+    const b = selectEntry(all, createRng('g3'), {
+      genre: 'fantasy',
+      safety: { lines: ['violence'], veils: [] },
+    });
+    expect(b).toEqual({ entry: null, blocked: true, relaxed: false, veiled: [] });
+  });
+
+  it('relaxes require before exclude: exclude holds over 1,000 picks', () => {
+    const rng = createRng('order');
+    for (let i = 0; i < 1000; i++) {
+      const r = selectEntry(tbl('sel.t.tags'), rng, {
+        tags: { require: ['nonexistent'], exclude: ['debt'] },
+      });
+      expect(r.relaxed).toBe(true);
+      expect(r.entry?.id).not.toBe('sel.t.tags#0');
+    }
   });
 });
 

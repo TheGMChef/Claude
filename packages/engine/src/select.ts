@@ -33,32 +33,35 @@ export function selectEntry(
   if (table.entries.length === 0) return none(false);
 
   const { genre } = opts;
-  const genred = genre
-    ? table.entries.filter((e) => !e.tags.some((t) => t !== genre && KNOWN_GENRES.includes(t)))
-    : table.entries;
+  const genreOk = (e: CompiledEntry): boolean =>
+    !genre || !e.tags.some((t) => t !== genre && KNOWN_GENRES.includes(t));
 
-  // Safety lines are applied to every candidate pool and are never relaxed.
+  // Safety lines are applied at every stage and are never relaxed. blocked only when lines
+  // exclude every entry of a non-empty table.
   const lines = opts.safety?.lines ?? [];
-  const safe = (e: CompiledEntry): boolean => !e.safety.some((s) => lines.includes(s));
-  if (!genred.some(safe)) return none(true);
+  const safeEntries = table.entries.filter((e) => !e.safety.some((s) => lines.includes(s)));
+  if (safeEntries.length === 0) return none(true);
 
   const require = opts.tags?.require ?? [];
   const exclude = opts.tags?.exclude ?? [];
   const prefer = opts.tags?.prefer ?? [];
 
-  const pool = (req: string[], exc: string[]): CompiledEntry[] =>
-    genred.filter(
+  const pool = (req: string[], exc: string[], useGenre: boolean): CompiledEntry[] =>
+    safeEntries.filter(
       (e) =>
-        safe(e) && req.every((t) => e.tags.includes(t)) && !exc.some((t) => e.tags.includes(t)),
+        (!useGenre || genreOk(e)) &&
+        req.every((t) => e.tags.includes(t)) &&
+        !exc.some((t) => e.tags.includes(t)),
     );
 
-  // Relaxation order: drop prefer (never affects the pool), then require, then exclude.
+  // Relaxation order (R14): prefer (never affects the pool), then require, then exclude, then genre.
   let relaxed = false;
-  let candidates = pool(require, exclude);
+  let candidates = pool(require, exclude, true);
   if (candidates.length === 0) {
     relaxed = true;
-    candidates = pool([], exclude);
-    if (candidates.length === 0) candidates = pool([], []);
+    candidates = pool([], exclude, true);
+    if (candidates.length === 0) candidates = pool([], [], true);
+    if (candidates.length === 0) candidates = pool([], [], false);
   }
   if (candidates.length === 0) return none(true);
 
