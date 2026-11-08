@@ -80,7 +80,7 @@ describe('schemas', () => {
         kind: 'oracle',
         id: 'a.oracle',
         odds: { certain: o, likely: o, even: o, unlikely: o, remote: o },
-        meaning: ['a.b.c'],
+        meaning: ['a.b.c', 'a.b.d'],
       }).success,
     ).toBe(true);
     expect(

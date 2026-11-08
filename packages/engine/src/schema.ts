@@ -82,20 +82,22 @@ export const OracleSrc = z.strictObject({
     unlikely: OddsSrc,
     remote: OddsSrc,
   }),
-  meaning: z.array(z.string()),
+  meaning: z.array(z.string()).length(2, { message: 'an oracle needs exactly 2 meaning tables' }),
 });
 
 export const DeckSrc = z.strictObject({
   kind: z.literal('deck'),
   id: z.string().min(1),
   title: z.string(),
-  cards: z.array(
-    z.strictObject({
-      id: z.string().min(1),
-      text: z.string(),
-      prompt: z.string().optional(),
-    }),
-  ),
+  cards: z
+    .array(
+      z.strictObject({
+        id: z.string().min(1),
+        text: z.string(),
+        prompt: z.string().optional(),
+      }),
+    )
+    .min(1, { message: 'a deck needs at least 1 card' }),
 });
 
 export const VocabularySrc = z.strictObject({

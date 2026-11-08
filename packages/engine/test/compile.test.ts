@@ -195,7 +195,7 @@ describe('compileDocs', () => {
         kind: 'oracle',
         id: 'fantasy.oracle',
         odds: { certain: odds, likely: odds, even: odds, unlikely: odds, remote: odds },
-        meaning: ['fantasy.meaning.action'],
+        meaning: ['fantasy.meaning.action', 'meaning.action'],
       }),
       doc('m.yaml', { kind: 'table', id: 'fantasy.meaning.action', entries: [{ text: 'x' }] }),
       doc('k.yaml', {
@@ -206,7 +206,10 @@ describe('compileDocs', () => {
       }),
     ]);
     expect(errors).toEqual([]);
-    expect(pack.oracles['fantasy.oracle']?.meaning).toEqual(['fantasy.meaning.action']);
+    expect(pack.oracles['fantasy.oracle']?.meaning).toEqual([
+      'fantasy.meaning.action',
+      'fantasy.meaning.action',
+    ]);
     expect(pack.decks['fantasy.moves']?.cards).toEqual([{ id: 'one', text: 'One' }]);
   });
 

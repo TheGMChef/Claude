@@ -46,7 +46,10 @@ export function askOracle(
   const oracle = lib.oracle(oracleId);
   if (!oracle) missing('oracle', oracleId);
   const [idA, idB] = oracle.meaning;
-  if (idA === undefined || idB === undefined) missing('meaning table', oracleId);
+  if (idA === undefined || idB === undefined) {
+    const message = `oracle "${oracleId}" needs exactly 2 meaning tables`;
+    throw new ContentError('missing-source', message, oracleId, '');
+  }
   const seed = toSeed(opts.seed);
 
   const roll = createRng(seed, 'oracle', oracleId).int(100) + 1;

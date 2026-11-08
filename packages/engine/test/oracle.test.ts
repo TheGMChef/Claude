@@ -106,6 +106,17 @@ describe('askOracle', () => {
       expect((e as ContentError).code).toBe('missing-source');
     }
   });
+  it('names the real problem when a hand-built oracle lacks two meaning tables (I1)', () => {
+    const one = loadPacks([
+      {
+        ...pack,
+        oracles: { 't.one': { ...pack.oracles['t.oracle'], id: 't.one', meaning: ['t.act'] } },
+      } as CompiledPack,
+    ]);
+    expect(() => askOracle(one, 't.one', 'even', { seed: 'x' })).toThrow(
+      'oracle "t.one" needs exactly 2 meaning tables',
+    );
+  });
 });
 
 describe('drawMove', () => {
