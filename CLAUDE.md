@@ -26,6 +26,7 @@ Node 22 (`.nvmrc`; CI uses it too).
 pnpm lint            eslint + prettier --check
 pnpm typecheck       content:build, then typecheck all packages
 pnpm test            vitest, all packages (engine globalSetup rebuilds content packs)
+pnpm test:coverage   engine coverage, threshold 90% (CI runs it too)
 pnpm content:lint    lint every content pack
 pnpm content:build   compile packs to dist/ (gitignored)
 pnpm build           content:build, then build the web app
