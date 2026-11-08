@@ -2,7 +2,7 @@ kind: deck
 id: core.gm-moves
 title: GM moves
 cards:
-  - id: tick-the-threat
+  - id: threat-steps-closer
     text: Move a threat one step closer
     prompt: What changed while nobody was watching?
   - id: name-the-price

@@ -42,12 +42,13 @@ the right to license that way.
 
 Groups use lines (never show this) and veils (show it, but fade to black). These only work if
 **every entry that touches a topic carries its safety tag**, including mild or indirect mentions.
-When unsure, tag it. A missing tag can put something in front of a player who asked not to see
+When unsure, tag it. One borderline call: gambling, wagers and card games
+are untagged, but compulsion ("can't stop betting") is `addiction`. A missing tag can put something in front of a player who asked not to see
 it. An extra tag only makes an entry a little rarer.
 
 | Entry                                                        | Safety tags      | Why                                    |
 | ------------------------------------------------------------ | ---------------- | -------------------------------------- |
-| gravedigger                                                  | `death`          | the job is about death                 |
+| gravedigger who talks to the newly buried                    | `death`          | the job is about death                 |
 | a prayer cord wound around one wrist                         | `religion`       | a faith detail, however small          |
 | someone else to take the blame for the granary fire          | `fire`           | the hook is a fire                     |
 | watch sergeant near the end of a long shift                  | `police`         | town watch counts as police            |

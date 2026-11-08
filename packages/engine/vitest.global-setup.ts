@@ -16,7 +16,8 @@ export default function setup(): void {
     try {
       execFileSync(tsx, [cli, 'build', dir], { cwd: root, stdio: 'pipe' });
     } catch (e) {
-      const out = (e as { stdout?: Buffer }).stdout?.toString() ?? '';
+      const { stdout, stderr } = e as { stdout?: Buffer; stderr?: Buffer };
+      const out = [stdout?.toString(), stderr?.toString()].filter(Boolean).join('\n');
       throw new Error(`content build failed for ${name}:\n${out}`);
     }
   }

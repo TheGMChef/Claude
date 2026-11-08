@@ -23,20 +23,20 @@ entries:
   - text: shrine-keeper with more keys than visitors
     tags: [faith]
     safety: [religion]
-  - text: salt merchant
+  - text: salt merchant who tastes every sack before buying
     tags: [coastal, trade]
   - text: hedge-witch who sells charms by the dozen
     tags: [rural, magic]
   - text: court scribe in quiet disgrace
     tags: [noble]
-  - text: gravedigger
+  - text: gravedigger who talks to the newly buried
     tags: [rural]
     safety: [death]
   - text: smuggler who passes for a fisher
     tags: [coastal, crime]
   - text: stablehand at a coaching inn
     tags: [rural]
-  - text: tax assessor
+  - text: tax assessor in their first week, already hated
     tags: [urban, debt]
   - text: town crier with a cold
     tags: [urban]
@@ -45,6 +45,6 @@ entries:
   - text: watch sergeant near the end of a long shift
     tags: [urban]
     safety: [police]
-  - text: midwife
+  - text: midwife who has delivered half the village
     tags: [rural, family]
     safety: [pregnancy]

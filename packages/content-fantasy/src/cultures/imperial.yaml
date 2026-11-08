@@ -57,4 +57,17 @@ names:
   exampleChance: 0.25
   # Keep imperial names polished: no harsh clusters or doubled vowels.
   banned:
-    ['(.)\1\1', '^.{0,2}$', '[aeiou]{3}', 'aa', 'ii', 'uu', 'ae', 'kk', '[wqx]', '(\w{2,3})\1']
+    [
+      '(.)\1\1',
+      '^.{0,2}$',
+      '[aeiou]{3}',
+      'aa',
+      'ii',
+      'uu',
+      'ae',
+      'kk',
+      '[wqx]',
+      '(\w{2,3})\1',
+      '^(\w{3})\w*\s+\1',
+      '(\w{3})\s+\w*\1$',
+    ]
