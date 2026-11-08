@@ -218,7 +218,7 @@ kind: deck
 id: core.gm-moves
 title: GM moves
 cards:
-  - id: reveal-unwelcome-truth
+  - id: quiet-promise-comes-due
     text: Let a quiet promise come due
     prompt: What do they learn that they really didn't want to know?
 ```
