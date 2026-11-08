@@ -13,3 +13,5 @@ export { loadPacks } from './library';
 export type { Library } from './library';
 export { selectEntry } from './select';
 export type { TagFilter, Selection } from './select';
+export { renderTemplate } from './render';
+export type { Context, RenderEnv, RenderResult } from './render';
