@@ -113,4 +113,11 @@ describe('kit part 2', () => {
     const css = readFileSync(resolve(__dirname, '../../styles/tokens.css'), 'utf8');
     expect(css).toMatch(/:root,\s*\[data-theme='light'\]\s*\{/);
   });
+
+  it('stamp text is never faded with opacity (it dropped below 4.5:1 contrast)', () => {
+    const css = readFileSync(resolve(__dirname, '../kit.css'), 'utf8');
+    const rule = /\n\.stamp\s*\{([^}]*)\}/.exec(css)?.[1] ?? '';
+    expect(rule).toContain('border:');
+    expect(rule).not.toMatch(/opacity/);
+  });
 });
