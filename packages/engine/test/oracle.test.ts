@@ -63,7 +63,7 @@ describe('oracleOutcome', () => {
     [51, 'no', 'but'],
     [55, 'no', 'but'],
     [56, 'no', undefined],
-    [92, 'no', 'and'],
+    [92, 'no', undefined],
     [93, 'no', 'and'],
     [100, 'no', 'and'],
   ];

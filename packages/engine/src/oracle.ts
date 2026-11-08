@@ -24,9 +24,8 @@ function missing(kind: string, id: string): never {
 
 /**
  * Spec §4.5: `and` (extreme result) wins over `but` (a near miss of the yes threshold).
- * The brief's boundary table (92 is `no and`; 88 at yes=90/extreme=15 is `yes but`) is only
- * satisfied when the low extreme applies to yes answers and the high extreme (roll >= 100 -
- * extreme) to no answers, so extremes are gated on the answer.
+ * R24: extremes are gated on the answer and symmetric: yes+and iff roll <= extreme, no+and iff
+ * roll > 100 - extreme (extreme rolls at each end). So 88 at yes=90/extreme=15 is `yes but`.
  */
 export function oracleOutcome(
   roll: number,
@@ -34,8 +33,7 @@ export function oracleOutcome(
   extreme: number,
 ): Pick<OracleResult, 'answer' | 'modifier'> {
   const answer = roll <= yes ? 'yes' : 'no';
-  if (answer === 'yes' ? roll <= extreme : roll >= 100 - extreme)
-    return { answer, modifier: 'and' };
+  if (answer === 'yes' ? roll <= extreme : roll > 100 - extreme) return { answer, modifier: 'and' };
   if (Math.abs(roll - yes) <= 5) return { answer, modifier: 'but' };
   return { answer };
 }
