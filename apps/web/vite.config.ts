@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url';
-import { defineConfig } from 'vitest/config';
+import { configDefaults, defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -38,7 +38,7 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     // Playwright specs live in e2e/ and run under `pnpm e2e`.
-    exclude: ['e2e/**', 'node_modules/**', 'dist/**'],
+    exclude: [...configDefaults.exclude, 'e2e/**'],
     // R25: compile the content packs (dist/*.json) before any test imports them.
     globalSetup: ['../../packages/engine/vitest.global-setup.ts'],
     setupFiles: ['./src/test-setup.ts'],

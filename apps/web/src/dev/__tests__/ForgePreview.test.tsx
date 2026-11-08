@@ -262,5 +262,8 @@ describe('ForgePreview', () => {
     const article = screen.getByRole('article');
     expect(article.querySelector('dl, dt, dd')).toBeNull();
     expect(within(article).getAllByRole('listitem')).toHaveLength(FIELDS.length);
+    expect(within(article).getByRole('group', { name: 'role' })).toHaveTextContent(
+      valueOf('role') ?? '',
+    );
   });
 });

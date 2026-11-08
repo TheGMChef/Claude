@@ -20,6 +20,8 @@ tools/content-cli/      thin file reader over the engine's compile and lint
 
 ## Commands
 
+Node 22 (`.nvmrc`; CI uses it too).
+
 ```
 pnpm lint            eslint + prettier --check
 pnpm typecheck       content:build, then typecheck all packages

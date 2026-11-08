@@ -29,12 +29,26 @@ test('works offline after the first load', async ({ page, context }) => {
   await expect(page.getByText('Update ready')).toHaveCount(0);
 
   await context.setOffline(true);
-  await page.reload();
+  const reloaded = await page.reload();
+  expect(reloaded?.fromServiceWorker()).toBe(true);
   await expect(page.getByText('Prep Desk').first()).toBeVisible();
 
   await page.goto('/table');
   await expect(page.getByRole('heading', { level: 1, name: 'Table' })).toBeVisible();
-  await expect.poll(() => page.evaluate((f) => document.fonts.check(f), FONT)).toBe(true);
+  // fonts.check() is also true for an undeclared family, so require a real, loaded FontFace.
+  await expect
+    .poll(() =>
+      page.evaluate(async (f) => {
+        const loaded = await document.fonts.load(f);
+        return {
+          check: document.fonts.check(f),
+          faces: loaded
+            .filter((x) => x.family.includes('Instrument Sans Variable'))
+            .map((x) => x.status),
+        };
+      }, FONT),
+    )
+    .toEqual({ check: true, faces: expect.arrayContaining(['loaded']) });
   await expect(page.getByText('Update ready')).toHaveCount(0);
 
   // Client-side navigation between modes keeps working offline.

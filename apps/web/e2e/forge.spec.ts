@@ -5,18 +5,15 @@ import type { Page } from '@playwright/test';
 // A fixed seed whose marsh-culture NPC "role" entry carries the `religion` safety tag (found by
 // scanning probe seeds with the engine; content is fixed, so it stays valid until that table changes).
 const RELIGION_SEED = 'YSFV-53MC';
+// NB: share codes don't carry the culture (R27), so this seed assumes the page's first culture tab
+// (Marsh-folk), which is what /forge-preview selects on load.
 
 const FIELDS = ['name', 'role', 'look', 'want', 'secret', 'voice', 'tell'];
 const snapshot = (page: Page) =>
   Promise.all(FIELDS.map((f) => page.getByTestId(`field-value-${f}`).innerText()));
 const shareCode = (page: Page) => page.getByTestId('share-code').innerText();
 
-test('lock -> reroll -> copy -> paste -> identical card', async ({
-  page,
-  context,
-  browserName,
-}) => {
-  test.skip(browserName !== 'chromium', 'clipboard permissions are Chromium-only');
+test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/forge-preview');
 
@@ -35,15 +32,10 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({
 
   const code = await shareCode(page);
   expect(code).toMatch(/^[0-9A-Z]{4}-[0-9A-Z]{4}\./);
-  // The code is SEED.L<locks>.N<nonces>: reading the visible text is the fallback below.
+  // The code is SEED.L<locks>.N<nonces>: the clipboard read below is mandatory.
   await page.getByRole('button', { name: 'Copy share code' }).click();
   await expect(page.getByRole('status')).toHaveText('Copied');
-  let pasted = '';
-  try {
-    pasted = await page.evaluate(() => navigator.clipboard.readText());
-  } catch {
-    pasted = code; // clipboard read unavailable: use the visible share-code text
-  }
+  const pasted = await page.evaluate(() => navigator.clipboard.readText());
   expect(pasted).toBe(code);
 
   // Start a different card, then load the copied code: it must be identical to the rerolled one.

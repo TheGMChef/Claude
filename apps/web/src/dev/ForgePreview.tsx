@@ -64,11 +64,11 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
           <span className="forge__muted">{card.flags.veiled.join(', ')}</span>
         </p>
       )}
-      <ul className="forge__fields">
+      <ul className="forge__fields" role="list">
         {Object.entries(card.fields).map(([name, f]) => (
           <li className="forge__row" key={name}>
-            <div className="forge__row-body">
-              <div>
+            <div className="forge__row-body" role="group" aria-labelledby={`field-label-${name}`}>
+              <div id={`field-label-${name}`}>
                 <SectionLabel>{name}</SectionLabel>
               </div>
               <div
