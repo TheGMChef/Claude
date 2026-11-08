@@ -27,7 +27,7 @@ The MVP is done when all of these hold on the branch's real CI and on a clean cl
 - **A2** Journey J2 (offline) passes. After one online visit the browser goes offline, reloads, runs a full session, reloads again, and every Ledger event and entity is still there.
 - **A3** Journey J3 (safety) passes. With seeded content, a line removes tagged entries from the Pocket, the Dock, Stuck?, oracle meaning words and moves. Toggling a line mid-session changes only the affected fields (no reshuffle), and removing the line restores them.
 - **A4** axe reports zero serious or critical violations on every route, in light and dark.
-- **A5** Every interactive element on every route is at least 44×44 px. No route scrolls horizontally at any of the four widths.
+- **A5** Every interactive element on every route is at least 44×44 px. No route scrolls horizontally at any of the four journey widths, nor at 375 and 1280 (the `viewports` proof widths from CLAUDE.md), where the 44 px check also runs.
 - **A6** Performance budgets in §6.9 are met: the measured ones in CI, the device ones in a manual check on a mid-range tablet before the MVP is called done.
 - **A7** `pnpm lint && pnpm typecheck && pnpm test && pnpm test:coverage && pnpm content:lint && pnpm build && pnpm e2e --trace off` is green from a fresh clone, and the real GitHub Actions run for the final commit is green.
 - **A8** The `ux-audit` skill passes for every MVP screen. `docs/ui-page-patterns.md` names the built pattern for every route.
@@ -250,7 +250,7 @@ All generator ids are `fantasy.*`. A **field reference** (`{name}`) appears only
 | `fantasy.treasure`       | item (`fantasy.treasure.item`), worth (`fantasy.treasure.worth`), hook (`fantasy.treasure.hook`)                                                                                                                                                             | `{item\|cap}`              |
 | `fantasy.seed`           | a, b (`situation`, b `distinctFrom: a`), enemy (facet of a), friend (facet of b), complication (facet of b), thing (facet of a), place (facet of b), pressure (facet of a)                                                                                   | `{a} meets {b}`            |
 | `fantasy.encounter`      | question (`fantasy.encounter.question`), opposition (`.opposition`), goal (`.goal`), terrain (`.terrain`), turn (`.turn`), failForward (`.fail`)                                                                                                             | `{question\|cap}`          |
-| `fantasy.prep.spotlight` | hook (`fantasy.prep.spotlight`)                                                                                                                                                                                                                              | `{hook\|cap}`              |
+| `fantasy.prep.spotlight` | hook (`fantasy.prep.spotlight-hook`)                                                                                                                                                                                                                         | `{hook\|cap}`              |
 | `fantasy.prep.pressure`  | rumor (`fantasy.prep.pressure-rumor`), turn (`fantasy.complication.twist`)                                                                                                                                                                                   | `{rumor\|cap}`             |
 
 Table entries may themselves contain name slots (for example `fantasy.shop.name` entries such as `{name:family}'s {fantasy.shop.noun}`), because those are fresh culture names, not field references.
@@ -271,7 +271,7 @@ Counts are minimums. "Pocket-feeding" tables must keep at least **12 eligible en
 | Loot            | `trinket.item` (50), `trinket.detail` (30), `treasure.item` (40), `treasure.worth` (12, system-neutral: "worth a month's wages"), `treasure.hook` (24)                                           |
 | Encounter       | `encounter.question` (30), `.opposition` (30), `.goal` (24), `.terrain` (30), `.turn` (24), `.fail` (24)                                                                                         |
 | Situations      | 20 situations × 6 facets × 4 entries                                                                                                                                                             |
-| Prep            | `prep.spotlight` (24), `prep.return` (16), `prep.villain-move` (30), `prep.pressure-rumor` (24)                                                                                                  |
+| Prep            | `prep.spotlight-hook` (24), `prep.return` (16), `prep.villain-move` (30), `prep.pressure-rumor` (24)                                                                                             |
 | Oracle          | `meaning.action` and `meaning.theme` grow from 30 to 50 words each                                                                                                                               |
 | Moves (core)    | `core.gm-moves` grows from 12 to 24 cards, each with `safety` tags (P0 schema)                                                                                                                   |
 | Cultures        | the existing 3 (Marsh-folk, Highland, Imperial coast), each raised to 16 curated examples and 4 voice tips (D41)                                                                                 |
@@ -664,7 +664,7 @@ TableBar: identity · timer · [Pull anything … /] · [Oracle] [Moves] [⋯]
 - **Must not:**
   - KPI tiles;
   - route changes for in-session actions;
-  - modal dialogs for anything but ending the session and destructive confirms;
+  - modal surfaces for anything but these four: the End session dialog, destructive confirms, the Safety settings slide-over (§6.11) and the Keyboard shortcuts dialog. Each traps focus and returns it to its trigger;
   - nested scroll areas inside a zone, beyond the zone's own single scroll;
   - hover-only actions.
 - **Narrow:** the three zones become one, switched by a three-key `Segmented` control under the bar (Pocket | Scene | Ledger, default Scene). The dock keeps the hero key fixed at the left, and the tiles scroll horizontally inside the dock (the one allowed inner region).
@@ -883,7 +883,7 @@ The CI timing rows are reported on every run and become hard failures once a bas
   - Each topic is a `Segmented` control with **Fine · Veil · Line** (D39). `child-harm` starts on Line.
   - The submit key **Create campaign** is never disabled (forms rule).
   - On success: `navigator.storage.persist()` is requested (D36), the campaign becomes current, and the app navigates to `/`.
-- **`/c/:cid/settings`** (Settings) has sections Campaign (name), Safety (the same control, saving instantly), Cultures (a toggle per culture, at least one), Data and Danger zone.
+- **`/c/:cid/settings`** (Settings) has sections Campaign (name), Safety (the same control, saving instantly), Cultures (a toggle per culture, at least one), Keyboard (the single-key shortcuts switch, a device setting, §10), Data and Danger zone.
   - **Data:** export JSON, export Markdown, restore from backup, the storage status "Saved on this device. Protected from browser clean-up: yes / not yet", **Ask the browser to keep it** (calls `persist()`), and on iOS Safari outside standalone mode, the tip "Add Prep Desk to your Home Screen so Safari doesn't clear it."
   - **Danger zone:** **Delete campaign**, confirmed with "Delete 'The Salt Marsh Debts' and all 7 sessions from this device? Export a backup first if you might want it back."
 - **`/`** (Dashboard):
@@ -1110,19 +1110,19 @@ The form has a recap textarea (label "Recap", prefilled, editable) and a read-on
 
 ### 8.3 Empty states (header, value sentence, CTA, inside the pattern's frame)
 
-| Screen                     | Header                     | Sentence                                                                              | CTA                                             |
-| -------------------------- | -------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------- |
-| Home, first run            | Your desk is clear         | Create a campaign and Prep Desk will roll tonight's names, places and twists for you. | **Create a campaign**                           |
-| Campaign list              | No campaigns yet           | Each campaign keeps its own Codex, sessions and safety settings.                      | **Create a campaign**                           |
-| Codex list                 | Nothing in the Codex yet   | Everything you prep or improvise lands here, linked, so you can pull it up mid-game.  | **Start prep** (secondary: **Create entry**)    |
-| Codex search, no match     | No entries match "{q}"     | Try a shorter word, or clear the filters.                                             | **Clear all filters**                           |
-| Connections tab            | No connections yet         | Linking people, places and clues lets you find one from the other at the table.       | **Add connection**                              |
-| History tab                | Not seen at the table yet  | When this shows up in a session, the Ledger lines appear here.                        | none (read-only; a link to the Codex)           |
-| Ledger                     | The Ledger is listening    | Anything you use from the Pocket or the Dock is written here with the time.           | **Add a note** (focuses the field)              |
-| Focus slot                 | Brought-in cards land here | Tap a name, NPC or place to bring it in.                                              | none (an inline hint, not a page)               |
-| Fronts in Table            | No fronts yet              | A front is trouble that moves on its own. Add one in prep step 3.                     | **Add a front** (create slide-over, kind front) |
-| Shortlist panel            | Nothing waiting            | Things you set aside at the table show up here for next prep.                         | none (a panel hint)                             |
-| Wrap-up, nothing to review | Nothing to decide          | You didn't improvise anything that needs a call.                                      | **Draft the recap**                             |
+| Screen                     | Header                     | Sentence                                                                              | CTA                                                                               |
+| -------------------------- | -------------------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Home, first run            | Your desk is clear         | Create a campaign and Prep Desk will roll tonight's names, places and twists for you. | **Create a campaign**                                                             |
+| Campaign list              | No campaigns yet           | Each campaign keeps its own Codex, sessions and safety settings.                      | **Create a campaign**                                                             |
+| Codex list                 | Nothing in the Codex yet   | Everything you prep or improvise lands here, linked, so you can pull it up mid-game.  | **Start prep** (secondary: **Create entry**)                                      |
+| Codex search, no match     | No entries match "{q}"     | Try a shorter word, or clear the filters.                                             | **Clear all filters**                                                             |
+| Connections tab            | No connections yet         | Linking people, places and clues lets you find one from the other at the table.       | **Add connection**                                                                |
+| History tab                | Not seen at the table yet  | When this shows up in a session, the Ledger lines appear here.                        | **Bring to the table** while a session is live, else **Open the Codex**           |
+| Ledger                     | The Ledger is listening    | Anything you use from the Pocket or the Dock is written here with the time.           | **Add a note** (focuses the field)                                                |
+| Focus slot                 | Brought-in cards land here | Tap a name, NPC or place to bring it in.                                              | none: an inline zone hint, not a view, so the empty-state CTA rule doesn't apply  |
+| Fronts in Table            | No fronts yet              | A front is trouble that moves on its own. Add one in prep step 3.                     | **Add a front** (create slide-over, kind front)                                   |
+| Shortlist panel            | Nothing waiting            | Things you set aside at the table show up here for next prep.                         | none: an inline panel hint, not a view, so the empty-state CTA rule doesn't apply |
+| Wrap-up, nothing to review | Nothing to decide          | You didn't improvise anything that needs a call.                                      | **Draft the recap**                                                               |
 
 ### 8.4 Error states
 
@@ -1168,9 +1168,11 @@ MVP acceptance A1–A8 (§1.1), plus:
 
 ---
 
-## 10. Keyboard shortcuts (D42)
+## 10. Keyboard shortcuts (D42, D50)
 
 No shortcut fires while focus is in an `input`, `textarea` or `contenteditable` (this includes the handwriting answer fields), or while a modal is open. The exception is Escape.
+
+**Single-key shortcuts can be turned off** (WCAG 2.1 SC 2.1.4, Character Key Shortcuts). Every shortcut made of one character (`/`, `?`, `s`, `1`–`6`, `o`, `m`, `r`) obeys the device setting `settings.singleKeyShortcuts`, which is on by default. It is a switch in Campaign settings → Keyboard ("Single-key shortcuts", with the help text "Turn off if you use speech input or keep pressing keys by accident.") and in the Keyboard shortcuts dialog. `Mod+K`, `Mod+Enter`, `Mod+Z`, `Escape`, `Enter` and arrow keys always work. With single keys off, the `?` dialog still opens from the ⋯ menu.
 
 | Key         | Where                                          | Action                                                   |
 | ----------- | ---------------------------------------------- | -------------------------------------------------------- |
@@ -1325,3 +1327,4 @@ Each line reads: Decision · why · cost if wrong.
 47. **D47: renaming an entity rewrites `[[links]]` everywhere and keeps the old title as an alias.** · Links never break silently. · A larger transaction on rename.
 48. **D48: "Flesh out later" from a tray saves only the card, with no entity and no Ledger line.** · Nothing was used in play, so the Codex and the log stay true. · The item isn't searchable until it's fleshed out.
 49. **D49: the Ledger is chronological with the newest at the bottom, auto-scrolling unless the DM scrolled up.** · It matches the mockup and reads like a log. · DMs who want newest-first must scroll.
+50. **D50: a device setting turns all single-character shortcuts off (on by default); modifier shortcuts always work.** · WCAG 2.1 SC 2.1.4 requires single-key shortcuts to be switchable, and speech-input users need it. · One more setting and a guard in the shortcut hook.
