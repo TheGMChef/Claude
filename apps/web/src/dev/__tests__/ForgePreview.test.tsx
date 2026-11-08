@@ -56,7 +56,7 @@ function setup() {
 const codeOf = (seed: string) =>
   cardToShare(lib, generate(lib, 'fantasy.npc', { seed, context: defaultContext() })).code;
 const INEXACT =
-  "This code can't recreate this exact card, because a locked part was made under other settings. Copy the card data instead.";
+  "This code can't recreate this exact card, because part of it was made under other settings. Copy the card data instead.";
 
 /** First fixed seed whose role entry carries a safety tag: [share code, tag]. Content is fixed, so deterministic. */
 function seedWithTaggedRole(): [string, string] {
@@ -193,6 +193,27 @@ describe('ForgePreview', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: 'Load' }));
     expect(snapshot()).toEqual(kept);
+  });
+
+  it('when copying the card data fails, shows it in a read-only Card data box to select', async () => {
+    const { user, writeText } = setup();
+    await user.click(screen.getByRole('button', { name: 'Create NPC' }));
+    await user.click(screen.getByRole('button', { name: 'Lock name' }));
+    await user.click(screen.getByRole('tab', { name: 'Highland' }));
+    await user.click(screen.getByRole('button', { name: 'Reroll' }));
+    expect(screen.queryByLabelText('Card data')).not.toBeInTheDocument();
+
+    writeText.mockRejectedValue(new Error('denied'));
+    await user.click(screen.getByRole('button', { name: 'Copy card data' }));
+    expect(
+      await screen.findByText("Couldn't copy — select the card data text instead."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("Couldn't copy — select the code instead.")).not.toBeInTheDocument();
+    const box = screen.getByLabelText('Card data') as HTMLTextAreaElement;
+    expect(box.tagName).toBe('TEXTAREA');
+    expect(box).toHaveAttribute('readonly');
+    expect(JSON.parse(box.value)).toMatchObject({ generatorId: 'fantasy.npc' });
+    expect(JSON.parse(box.value).fields.name.value).toBe(valueOf('name'));
   });
 
   it('pasting broken card data alerts and keeps the card', async () => {

@@ -35,8 +35,9 @@ const ORACLE = 'fantasy.oracle';
 const DECK = 'core.gm-moves';
 const BAD_CODE = "That code doesn't look right. Check it and try again.";
 const COPY_FAILED = "Couldn't copy — select the code instead.";
+const COPY_DATA_FAILED = "Couldn't copy — select the card data text instead.";
 const INEXACT =
-  "This code can't recreate this exact card, because a locked part was made under other settings. Copy the card data instead.";
+  "This code can't recreate this exact card, because part of it was made under other settings. Copy the card data instead.";
 const LOOSENED_NOTE = 'Loosened: nothing matched every setting, so a filter was relaxed here.';
 
 const CULTURES = [
@@ -123,7 +124,8 @@ export function ForgePreview() {
   const [moveSeed, setMoveSeed] = useState<string | null>(null);
   const [pasted, setPasted] = useState('');
   const [pasteError, setPasteError] = useState(false);
-  const [copyFailed, setCopyFailed] = useState(false);
+  /** Which copy failed: the share code, or the card data (then the data is shown to select). */
+  const [copyFailed, setCopyFailed] = useState<false | 'code' | 'data'>(false);
   const [copied, setCopied] = useState(false);
 
   const avoidNames = useMemo(
@@ -201,14 +203,14 @@ export function ForgePreview() {
   const share = useMemo(() => (card ? cardToShare(lib, card) : null), [card]);
   const code = share?.code ?? '';
 
-  const copy = async (text: string) => {
+  const copy = async (text: string, what: 'code' | 'data') => {
     try {
       await navigator.clipboard.writeText(text);
       setCopyFailed(false);
       setCopied(true);
     } catch {
       setCopied(false);
-      setCopyFailed(true);
+      setCopyFailed(what);
     }
   };
 
@@ -258,19 +260,38 @@ export function ForgePreview() {
                   <code className="forge__code" data-testid="share-code">
                     {code}
                   </code>
-                  <IconButton icon="copy" label="Copy share code" onClick={() => void copy(code)} />
+                  <IconButton
+                    icon="copy"
+                    label="Copy share code"
+                    onClick={() => void copy(code, 'code')}
+                  />
                 </div>
                 {share && !share.exact && (
                   <>
                     <p role="status" className="forge__muted">
                       {INEXACT}
                     </p>
-                    <Button variant="outline" onClick={() => void copy(serializeCard(card))}>
+                    <Button
+                      variant="outline"
+                      onClick={() => void copy(serializeCard(card), 'data')}
+                    >
                       Copy card data
                     </Button>
                   </>
                 )}
-                {copyFailed && <p className="forge__muted">{COPY_FAILED}</p>}
+                {copyFailed === 'code' && <p className="forge__muted">{COPY_FAILED}</p>}
+                {copyFailed === 'data' && (
+                  <>
+                    <p className="forge__muted">{COPY_DATA_FAILED}</p>
+                    <Field
+                      label="Card data"
+                      multiline
+                      readOnly
+                      value={serializeCard(card)}
+                      spellCheck={false}
+                    />
+                  </>
+                )}
                 {copied && (
                   <p role="status" className="forge__muted">
                     Copied
