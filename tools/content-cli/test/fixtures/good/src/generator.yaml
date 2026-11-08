@@ -11,6 +11,6 @@ kind: deck
 id: fx.moves
 title: Moves
 cards:
-  - id: reveal
-    text: Reveal an unwelcome truth
+  - id: due
+    text: A quiet promise comes due
     prompt: What do they learn?
