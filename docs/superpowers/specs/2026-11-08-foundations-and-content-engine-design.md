@@ -239,8 +239,13 @@ cards:
 - **Seed code:** 8 characters of Crockford base32 shown as `K7Q2-M9XD`, generated from `crypto.getRandomValues` when no seed is given.
 - **Field-level determinism:** each field's seed is `hash(cardSeed, fieldName, nonce)`. A fresh card has every nonce at 0.
   - **Reroll:** increments the nonce of every *unlocked* field and regenerates those fields only. Locked fields keep their value exactly.
-  - **Sharing:** a card's full state can be serialised as `seed + nonces + locks` into a compact share code (`K7Q2-M9XD.0a1`), so a rerolled card can be shared exactly too.
-- Reproducibility is guaranteed for the same pack version. Each card records `packVersion`; if the pack changes, the card keeps its stored text (cards never silently change).
+  - **Sharing (share codes v2):** a share code is `SEED[.C<culture tag>][.L<lock mask>.N<nonces joined by _>]` followed by one Crockford check symbol, e.g. `K7Q2-M9XD.C85NG.L3.N0_2_2_0_1_0_0` plus its check symbol.
+    - The culture tag is `cultureTag(cultureId)`: a stable 4-character Crockford tag derived by hash from the culture id. Decoding resolves it against the library's cultures (unknown tag: `unknown-culture`), and it overrides the pasting context's culture. `loadPacks` rejects a library where two cultures share a tag.
+    - The check symbol is the base-32 value of the body mod 37 (symbols `0-9A-Z` without I, L, O, U, then `*~$=U`). Case, whitespace and O/I/L are forgiven before the check. Any single-character substitution is detected (`checksum`), so plain words such as "nonsense" are not codes.
+    - Locks and nonces are left out when nothing is locked and every nonce is 0; the culture and the check symbol are always present when the card has a culture.
+  - **What a code guarantees:** a code rebuilds the card under the same context and pack version. A kept (locked) field that was made under other settings (another culture, other lines, other avoided names) cannot be rebuilt from a code. `cardToShare` therefore returns `{ code, exact }`, where `exact` is true only when rebuilding the code under the card's own context reproduces every field value. When it is false the UI says so and offers the card data instead.
+  - **Card data:** `serializeCard(card)` gives JSON that `parseCard` reads back exactly (validated); the Codex stores cards this way.
+- Reproducibility is guaranteed for the same pack version. Each card records `packVersion`; if the pack changes, the card keeps its stored text (cards never silently change). `parseCard` reports such a card as `stale`.
 
 ### 4.5 Public API (sketch)
 
@@ -256,14 +261,26 @@ rollTable(lib: Library, tableId: string, opts?: GenOptions): RollResult
 generateName(lib: Library, cultureId: string, opts?: NameOptions): NameResult
 batch(lib: Library, requests: BatchRequest[], opts?: GenOptions): Card[]   // used by the Pocket later
 
-// Improv aids
-askOracle(lib: Library, oracleId: string, likelihood: Likelihood, opts?: { seed?: string }): OracleResult
-drawMove(lib: Library, deckId: string, opts?: { seed?: string; exclude?: string[] }): MoveCard
+applySafety(lib: Library, card: Card, opts?: { context?: Context }): Card   // §4.7, rerolls nothing
 
-// Seeds
+// Improv aids
+askOracle(lib: Library, oracleId: string, likelihood: Likelihood, opts?: { seed?: string; safety?: SafetySettings }): OracleResult
+drawMove(lib: Library, deckId: string, opts?: { seed?: string; exclude?: string[]; safety?: SafetySettings }): MoveCard
+
+// Seeds and sharing (§4.4)
 newSeed(): string
-encodeShare(card: Card): string
-decodeShare(code: string): { seed: string; nonces: Record<string, number>; locks: string[] }
+cardToShare(lib: Library, card: Card): { code: string; exact: boolean }
+cardFromShare(lib: Library, generatorId: string, code: string, context?: Context):
+  { ok: true; card: Card } | { ok: false; error: 'malformed' | 'field-count' | 'checksum' | 'unknown-culture' }
+cultureTag(cultureId: string): string
+encodeShare(state: ShareState): string
+decodeShare(code: string, fieldCount: number):
+  { ok: true; state: ShareState } | { ok: false; error: 'malformed' | 'field-count' | 'checksum' }
+type ShareState = { seed: string; nonces: number[]; locks: boolean[]; culture?: string }   // field order
+
+// Card data (the Codex stores cards as JSON)
+serializeCard(card: Card): string
+parseCard(lib: Library, json: string): { ok: true; card: Card; stale: boolean } | { ok: false; error: 'json' | 'schema' }
 
 interface GenOptions {
   seed?: string
@@ -292,14 +309,17 @@ interface Card {
   fields: Record<string, CardField>
   display: string               // rendered display line
   context: SerializableContext
-  flags: { veiled: string[] }   // safety tags present under "veil"
+  flags: { veiled: string[]; relaxed: boolean }   // veiled tags shown; any field (or the display) relaxed
 }
 
 interface CardField {
   value: string
   locked: boolean
   nonce: number
-  sources: string[]             // entry ids used, for "why this?" and editing
+  sources: string[]             // entry ids behind the visible text, for "why this?" and editing
+  blocked?: true                // value is '—': a Line excludes this content
+  relaxed?: true                // selection loosened a filter to fill this field (UI: LOOSENED)
+  hidden?: { value: string; sources: string[]; relaxed?: boolean }   // content a current Line hides; restored when the Line goes
 }
 
 interface NameResult {
@@ -314,7 +334,15 @@ interface OracleResult {
   meaning: [string, string]
   blocked: boolean; veiled: string[]   // a word hidden by a Line shows '—' and sets blocked
 }
+
+interface MoveCard {
+  id: string; text: string; prompt: string
+  blocked: boolean   // every card is behind a Line: { id: '', text: '—', prompt: '', blocked: true }
+  veiled: string[]   // veiled tags the drawn card carries
+}
 ```
+
+**Display line:** the display renders over the finished field values. It shows "nothing fits your safety settings" only when it uses a blocked field (a field reference, or `{name}` when the generator has a `name` field) or one of its own slots is blocked. A `gen` field shows the sub-card's display and records that display's provenance.
 
 **Oracle rule:**
 - `answer` is yes if `roll ≤ yes`, otherwise no.
@@ -336,6 +364,8 @@ interface OracleResult {
 - `SafetySettings = { lines: string[]; veils: string[] }`.
   - **Lines:** entries with any of these tags are never selected, including inside nested slots.
   - **Veils:** entries may be selected, but the result lists them in `flags.veiled` so the UI can show "fade to black" styling.
+  - **Changing settings on an existing card:** `applySafety` re-evaluates a card without rerolling. A field whose content carries a current Line is blocked and keeps its content in `hidden`; removing the Line restores it. A field blocked when it was generated is regenerated at its own nonce only when a Line is removed. Every other field keeps its value, sources and nonce. Locks never override a Line (R22).
+  - **GM moves decks:** deck cards may carry `safety` tags like table entries. `drawMove` never draws a lined card (never relaxed) and reports veiled tags.
 - **Default lines** for a new campaign: `child-harm`. Everything else is chosen in session zero (sub-project 8).
 - The compiler requires every entry that touches a vocabulary topic to carry its tag. Content review guidance lives in `packages/content-fantasy/CONTRIBUTING.md`.
 
@@ -359,10 +389,10 @@ Only enough to build and test against. The full launch catalogue is sub-project 
 ### 4.10 `/forge-preview` (dev page wiring engine to the kit)
 - Pick a culture and generate an NPC card (rendered with `Card` variant `ruled`).
 - Each field has a lock toggle (`IconButton` lock/unlock). **Reroll** rerolls unlocked fields.
-- The seed / share code is shown with a copy button. Pasting a code reproduces the card.
+- The share code is shown with a copy button. Pasting a code reproduces the card, whichever culture tab is selected. When the code is not exact (§4.4), the page says so and offers "Copy card data"; the paste field also accepts card data.
 - A "Names" strip shows 10 names with voicing notes; an `avoid` box tests the distinctiveness guard.
 - Oracle panel (likelihood tabs → answer + meaning) and "Draw a move".
-- Toggle example safety lines/veils and see entries disappear or get flagged.
+- Toggle example safety lines/veils and see entries disappear or get flagged (`applySafety`: nothing else rerolls). A field picked with a loosened filter is stamped LOOSENED.
 
 ---
 
