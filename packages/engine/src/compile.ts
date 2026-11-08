@@ -182,6 +182,19 @@ export function compileDocs(
 
   for (const c of cultures) {
     const { examples, exampleChance, banned, ...names } = c.names;
+    const validBanned = (banned ?? []).filter((b, i) => {
+      try {
+        new RegExp(b, 'i');
+        return true;
+      } catch (e) {
+        fail(
+          'schema',
+          `invalid banned pattern "${b}": ${e instanceof Error ? e.message : String(e)}`,
+          `${fileOf('culture', c.id)}#names.banned[${i}]`,
+        );
+        return false;
+      }
+    });
     const compiled: CompiledCulture = {
       id: c.id,
       name: c.name,
@@ -189,7 +202,7 @@ export function compileDocs(
       names: names as CompiledCulture['names'],
       examples: examples ?? [],
       exampleChance: exampleChance ?? 0,
-      banned: banned ?? [],
+      banned: validBanned,
     };
     if (c.genre !== undefined) compiled.genre = c.genre;
     out.cultures[c.id] = compiled;

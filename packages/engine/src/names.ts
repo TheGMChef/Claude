@@ -44,7 +44,7 @@ const bannedCache = new WeakMap<CompiledCulture, RegExp[]>();
 function bannedOf(culture: CompiledCulture): RegExp[] {
   let res = bannedCache.get(culture);
   if (!res) {
-    res = culture.banned.map((b) => new RegExp(b));
+    res = culture.banned.map((b) => new RegExp(b, 'i'));
     bannedCache.set(culture, res);
   }
   return res;
@@ -128,8 +128,14 @@ export function nameWithRng(
   const stages = avoid.length > 0 ? STAGES : STAGES.slice(0, 1);
   let useExample = rng.next() < culture.exampleChance;
 
+  // Fallback preference: passed banned+exclude, else passed banned, else anything.
+  let lastValid: Candidate | null = null;
+  let lastClean: Candidate | null = null;
   let last: Candidate = fromPattern(culture, rng);
+  const avoidSet = new Set(avoid);
   for (let s = 0; s < stages.length; s++) {
+    const rules = stages[s] as (typeof STAGES)[number];
+    const finalStage = avoid.length > 0 && s === stages.length - 1;
     for (let i = 0; i < ATTEMPTS; i++) {
       let cand: Candidate | null = null;
       if (useExample) {
@@ -138,15 +144,18 @@ export function nameWithRng(
       }
       cand ??= fromPattern(culture, rng);
       last = cand;
-      const ok =
-        !banned.some((re) => re.test(cand.name)) &&
-        !exclude.has(normalizeName(cand.name)) &&
-        passesGuard(cand.given, guard, stages[s] as (typeof STAGES)[number]);
-      if (ok) return result(culture, cand, s > 0);
       useExample = false;
+      if (banned.some((re) => re.test(cand.name))) continue;
+      lastClean = cand;
+      if (exclude.has(normalizeName(cand.name))) continue;
+      lastValid = cand;
+      if (!passesGuard(cand.given, guard, rules)) continue;
+      // Even with every rule off, prefer a given name that is not identical to an avoided one.
+      if (finalStage && avoidSet.has(normalizeName(cand.given))) continue;
+      return result(culture, cand, s > 0);
     }
   }
-  return result(culture, last, true);
+  return result(culture, lastValid ?? lastClean ?? last, true);
 }
 
 function result(culture: CompiledCulture, c: Candidate, relaxed: boolean): NameResult {

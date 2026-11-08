@@ -65,8 +65,8 @@ describe('generateName', () => {
     const rng = createRng('banned');
     for (let i = 0; i < 2000; i++) {
       const { name } = nameWithRng(marsh, rng, {});
-      expect(name).not.toMatch(/^Kor/);
-      expect(name).not.toMatch(/ith/);
+      expect(name).not.toMatch(/^kor/i);
+      expect(name).not.toMatch(/ith/i);
     }
   });
 
@@ -132,5 +132,76 @@ describe('generateName', () => {
     const r = nameWithRng(solo, createRng('solo'), {});
     expect(r.family).toBeUndefined();
     expect(r.name).toBe(r.given);
+  });
+
+  const tiny = (over: Partial<CompiledCulture> & { given?: string[] }): CompiledCulture => ({
+    id: 'fx.tiny',
+    name: 'Tiny',
+    voice: { summary: 's', tips: [] },
+    names: { given: { pattern: ['a'], parts: { a: over.given ?? ['X'] } } },
+    examples: [],
+    exampleChance: 0,
+    banned: [],
+    ...(over.banned ? { banned: over.banned } : {}),
+  });
+
+  it('banned patterns match case-insensitively (R16)', () => {
+    const c = tiny({ given: ['Aaral', 'aaron', 'Bela', 'Cora', 'Dran'], banned: ['aa'] });
+    const rng = createRng('ci');
+    for (let i = 0; i < 500; i++) {
+      expect(nameWithRng(c, rng, {}).name.toLowerCase()).not.toContain('aa');
+    }
+  });
+
+  it('never returns an excluded name while a non-excluded valid one exists', () => {
+    const all = ['Ann', 'Bob', 'Cal', 'Dov', 'Eli', 'Fay', 'Gus', 'Hal', 'Ivo', 'Jan'];
+    const c = tiny({ given: all });
+    const exclude = new Set(all.slice(0, 6).map(normalizeName));
+    const rng = createRng('exh');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { exclude });
+      expect(exclude.has(normalizeName(r.name))).toBe(false);
+    }
+  });
+
+  it('never returns a banned name under exhaustion', () => {
+    const c = tiny({ given: ['Foo', 'Bar'], banned: ['foo'] });
+    const rng = createRng('exh-banned');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { exclude: new Set(['bar']) });
+      expect(r.name).toBe('Bar');
+      expect(r.relaxed).toBe(true);
+    }
+  });
+
+  it('relaxes first-letter (a) before edit distance (b) and prefix (c)', () => {
+    const c = tiny({ given: ['Osmar', 'Oswen', 'Oswald'] });
+    const rng = createRng('order');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { avoidNames: ['Oswin'] });
+      expect(r.given).toBe('Osmar');
+      expect(r.relaxed).toBe(true);
+    }
+  });
+
+  it('rule (c) alone rejects a shared three-letter prefix outside the last-8 window', () => {
+    const c = tiny({ given: ['Odwen', 'Pellow'] });
+    const avoid = ['Odrin', 'Aaa', 'Bbb', 'Ccc', 'Ddd', 'Eee', 'Fff', 'Ggg', 'Hhh'];
+    const rng = createRng('c-only');
+    for (let i = 0; i < 100; i++) {
+      const r = nameWithRng(c, rng, { avoidNames: avoid });
+      expect(r.given).toBe('Pellow');
+      expect(r.relaxed).toBe(false);
+    }
+  });
+
+  it('final stage prefers a given name not identical to an avoided one', () => {
+    const c = tiny({ given: ['Oswin', 'Oswen'] });
+    const rng = createRng('final');
+    for (let i = 0; i < 200; i++) {
+      const r = nameWithRng(c, rng, { avoidNames: ['Oswin'] });
+      expect(r.given).toBe('Oswen');
+      expect(r.relaxed).toBe(true);
+    }
   });
 });

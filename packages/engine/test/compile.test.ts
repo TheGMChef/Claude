@@ -113,6 +113,21 @@ describe('compileDocs', () => {
     expect(p?.names).toEqual({ given: RICH });
   });
 
+  it('rejects a banned entry that is not a valid regex with a schema error', () => {
+    const { pack, errors } = compileDocs(manifest, [
+      doc('c.yaml', {
+        kind: 'culture',
+        id: 'fantasy.culture.bad',
+        name: 'Bad',
+        voice: { summary: 's', tips: [] },
+        names: { given: RICH, banned: ['ok', '(unclosed'] },
+      }),
+    ]);
+    expect(errors.map((e) => e.code)).toEqual(['schema']);
+    expect(errors[0]?.path).toMatch(/c\.yaml#names\.banned\[1\]/);
+    expect(pack.cultures['fantasy.culture.bad']?.banned).toEqual(['ok']);
+  });
+
   it('resolves generator field sources and display, keeping field-name refs', () => {
     const { pack, errors } = compileDocs(manifest, [
       doc('t.yaml', { kind: 'table', id: 'fantasy.npc.role', entries: [{ text: 'smith' }] }),
