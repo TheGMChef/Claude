@@ -64,19 +64,19 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
           <span className="forge__muted">{card.flags.veiled.join(', ')}</span>
         </p>
       )}
-      <dl className="forge__fields">
+      <ul className="forge__fields">
         {Object.entries(card.fields).map(([name, f]) => (
-          <div className="forge__row" key={name}>
+          <li className="forge__row" key={name}>
             <div className="forge__row-body">
-              <dt>
+              <div>
                 <SectionLabel>{name}</SectionLabel>
-              </dt>
-              <dd
+              </div>
+              <div
                 data-testid={`field-value-${name}`}
                 className={name === 'voice' ? 'forge__value forge__value--hand' : 'forge__value'}
               >
                 {f.blocked ? '—' : f.value}
-              </dd>
+              </div>
               {f.blocked && (
                 <Stamp tone="pencil" rotate={-3}>
                   BLOCKED
@@ -89,9 +89,9 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
               aria-pressed={f.locked}
               onClick={() => onToggleLock(name)}
             />
-          </div>
+          </li>
         ))}
-      </dl>
+      </ul>
     </KitCard>
   );
 }

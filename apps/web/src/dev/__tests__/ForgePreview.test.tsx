@@ -255,4 +255,12 @@ describe('ForgePreview', () => {
     await user.click(screen.getByRole('button', { name: 'Draw a move' }));
     expect(screen.getByTestId('move-text').textContent).not.toBe('');
   });
+
+  it('field rows are a valid list: no <dl> whose rows hold buttons (axe dlitem/definition-list)', async () => {
+    const { user } = setup();
+    await user.click(screen.getByRole('button', { name: 'New NPC' }));
+    const article = screen.getByRole('article');
+    expect(article.querySelector('dl, dt, dd')).toBeNull();
+    expect(within(article).getAllByRole('listitem')).toHaveLength(FIELDS.length);
+  });
 });

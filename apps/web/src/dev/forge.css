@@ -70,6 +70,8 @@
 
 .forge__fields {
   margin: 0;
+  padding: 0;
+  list-style: none;
   display: grid;
 }
 
@@ -86,11 +88,6 @@
 .forge__row-body {
   min-width: 0;
   flex: 1;
-}
-
-.forge__row dt,
-.forge__row dd {
-  margin: 0;
 }
 
 .forge__value {
