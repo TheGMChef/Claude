@@ -35,10 +35,10 @@ const ICONS: IconName[] = [
 ];
 
 describe('kit part 1', () => {
-  it('IconButton exposes label as accessible name and tooltip', () => {
+  it('IconButton exposes label as accessible name (tooltip: tooltip.test.tsx, no native title)', () => {
     render(<IconButton icon="dice" label="Roll again" />);
     const b = screen.getByRole('button', { name: 'Roll again' });
-    expect(b).toHaveAttribute('title', 'Roll again');
+    expect(b).not.toHaveAttribute('title');
   });
 
   it('Button sizes map to classes', () => {

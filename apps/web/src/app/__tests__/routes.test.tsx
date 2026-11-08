@@ -64,13 +64,13 @@ describe('routes', () => {
     renderAt('/');
     const root = document.documentElement;
     expect(root.dataset.theme).toBeUndefined();
-    await userEvent.click(screen.getByRole('button', { name: /^Theme: Auto/ }));
+    await userEvent.click(screen.getByRole('button', { name: 'Switch to Day theme' }));
     expect(root.dataset.theme).toBe('light');
-    await userEvent.click(screen.getByRole('button', { name: /^Theme: Day/ }));
+    await userEvent.click(screen.getByRole('button', { name: 'Switch to Night theme' }));
     expect(root.dataset.theme).toBe('dark');
-    await userEvent.click(screen.getByRole('button', { name: /^Theme: Night/ }));
+    await userEvent.click(screen.getByRole('button', { name: 'Switch to Auto theme' }));
     expect(root.dataset.theme).toBeUndefined();
-    expect(screen.getByRole('button', { name: /^Theme: Auto/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Switch to Day theme' })).toBeInTheDocument();
   });
 
   it('Escape closes the menu and returns focus to the Menu button', async () => {

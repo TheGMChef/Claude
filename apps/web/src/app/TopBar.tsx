@@ -58,7 +58,7 @@ export function TopBar() {
       <IconButton
         className="topbar__theme"
         icon={ICON[choice]}
-        label={`Theme: ${WORD[choice]} — switch to ${WORD[NEXT[choice]]}`}
+        label={`Switch to ${WORD[NEXT[choice]]} theme`}
         onClick={() => setChoice(NEXT[choice])}
       />
     </header>

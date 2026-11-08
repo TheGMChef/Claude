@@ -466,3 +466,28 @@ textarea.field__control {
   font-weight: 600;
   box-shadow: 0 6px 14px var(--card-shadow);
 }
+
+/* Tooltip (icon-only controls): a small L3 card, opacity-only entrance, never in the way of hits */
+.tip {
+  position: fixed;
+  z-index: 60;
+  max-width: calc(100vw - 2 * var(--space-2));
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-tag);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 2px 6px var(--card-shadow);
+  font-size: var(--text-13);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: tip-in var(--motion-100) ease-out;
+}
+
+@keyframes tip-in {
+  from {
+    opacity: 0;
+  }
+}
