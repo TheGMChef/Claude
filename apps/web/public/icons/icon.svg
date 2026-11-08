@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#F3EDE1"/>
+  <g fill="none" stroke="#1F1B16" stroke-width="16" stroke-linecap="round" stroke-linejoin="round">
+    <!-- outer silhouette, vertices nudged by hand -->
+    <path d="M256 70 L420 162 L414 352 L258 446 L96 354 L92 160 Z"/>
+    <!-- inner face triangle -->
+    <path d="M256 168 L342 318 L168 322 Z"/>
+    <!-- edges from the triangle to the silhouette -->
+    <path d="M256 168 L256 70 M256 168 L92 160 M256 168 L420 162"/>
+    <path d="M342 318 L420 162 M342 318 L414 352 M342 318 L258 446"/>
+    <path d="M168 322 L92 160 M168 322 L96 354 M168 322 L258 446"/>
+  </g>
+</svg>

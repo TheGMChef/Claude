@@ -13,7 +13,8 @@ export type IconName =
   | 'unlock'
   | 'dice'
   | 'copy'
-  | 'auto';
+  | 'auto'
+  | 'close';
 
 const PATHS: Record<IconName, string> = {
   name: 'M4 17 L4 5 L11 14 L18 5 L18 17',
@@ -33,6 +34,7 @@ const PATHS: Record<IconName, string> = {
   dice: 'M11 2 L19 6.5 L19 15.5 L11 20 L3 15.5 L3 6.5 Z M3 6.5 L11 11 L19 6.5 M11 11 L11 20',
   auto: 'M11 19 A8 8 0 1 0 11 3 A8 8 0 1 0 11 19 Z M11 3 L11 19 M11 7 L7 7 M11 11 L6 11 M11 15 L7 15',
   copy: 'M8 8 L18 8 L18 19 L8 19 Z M4 14 L4 3 L14 3',
+  close: 'M5 5 L17 17 M17 5 L5 17',
 };
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {

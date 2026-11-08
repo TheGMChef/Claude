@@ -393,3 +393,23 @@ textarea.field__control {
     transition: none;
   }
 }
+
+/* Update chip: fixed bottom-center, clear of the home indicator */
+.update-chip {
+  position: fixed;
+  z-index: 50;
+  bottom: max(var(--space-4), env(safe-area-inset-bottom));
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: calc(100vw - var(--space-8));
+  padding: var(--space-1) var(--space-1) var(--space-1) var(--space-4);
+  transform: translateX(-50%);
+  border: 1.4px solid var(--ink);
+  border-radius: var(--radius-pill);
+  background: var(--card);
+  color: var(--ink);
+  font-size: var(--text-15);
+  font-weight: 600;
+}
