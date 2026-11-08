@@ -45,6 +45,19 @@ describe('hashSeed', () => {
   });
 });
 
+describe('golden vectors (reference cyrb128 + sfc32)', () => {
+  it('hashSeed matches cyrb128', () => {
+    expect(hashSeed('prepdesk')).toEqual([3409227079, 2809142955, 88454268, 1479625219]);
+  });
+
+  it('createRng matches sfc32 seeded from cyrb128', () => {
+    const r = createRng('prepdesk');
+    expect([r.next(), r.next(), r.next()]).toEqual([
+      0.792329189600423, 0.18274360988289118, 0.7056102734059095,
+    ]);
+  });
+});
+
 describe('newSeed / normalizeSeed', () => {
   it('newSeed matches the seed format', () => {
     for (let i = 0; i < 50; i++) {
