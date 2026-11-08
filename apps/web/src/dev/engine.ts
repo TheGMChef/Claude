@@ -1,0 +1,10 @@
+import { loadPacks } from '@prepdesk/engine';
+import type { Library } from '@prepdesk/engine';
+import core from '@prepdesk/content-core/core.json';
+import fantasy from '@prepdesk/content-fantasy/fantasy.json';
+
+type CompiledPack = Parameters<typeof loadPacks>[0][number];
+
+// The one narrow cast: tsc infers the JSON's literal shape, but the build CLI guarantees these
+// files are compiled packs, which is the shape the engine expects.
+export const lib: Library = loadPacks([core, fantasy] as unknown as CompiledPack[]);

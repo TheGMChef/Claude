@@ -37,6 +37,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    // R25: compile the content packs (dist/*.json) before any test imports them.
+    globalSetup: ['../../packages/engine/vitest.global-setup.ts'],
     setupFiles: ['./src/test-setup.ts'],
     css: false,
     alias: {

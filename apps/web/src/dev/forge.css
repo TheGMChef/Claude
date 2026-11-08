@@ -1,0 +1,199 @@
+/* /forge-preview: dev page wiring the content engine to the kit */
+.forge {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.forge__title {
+  font-size: var(--text-34);
+  margin-bottom: var(--space-5);
+}
+
+.forge__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-7);
+}
+
+.forge__col {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+  min-width: 0;
+}
+
+.forge__col section {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+  min-width: 0;
+}
+
+.forge__col > section > * {
+  min-width: 0;
+}
+
+.forge__heading {
+  font-size: var(--text-21);
+}
+
+.forge__actions,
+.forge__code-row,
+.forge__paste {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.forge__paste > .field {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.forge__display {
+  font-size: var(--text-28);
+  margin-bottom: var(--space-3);
+  overflow-wrap: anywhere;
+}
+
+.forge__flags {
+  margin: 0 0 var(--space-3);
+}
+
+.forge__muted {
+  color: var(--ink-muted);
+  font-size: var(--text-13);
+  margin: 0;
+}
+
+.forge__fields {
+  margin: 0;
+  display: grid;
+}
+
+.forge__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.forge__row-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.forge__row dt,
+.forge__row dd {
+  margin: 0;
+}
+
+.forge__value {
+  overflow-wrap: anywhere;
+}
+
+.forge__value--hand {
+  font-family: var(--font-hand);
+  color: var(--pencil);
+}
+
+.forge__share {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.forge__code {
+  flex: 1 1 200px;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-15);
+  overflow-wrap: anywhere;
+}
+
+.forge__error {
+  margin: 0;
+  color: var(--stamp);
+  font-weight: 600;
+}
+
+.forge__names {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.forge__names li {
+  overflow-wrap: anywhere;
+}
+
+.forge__voice {
+  margin: 0;
+}
+
+.forge__result {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.forge__safety {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.forge__tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-4);
+  border-top: 1px solid var(--rule);
+}
+
+.forge__tag-name {
+  flex: 1 1 140px;
+}
+
+.forge__check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  min-width: 44px;
+  cursor: pointer;
+}
+
+.forge__check input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--pencil);
+}
+
+.forge__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (min-width: 1000px) {
+  .forge__cols {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* Tap targets: the kit's tabs are 32px tall; this page needs 44px. */
+.forge .tabs__tab {
+  min-height: 44px;
+}

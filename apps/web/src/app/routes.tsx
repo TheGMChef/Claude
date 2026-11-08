@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+import { ForgePreview } from '../dev/ForgePreview';
 import { KitPage } from '../dev/KitPage';
 import { App } from './App';
 import { Home } from './Home';
@@ -21,11 +22,7 @@ if (import.meta.env.DEV) {
     },
     {
       path: 'forge-preview',
-      element: (
-        <main className="shell">
-          <h1>Forge preview</h1>
-        </main>
-      ),
+      element: <ForgePreview />,
     },
   );
 }
