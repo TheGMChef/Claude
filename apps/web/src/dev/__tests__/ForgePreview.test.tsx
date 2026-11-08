@@ -1,7 +1,14 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { SAFETY_VOCABULARY, askOracle, batch, generate, reroll } from '@prepdesk/engine';
+import {
+  SAFETY_VOCABULARY,
+  askOracle,
+  batch,
+  cardToShare,
+  generate,
+  reroll,
+} from '@prepdesk/engine';
 import type { Card, Context } from '@prepdesk/engine';
 import { lib } from '../engine';
 import { ForgePreview } from '../ForgePreview';
@@ -44,7 +51,12 @@ function setup() {
   return { user, writeText };
 }
 
-/** First fixed seed whose role entry carries a safety tag: [seed, tag]. Content is fixed, so deterministic. */
+const codeOf = (seed: string) =>
+  cardToShare(lib, generate(lib, 'fantasy.npc', { seed, context: defaultContext() })).code;
+const INEXACT =
+  "This code can't recreate this exact card, because a locked part was made under other settings. Copy the card data instead.";
+
+/** First fixed seed whose role entry carries a safety tag: [share code, tag]. Content is fixed, so deterministic. */
 function seedWithTaggedRole(): [string, string] {
   for (let i = 0; i < 500; i++) {
     const seed = `probe-${i}`;
@@ -52,7 +64,7 @@ function seedWithTaggedRole(): [string, string] {
     for (const src of card.fields.role?.sources ?? []) {
       const [tableId, idx] = src.split('#');
       const tag = lib.table(tableId ?? '')?.entries[Number(idx)]?.safety[0];
-      if (tag && tag !== 'child-harm') return [card.seed, tag];
+      if (tag && tag !== 'child-harm') return [cardToShare(lib, card).code, tag];
     }
   }
   throw new Error('no tagged role entry found in 500 seeds');
@@ -94,7 +106,7 @@ describe('ForgePreview', () => {
     );
     expect(snapshot()).toEqual(earlier);
     const code = shareCode();
-    expect(code).toBe(seedN(2));
+    expect(code).toBe(codeOf(seedN(2)));
     await user.click(screen.getByRole('button', { name: 'Copy share code' }));
     expect(writeText).toHaveBeenCalledWith(code);
     expect(await screen.findByRole('status')).toHaveTextContent('Copied');
@@ -124,10 +136,11 @@ describe('ForgePreview', () => {
     await user.click(screen.getByRole('button', { name: 'Create NPC' }));
     const input = screen.getByLabelText('Paste a code');
 
-    await user.type(input, '  k7q2m9xd  ');
+    const code = codeOf('K7Q2-M9XD');
+    await user.type(input, `  ${code.toLowerCase().replace('.', ' . ')}  `);
     await user.click(screen.getByRole('button', { name: 'Load' }));
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
-    expect(shareCode()).toBe('K7Q2-M9XD');
+    expect(shareCode()).toBe(code);
     const loaded = snapshot();
     expect(loaded).toEqual(
       texts(generate(lib, 'fantasy.npc', { seed: 'K7Q2-M9XD', context: defaultContext() })),
@@ -141,6 +154,53 @@ describe('ForgePreview', () => {
 
     await user.type(input, 'x');
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+
+    // A plain 8-letter word used to read as a seed; it now fails the check symbol.
+    await user.clear(input);
+    await user.type(input, 'nonsense');
+    await user.click(screen.getByRole('button', { name: 'Load' }));
+    expect(screen.getByRole('alert')).toHaveTextContent(BAD_CODE);
+    expect(snapshot()).toEqual(loaded);
+  });
+
+  it('warns when the code is not exact and copies the card data instead; pasting that data restores the card', async () => {
+    const { user, writeText } = setup();
+    await user.click(screen.getByRole('button', { name: 'Create NPC' }));
+    expect(screen.queryByText(INEXACT)).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Copy card data' })).not.toBeInTheDocument();
+
+    // Lock the Marsh name, switch to Highland and reroll: the kept name was made under other settings.
+    await user.click(screen.getByRole('button', { name: 'Lock name' }));
+    await user.click(screen.getByRole('tab', { name: 'Highland' }));
+    await user.click(screen.getByRole('button', { name: 'Reroll' }));
+    const note = screen.getByText(INEXACT);
+    expect(note).toHaveAttribute('role', 'status');
+    const kept = snapshot();
+
+    await user.click(screen.getByRole('button', { name: 'Copy card data' }));
+    const json = writeText.mock.calls.at(-1)?.[0] as string;
+    expect(JSON.parse(json)).toMatchObject({ generatorId: 'fantasy.npc' });
+    expect(await screen.findByText('Copied')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Create NPC' }));
+    expect(snapshot()).not.toEqual(kept);
+    await user.click(screen.getByLabelText('Paste a code'));
+    await user.paste(json);
+    await user.tab();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Load' }));
+    expect(snapshot()).toEqual(kept);
+  });
+
+  it('pasting broken card data alerts and keeps the card', async () => {
+    const { user } = setup();
+    await user.click(screen.getByRole('button', { name: 'Create NPC' }));
+    const before = snapshot();
+    await user.click(screen.getByLabelText('Paste a code'));
+    await user.paste('{"id": "x"}');
+    await user.click(screen.getByRole('button', { name: 'Load' }));
+    expect(screen.getByRole('alert')).toHaveTextContent(BAD_CODE);
+    expect(snapshot()).toEqual(before);
   });
 
   it('validates the pasted code on blur, stays quiet while typing, clears on focus, ignores an empty field', async () => {

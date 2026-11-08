@@ -1,4 +1,5 @@
 import { ContentError } from './errors';
+import { cultureTag } from './share';
 import type {
   CompiledCulture,
   CompiledDeck,
@@ -12,6 +13,8 @@ export type Library = {
   packs: CompiledPack[];
   table(id: string): CompiledTable | undefined;
   culture(id: string): CompiledCulture | undefined;
+  /** The culture whose share-code tag (`cultureTag`) is `tag`. */
+  cultureByTag(tag: string): CompiledCulture | undefined;
   generator(id: string): CompiledGenerator | undefined;
   oracle(id: string): CompiledOracle | undefined;
   deck(id: string): CompiledDeck | undefined;
@@ -19,7 +22,8 @@ export type Library = {
 
 /**
  * Indexes packs by absolute id. `user.*` ids from a later pack replace earlier definitions;
- * any other duplicate id (across any kind) throws `duplicate-id`.
+ * any other duplicate id (across any kind) throws `duplicate-id`, as do two cultures whose
+ * share-code tags collide (share codes name the culture by tag).
  */
 export function loadPacks(packs: CompiledPack[]): Library {
   const tables = new Map<string, CompiledTable>();
@@ -76,10 +80,26 @@ export function loadPacks(packs: CompiledPack[]): Library {
     add(decks, 'deck', pack.id, pack.decks);
   }
 
+  const byTag = new Map<string, CompiledCulture>();
+  for (const [id, c] of cultures) {
+    const tag = cultureTag(id);
+    const prior = byTag.get(tag);
+    if (prior) {
+      throw new ContentError(
+        'duplicate-id',
+        `cultures "${prior.id}" and "${id}" share the share-code tag "${tag}"; rename one of them`,
+        id,
+        owner.get(`culture:${id}`) ?? '',
+      );
+    }
+    byTag.set(tag, c);
+  }
+
   return {
     packs,
     table: (id) => tables.get(id),
     culture: (id) => cultures.get(id),
+    cultureByTag: (tag) => byTag.get(tag),
     generator: (id) => generators.get(id),
     oracle: (id) => oracles.get(id),
     deck: (id) => decks.get(id),

@@ -142,7 +142,8 @@ describe('share codes', () => {
     card = reroll(lib, card, { locks: ['name', 'want'] });
     card = reroll(lib, card);
     card = reroll(lib, card, { locks: ['role'] });
-    const code = cardToShare(lib, card);
+    const { code, exact } = cardToShare(lib, card);
+    expect(exact).toBe(true);
     const res = cardFromShare(lib, 'test.npc', code, marsh);
     expect(res.ok).toBe(true);
     if (!res.ok) return;
@@ -152,16 +153,16 @@ describe('share codes', () => {
     expect(res.card.seed).toBe(card.seed);
   });
 
-  it('encodes a pristine card as its bare seed and reports decode errors', () => {
+  it('encodes a pristine card as its seed and culture tag and reports decode errors', () => {
     const card = generate(lib, 'test.npc', { seed: SEED, context: marsh });
-    expect(cardToShare(lib, card)).toBe(SEED);
-    expect(cardFromShare(lib, 'test.npc', 'nope', marsh)).toEqual({
+    expect(cardToShare(lib, card).code).toMatch(/^K7Q2-M9XD\.C[0-9A-Z]{4}.$/);
+    expect(cardFromShare(lib, 'test.npc', 'K7Q2-M9XD!', marsh)).toEqual({
       ok: false,
       error: 'malformed',
     });
-    expect(cardFromShare(lib, 'test.npc', `${SEED}.L0.N1_2`, marsh)).toEqual({
+    expect(cardFromShare(lib, 'test.npc', 'nope', marsh)).toEqual({
       ok: false,
-      error: 'field-count',
+      error: 'checksum',
     });
   });
 });
@@ -309,7 +310,7 @@ describe('seed normalisation (R21)', () => {
     expect(b.seed).toBe(a.seed);
     expect(b.fields).toEqual(a.fields);
     const rerolled = reroll(lib, a, { locks: ['name'] });
-    const res = cardFromShare(lib, 'test.npc', cardToShare(lib, rerolled), marsh);
+    const res = cardFromShare(lib, 'test.npc', cardToShare(lib, rerolled).code, marsh);
     expect(res.ok).toBe(true);
     if (res.ok) expect(res.card.fields).toEqual(rerolled.fields);
     expect(generate(lib, 'test.npc', { seed: 'other text', context: marsh }).seed).not.toBe(a.seed);
@@ -372,7 +373,7 @@ describe('card ids without crypto.randomUUID (M4: http LAN origins are not secur
   it('generate, reroll and cardFromShare work and give RFC 4122 v4 ids', () => {
     const card = generate(lib, 'test.npc', { seed: 'M4M4-0001', context: marsh });
     const again = reroll(lib, card, { locks: ['name'] });
-    const shared = cardFromShare(lib, 'test.npc', cardToShare(lib, card), marsh);
+    const shared = cardFromShare(lib, 'test.npc', cardToShare(lib, card).code, marsh);
     if (!shared.ok) throw new Error('share failed');
     for (const id of [card.id, again.id, shared.card.id]) expect(id).toMatch(V4);
     expect(again.id).toBe(card.id);

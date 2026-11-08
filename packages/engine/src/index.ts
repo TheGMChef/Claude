@@ -1,8 +1,8 @@
 export const VERSION = '0.1.0';
 export { createRng, hashSeed, newSeed, normalizeSeed } from './rng';
 export type { Rng } from './rng';
-export { decodeShare, encodeShare } from './share';
-export type { ShareState, DecodeResult } from './share';
+export { cultureTag, decodeShare, encodeShare } from './share';
+export type { ShareState, ShareError, DecodeResult } from './share';
 export * from './template';
 export * from './safety';
 export * from './errors';
@@ -36,6 +36,8 @@ export type {
   RollResult,
   SerializableContext,
 } from './generate';
+export { parseCard, serializeCard } from './cardJson';
+export type { ParsedCard } from './cardJson';
 export { validateUserPack } from './userPack';
 export { askOracle, oracleOutcome, drawMove } from './oracle';
 export type { OracleResult, MoveCard } from './oracle';

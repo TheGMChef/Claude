@@ -2,11 +2,11 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
 
-// A fixed seed whose marsh-culture NPC "role" entry carries the `religion` safety tag (found by
-// scanning probe seeds with the engine; content is fixed, so it stays valid until that table changes).
-const RELIGION_SEED = 'YSFV-53MC';
-// NB: share codes don't carry the culture (R27), so this seed assumes the page's first culture tab
-// (Marsh-folk), which is what /forge-preview selects on load.
+// The share code (v2: seed YSFV-53MC, Marsh-folk culture tag, check symbol) of an NPC whose "role"
+// entry carries the `religion` safety tag. Found by scanning probe seeds with the engine; content
+// is fixed, so it stays valid until that table or the culture id changes. The code carries the
+// culture, so it loads the Marsh-folk NPC whichever culture tab is selected.
+const RELIGION_CODE = 'YSFV-53MC.CWPGG6';
 
 const FIELDS = ['name', 'role', 'look', 'want', 'secret', 'voice', 'tell'];
 const snapshot = (page: Page) =>
@@ -31,8 +31,11 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context
   expect(second.slice(1)).not.toEqual(first.slice(1)); // everything else is rerolled
 
   const code = await shareCode(page);
-  expect(code).toMatch(/^[0-9A-Z]{4}-[0-9A-Z]{4}\./);
-  // The code is SEED.L<locks>.N<nonces>: the clipboard read below is mandatory.
+  // SEED.C<culture>.L<locks>.N<nonces> plus a check symbol: the clipboard read below is mandatory.
+  expect(code).toMatch(
+    /^[0-9A-Z]{4}-[0-9A-Z]{4}\.C[0-9A-Z]{4}\.L[0-9A-Z]+\.N[0-9A-Z_]+[0-9A-Z*~$=]$/,
+  );
+  await expect(page.getByText("This code can't recreate this exact card")).toHaveCount(0);
   await page.getByRole('button', { name: 'Copy share code' }).click();
   await expect(page.getByRole('status')).toHaveText('Copied');
   const pasted = await page.evaluate(() => navigator.clipboard.readText());
@@ -45,6 +48,39 @@ test('lock -> reroll -> copy -> paste -> identical card', async ({ page, context
   await page.getByRole('button', { name: 'Load' }).click();
   expect(await snapshot(page)).toEqual(second);
   expect(await shareCode(page)).toBe(code);
+
+  // The code carries the culture (R27 retired): loading it under another tab gives the same NPC.
+  await page.getByRole('tab', { name: 'Highland' }).click();
+  await page.getByRole('button', { name: 'Create NPC' }).click();
+  await page.getByLabel('Paste a code').fill(pasted);
+  await page.getByRole('button', { name: 'Load' }).click();
+  expect(await snapshot(page)).toEqual(second);
+  await expect(page.getByRole('article').getByText('Marsh-folk')).toBeVisible();
+});
+
+test('an inexact code says so; the copied card data restores the exact card', async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/forge-preview');
+  await page.getByRole('button', { name: 'Create NPC' }).click();
+  await page.getByRole('button', { name: 'Lock name' }).click();
+  await page.getByRole('tab', { name: 'Highland' }).click();
+  await page.getByRole('button', { name: 'Reroll' }).click();
+  await expect(page.getByText("This code can't recreate this exact card")).toBeVisible();
+  const kept = await snapshot(page);
+
+  await page.getByRole('button', { name: 'Copy card data' }).click();
+  await expect(page.getByText('Copied')).toBeVisible();
+  const data = await page.evaluate(() => navigator.clipboard.readText());
+  expect(JSON.parse(data)).toMatchObject({ generatorId: 'fantasy.npc' });
+
+  await page.getByRole('button', { name: 'Create NPC' }).click();
+  expect(await snapshot(page)).not.toEqual(kept);
+  await page.getByLabel('Paste a code').fill(data);
+  await page.getByRole('button', { name: 'Load' }).click();
+  expect(await snapshot(page)).toEqual(kept);
 });
 
 test('a bad code shows the error and keeps the card', async ({ page }) => {
@@ -55,13 +91,18 @@ test('a bad code shows the error and keeps the card', async ({ page }) => {
   await page.getByRole('button', { name: 'Load' }).click();
   await expect(page.getByRole('alert')).toContainText("That code doesn't look right");
   expect(await snapshot(page)).toEqual(before);
+  // A plain 8-letter word used to read as a seed; it now fails the check symbol.
+  await page.getByLabel('Paste a code').fill('nonsense');
+  await page.getByRole('button', { name: 'Load' }).click();
+  await expect(page.getByRole('alert')).toContainText("That code doesn't look right");
+  expect(await snapshot(page)).toEqual(before);
 });
 
 test('a Line blocks a locked field whose entry carries the tag (safety beats locks)', async ({
   page,
 }) => {
   await page.goto('/forge-preview');
-  await page.getByLabel('Paste a code').fill(RELIGION_SEED);
+  await page.getByLabel('Paste a code').fill(RELIGION_CODE);
   await page.getByRole('button', { name: 'Load' }).click();
   const role = await page.getByTestId('field-value-role').innerText();
   expect(role).not.toBe('—');

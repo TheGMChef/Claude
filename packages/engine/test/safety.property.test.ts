@@ -277,7 +277,7 @@ describe('generation-level safety property (I3)', () => {
       const locks = LOCKABLE.filter(() => rng.next() < 0.5);
       card = reroll(lib, card, { locks });
       const after = settings(createRng('share-after', i));
-      const res = cardFromShare(lib, GEN, cardToShare(lib, card), {
+      const res = cardFromShare(lib, GEN, cardToShare(lib, card).code, {
         cultureId: culture,
         safety: after,
       });

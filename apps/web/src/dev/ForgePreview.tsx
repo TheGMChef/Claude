@@ -12,7 +12,9 @@ import {
   drawMove,
   generate,
   newSeed,
+  parseCard,
   reroll,
+  serializeCard,
 } from '@prepdesk/engine';
 import type { Card, Context, Likelihood, NameResult } from '@prepdesk/engine';
 import {
@@ -33,6 +35,8 @@ const ORACLE = 'fantasy.oracle';
 const DECK = 'core.gm-moves';
 const BAD_CODE = "That code doesn't look right. Check it and try again.";
 const COPY_FAILED = "Couldn't copy — select the code instead.";
+const INEXACT =
+  "This code can't recreate this exact card, because a locked part was made under other settings. Copy the card data instead.";
 const LOOSENED_NOTE = 'Loosened: nothing matched every setting, so a filter was relaxed here.';
 
 const CULTURES = [
@@ -187,11 +191,13 @@ export function ForgePreview() {
     }
   };
 
-  const code = card ? cardToShare(lib, card) : '';
+  // cardToShare rebuilds the card to work out `exact`, so only recompute when the card changes.
+  const share = useMemo(() => (card ? cardToShare(lib, card) : null), [card]);
+  const code = share?.code ?? '';
 
-  const copy = async () => {
+  const copy = async (text: string) => {
     try {
-      await navigator.clipboard.writeText(code);
+      await navigator.clipboard.writeText(text);
       setCopyFailed(false);
       setCopied(true);
     } catch {
@@ -200,10 +206,21 @@ export function ForgePreview() {
     }
   };
 
+  /** The pasted share code, or pasted card data (JSON), as a card; null when it reads as neither. */
+  const readPasted = (text: string): Card | null => {
+    const trimmed = text.trim();
+    if (trimmed.startsWith('{')) {
+      const res = parseCard(lib, trimmed);
+      return res.ok && res.card.generatorId === GENERATOR ? res.card : null;
+    }
+    const res = cardFromShare(lib, GENERATOR, trimmed, context);
+    return res.ok ? res.card : null;
+  };
+
   const load = () => {
-    const res = cardFromShare(lib, GENERATOR, pasted, context);
-    if (res.ok) {
-      setCard(res.card);
+    const next = readPasted(pasted);
+    if (next) {
+      setCard(next);
       setCopied(false);
       setPasteError(false);
     } else {
@@ -235,8 +252,18 @@ export function ForgePreview() {
                   <code className="forge__code" data-testid="share-code">
                     {code}
                   </code>
-                  <IconButton icon="copy" label="Copy share code" onClick={() => void copy()} />
+                  <IconButton icon="copy" label="Copy share code" onClick={() => void copy(code)} />
                 </div>
+                {share && !share.exact && (
+                  <>
+                    <p role="status" className="forge__muted">
+                      {INEXACT}
+                    </p>
+                    <Button variant="outline" onClick={() => void copy(serializeCard(card))}>
+                      Copy card data
+                    </Button>
+                  </>
+                )}
                 {copyFailed && <p className="forge__muted">{COPY_FAILED}</p>}
                 {copied && (
                   <p role="status" className="forge__muted">
@@ -266,7 +293,7 @@ export function ForgePreview() {
               }}
               onFocus={() => setPasteError(false)}
               onBlur={() => {
-                if (pasted.trim() && !cardFromShare(lib, GENERATOR, pasted, context).ok) {
+                if (pasted.trim() && !readPasted(pasted)) {
                   setPasteError(true);
                 }
               }}

@@ -250,7 +250,7 @@ describe('applySafety (M2/R28)', () => {
   it('cardFromShare and generate never produce hidden values', () => {
     for (let i = 0; i < 100; i++) {
       const card = generate(lib, GEN, { seed: `NH${i}`, context: ctx(['fire']) });
-      const shared = cardFromShare(lib, GEN, cardToShare(lib, card), ctx(['violence']));
+      const shared = cardFromShare(lib, GEN, cardToShare(lib, card).code, ctx(['violence']));
       if (!shared.ok) throw new Error(shared.error);
       for (const f of [...Object.values(card.fields), ...Object.values(shared.card.fields)]) {
         expect(Object.hasOwn(f, 'hidden')).toBe(false);

@@ -8,7 +8,8 @@ import { CROCKFORD, createRng, randomId, toSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, CompiledGenerator, FieldSource } from './schema';
 import { selectEntry } from './select';
-import { decodeShare, encodeShare } from './share';
+import { cultureTag, decodeShare, encodeShare } from './share';
+import type { ShareError } from './share';
 
 export type CardField = {
   value: string;
@@ -441,7 +442,7 @@ function requireGenerator(lib: Library, id: string): CompiledGenerator {
   return lib.generator(id) ?? missing('generator', id);
 }
 
-function packVersion(lib: Library, generatorId: string): string {
+export function packVersion(lib: Library, generatorId: string): string {
   let version = '';
   for (const p of lib.packs) if (Object.hasOwn(p.generators, generatorId)) version = p.version;
   return version;
@@ -547,32 +548,52 @@ export function applySafety(lib: Library, card: Card, opts: { context?: Context 
   return toCard(lib, card.id, gen, card.seed, ctx, built);
 }
 
-/** Share code over the generator's field order (seed, nonces, locks). */
-export function cardToShare(lib: Library, card: Card): string {
+/**
+ * Share code v2 over the generator's field order: seed, culture tag, locks, nonces and a check
+ * symbol. `exact` says whether rebuilding the code under the card's own context reproduces every
+ * field value; it is false when a kept field was made under other settings (C1), and then only the
+ * card data (`serializeCard`) can recreate the card.
+ */
+export function cardToShare(lib: Library, card: Card): { code: string; exact: boolean } {
   const names = Object.keys(requireGenerator(lib, card.generatorId).fields);
-  return encodeShare({
+  const cultureId = card.context.cultureId;
+  const code = encodeShare({
     seed: card.seed,
     nonces: names.map((n) => card.fields[n]?.nonce ?? 0),
     locks: names.map((n) => card.fields[n]?.locked ?? false),
+    ...(typeof cultureId === 'string' ? { culture: cultureTag(cultureId) } : {}),
   });
+  const rebuilt = cardFromShare(lib, card.generatorId, code, card.context as Context);
+  const exact =
+    rebuilt.ok && names.every((n) => rebuilt.card.fields[n]?.value === card.fields[n]?.value);
+  return { code, exact };
 }
 
-/** Rebuilds a card from a share code: every field regenerates at its decoded nonce. */
+/**
+ * Rebuilds a card from a share code: every field regenerates at its decoded nonce. The code's
+ * culture replaces `context.cultureId`; an unknown culture tag is `unknown-culture`.
+ */
 export function cardFromShare(
   lib: Library,
   generatorId: string,
   code: string,
   context: Context = {},
-): { ok: true; card: Card } | { ok: false; error: 'malformed' | 'field-count' } {
+): { ok: true; card: Card } | { ok: false; error: ShareError | 'unknown-culture' } {
   const gen = requireGenerator(lib, generatorId);
   const names = Object.keys(gen.fields);
   const decoded = decodeShare(code, names.length);
   if (!decoded.ok) return decoded;
-  const { seed, nonces, locks } = decoded.state;
+  const { seed, nonces, locks, culture } = decoded.state;
+  let base = context;
+  if (culture !== undefined) {
+    const found = lib.cultureByTag(culture);
+    if (!found) return { ok: false, error: 'unknown-culture' };
+    base = { ...context, cultureId: found.id };
+  }
   const plan: Plan = Object.fromEntries(
     names.map((n, i) => [n, { nonce: nonces[i] ?? 0, locked: locks[i] ?? false }]),
   );
-  const ctx = resolveContext(lib, context, seed);
+  const ctx = resolveContext(lib, base, seed);
   const built = assemble(newState(lib, ctx, false), 0, gen, seed, ctx, plan);
   return { ok: true, card: toCard(lib, randomId(), gen, seed, ctx, built) };
 }
