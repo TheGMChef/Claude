@@ -87,6 +87,13 @@ describe('renderTemplate', () => {
     expect(warn).not.toHaveBeenCalled();
   });
 
+  it('or: also fires on whitespace-only values (S1-8)', () => {
+    const e = (name: string): RenderEnv => mkEnv({}, { front: { name } });
+    expect(render('{ctx.front.name|or:the old guild}', e('   ')).text).toBe('the old guild');
+    expect(render('{ctx.front.name|or:the old guild}', e('')).text).toBe('the old guild');
+    expect(render('{ctx.front.name|or:the old guild}', e('Ash Court')).text).toBe('Ash Court');
+  });
+
   it('or: only applies when empty', () => {
     expect(render('{t.role|or:x}').text).toBe('innkeeper');
     expect(render('{t.empty|or:x}').text).toBe('x');

@@ -103,3 +103,11 @@ describe('cli main', () => {
     expect(main(['nope'], { out: [], err: [] })).toBe(2);
   });
 });
+
+describe('culture-safety fixture', () => {
+  it('yields exactly culture-safety, located in the culture file', () => {
+    const { errors } = compileDir('culture-safety');
+    expect([...new Set(errors.map((e) => e.code))]).toEqual(['culture-safety']);
+    expect(errors[0]?.path).toMatch(/src\/culture\.yaml/);
+  });
+});

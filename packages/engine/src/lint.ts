@@ -2,6 +2,7 @@ import { ContentError } from './errors';
 import { nameWithRng, normalizeName } from './names';
 import { createRng } from './rng';
 import { SAFETY_VOCABULARY } from './safety';
+import { stemHits } from './safetyStems';
 import type { CompiledPack, FieldSource } from './schema';
 import { fieldDeps } from './situations';
 import { findCycle, templateRefs } from './template';
@@ -41,6 +42,10 @@ export function lintWith(
     Object.create(null),
     ...all.map((p) => p.generators),
   ) as CompiledPack['generators'];
+  const situations = Object.assign(
+    Object.create(null),
+    ...all.map((p) => p.situations),
+  ) as CompiledPack['situations'];
   const vocabulary = new Set(all.flatMap((p) => p.vocabulary));
   const safety = new Set(SAFETY_VOCABULARY);
 
@@ -114,6 +119,15 @@ export function lintWith(
           }
           out.push(`table:${table}`);
         } else if ('facet' in src) {
+          // R37: a facet roll reaches that facet's table of every situation the index can pick, so
+          // a {gen:} in a facet entry that points back here shows up as a reference cycle.
+          const of = Object.hasOwn(g.fields, src.facet.of) ? g.fields[src.facet.of] : undefined;
+          if (of && 'situation' in of) {
+            for (const e of tables[of.situation.table]?.entries ?? []) {
+              const st = e.ref === undefined ? undefined : situations[e.ref];
+              if (st) out.push(`table:${st.facets[src.facet.name]}`);
+            }
+          }
           if (own && !isSituation(src.facet.of)) {
             err('missing-source', `facet of "${src.facet.of}": not a situation field`, path);
           }
@@ -208,6 +222,15 @@ export function lintWith(
   }
 
   for (const c of Object.values(pack.cultures)) {
+    const where = locate('culture', c.id);
+    const flag = (text: string, path: string): void => {
+      const hits = stemHits(text);
+      if (hits.length > 0) {
+        err('culture-safety', `"${text}" touches ${hits.join(', ')}; reword it`, path);
+      }
+    };
+    c.examples.forEach((ex, i) => flag(ex, `${where}#names.examples[${i}]`));
+    c.voice.tips.forEach((tip, i) => flag(tip, `${where}#voice.tips[${i}]`));
     const rng = createRng('lint', c.id);
     const seen = new Set<string>();
     for (let i = 0; i < 500 && seen.size < 20; i++) {

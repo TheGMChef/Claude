@@ -5,6 +5,7 @@ export { cultureTag, decodeShare, encodeShare } from './share';
 export type { ShareState, ShareError, DecodeResult } from './share';
 export * from './template';
 export * from './safety';
+export { SAFETY_STEMS, stemHits } from './safetyStems';
 export * from './errors';
 export * from './schema';
 export { compileDocs } from './compile';

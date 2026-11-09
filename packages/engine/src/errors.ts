@@ -7,6 +7,7 @@ export type ContentErrorCode =
   | 'unknown-safety-tag'
   | 'unknown-tag'
   | 'weak-culture'
+  | 'culture-safety'
   | 'missing-source'
   | 'schema'
   | 'namespace';

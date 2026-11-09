@@ -3,6 +3,8 @@ import { lintPack } from '../src/lint';
 import type { CompiledPack, CompiledEntry, CompiledCulture } from '../src/schema';
 import marshJson from './fixtures/marsh.culture.json';
 import type { TemplateAst } from '../src/template';
+import { compileDocs } from '../src/compile';
+import { situationManifest, situationOnlyDocs } from './fixtures/situation-pack';
 
 const entry = (
   id: string,
@@ -180,5 +182,49 @@ describe('lintPack', () => {
   it('passes a healthy culture', () => {
     const c = marshJson as CompiledCulture;
     expect(lintPack(pack({ cultures: { [c.id]: c } }))).toEqual([]);
+  });
+
+  it('flags culture examples and voice tips that match a safety stem (culture-safety)', () => {
+    const c = {
+      ...(marshJson as CompiledCulture),
+      examples: ['Corpsewick Vey'],
+      voice: { summary: 's', tips: ['Pray before you lie.'] },
+    };
+    const errs = lintPack(pack({ cultures: { [c.id]: c } }), []);
+    expect(errs.map((e) => [e.code, e.path])).toEqual([
+      ['culture-safety', `${c.id}#names.examples[0]`],
+      ['culture-safety', `${c.id}#voice.tips[0]`],
+    ]);
+  });
+
+  it('flags a {gen:} self-reference through a facet entry as a cycle (R37)', () => {
+    const docs = situationOnlyDocs.map((d) =>
+      'id' in d && d.id === 's.situation.reed-vow'
+        ? {
+            ...d,
+            facets: {
+              ...(d as { facets: Record<string, unknown[]> }).facets,
+              enemy: [{ text: 'again {gen:s.seed.b}' }, { text: 'enemy 2' }, { text: 'enemy 3' }],
+            },
+          }
+        : d,
+    );
+    const { errors } = compileDocs(situationManifest, [
+      ...docs.map((d, i) => ({ file: `d${i}.yaml`, data: d })),
+      {
+        file: 'g.yaml',
+        data: {
+          kind: 'generator',
+          id: 's.seed',
+          title: 'Seed',
+          fields: {
+            a: { situation: { table: 's.situations' } },
+            b: { facet: { of: 'a', name: 'enemy' } },
+          },
+          display: '{b}',
+        },
+      },
+    ]);
+    expect(errors.map((e) => e.code)).toEqual(['cycle']);
   });
 });

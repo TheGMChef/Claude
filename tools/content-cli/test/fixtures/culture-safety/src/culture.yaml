@@ -1,0 +1,14 @@
+kind: culture
+id: fx.culture.grim
+name: Grim
+voice:
+  summary: Plain speakers.
+  tips: [Pray before you lie.]
+names:
+  given:
+    pattern: [a, b]
+    parts:
+      a: [Bel, Cor, Dun, Fen, Gar, Hal, Jor, Kel]
+      b: [an, en, in, on, un, ar, er, or]
+  examples: [Corpsewick Vey]
+  exampleChance: 0.2

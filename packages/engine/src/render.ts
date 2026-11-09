@@ -87,7 +87,7 @@ function applyMod(text: string, mod: Modifier): string {
     case 'a':
       return text === '' ? text : `${/^[aeiou]/i.test(text) ? 'an' : 'a'} ${text}`;
     case 'or':
-      return text === '' ? mod.fallback : text;
+      return text.trim() === '' ? mod.fallback : text;
   }
 }
 
