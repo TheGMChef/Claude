@@ -17,7 +17,13 @@ because a GM reads it out at the table with five people waiting.
   complete "They want …", secrets complete "Secretly, …", tells complete "They always …".
 - **Tone.** Grounded, a little wry, never grimdark for its own sake. Darker material is fine when
   it makes a hook stronger and it is tagged (see below).
-- **No duplicates in spirit.** If two entries would lead to the same scene, cut one.
+- **Title stem (slot grammar).** Each table's `title` states the sentence it completes, for
+  example "Rumor: People say that …". Write every entry to read aloud after that stem.
+- **No duplicates in spirit.** If two entries would lead to the same scene, cut one. This also
+  holds across `rumor.text` and `secret.text`, which the gates check as one pool.
+- **No exclamation marks, no "you"** (except encounter `fail` and `turn`), and free-text context
+  (`{ctx.pc.want}`, `{ctx.truth.text}`) only at the very end of an entry, always with an `or:`
+  fallback.
 
 ## Original writing only
 
@@ -58,7 +64,8 @@ it. An extra tag only makes an entry a little rarer.
 | to know why the well water has started tasting sweet         | (none)           | a mystery with no harm implied         |
 
 Keep the pack usable for groups with strict lines. No more than about 30% of any table should
-carry safety tags, so the generator always has plenty of untagged entries to choose from.
+carry safety tags (the gates fail above 30%), so the generator always has plenty of untagged
+entries to choose from. Rewrite an entry to drop a topic rather than dropping a tag that belongs.
 Entries tagged `child-harm` are blocked by default in every new campaign, so don't write them for
 this pack.
 
@@ -70,6 +77,84 @@ Make cultures sound different from each other, with different sounds and letter 
 not just different lists. Use `banned` patterns (case-insensitive) to reject results that break
 the culture's sound.
 
+**Names and voice notes.** Culture `examples` and voice `tips` must not touch any safety topic.
+The `culture-safety` lint rejects words from the short per-topic stem list in
+`packages/engine/src/safetyStems.ts`. Generated names carry no safety tags. Never rename a name
+the owner wrote to get past the lint; fix the stem list instead. The counts above stay as they are
+until the cultures are raised to 16 examples and 4 tips each.
+
+## Situations
+
+A situation is a tag pair: a title that names a tension, with six facets that fill in a scene.
+Two situations rolled together make a seed. Each lives in `src/situations/<slug>.yaml`, with its id
+under `<pack>.situation.`, and lists `situation` first in its `tags`.
+
+| Facet          | What it holds                                         |
+| -------------- | ----------------------------------------------------- |
+| `enemy`        | a person or group, plus what they want                |
+| `friend`       | a person or group who would help, plus what they want |
+| `complication` | the knot that makes acting costly                     |
+| `thing`        | an object someone wants                               |
+| `place`        | a location with a reason to be there                  |
+| `pressure`     | what happens if nobody acts, with a when              |
+
+- Each facet needs at least 4 entries once the situations are full (3 while they are a starter set),
+  written as fragments in the same style as table entries.
+- **Title rule.** Two or three words, our own, and unique. The summary is one sentence of at most
+  120 characters ending with a period.
+- **Safety.** Facet entries inherit the situation's `safety` tags, so tag the situation itself
+  when its whole premise touches a topic. Keep title-level tags rare: at least half of the
+  situations must survive the strict-lines fixture, and no facet may hold more than one strict-lined
+  entry of its own.
+- **Originality check.** Search each title and the five most distinctive lines verbatim before
+  committing, and rename any match or near match (plural, synonym swap) of a published tag list.
+
+## Quality gates
+
+These run on every change to the pack, driven by one table: `packages/engine/test/fixtures/content-spec.ts`.
+A content task edits only that table (counts, `full` flags, kinds). Run them with:
+
+```
+pnpm --filter @prepdesk/engine test packs content
+```
+
+- **Counts.** Every `TABLE_SPEC` table exists and has at least its threshold: the target once
+  `full`, otherwise the stub (default 8). `fixed` tables have exactly the target. The deck, the
+  oracle meaning tables, the situations and the cultures have their own counters.
+- **Strict lines.** At most 30% of a table is safety-tagged. Under the strict-lines fixture a
+  table loses at most 40%, and Pocket-feeding tables keep at least 12 eligible entries once full.
+  Situations keep enough eligible entries and facets hold at most one strict-lined entry.
+- **Lines of text.** No `!`. Line entries are at most 110 characters, start in lower case (or with
+  a slot), do not end with `.` or `,`, and no two share their first three words. Word entries are
+  short (at most 20 characters, two words), unique and lower case (Title Case when marked `caps`).
+  Pattern entries contain a slot.
+- **Articles.** Any table read through a `{table|a}` slot has no entry starting with `a`, `an`,
+  `the`, `one`, `hour`, `honest`, `honour`, `heir`, `uni…` or `eu…`.
+- **Context slots.** Every `ctx` slot has an `or:` fallback and a path from the allowed list;
+  free-text keys come last.
+- **Safety audit.** Every word in a safety stem list that appears in an entry must have that
+  entry's tag. A genuine false positive ("stablehand" for `stab`) needs a row with a reason in
+  `AUDIT_EXCEPTIONS`; "fireplace" is not one, so tag or reword it.
+- **Tags.** Each family's tag is on its tables, terrain tables cover every terrain tag, and every
+  vocabulary tag is used somewhere.
+- **Situations and cultures.** Titles are unique and 2-3 words, summaries are short sentences,
+  and cultures have their example and tip counts.
+- **Generation.** Each generator rolls 1,000 times with no missing reference, empty field or
+  warning, matches its determinism snapshot, and reads cleanly under DM-shaped and blank context.
+  Ten thousand random generations under random lines and veils never show a lined source.
+
+## Auditing a table for safety tags
+
+Do this for every table you touch (the Content Task Protocol audit):
+
+1. Print the sheet: `tsx packages/engine/test/tools/audit-list.ts fantasy.npc` (a table id or an
+   id prefix; several allowed). Each row shows the entry, its tags, its stem hits and the hits it
+   lacks a tag for.
+2. Read every entry against all 25 topics, not just the stem hits. Tag anything that touches a
+   topic, including mild or indirect mentions. When unsure, tag it.
+3. Keep each table at 30% tagged or less by rewriting entries, never by dropping a tag.
+4. Add an `AUDIT_EXCEPTIONS` row only for a true false positive, with its reason.
+
 ## Before you open a pull request
 
-Run `pnpm content:lint`. It must pass with no output.
+Run `pnpm content:lint` (no output) and the quality gates above.
