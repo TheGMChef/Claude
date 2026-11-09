@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { article } from '../src/article';
 
 const A = [
+  'unanimous jury',
+  'unanimity clerk',
+  'oneness cult',
+  'ulysses scholar',
+  '7 candles',
+  '110 sheep',
+  '180 coins',
+  '1,100 coins',
   'ferryman',
   'lamplighter',
   'beggar',
@@ -35,6 +43,15 @@ const A = [
   'hat-maker',
 ];
 const AN = [
+  'x-ray reader',
+  '8 candles',
+  '80 sheep',
+  '800s fashion',
+  '8,000 coins',
+  '11 pigeons',
+  '11th hour',
+  '18th-century clock',
+  '18,000 coins',
   'oyster diver',
   'apothecary',
   'eel-trap mender',
@@ -73,6 +90,5 @@ describe('article', () => {
   it.each(AN)('"%s" takes an', (text) => expect(article(text)).toBe('an'));
   it('defaults to a for empty or non-letter starts', () => {
     expect(article('')).toBe('a');
-    expect(article('7 candles')).toBe('a');
   });
 });

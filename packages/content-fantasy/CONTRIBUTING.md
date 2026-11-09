@@ -133,8 +133,10 @@ pnpm --filter @prepdesk/engine test packs content
   a slot), do not end with `.` or `,`, and no two share their first three words. Word entries are
   short (at most 20 characters, two words), unique and lower case (Title Case when marked `caps`).
   Pattern entries contain a slot.
-- **Articles.** Any table read through a `{table|a}` slot has no entry starting with `a`, `an`,
-  `the`, `one`, `hour`, `honest`, `honour`, `heir`, `uni…` or `eu…`.
+- **Articles.** The `{table|a}` modifier picks "a" or "an" with the engine's `article()`, by how the
+  first word is said ("an usurer" is wrong, "a usurer" is right). The gate renders every entry of
+  a table read through an `a` slot and rejects one that starts with its own `a`, `an` or `the`
+  (which would double up). So write entries without an article; `a-frame` is fine.
 - **Context slots.** Every `ctx` slot has an `or:` fallback and a path from the allowed list;
   free-text keys come last.
 - **Safety audit.** Every word in a safety stem list that appears in an entry must have that

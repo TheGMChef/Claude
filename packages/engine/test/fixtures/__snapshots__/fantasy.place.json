@@ -1,5 +1,5 @@
 {
-  "display": "The Hollow at Alder, a market stalls built into the arches of a dry viaduct",
+  "display": "The Hollow at Alder, a market stalls built into the arches of a dry aqueduct",
   "fields": {
     "name": {
       "value": "The Hollow at Alder",
@@ -12,7 +12,7 @@
       ]
     },
     "kind": {
-      "value": "market stalls built into the arches of a dry viaduct",
+      "value": "market stalls built into the arches of a dry aqueduct",
       "locked": false,
       "nonce": 0,
       "sources": [

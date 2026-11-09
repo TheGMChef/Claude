@@ -123,7 +123,7 @@ export function articleTables(lib: Library): Set<string> {
  */
 export function articleProblem(text: string): string {
   const rendered = `${article(text)} ${text}`;
-  return /^(a|an) (a|an|the)\b/i.test(rendered) ? `"${rendered}" doubles the article` : '';
+  return /^(a|an) (a|an|the)(?![\w-])/i.test(rendered) ? `"${rendered}" doubles the article` : '';
 }
 
 /** Ids of `tables` with no spec row, no structural role (situation facet/index) and no exclusion. */

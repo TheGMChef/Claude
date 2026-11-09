@@ -13,7 +13,7 @@ entries:
     tags: [noble]
   - text: the innkeeper, who has never forgotten who owes her a favour and keeps the list in the thatch
     tags: [trade]
-  - text: the bell-ringer, who decides when the market may open
+  - text: the town crier, who decides which news reaches the market first
     tags: [urban]
   - text: a shrine-keeper whose blessing every wedding and sale depends on
     tags: [faith]
