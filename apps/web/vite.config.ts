@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { configDefaults, defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { defaultClientConditions } from 'vite';
 
 export default defineConfig({
   plugins: [
@@ -37,7 +38,7 @@ export default defineConfig({
   // Vite's own client defaults, spelled out so Vitest 4 (jsdom) resolves packages the same way the
   // browser build does. Without this, tests load react-router's CJS build while react-router/dom
   // require()s the ESM build (Node 22 module-sync), giving two router contexts.
-  resolve: { conditions: ['module', 'browser', 'development|production'] },
+  resolve: { conditions: [...defaultClientConditions] },
   test: {
     environment: 'jsdom',
     globals: true,
