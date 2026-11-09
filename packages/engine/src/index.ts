@@ -7,6 +7,7 @@ export * from './template';
 export * from './safety';
 export { SAFETY_STEMS, stemHits } from './safetyStems';
 export * from './errors';
+export * from './limits';
 export * from './schema';
 export { compileDocs } from './compile';
 export { lintPack } from './lint';
