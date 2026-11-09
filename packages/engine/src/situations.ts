@@ -69,17 +69,34 @@ function indexEntry(lib: Library, id: string | undefined) {
 }
 
 /**
+ * The fields situation field `name` must differ from, in both directions of `distinctFrom` (R39):
+ * the field it names, and every situation field that names it. Whichever is done first (generated
+ * earlier, or kept by a lock) is excluded from the other's roll.
+ */
+export function distinctPeers(gen: CompiledGenerator, name: string): string[] {
+  const peers: string[] = [];
+  for (const [other, src] of Object.entries(gen.fields)) {
+    if (!('situation' in src) || other === name) continue;
+    const own = gen.fields[name];
+    const names = own && 'situation' in own && own.situation.distinctFrom === other;
+    if (names || src.situation.distinctFrom === name) peers.push(other);
+  }
+  return peers;
+}
+
+/**
  * Rolls a situation index table. Each entry gets its situation's genre as a tag so the genre
- * filter (relaxed last, R14) applies; `distinctFrom` excludes the other field's entry (S1-2).
- * Nothing left to choose is blocked.
+ * filter (relaxed last, R14) applies; the entries of the done `peers` are excluded (S1-2, R39).
+ * Nothing left to choose is blocked: it never repeats a peer and never relaxes a line.
  */
 export function rollSituation(
   lib: Library,
-  src: { table: string; distinctFrom?: string },
+  tableId: string,
+  peers: readonly string[],
   done: Done,
   roll: Roll,
 ): Part {
-  const table = lib.table(src.table);
+  const table = lib.table(tableId);
   if (!table) return blocked();
   const view: CompiledTable = {
     ...table,
@@ -90,12 +107,12 @@ export function rollSituation(
         : e;
     }),
   };
-  const other = doneField(done, src.distinctFrom);
-  const exclude =
-    other && !other.blocked && other.sources[0] !== undefined
-      ? new Set([other.sources[0]])
-      : undefined;
-  const r = roll(view, exclude);
+  const taken = new Set<string>();
+  for (const peer of peers) {
+    const other = doneField(done, peer);
+    if (other && !other.blocked && other.sources[0] !== undefined) taken.add(other.sources[0]);
+  }
+  const r = roll(view, taken.size > 0 ? taken : undefined);
   if (r.entryId === undefined) return blocked(r.relaxed);
   return { text: r.text, sources: r.sources, blocked: r.blocked, relaxed: r.relaxed };
 }
@@ -111,6 +128,8 @@ export function rollFacet(
   roll: Roll,
 ): Part {
   const of = doneField(done, src.of);
+  // Defence in depth: a blocked field has no sources, so the index lookup below would block it
+  // anyway. A mutant that drops `of.blocked` is equivalent; no test is expected to kill it.
   if (!of || of.blocked) return blocked();
   const indexId = of.sources[0];
   const ref = indexEntry(lib, indexId)?.ref;

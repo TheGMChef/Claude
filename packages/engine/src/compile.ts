@@ -1,6 +1,7 @@
 import type { ZodIssue } from 'zod';
 import { ContentError } from './errors';
 import { lintWith } from './lint';
+import { SAFETY_VOCABULARY } from './safety';
 import type { LintKind } from './lint';
 import { DocumentSrc, FACETS } from './schema';
 import type {
@@ -223,11 +224,13 @@ export function compileDocs(
 
   // Where lint should point for the entries of derived tables (facet entries, index entries).
   const derivedPath = new Map<string, (i: number) => string>();
-  // Contract for the generator layer: facet entries do NOT inherit the situation's `safety`. Only
-  // the index entry carries it; authors tag facet entries themselves.
+  // Every facet entry inherits (union) its situation's known `safety` tags (R39), so a facet table
+  // reached directly (a `table` field, a slot, rollTable) is safe by construction, as is the index
+  // entry. Unknown tags are reported once at the situation file, not again on every facet entry.
   for (const st of situations) {
     const base = fileOf('situation', st.id);
     const tags = st.tags ?? [];
+    const inherited = (st.safety ?? []).filter((t) => SAFETY_VOCABULARY.includes(t));
     const facetIds = {} as CompiledSituation['facets'];
     for (const f of FACETS) {
       const id = facetTableId(st.id, f);
@@ -240,7 +243,7 @@ export function compileDocs(
           ast: parsed ? resolveAst(parsed, id) : [e.text],
           weight: e.weight ?? 1,
           tags: e.tags ?? [],
-          safety: e.safety ?? [],
+          safety: [...new Set([...(e.safety ?? []), ...inherited])],
         };
       });
       out.tables[id] = { id, title: `${st.title}: ${f}`, tags, entries };

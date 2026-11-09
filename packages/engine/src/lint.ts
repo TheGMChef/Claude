@@ -158,10 +158,8 @@ export function lintWith(
         // Field dependency cycles (S1-7); generate falls back to declared order, but authors are told.
         const deps = new Map<string, string[]>();
         for (const [name, src] of Object.entries(g.fields)) {
-          deps.set(
-            name,
-            fieldDeps(src).filter((d) => fieldNames.has(d)),
-          );
+          // Only valid targets (situation fields) count; a bad target is already missing-source.
+          deps.set(name, fieldDeps(src).filter(isSituation));
         }
         const loop = findCycle(deps);
         if (loop) {

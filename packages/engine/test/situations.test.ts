@@ -9,6 +9,7 @@ import {
   cardToShare,
   generate,
   reroll,
+  rollTable,
 } from '../src/generate';
 import type { Card, CardField } from '../src/generate';
 import type { SafetySettings } from '../src/safety';
@@ -570,5 +571,109 @@ describe('lint situation fields', () => {
     expect(
       lintOf({ a: sit(), f: { facet: { of: 'a', name: 'villain' } } }).map(([c]) => c),
     ).toEqual(['schema']);
+  });
+});
+
+describe('situation fix round 1 (R39)', () => {
+  const withB = (title: string): Card => {
+    for (let i = 0; ; i++) {
+      const card = roll(`k${i}`);
+      if (field(card, 'b').value === title) return card;
+    }
+  };
+
+  it('a locked b makes the rerolled a exclude it, with facets from a different situation', () => {
+    for (let i = 0; i < 2_000; i++) {
+      const card = reroll(lib, roll(`lb${i}`), { locks: ['b'] });
+      const [a, b] = [field(card, 'a'), field(card, 'b')];
+      expect(a.value).not.toBe(b.value);
+      expect(field(card, 'enemy').sources[0]).not.toBe(b.sources[0]);
+      expect(field(card, 'thing').sources[0]).toBe(b.sources[0]);
+    }
+  });
+
+  it('a locked a makes the rerolled b exclude it', () => {
+    for (let i = 0; i < 2_000; i++) {
+      const card = reroll(lib, roll(`la${i}`), { locks: ['a'] });
+      expect(field(card, 'b').value).not.toBe(field(card, 'a').value);
+      expect(field(card, 'thing').sources[0]).not.toBe(field(card, 'a').sources[0]);
+    }
+  });
+
+  it('a locked b leaves a blocked when b holds the only eligible situation', () => {
+    const lined = { lines: ['fire', 'religion'], veils: [] };
+    const card = reroll(lib, withB('Reed vow'), { locks: ['b'], context: { safety: lined } });
+    expect(field(card, 'b').value).toBe('Reed vow');
+    expect(field(card, 'a')).toMatchObject({ value: BLOCKED_VALUE, blocked: true });
+    expect(field(card, 'enemy').blocked).toBe(true);
+  });
+
+  it('applySafety refills a next to a locked b without repeating it', () => {
+    const lined = { lines: ['fire', 'religion'], veils: [] };
+    for (let i = 0; i < 200; i++) {
+      const base = reroll(lib, roll(`ap${i}`), { locks: ['b'] });
+      if (field(base, 'b').value !== 'Reed vow') continue;
+      const card = reroll(lib, base, { locks: ['b'], context: { safety: lined } });
+      expect(field(card, 'a').blocked).toBe(true);
+      const back = applySafety(lib, card, { context: { safety: NONE } });
+      expect(field(back, 'a').blocked).toBeUndefined();
+      expect(field(back, 'a').value).not.toBe('Reed vow');
+      expect(Object.keys(back.fields)).toEqual(['enemy', 'b', 'a', 'thing']);
+    }
+  });
+
+  it('a line on a facet entry is never selected', () => {
+    let seen = 0;
+    for (let i = 0; i < 10_000; i++) {
+      const card = roll(`r${i}`, { lines: ['rats'], veils: [] });
+      expect(field(card, 'enemy').value).not.toBe('reed enemy 1');
+      if (field(roll(`r${i}`), 'enemy').value === 'reed enemy 1') seen++;
+    }
+    expect(seen).toBeGreaterThan(800);
+  });
+
+  it('facet entries carry their situation safety, merged with their own', () => {
+    const fireTagged = withFacets({
+      enemy: [{ text: 'a', safety: ['fire'] }, { text: 'b', safety: ['rats'] }, { text: 'c' }],
+    });
+    const { pack, errors } = compileDocs(situationManifest, asDocs(replaceEmber(fireTagged)));
+    expect(errors).toEqual([]);
+    expect(pack.tables['s.situation.ember-toll.enemy']?.entries.map((e) => e.safety)).toEqual([
+      ['fire'],
+      ['rats', 'fire'],
+      ['fire'],
+    ]);
+    expect(pack.tables['s.situation.reed-vow.enemy']?.entries.map((e) => e.safety)).toEqual([
+      ['rats'],
+      [],
+      [],
+    ]);
+  });
+
+  it('a facet table reached directly never shows a lined situation', () => {
+    const slotDoc = {
+      kind: 'table',
+      id: 's.t.ref',
+      entries: [{ text: 'see {s.situation.ember-toll.enemy}' }],
+    };
+    const direct = compileDocs(situationManifest, asDocs([...situationOnlyDocs, slotDoc]));
+    expect(direct.errors).toEqual([]);
+    const dl = loadPacks([direct.pack]);
+    const fire = { safety: { lines: ['fire'], veils: [] } };
+    for (let i = 0; i < 200; i++) {
+      const t = rollTable(dl, 's.situation.ember-toll.enemy', { seed: `t${i}`, context: fire });
+      expect(t).toMatchObject({ text: BLOCKED_VALUE, blocked: true });
+      const s = rollTable(dl, 's.t.ref', { seed: `t${i}`, context: fire });
+      expect(s.text).not.toContain('ember');
+      expect(s.blocked).toBe(true);
+    }
+  });
+
+  it('a facet whose of names itself is reported once', () => {
+    const g = { kind: 'generator', id: 's.g', title: 'G', display: '{f}' };
+    const self = { ...g, fields: { f: { facet: { of: 'f', name: 'enemy' } } } };
+    expect(compileErrors([...situationOnlyDocs, self])).toEqual([
+      ['missing-source', 'd4#fields.f'],
+    ]);
   });
 });

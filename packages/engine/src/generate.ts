@@ -8,7 +8,7 @@ import { CROCKFORD, createRng, randomId, toSeed } from './rng';
 import type { Rng } from './rng';
 import type { CompiledCulture, CompiledGenerator, CompiledTable, FieldSource } from './schema';
 import { selectEntry } from './select';
-import { fieldOrder, inDeclaredOrder, rollFacet, rollSituation } from './situations';
+import { distinctPeers, fieldOrder, inDeclaredOrder, rollFacet, rollSituation } from './situations';
 import type { Part } from './situations';
 import { cultureTag, decodeShare, encodeShare } from './share';
 import type { ShareError } from './share';
@@ -274,6 +274,7 @@ function genField(
   rng: Rng,
   ctx: Context,
   done: Readonly<Record<string, CardField>>,
+  peers: readonly string[] = [],
 ): Part {
   if ('table' in src) return rollInto(state, depth, src.table, rng, ctx);
   if ('situation' in src || 'facet' in src) {
@@ -281,7 +282,7 @@ function genField(
     const roll = (table: CompiledTable | string, exclude?: Set<string>) =>
       rollInto(state, depth, table, rng, ctx, exclude);
     return 'situation' in src
-      ? rollSituation(state.lib, src.situation, done, roll)
+      ? rollSituation(state.lib, src.situation.table, peers, done, roll)
       : rollFacet(state.lib, src.facet, done, roll);
   }
   if ('template' in src) {
@@ -446,14 +447,19 @@ function assemble(
   plan: Plan,
 ): Built {
   const fields: Record<string, CardField> = {};
+  // Kept fields first, so every rolled field sees them (distinctFrom in both directions, R39).
+  // Locked: value, sources, nonce and relaxed mark stay exactly, unless a line now hides them.
+  for (const [name, p] of Object.entries(plan)) {
+    if (p.keep)
+      fields[name] = guard(state.lib, { ...p.keep, locked: true }, ctx.safety?.lines ?? []);
+  }
   for (const name of fieldOrder(gen)) {
-    const src = gen.fields[name] as FieldSource;
     const p = plan[name] ?? { nonce: 0, locked: false };
+    if (p.keep) continue;
+    const src = gen.fields[name] as FieldSource;
     const rng = createRng(seed, name, p.nonce);
-    // Locked: value, sources, nonce and relaxed mark stay exactly, unless a line now hides them.
-    fields[name] = p.keep
-      ? guard(state.lib, { ...p.keep, locked: true }, ctx.safety?.lines ?? [])
-      : fieldFrom(genField(state, depth, src, rng, ctx, fields), p.locked, p.nonce);
+    const r = genField(state, depth, src, rng, ctx, fields, distinctPeers(gen, name));
+    fields[name] = fieldFrom(r, p.locked, p.nonce);
   }
   return finish(state, depth, gen, seed, ctx, inDeclaredOrder(gen, fields));
 }
@@ -554,16 +560,21 @@ export function applySafety(lib: Library, card: Card, opts: { context?: Context 
   const removed = (base.safety?.lines ?? []).some((l) => !lines.includes(l));
   const state = newState(lib, ctx, false);
   const fields: Record<string, CardField> = {};
+  // Untouched and re-guarded fields first, so a regenerated field sees all of them (R39).
+  const regen: string[] = [];
   for (const name of fieldOrder(gen)) {
-    const src = gen.fields[name] as FieldSource;
     const f = card.fields[name];
     if (f && !(f.blocked && !f.hidden)) fields[name] = guard(lib, f, lines);
     else if (f && !removed) fields[name] = f;
-    else {
-      const nonce = f?.nonce ?? 0;
-      const r = genField(state, 0, src, createRng(card.seed, name, nonce), ctx, fields);
-      fields[name] = fieldFrom(r, f?.locked ?? false, nonce);
-    }
+    else regen.push(name);
+  }
+  for (const name of regen) {
+    const f = card.fields[name];
+    const nonce = f?.nonce ?? 0;
+    const src = gen.fields[name] as FieldSource;
+    const rng = createRng(card.seed, name, nonce);
+    const r = genField(state, 0, src, rng, ctx, fields, distinctPeers(gen, name));
+    fields[name] = fieldFrom(r, f?.locked ?? false, nonce);
   }
   const built = finish(state, 0, gen, card.seed, ctx, inDeclaredOrder(gen, fields));
   return toCard(lib, card.id, gen, card.seed, ctx, built);
