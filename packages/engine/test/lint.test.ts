@@ -227,4 +227,20 @@ describe('lintPack', () => {
     ]);
     expect(errors.map((e) => e.code)).toEqual(['cycle']);
   });
+
+  describe('culture example names use whole-word matching (M5)', () => {
+    const lintExamples = (examples: string[]) =>
+      lintPack(
+        pack({ cultures: { [marshJson.id]: { ...(marshJson as CompiledCulture), examples } } }),
+      );
+    it.each(['Torturelle Vey', 'Warren Pell', 'Severin Oko'])('lets %s through', (name) => {
+      expect(lintExamples([name]).map((e) => e.code)).toEqual([]);
+    });
+    it.each(['Bloodworth Pell', 'Murderby Vey', 'Corpsewick Vey'])('flags %s', (name) => {
+      const errs = lintExamples(['Ok Name', name]);
+      expect(errs.map((e) => [e.code, e.path])).toEqual([
+        ['culture-safety', `${marshJson.id}#names.examples[1]`],
+      ]);
+    });
+  });
 });

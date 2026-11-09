@@ -125,7 +125,8 @@ export function lintWith(
           if (of && 'situation' in of) {
             for (const e of tables[of.situation.table]?.entries ?? []) {
               const st = e.ref === undefined ? undefined : situations[e.ref];
-              if (st) out.push(`table:${st.facets[src.facet.name]}`);
+              const ft = st?.facets[src.facet.name];
+              if (ft) out.push(`table:${ft}`);
             }
           }
           if (own && !isSituation(src.facet.of)) {

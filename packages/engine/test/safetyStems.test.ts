@@ -37,6 +37,40 @@ describe('stemHits', () => {
     expect(stemHits('Torturelle', { wholeWord: true })).toEqual([]);
   });
   it.each([
+    ['strangled', 'violence'],
+    ['a lynch mob', 'violence'],
+    ['he hanged himself', 'suicide'],
+    ['took her own life', 'suicide'],
+    ['she will hurt herself', 'self-harm'],
+    ['poisoned wine', 'death'],
+    ['starving', 'death'],
+    ['she gambled everything', 'addiction'],
+    ['kept chained', 'slavery'],
+    ['a hostage', 'war'],
+    ['an orphan', 'child-harm'],
+    ['a worm in the apple', 'body-horror'],
+  ])('plain stem hits %s', (text, topic) => {
+    expect(stemHits(text)).toContain(topic);
+  });
+  it.each([
+    'a hangar',
+    "Hangman's Rest",
+    'Tomlin',
+    'Tomblin',
+    'Slaymaker',
+    'wormwood',
+    'executive',
+  ])('plain stems let %s through', (text) => {
+    expect(stemHits(text, { wholeWord: true })).toEqual([]);
+  });
+  it.each([
+    ['Deadwick', 'death'],
+    ['Tombwatch', 'death'],
+    ['Slayby', 'violence'],
+  ])('wholeWord catches compound %s', (name, topic) => {
+    expect(stemHits(name, { wholeWord: true })).toContain(topic);
+  });
+  it.each([
     ['Corpsewick', 'death'],
     ['Bloodmere', 'violence'],
     ['Gravewick', 'death'],
