@@ -16,6 +16,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Dependency audit (fails on any unwaived moderate or worse advisory)
+        run: pnpm audit --audit-level moderate
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test

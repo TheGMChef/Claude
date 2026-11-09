@@ -2,7 +2,13 @@
 
 ## Dependency advisories
 
-`pnpm audit` must report nothing except the waivers listed here.
+`pnpm audit` must report nothing except the waivers listed here. CI runs `pnpm audit --audit-level moderate` in the verify job, so any unwaived moderate, high or critical advisory fails the build. Low advisories are reported but do not fail it; fix or waive them anyway.
+
+When an advisory appears:
+
+1. Upgrade the package, or the parent that pulls it in. This is almost always the answer.
+2. If the parent's range blocks the fix, add a scoped `pnpm.overrides` entry (`parent>child`) and check that lint, tests, build and e2e behave the same. Record it in the overrides table below.
+3. Only if no fix exists, or the code is provably unreachable from untrusted input, add a waiver: put the GHSA id in `pnpm.auditConfig.ignoreGhsas` in the root `package.json` **and** add a row to the waivers table with a written reason and a review-by date no more than three months out. A waiver without a row here is not allowed. On the review date, remove the waiver or renew it with a fresh reason.
 
 ### Waivers (`pnpm.auditConfig.ignoreGhsas` in the root `package.json`)
 
