@@ -10,4 +10,5 @@ fields:
   smell: { table: fantasy.place.smell }
   menu: { table: fantasy.tavern.menu }
   regular: { table: fantasy.tavern.regular }
+  rumor: { template: '{gen:fantasy.rumor.text}' }
 display: '{name}, kept by {keeper}'

@@ -65,6 +65,14 @@
       "sources": [
         "fantasy.tavern.regular#2"
       ]
+    },
+    "rumor": {
+      "value": "a stranger bought every lantern in town and paid in foreign silver",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.rumor.text#2"
+      ]
     }
   }
 }
