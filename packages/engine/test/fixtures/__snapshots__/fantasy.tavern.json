@@ -35,7 +35,7 @@
       ]
     },
     "sound": {
-      "value": "a skipping rhyme chanted behind a closed door",
+      "value": "a skipping rhyme chanted in a house with every shutter open",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -43,7 +43,7 @@
       ]
     },
     "smell": {
-      "value": "pine resin and damp earth",
+      "value": "pine resin and somebody's boiled laundry",
       "locked": false,
       "nonce": 0,
       "sources": [

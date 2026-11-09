@@ -5,17 +5,18 @@ tags: [settlement]
 entries:
   - text: the mill wheel has seized, and the miller blames the neighbours
     tags: [rural, trade]
-  - text: two families both claim the new bridge as their toll
+  - text: two families both claim the new bridge as their toll, and both have a gate to prove it
     tags: [trade, family]
-  - text: the well has turned bitter since the last rain
+  - text: the well water has gone sweet and nobody will say who first noticed
     tags: [rural]
   - text: the grain-tax clerk arrived early and has not left
-    tags: [rural, crime]
-  - text: the ferry was taken downriver and never returned
-    tags: [river]
+    tags: [rural]
+  - text: the road toll has doubled overnight, and the sign-painter swears it wasn't him
+    tags: [road]
   - text: half the shopkeepers have stopped speaking to the other half over a stolen hat
     tags: [urban]
-  - text: everyone has begun dreaming the same staircase, and nobody will describe it
+  - text: everyone has begun dreaming the same unlit orchard, and nobody will describe it
     tags: [magic]
-  - text: the winter stores came up short, and only one person did the counting
+    safety: [mental-illness]
+  - text: the winter stores were counted twice and came out different both times
     tags: [rural, crime]

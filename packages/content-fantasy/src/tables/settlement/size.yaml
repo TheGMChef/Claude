@@ -15,9 +15,9 @@ entries:
   - text: market town
     weight: 3
     tags: [urban, trade]
-  - text: walled town
+  - text: cliff town
     weight: 1
-    tags: [urban]
+    tags: [urban, coastal]
   - text: river port
     weight: 1
     tags: [urban, river, trade]

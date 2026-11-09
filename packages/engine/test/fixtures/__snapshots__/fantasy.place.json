@@ -1,18 +1,18 @@
 {
-  "display": "Heron Wick, a cellar market that only opens at low tide",
+  "display": "The Hollow at Alder, a market stalls built into the arches of a dry viaduct",
   "fields": {
     "name": {
-      "value": "Heron Wick",
+      "value": "The Hollow at Alder",
       "locked": false,
       "nonce": 0,
       "sources": [
         "fantasy.place.name#3",
-        "fantasy.place.word-a#0",
-        "fantasy.place.word-b#4"
+        "fantasy.place.word-b#0",
+        "fantasy.place.word-a#4"
       ]
     },
     "kind": {
-      "value": "cellar market that only opens at low tide",
+      "value": "market stalls built into the arches of a dry viaduct",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -28,7 +28,7 @@
       ]
     },
     "sound": {
-      "value": "a skipping rhyme chanted behind a closed door",
+      "value": "a skipping rhyme chanted in a house with every shutter open",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -36,7 +36,7 @@
       ]
     },
     "smell": {
-      "value": "pine resin and damp earth",
+      "value": "pine resin and somebody's boiled laundry",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -44,7 +44,7 @@
       ]
     },
     "happening": {
-      "value": "a surveyor has pegged out the middle of the road",
+      "value": "a surveyor has pegged a new boundary through the middle of the road, and the cart ruts are ignoring it",
       "locked": false,
       "nonce": 0,
       "sources": [

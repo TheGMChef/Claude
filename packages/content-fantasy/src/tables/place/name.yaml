@@ -6,8 +6,8 @@ entries:
   - text: '{word-a}{word-b}'
   - text: The {word-a} {word-b|cap}
   - text: "{word-a}'s {word-b|cap}"
-  - text: '{word-a} {word-b|cap}'
   - text: The {word-b|cap} at {word-a}
-  - text: Lower {word-a}{word-b}
-  - text: '{word-a}-under-{word-a}'
-  - text: Old {word-a} {word-b|cap}
+  - text: Little {word-a}{word-b}
+  - text: '{word-a} Common'
+  - text: The Old {word-b|cap}
+  - text: '{word-a}side'

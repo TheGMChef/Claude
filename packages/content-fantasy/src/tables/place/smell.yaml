@@ -5,15 +5,16 @@ tags: [place]
 entries:
   - text: wet wool and caramel
     tags: [urban]
-  - text: tar, rope and old fish
+  - text: tar, fish scales and a fried-onion stall
     tags: [coastal]
-  - text: pine resin and damp earth
+  - text: pine resin and somebody's boiled laundry
     tags: [forest]
   - text: river mud and crushed mint
     tags: [river]
-  - text: cold stone and beeswax
+  - text: cold limestone and wet slate
     tags: [underground, ruin]
-  - text: horse sweat and cheap perfume
+    safety: [claustrophobia]
+  - text: horse sweat and orange peel
     tags: [road]
   - text: bread from an oven nobody can find
     tags: [urban, rural]

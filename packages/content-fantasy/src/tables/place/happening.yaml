@@ -3,7 +3,7 @@ id: fantasy.place.happening
 title: Right now
 tags: [place]
 entries:
-  - text: two carters block the lane, each waiting for the other to back up
+  - text: two carters have blocked the lane since dawn, each waiting for the other to apologise
     tags: [road]
   - text: a wedding party is arriving at the wrong house
     tags: [rural]
@@ -13,9 +13,9 @@ entries:
     tags: [road, trade]
   - text: children rehearse a play about a local scandal
     tags: [urban]
-  - text: a mule in a borrowed hat is being chased through the washing
+  - text: a mule in a borrowed hat is being chased through the market
     tags: [urban, rural]
-  - text: the tide is out far past the markers, and nobody likes it
-    tags: [coastal]
-  - text: a surveyor has pegged out the middle of the road
+  - text: the weathervane has swung to face the wrong way and the whole street is arguing about it
+    tags: [urban]
+  - text: a surveyor has pegged a new boundary through the middle of the road, and the cart ruts are ignoring it
     tags: [road, wilderness]

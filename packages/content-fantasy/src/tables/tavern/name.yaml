@@ -9,6 +9,6 @@ entries:
   - text: The {adj} Welcome
   - text: "Old {name:given}'s {noun}"
   - text: At the Sign of the {noun}
-  - text: '{adj} {noun}'
+  - text: '{name:given} and the {noun}'
   - text: The {noun} Under the Hill
     tags: [underground]

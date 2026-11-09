@@ -7,11 +7,11 @@ entries:
     tags: [rural, debt]
   - text: a council of five that cannot agree on the fifth chair
     tags: [urban]
-  - text: the ferry guild, who control the only crossing
-    tags: [river, trade]
+  - text: the salt-weighers, who set the day's prices before anyone has opened a shop
+    tags: [trade, coastal]
   - text: an absent baron's steward, who has never met the baron he signs for
     tags: [noble]
-  - text: the innkeeper, because everyone owes her a favour
+  - text: the innkeeper, who has never forgotten who owes her a favour and keeps the list in the thatch
     tags: [trade]
   - text: the bell-ringer, who decides when the market may open
     tags: [urban]

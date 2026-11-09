@@ -26,7 +26,7 @@
       ]
     },
     "trouble": {
-      "value": "the winter stores came up short, and only one person did the counting",
+      "value": "the winter stores were counted twice and came out different both times",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -50,7 +50,7 @@
       ]
     },
     "sound": {
-      "value": "a skipping rhyme chanted behind a closed door",
+      "value": "a skipping rhyme chanted in a house with every shutter open",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -58,7 +58,7 @@
       ]
     },
     "smell": {
-      "value": "pine resin and damp earth",
+      "value": "pine resin and somebody's boiled laundry",
       "locked": false,
       "nonce": 0,
       "sources": [

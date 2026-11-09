@@ -11,11 +11,11 @@ entries:
     tags: [river, trade]
   - text: an annual race of overloaded handcarts down the main street
     tags: [road]
-  - text: wool dyed a blue nobody else can match
+  - text: wool dyed a blue that fades to exactly the colour of the buyer's eyes
     tags: [trade]
-  - text: a weigh-house that has never once been caught cheating
+  - text: a lending library of a hundred umbrellas, every one returned
+    tags: [urban]
+  - text: stonemasons who carve one tiny mistake into every wall, for luck
     tags: [trade]
-  - text: bellfounders who tune each bell to its buyer's voice
-    tags: [urban, trade]
   - text: pears so good that neighbouring villages pay to be rude about them
     tags: [rural]

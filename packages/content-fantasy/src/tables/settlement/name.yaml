@@ -10,7 +10,7 @@ entries:
     tags: [coastal, river]
   - text: "{name:given}'s Well"
     tags: [rural]
-  - text: '{fantasy.place.word-a}-under-{fantasy.place.word-a}'
+  - text: '{fantasy.place.word-a}-on-the-{fantasy.place.word-b|cap}'
   - text: '{fantasy.place.word-a}bridge'
     tags: [river]
   - text: Nether {fantasy.place.word-a}

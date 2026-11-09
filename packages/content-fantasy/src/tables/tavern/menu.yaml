@@ -4,15 +4,14 @@ title: On the board tonight
 tags: [tavern]
 entries:
   - text: barley stew with a spoonful of something sharp, and no one asks what
+    safety: [animal-harm]
   - text: eel pie that takes forty minutes and is worth thirty-nine of them
     tags: [coastal]
     safety: [animal-harm]
   - text: plum dumplings the size of a fist, three to a bowl
-  - text: one long loaf, torn for the table to share
+  - text: one long loaf, torn by the keeper, who stares until everyone has taken a piece
   - text: pickled walnuts and a crumbly white cheese
-  - text: sausages from a recipe the cook swears is a family secret
-    tags: [family]
-    safety: [animal-harm]
-  - text: fried bread dipped in honey and salt
+  - text: buttered mushrooms on toast, with the toast slightly ahead of the mushrooms
+  - text: fried bread, honey and a pinch of something green, served on the lid of the flour bin
   - text: turnip soup thick enough to hold the spoon upright
     tags: [rural]
