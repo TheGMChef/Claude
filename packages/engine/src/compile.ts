@@ -313,6 +313,8 @@ export function compileDocs(
       else if ('gen' in src) fields[name] = { gen: gen(src.gen) };
       else if ('pick' in src)
         fields[name] = { pick: { ...src.pick, table: table(src.pick.table) } };
+      else if ('situation' in src)
+        fields[name] = { situation: { ...src.situation, table: table(src.situation.table) } };
       else if ('template' in src) {
         const parsed = parse(src.template, `${base}#fields.${name}`);
         fields[name] = { template: parsed ? resolveAst(parsed, g.id, fieldNames) : [src.template] };

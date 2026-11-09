@@ -1,0 +1,7 @@
+kind: generator
+id: fx.seed
+title: Seed
+fields:
+  a: { situation: { table: fx.situations, distinctFrom: b } }
+  b: { situation: { table: fx.situations, distinctFrom: a } }
+display: '{a} meets {b}'

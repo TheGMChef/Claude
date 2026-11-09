@@ -60,6 +60,10 @@ const FieldSourceSchema = z.union([
   z.strictObject({
     pick: z.strictObject({ table: z.string(), count: z.number().int().positive() }),
   }),
+  z.strictObject({
+    situation: z.strictObject({ table: z.string(), distinctFrom: z.string().optional() }),
+  }),
+  z.strictObject({ facet: z.strictObject({ of: z.string(), name: z.enum(FACETS) }) }),
 ]);
 
 export const GeneratorSrc = z.strictObject({
@@ -165,7 +169,11 @@ export type FieldSource =
   | { name: 'full' | 'given' | 'family' }
   | { culture: string }
   | { gen: string }
-  | { pick: { table: string; count: number } };
+  | { pick: { table: string; count: number } }
+  /** Rolls a situation index table; `distinctFrom` names a situation field it must differ from. */
+  | { situation: { table: string; distinctFrom?: string } }
+  /** Rolls facet `name` of the situation chosen by situation field `of`. */
+  | { facet: { of: string; name: Facet } };
 
 export type CompiledEntry = {
   /** Stable id: `<tableId>#<index>`. */

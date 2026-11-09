@@ -41,4 +41,16 @@ export const situationOnlyDocs = [
     facets: facets('reed', { facet: 'enemy', safety: 'rats' }),
   },
 ];
+export const seedGeneratorDoc = {
+  kind: 'generator',
+  id: 's.seed',
+  title: 'Seed',
+  fields: {
+    enemy: { facet: { of: 'a', name: 'enemy' } },
+    b: { situation: { table: 's.situations', distinctFrom: 'a' } },
+    a: { situation: { table: 's.situations' } },
+    thing: { facet: { of: 'b', name: 'thing' } },
+  },
+  display: '{a} meets {b}',
+};
 export const asDocs = (data: unknown[]) => data.map((d, i) => ({ file: `d${i}`, data: d }));

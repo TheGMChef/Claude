@@ -39,6 +39,8 @@ describe('fixtures', () => {
     ['missing-source', 'missing-source'],
     ['situation-facets', 'schema'],
     ['situation-namespace', 'namespace'],
+    ['facet-ref', 'missing-source'],
+    ['field-cycle', 'cycle'],
   ];
   it.each(failing)('%s yields exactly %s', (dir, code) => {
     const { errors } = compileDir(dir);

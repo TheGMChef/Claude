@@ -2,7 +2,8 @@ import { ContentError } from './errors';
 import { nameWithRng, normalizeName } from './names';
 import { createRng } from './rng';
 import { SAFETY_VOCABULARY } from './safety';
-import type { CompiledPack } from './schema';
+import type { CompiledPack, FieldSource } from './schema';
+import { fieldDeps } from './situations';
 import { findCycle, templateRefs } from './template';
 import type { TemplateAst } from './template';
 
@@ -96,10 +97,27 @@ export function lintWith(
       const own = p === pack;
       const base = locate('generator', g.id);
       const fieldNames = new Set(Object.keys(g.fields));
+      const isSituation = (n: string): boolean =>
+        Object.hasOwn(g.fields, n) && 'situation' in (g.fields[n] as FieldSource);
       const out: string[] = [];
       for (const [name, src] of Object.entries(g.fields)) {
         const path = `${base}#fields.${name}`;
-        if ('table' in src) {
+        if ('situation' in src) {
+          const { table, distinctFrom } = src.situation;
+          const t = tables[table];
+          if (own && !t) err('missing-source', `table "${table}" not found`, path);
+          else if (own && t?.entries.some((e) => e.ref === undefined)) {
+            err('missing-source', `table "${table}" is not a situation index table`, path);
+          }
+          if (own && distinctFrom !== undefined && !isSituation(distinctFrom)) {
+            err('missing-source', `distinctFrom "${distinctFrom}" is not a situation field`, path);
+          }
+          out.push(`table:${table}`);
+        } else if ('facet' in src) {
+          if (own && !isSituation(src.facet.of)) {
+            err('missing-source', `facet of "${src.facet.of}": not a situation field`, path);
+          }
+        } else if ('table' in src) {
           if (own && !tables[src.table]) {
             err('missing-source', `table "${src.table}" not found`, path);
           }
@@ -135,7 +153,21 @@ export function lintWith(
           edges(src.template, out, fieldNames);
         }
       }
-      if (own) checkAst(g.display, `${base}#display`, fieldNames);
+      if (own) {
+        checkAst(g.display, `${base}#display`, fieldNames);
+        // Field dependency cycles (S1-7); generate falls back to declared order, but authors are told.
+        const deps = new Map<string, string[]>();
+        for (const [name, src] of Object.entries(g.fields)) {
+          deps.set(
+            name,
+            fieldDeps(src).filter((d) => fieldNames.has(d)),
+          );
+        }
+        const loop = findCycle(deps);
+        if (loop) {
+          err('cycle', `field cycle: ${loop.join(' -> ')}`, `${base}#fields.${loop[0] as string}`);
+        }
+      }
       edges(g.display, out, fieldNames);
       graph.set(`generator:${g.id}`, out);
     }

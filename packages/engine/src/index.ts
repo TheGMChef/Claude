@@ -13,6 +13,7 @@ export type { EntryPath } from './lint';
 export { loadPacks } from './library';
 export type { Library } from './library';
 export { selectEntry } from './select';
+export { fieldDeps, fieldOrder, inDeclaredOrder } from './situations';
 export type { TagFilter, Selection } from './select';
 export { renderTemplate } from './render';
 export type { CampaignLookup, Context, RenderEnv, RenderResult } from './render';

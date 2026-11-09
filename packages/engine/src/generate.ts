@@ -6,8 +6,10 @@ import { renderTemplate } from './render';
 import type { Context, RenderEnv } from './render';
 import { CROCKFORD, createRng, randomId, toSeed } from './rng';
 import type { Rng } from './rng';
-import type { CompiledCulture, CompiledGenerator, FieldSource } from './schema';
+import type { CompiledCulture, CompiledGenerator, CompiledTable, FieldSource } from './schema';
 import { selectEntry } from './select';
+import { fieldOrder, inDeclaredOrder, rollFacet, rollSituation } from './situations';
+import type { Part } from './situations';
 import { cultureTag, decodeShare, encodeShare } from './share';
 import type { ShareError } from './share';
 
@@ -69,8 +71,6 @@ type State = {
   /** In a batch, every produced name joins `exclude` and `avoid`. */
   grow: boolean;
 };
-
-type Part = { text: string; sources: string[]; blocked: boolean; relaxed: boolean };
 
 type Built = {
   fields: Record<string, CardField>;
@@ -231,7 +231,7 @@ function subCard(
 function rollInto(
   state: State,
   depth: number,
-  tableId: string,
+  tableOrId: CompiledTable | string,
   rng: Rng,
   ctx: Context,
   exclude?: Set<string>,
@@ -242,9 +242,9 @@ function rollInto(
     blocked: false,
     relaxed: false,
   };
-  const table = state.lib.table(tableId);
+  const table = typeof tableOrId === 'string' ? state.lib.table(tableOrId) : tableOrId;
   if (!table) {
-    warnOnce(state, tableId);
+    warnOnce(state, tableOrId as string);
     return out;
   }
   const filtered = exclude
@@ -267,8 +267,23 @@ function rollInto(
   return out;
 }
 
-function genField(state: State, depth: number, src: FieldSource, rng: Rng, ctx: Context): Part {
+function genField(
+  state: State,
+  depth: number,
+  src: FieldSource,
+  rng: Rng,
+  ctx: Context,
+  done: Readonly<Record<string, CardField>>,
+): Part {
   if ('table' in src) return rollInto(state, depth, src.table, rng, ctx);
+  if ('situation' in src || 'facet' in src) {
+    // Both end in selectEntry through rollInto; there is no other selection path.
+    const roll = (table: CompiledTable | string, exclude?: Set<string>) =>
+      rollInto(state, depth, table, rng, ctx, exclude);
+    return 'situation' in src
+      ? rollSituation(state.lib, src.situation, done, roll)
+      : rollFacet(state.lib, src.facet, done, roll);
+  }
   if ('template' in src) {
     const extra: Part = { text: '', sources: [], blocked: false, relaxed: false };
     // R23: field refs are display-only, so template fields render without field values.
@@ -418,7 +433,10 @@ function finish(
   };
 }
 
-/** Fills fields in field order, then renders display with the field values (R15). */
+/**
+ * Fills fields dependency-first (S1-3), keys them in declared order, then renders display with the
+ * field values (R15).
+ */
 function assemble(
   state: State,
   depth: number,
@@ -428,15 +446,16 @@ function assemble(
   plan: Plan,
 ): Built {
   const fields: Record<string, CardField> = {};
-  for (const [name, src] of Object.entries(gen.fields)) {
+  for (const name of fieldOrder(gen)) {
+    const src = gen.fields[name] as FieldSource;
     const p = plan[name] ?? { nonce: 0, locked: false };
     const rng = createRng(seed, name, p.nonce);
     // Locked: value, sources, nonce and relaxed mark stay exactly, unless a line now hides them.
     fields[name] = p.keep
       ? guard(state.lib, { ...p.keep, locked: true }, ctx.safety?.lines ?? [])
-      : fieldFrom(genField(state, depth, src, rng, ctx), p.locked, p.nonce);
+      : fieldFrom(genField(state, depth, src, rng, ctx, fields), p.locked, p.nonce);
   }
-  return finish(state, depth, gen, seed, ctx, fields);
+  return finish(state, depth, gen, seed, ctx, inDeclaredOrder(gen, fields));
 }
 
 function requireGenerator(lib: Library, id: string): CompiledGenerator {
@@ -535,17 +554,18 @@ export function applySafety(lib: Library, card: Card, opts: { context?: Context 
   const removed = (base.safety?.lines ?? []).some((l) => !lines.includes(l));
   const state = newState(lib, ctx, false);
   const fields: Record<string, CardField> = {};
-  for (const [name, src] of Object.entries(gen.fields)) {
+  for (const name of fieldOrder(gen)) {
+    const src = gen.fields[name] as FieldSource;
     const f = card.fields[name];
     if (f && !(f.blocked && !f.hidden)) fields[name] = guard(lib, f, lines);
     else if (f && !removed) fields[name] = f;
     else {
       const nonce = f?.nonce ?? 0;
-      const r = genField(state, 0, src, createRng(card.seed, name, nonce), ctx);
+      const r = genField(state, 0, src, createRng(card.seed, name, nonce), ctx, fields);
       fields[name] = fieldFrom(r, f?.locked ?? false, nonce);
     }
   }
-  const built = finish(state, 0, gen, card.seed, ctx, fields);
+  const built = finish(state, 0, gen, card.seed, ctx, inDeclaredOrder(gen, fields));
   return toCard(lib, card.id, gen, card.seed, ctx, built);
 }
 
