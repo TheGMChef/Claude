@@ -11,7 +11,7 @@ entries:
     tags: [urban, coastal]
   - text: retired sellsword who brews cider now
     tags: [rural]
-    safety: [violence]
+    safety: [violence, war]
   - text: moneylender's runner
     tags: [urban, debt]
   - text: ferry pilot who knows every sandbar
