@@ -19,7 +19,17 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
     'ambush',
     'blood',
   ],
-  gore: ['gore\\b', 'gory', 'guts?\\b', 'gutted', 'entrail', 'sever', 'flay', 'maim', 'dismember'],
+  gore: [
+    'gore\\b',
+    'gory',
+    'guts?\\b',
+    'gutted',
+    'entrail',
+    'sever(?:s|ed|ing|ance)?\\b',
+    'flay',
+    'maim',
+    'dismember',
+  ],
   death: [
     'dead',
     'death',
@@ -146,12 +156,19 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
   ],
 };
 
-const MATCHERS: ReadonlyArray<readonly [string, RegExp]> = SAFETY_VOCABULARY.map((topic) => [
-  topic,
-  new RegExp(`\\b(?:${(SAFETY_STEMS[topic] ?? []).join('|')})`, 'i'),
-]);
+const build = (suffix: string): ReadonlyArray<readonly [string, RegExp]> =>
+  SAFETY_VOCABULARY.map((topic) => [
+    topic,
+    new RegExp(`\\b(?:${(SAFETY_STEMS[topic] ?? []).join('|')})${suffix}`, 'i'),
+  ]);
+const MATCHERS = build('');
+const WHOLE_WORD_MATCHERS = build('\\b');
 
-/** Topics whose stems match `text`, in vocabulary order. */
-export function stemHits(text: string): string[] {
-  return MATCHERS.filter(([, re]) => re.test(text)).map(([topic]) => topic);
+/**
+ * Topics whose stems match `text`, in vocabulary order. With `wholeWord`, every stem must also end
+ * at a word boundary (used for invented example names, so "Severin" or "Warren" never trip).
+ */
+export function stemHits(text: string, opts: { wholeWord?: boolean } = {}): string[] {
+  const ms = opts.wholeWord ? WHOLE_WORD_MATCHERS : MATCHERS;
+  return ms.filter(([, re]) => re.test(text)).map(([topic]) => topic);
 }

@@ -223,13 +223,13 @@ export function lintWith(
 
   for (const c of Object.values(pack.cultures)) {
     const where = locate('culture', c.id);
-    const flag = (text: string, path: string): void => {
-      const hits = stemHits(text);
+    const flag = (text: string, path: string, wholeWord = false): void => {
+      const hits = stemHits(text, { wholeWord });
       if (hits.length > 0) {
         err('culture-safety', `"${text}" touches ${hits.join(', ')}; reword it`, path);
       }
     };
-    c.examples.forEach((ex, i) => flag(ex, `${where}#names.examples[${i}]`));
+    c.examples.forEach((ex, i) => flag(ex, `${where}#names.examples[${i}]`, true));
     c.voice.tips.forEach((tip, i) => flag(tip, `${where}#voice.tips[${i}]`));
     const rng = createRng('lint', c.id);
     const seen = new Set<string>();
