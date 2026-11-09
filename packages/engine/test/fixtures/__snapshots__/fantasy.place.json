@@ -1,0 +1,55 @@
+{
+  "display": "Heron Wick, a cellar market that only opens at low tide",
+  "fields": {
+    "name": {
+      "value": "Heron Wick",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.name#3",
+        "fantasy.place.word-a#0",
+        "fantasy.place.word-b#4"
+      ]
+    },
+    "kind": {
+      "value": "cellar market that only opens at low tide",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.kind#4"
+      ]
+    },
+    "sight": {
+      "value": "nets drying on a fence made from old oars",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sight#4"
+      ]
+    },
+    "sound": {
+      "value": "a skipping rhyme chanted behind a closed door",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sound#6"
+      ]
+    },
+    "smell": {
+      "value": "pine resin and damp earth",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.smell#2"
+      ]
+    },
+    "happening": {
+      "value": "a surveyor has pegged out the middle of the road",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.happening#7"
+      ]
+    }
+  }
+}

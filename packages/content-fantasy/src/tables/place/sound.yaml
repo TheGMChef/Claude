@@ -1,0 +1,22 @@
+kind: table
+id: fantasy.place.sound
+title: What you hear
+tags: [place]
+entries:
+  - text: a loose shutter keeping uneven time
+    tags: [urban]
+  - text: water dripping into a bucket someone keeps emptying
+    tags: [underground]
+  - text: distant bells, never quite agreeing
+    tags: [urban, faith]
+    safety: [religion]
+  - text: geese arguing behind a wall
+    tags: [rural]
+  - text: wind in the rocks, like someone learning a flute
+    tags: [mountain, wilderness]
+  - text: the creak of a ferry rope taking weight
+    tags: [river, road]
+  - text: a skipping rhyme chanted behind a closed door
+    tags: [rural]
+  - text: hooves on stone, slower than the rider seems to be going
+    tags: [road, forest]

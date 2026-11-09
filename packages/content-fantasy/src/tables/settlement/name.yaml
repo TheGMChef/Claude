@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.settlement.name
+title: The settlement is called
+tags: [settlement]
+entries:
+  - text: '{fantasy.place.word-a}{fantasy.place.word-b}'
+  - text: Old {fantasy.place.word-a}
+  - text: "{name:family}'s {fantasy.place.word-b|cap}"
+  - text: "{name:family}'s Landing"
+    tags: [coastal, river]
+  - text: "{name:given}'s Well"
+    tags: [rural]
+  - text: '{fantasy.place.word-a}-under-{fantasy.place.word-a}'
+  - text: '{fantasy.place.word-a}bridge'
+    tags: [river]
+  - text: Nether {fantasy.place.word-a}

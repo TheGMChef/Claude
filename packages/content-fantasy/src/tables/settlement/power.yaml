@@ -1,0 +1,22 @@
+kind: table
+id: fantasy.settlement.power
+title: Who really runs it
+tags: [settlement]
+entries:
+  - text: the miller's widow, who holds every debt in the valley
+    tags: [rural, debt]
+  - text: a council of five that cannot agree on the fifth chair
+    tags: [urban]
+  - text: the ferry guild, who control the only crossing
+    tags: [river, trade]
+  - text: an absent baron's steward, who has never met the baron he signs for
+    tags: [noble]
+  - text: the innkeeper, because everyone owes her a favour
+    tags: [trade]
+  - text: the bell-ringer, who decides when the market may open
+    tags: [urban]
+  - text: a shrine-keeper whose blessing every wedding and sale depends on
+    tags: [faith]
+    safety: [religion]
+  - text: the three eldest households, taking turns and counting each turn
+    tags: [family]

@@ -1,0 +1,19 @@
+kind: table
+id: fantasy.tavern.regular
+title: Always in the corner
+tags: [tavern]
+entries:
+  - text: a retired ferryman who trades stories for soup
+    tags: [river]
+  - text: two sisters playing the same card game for nine years, the score never settled
+    tags: [family]
+  - text: a bard who only knows the second half of every song
+  - text: a farmer asleep upright beside an untouched drink
+    tags: [rural]
+  - text: a clerk copying the same page over and over for no one
+    tags: [urban]
+  - text: a woman who pays in exact coin and counts the change twice
+    tags: [trade]
+  - text: a dog at table seven that is always served first
+  - text: a courier waiting for a reply to a letter that was never going to come
+    tags: [road]

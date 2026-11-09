@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.place.happening
+title: Right now
+tags: [place]
+entries:
+  - text: two carters block the lane, each waiting for the other to back up
+    tags: [road]
+  - text: a wedding party is arriving at the wrong house
+    tags: [rural]
+  - text: someone is auctioning a horse that isn't theirs
+    tags: [rural, trade]
+  - text: a peddler sells maps of this exact spot at double price
+    tags: [road, trade]
+  - text: children rehearse a play about a local scandal
+    tags: [urban]
+  - text: a mule in a borrowed hat is being chased through the washing
+    tags: [urban, rural]
+  - text: the tide is out far past the markers, and nobody likes it
+    tags: [coastal]
+  - text: a surveyor has pegged out the middle of the road
+    tags: [road, wilderness]

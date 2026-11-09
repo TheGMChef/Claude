@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.place.smell
+title: What you smell
+tags: [place]
+entries:
+  - text: wet wool and caramel
+    tags: [urban]
+  - text: tar, rope and old fish
+    tags: [coastal]
+  - text: pine resin and damp earth
+    tags: [forest]
+  - text: river mud and crushed mint
+    tags: [river]
+  - text: cold stone and beeswax
+    tags: [underground, ruin]
+  - text: horse sweat and cheap perfume
+    tags: [road]
+  - text: bread from an oven nobody can find
+    tags: [urban, rural]
+  - text: thin mountain air with a hint of goat
+    tags: [mountain, wilderness]

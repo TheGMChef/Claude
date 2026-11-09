@@ -1,0 +1,18 @@
+kind: table
+id: fantasy.tavern.menu
+title: On the board tonight
+tags: [tavern]
+entries:
+  - text: barley stew with a spoonful of something sharp, and no one asks what
+  - text: eel pie that takes forty minutes and is worth thirty-nine of them
+    tags: [coastal]
+    safety: [animal-harm]
+  - text: plum dumplings the size of a fist, three to a bowl
+  - text: one long loaf, torn for the table to share
+  - text: pickled walnuts and a crumbly white cheese
+  - text: sausages from a recipe the cook swears is a family secret
+    tags: [family]
+    safety: [animal-harm]
+  - text: fried bread dipped in honey and salt
+  - text: turnip soup thick enough to hold the spoon upright
+    tags: [rural]

@@ -1,0 +1,11 @@
+kind: generator
+id: fantasy.shop
+title: Shop
+fields:
+  name: { table: fantasy.shop.name }
+  kind: { table: fantasy.shop.kind }
+  keeper: { name: full }
+  wares: { pick: { table: fantasy.shop.ware, count: 3 } }
+  oddity: { table: fantasy.shop.oddity }
+  haggle: { table: fantasy.shop.haggle }
+display: '{name}, {kind|a}'

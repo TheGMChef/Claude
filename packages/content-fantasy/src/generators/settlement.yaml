@@ -1,0 +1,13 @@
+kind: generator
+id: fantasy.settlement
+title: Settlement
+fields:
+  name: { table: fantasy.settlement.name }
+  size: { table: fantasy.settlement.size }
+  knownFor: { table: fantasy.settlement.known-for }
+  trouble: { table: fantasy.settlement.trouble }
+  power: { table: fantasy.settlement.power }
+  sight: { table: fantasy.place.sight }
+  sound: { table: fantasy.place.sound }
+  smell: { table: fantasy.place.smell }
+display: '{name}, {size|a}'

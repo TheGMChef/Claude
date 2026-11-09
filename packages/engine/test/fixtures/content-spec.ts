@@ -35,16 +35,62 @@ const meaning = (name: string): [string, TableSpec] => [
   { family: 'oracle', target: 50, stub: 30, full: false, kind: 'word' },
 ];
 
+const row = (id: string, spec: TableSpec): [string, TableSpec] => [`fantasy.${id}`, spec];
+const line = (family: string, name: string, target: number, extra?: Partial<TableSpec>) =>
+  row(`${family}.${name}`, { family, target, full: false, kind: 'line', ...extra });
+const placeLine = (name: string, target: number): [string, TableSpec] =>
+  line('place', name, target, { pocket: true, terrain: true });
+const pocketLine = (family: string, name: string, target: number): [string, TableSpec] =>
+  line(family, name, target, { pocket: true });
+
 export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   ...['role', 'look', 'want', 'secret', 'tell'].map(npc),
   ...['action', 'theme'].map(meaning),
+  row('place.word-a', { family: 'place', target: 30, full: false, kind: 'word', caps: true }),
+  row('place.word-b', { family: 'place', target: 30, full: false, kind: 'word' }),
+  row('place.name', { family: 'place', target: 10, full: false, kind: 'pattern' }),
+  placeLine('kind', 30),
+  placeLine('sight', 40),
+  placeLine('sound', 40),
+  placeLine('smell', 40),
+  placeLine('happening', 30),
+  row('settlement.name', { family: 'settlement', target: 10, full: false, kind: 'pattern' }),
+  row('settlement.size', { family: 'settlement', target: 6, full: false, kind: 'fixed' }),
+  line('settlement', 'known-for', 30),
+  line('settlement', 'trouble', 30),
+  line('settlement', 'power', 24),
+  row('tavern.name', { family: 'tavern', target: 8, full: false, kind: 'pattern' }),
+  row('tavern.adj', { family: 'tavern', target: 30, full: false, kind: 'word', caps: true }),
+  row('tavern.noun', { family: 'tavern', target: 30, full: false, kind: 'word', caps: true }),
+  pocketLine('tavern', 'keeper-way', 24),
+  pocketLine('tavern', 'menu', 30),
+  pocketLine('tavern', 'regular', 30),
+  row('shop.name', { family: 'shop', target: 8, full: false, kind: 'pattern' }),
+  row('shop.noun', { family: 'shop', target: 20, full: false, kind: 'word', caps: true }),
+  pocketLine('shop', 'kind', 24),
+  pocketLine('shop', 'ware', 60),
+  pocketLine('shop', 'oddity', 24),
+  pocketLine('shop', 'haggle', 20),
 ]);
 
 /** Every generator under test. */
-export const GENERATORS: string[] = ['fantasy.npc'];
+export const GENERATORS: string[] = [
+  'fantasy.npc',
+  'fantasy.place',
+  'fantasy.settlement',
+  'fantasy.tavern',
+  'fantasy.shop',
+];
 
 /** Family to the tag its tables carry. */
-export const FAMILY_TAG: Record<string, string> = { npc: 'npc', oracle: 'oracle' };
+export const FAMILY_TAG: Record<string, string> = {
+  npc: 'npc',
+  oracle: 'oracle',
+  place: 'place',
+  settlement: 'settlement',
+  tavern: 'tavern',
+  shop: 'shop',
+};
 
 /** Tables whose first-3-words check pools their entries (spec §4.5: no duplicates in spirit). */
 export const POOLS: string[][] = [['fantasy.rumor.text', 'fantasy.secret.text']];
