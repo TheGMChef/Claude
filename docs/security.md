@@ -25,7 +25,7 @@ Out of scope: server-side attacks (there is no server), account takeover (there 
 | Dependabot             | `.github/dependabot.yml`                            | opens weekly grouped PRs for npm and Actions                                     |
 | CodeQL                 | `.github/workflows/codeql.yml`                      | JavaScript/TypeScript code scanning on push, PR and weekly                       |
 
-Workflows use no secrets and never `pull_request_target`, so a pull request from a fork runs with a read-only token. CodeQL runs on public repositories; on a private one, set the repository variable `ENABLE_CODEQL` to `true` once code scanning is available.
+Workflows use no secrets and never `pull_request_target`, so a pull request from a fork runs with a read-only token. CodeQL runs on pushes and pull requests in a public repository. Set the repository variable `ENABLE_CODEQL` to `true` to also run the weekly scan, or, on a private repository, once code scanning is available there.
 
 Production licenses are listed in [THIRD-PARTY-NOTICES.md](../THIRD-PARTY-NOTICES.md). Regenerate it with `node scripts/licenses.mjs` after changing dependencies. To allow a new license, add its SPDX id to `ALLOWED` in the script with a note in the pull request on why it is compatible.
 
