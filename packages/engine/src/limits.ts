@@ -48,7 +48,7 @@ export const MAX_EXPANSION = 2000;
  * Runtime backstop: template renders plus table-slot expansions in one generate, reroll, roll or
  * batch call. Past it, slots render as BUDGET_PLACEHOLDER and sub-generators stop.
  */
-export const MAX_RENDER_STEPS = 200_000;
+export const MAX_RENDER_STEPS = 50_000;
 /** Card JSON text accepted by parseCard, in characters. */
 export const MAX_CARD_JSON_LENGTH = 256_000;
 
