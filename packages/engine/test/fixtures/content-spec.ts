@@ -71,6 +71,30 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   pocketLine('shop', 'ware', 60),
   pocketLine('shop', 'oddity', 24),
   pocketLine('shop', 'haggle', 20),
+  pocketLine('rumor', 'text', 40),
+  row('rumor.truth', { family: 'rumor', target: 3, full: false, kind: 'fixed' }),
+  pocketLine('rumor', 'source', 24),
+  line('secret', 'text', 40),
+  line('clue', 'delivery', 24),
+  line('clue', 'trace', 40),
+  line('clue', 'where', 24),
+  pocketLine('complication', 'trouble', 40),
+  pocketLine('complication', 'twist', 30),
+  pocketLine('trinket', 'item', 50),
+  pocketLine('trinket', 'detail', 30),
+  pocketLine('treasure', 'item', 40),
+  line('treasure', 'worth', 12),
+  pocketLine('treasure', 'hook', 24),
+  line('encounter', 'question', 30, { end: '?' }),
+  line('encounter', 'opposition', 30),
+  line('encounter', 'goal', 24),
+  line('encounter', 'terrain', 30, { terrain: true }),
+  line('encounter', 'turn', 24),
+  line('encounter', 'fail', 24),
+  line('prep', 'spotlight-hook', 24),
+  line('prep', 'return', 16),
+  line('prep', 'villain-move', 30),
+  line('prep', 'pressure-rumor', 24),
 ]);
 
 /** Every generator under test. */
@@ -80,6 +104,16 @@ export const GENERATORS: string[] = [
   'fantasy.settlement',
   'fantasy.tavern',
   'fantasy.shop',
+  'fantasy.rumor',
+  'fantasy.secret',
+  'fantasy.clue',
+  'fantasy.complication',
+  'fantasy.trinket',
+  'fantasy.treasure',
+  'fantasy.encounter',
+  'fantasy.seed',
+  'fantasy.prep.spotlight',
+  'fantasy.prep.pressure',
 ];
 
 /** Family to the tag its tables carry. */
@@ -90,6 +124,13 @@ export const FAMILY_TAG: Record<string, string> = {
   settlement: 'settlement',
   tavern: 'tavern',
   shop: 'shop',
+  rumor: 'rumor',
+  secret: 'secret',
+  clue: 'clue',
+  complication: 'complication',
+  trinket: 'loot',
+  treasure: 'loot',
+  encounter: 'encounter',
 };
 
 /** Tables whose first-3-words check pools their entries (spec §4.5: no duplicates in spirit). */
@@ -140,7 +181,7 @@ export const FREE_TEXT_KEYS = ['pc.want', 'truth.text'];
  * Task 18.
  */
 export const SITUATIONS = {
-  required: false,
+  required: true,
   target: 20,
   stub: 4,
   facetTarget: 4,

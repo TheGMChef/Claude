@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.rumor.text
+title: People say that
+tags: [rumor]
+entries:
+  - text: the miller's new wheel turns even when the river is low
+    tags: [river, rural]
+  - text: '{ctx.front.name|or:the old guild} pays twice the going rate for maps of the hills'
+    tags: [trade]
+  - text: a stranger bought every lantern in town and paid in foreign silver
+    tags: [trade]
+  - text: the ferrywoman knows who will cross before they reach the bank
+    tags: [river, magic]
+  - text: "{ctx.mention.name|or:the reeve's cousin} has been seen digging behind the toll house at night"
+    tags: [crime]
+  - text: the stone bridge groans a different note the day before bad weather
+    tags: [road]
+  - text: a goat wandered into the standing stones and came home wearing a silver bell
+    tags: [rural, magic]
+  - text: the old tanner is lending money and never asks for it back
+    tags: [debt]

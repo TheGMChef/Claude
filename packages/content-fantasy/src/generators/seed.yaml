@@ -1,0 +1,13 @@
+kind: generator
+id: fantasy.seed
+title: Adventure seed
+fields:
+  a: { situation: { table: fantasy.situations } }
+  b: { situation: { table: fantasy.situations, distinctFrom: a } }
+  enemy: { facet: { of: a, name: enemy } }
+  friend: { facet: { of: b, name: friend } }
+  complication: { facet: { of: b, name: complication } }
+  thing: { facet: { of: a, name: thing } }
+  place: { facet: { of: b, name: place } }
+  pressure: { facet: { of: a, name: pressure } }
+display: '{a} meets {b}'

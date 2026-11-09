@@ -1,0 +1,75 @@
+{
+  "display": "Two-mayor town meets Stolen weather",
+  "fields": {
+    "a": {
+      "value": "Two-mayor town",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#3"
+      ]
+    },
+    "b": {
+      "value": "Stolen weather",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#2"
+      ]
+    },
+    "enemy": {
+      "value": "the new mayor's backers, who paid for votes and want a return",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#3",
+        "fantasy.situation.two-mayor-town.enemy#1"
+      ]
+    },
+    "friend": {
+      "value": "the weather-witch's apprentice, who never agreed to any of this",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#2",
+        "fantasy.situation.stolen-weather.friend#3"
+      ]
+    },
+    "complication": {
+      "value": "opening the jars needs a word only the thief knows",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#2",
+        "fantasy.situation.stolen-weather.complication#1"
+      ]
+    },
+    "thing": {
+      "value": "the charter page that says how a mayor is chosen",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#3",
+        "fantasy.situation.two-mayor-town.thing#1"
+      ]
+    },
+    "place": {
+      "value": "a cellar lined with shelves of humming jars",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#2",
+        "fantasy.situation.stolen-weather.place#1"
+      ]
+    },
+    "pressure": {
+      "value": "by quarter-day, two sets of tax collectors knock on every door",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.situations#3",
+        "fantasy.situation.two-mayor-town.pressure#0"
+      ]
+    }
+  }
+}

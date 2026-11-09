@@ -1,0 +1,8 @@
+kind: generator
+id: fantasy.clue
+title: Clue
+fields:
+  delivery: { table: fantasy.clue.delivery }
+  trace: { table: fantasy.clue.trace }
+  where: { table: fantasy.clue.where }
+display: '{delivery|cap}: {trace}'

@@ -1,0 +1,7 @@
+kind: generator
+id: fantasy.prep.pressure
+title: Pressure
+fields:
+  rumor: { table: fantasy.prep.pressure-rumor }
+  turn: { table: fantasy.complication.twist }
+display: '{rumor|cap}'

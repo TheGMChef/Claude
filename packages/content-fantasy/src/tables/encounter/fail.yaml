@@ -1,0 +1,14 @@
+kind: table
+id: fantasy.encounter.fail
+title: If they fail,
+tags: [encounter]
+entries:
+  - text: they get through, and owe the wrong person a favour
+    tags: [debt]
+  - text: you lose the item, but learn who now has it
+  - text: the plan works, but everyone in town hears about it
+  - text: they escape, leaving something with their name on it behind
+  - text: the other side wins, and offers them work
+  - text: it costs a day, and the trail goes cold in the meantime
+  - text: someone innocent takes the blame, and asks them to fix it
+  - text: they win the argument and lose a friend

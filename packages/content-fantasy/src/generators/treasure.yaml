@@ -1,0 +1,8 @@
+kind: generator
+id: fantasy.treasure
+title: Treasure
+fields:
+  item: { table: fantasy.treasure.item }
+  worth: { table: fantasy.treasure.worth }
+  hook: { table: fantasy.treasure.hook }
+display: '{item|cap}'

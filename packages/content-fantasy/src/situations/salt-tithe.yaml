@@ -1,0 +1,46 @@
+kind: situation
+id: fantasy.situation.salt-tithe
+title: Salt tithe
+summary: A powerful house takes a cut of the salt everyone needs to live.
+tags: [situation, coastal, trade]
+safety: []
+facets:
+  enemy:
+    - text: a tithe-reeve who weighs every sack twice and keeps the difference
+    - text: the house steward, who wants the salt-pans enclosed by spring
+      tags: [noble]
+    - text: a smuggler who profits from the tithe and wants it kept
+      tags: [crime]
+    - text: the young heir, eager to prove the tithe can be raised
+      tags: [noble]
+  friend:
+    - text: a retired salt-boiler who knows which scales are crooked
+    - text: a cooper who wants an honest weight for his barrels
+    - text: the harbourmaster's clerk, who keeps her own copy of the tallies
+    - text: a fishing family who cannot cure their catch without cheap salt
+      tags: [family]
+  complication:
+    - text: the tithe pays for the sea wall that keeps the village dry
+    - text: half the boilers already owe the house money
+      tags: [debt]
+    - text: the reeve is the only one who can read the old charter
+    - text: the boilers have been cutting their salt with sand to make the weight
+  thing:
+    - text: an honest set of brass scales, wrapped in oilcloth
+    - text: the original charter, which names a much smaller tithe
+    - text: a ledger in two hands showing two different totals
+    - text: a cart of untithed salt hidden under drying nets
+      tags: [crime]
+  place:
+    - text: the boiling sheds, where nobody can hear a word over the pans
+    - text: the weighing house on the quay, open one day a week
+    - text: a sea cave where the smugglers stack their sacks
+      tags: [underground, crime]
+    - text: the steward's counting room, above the coach house
+  pressure:
+    - text: at the next new moon the tithe doubles, and the reeve brings a longer list
+    - text: by the autumn catch, families start leaving for the next bay
+      tags: [family]
+    - text: when the frost comes, the boilers sell their pans to the house for a song
+    - text: before the fair, someone will burn the weighing house down
+      safety: [fire]

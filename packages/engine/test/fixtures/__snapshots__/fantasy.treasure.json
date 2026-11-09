@@ -1,0 +1,29 @@
+{
+  "display": "A jeweller's case of loose garnets, sorted by size",
+  "fields": {
+    "item": {
+      "value": "a jeweller's case of loose garnets, sorted by size",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.treasure.item#6"
+      ]
+    },
+    "worth": {
+      "value": "worth exactly one large favour from the right person",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.treasure.worth#4"
+      ]
+    },
+    "hook": {
+      "value": "every fence in the region has been told to look out for it",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.treasure.hook#2"
+      ]
+    }
+  }
+}

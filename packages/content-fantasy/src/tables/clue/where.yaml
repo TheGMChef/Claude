@@ -1,0 +1,17 @@
+kind: table
+id: fantasy.clue.where
+title: Found
+tags: [clue]
+entries:
+  - text: under the third stair, which creaks differently
+  - text: sewn into the lining of a coat on the wrong peg
+  - text: inside the hollow handle of a walking stick
+  - text: at the bottom of a rain barrel, in a sealed jar
+    tags: [rural]
+  - text: in the margins of a borrowed almanac
+  - text: behind the portrait that sits slightly crooked
+    tags: [noble]
+  - text: in the message tube of a pigeon on the post-house roof
+    tags: [urban]
+  - text: among the takings in the till, folded very small
+    tags: [trade]

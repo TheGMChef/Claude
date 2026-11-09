@@ -1,0 +1,21 @@
+{
+  "display": "An old enemy paid the toll-keeper to look away last week",
+  "fields": {
+    "rumor": {
+      "value": "an old enemy paid the toll-keeper to look away last week",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.prep.pressure-rumor#6"
+      ]
+    },
+    "turn": {
+      "value": "the reward was never real, and the notice is bait",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.complication.twist#6"
+      ]
+    }
+  }
+}

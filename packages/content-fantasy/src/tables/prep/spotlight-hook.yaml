@@ -1,0 +1,14 @@
+kind: table
+id: fantasy.prep.spotlight-hook
+title: 'Spotlight:'
+tags: []
+entries:
+  - text: someone from {ctx.pc.name|or:a hero}'s past turns up needing a favour only they can give
+  - text: a letter for {ctx.pc.name|or:one of the heroes} has been waiting at the inn for a month
+  - text: a stranger knows {ctx.pc.name|or:a hero} by a name they have not used in years
+  - text: 'a chance at what {ctx.pc.name|or:one hero} came for: {ctx.pc.want|or:an old debt settled}'
+  - text: an old teacher of {ctx.pc.name|or:one of them} needs help and will ask nobody else
+  - text: '{ctx.pc.name|or:a hero} is offered a post that would mean leaving the party'
+  - text: a rival of {ctx.pc.name|or:one hero} has been telling stories about them, and some are true
+  - text: an heirloom of {ctx.pc.name|or:one hero}'s family shows up in a pawnshop window
+    tags: [family]

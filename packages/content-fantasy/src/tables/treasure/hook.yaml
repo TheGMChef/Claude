@@ -1,0 +1,18 @@
+kind: table
+id: fantasy.treasure.hook
+title: But
+tags: [loot]
+entries:
+  - text: its last owner wants it back and knows who has it
+  - text: it is listed in a merchant's ledger as already sold
+    tags: [trade]
+  - text: every fence in the region has been told to look out for it
+    tags: [crime]
+  - text: it is half of a pair, and the other half is not for sale
+  - text: a scholar will pay double for it, provided it stays intact
+  - text: the family who lost it are still in town, and they are not rich
+    tags: [family]
+  - text: it is insured, and the insurer sends someone to collect
+    tags: [trade]
+  - text: moving it breaks a promise someone made long ago
+    tags: [magic]

@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.encounter.terrain
+title: 'Where:'
+tags: [encounter]
+entries:
+  - text: a crowded fish market at dawn
+    tags: [urban, coastal]
+  - text: a rope bridge over a gorge in a high wind
+    tags: [mountain, wilderness]
+  - text: a wine cellar with one door and too many barrels
+    tags: [underground, urban]
+  - text: a mill race where the wheel never stops turning
+    tags: [river, rural]
+  - text: a ruined watchtower with half a floor left
+    tags: [ruin, wilderness]
+  - text: a birch wood thick with low mist
+    tags: [forest]
+  - text: a muddy coaching road at the end of a long day
+    tags: [road]
+  - text: a hayloft above a barn full of nervous cattle
+    tags: [rural]

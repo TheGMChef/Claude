@@ -1,0 +1,11 @@
+kind: generator
+id: fantasy.encounter
+title: Encounter
+fields:
+  question: { table: fantasy.encounter.question }
+  opposition: { table: fantasy.encounter.opposition }
+  goal: { table: fantasy.encounter.goal }
+  terrain: { table: fantasy.encounter.terrain }
+  turn: { table: fantasy.encounter.turn }
+  failForward: { table: fantasy.encounter.fail }
+display: '{question|cap}'

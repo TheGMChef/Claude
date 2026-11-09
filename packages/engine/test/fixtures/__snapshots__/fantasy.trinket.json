@@ -1,0 +1,21 @@
+{
+  "display": "A key on a ribbon, much too small for any door",
+  "fields": {
+    "item": {
+      "value": "a key on a ribbon, much too small for any door",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.trinket.item#6"
+      ]
+    },
+    "detail": {
+      "value": "a second, smaller one is hidden inside it",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.trinket.detail#7"
+      ]
+    }
+  }
+}

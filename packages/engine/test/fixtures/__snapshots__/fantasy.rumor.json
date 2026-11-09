@@ -1,0 +1,29 @@
+{
+  "display": "The reeve's cousin has been seen digging behind the toll house at night",
+  "fields": {
+    "text": {
+      "value": "the reeve's cousin has been seen digging behind the toll house at night",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.rumor.text#4"
+      ]
+    },
+    "truth": {
+      "value": "true",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.rumor.truth#0"
+      ]
+    },
+    "source": {
+      "value": "a tax clerk who offers it as a warning, then asks for a coin",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.rumor.source#3"
+      ]
+    }
+  }
+}

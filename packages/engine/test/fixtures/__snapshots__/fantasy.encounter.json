@@ -1,0 +1,53 @@
+{
+  "display": "Can they talk their way past the gatekeeper without a name?",
+  "fields": {
+    "question": {
+      "value": "can they talk their way past the gatekeeper without a name?",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.question#1"
+      ]
+    },
+    "opposition": {
+      "value": "a toll-keeper with a ledger and no imagination",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.opposition#0"
+      ]
+    },
+    "goal": {
+      "value": "time, so their friends can arrive",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.goal#1"
+      ]
+    },
+    "terrain": {
+      "value": "a crowded fish market at dawn",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.terrain#0"
+      ]
+    },
+    "turn": {
+      "value": "it starts to pour, and nobody can hear a word",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.turn#6"
+      ]
+    },
+    "failForward": {
+      "value": "they win the argument and lose a friend",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.encounter.fail#7"
+      ]
+    }
+  }
+}

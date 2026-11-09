@@ -1,0 +1,19 @@
+kind: table
+id: fantasy.treasure.item
+title: The find
+tags: [loot]
+entries:
+  - text: a bolt of sea-green silk, still sealed in waxed cloth
+    tags: [trade, coastal]
+  - text: a chess set in jet and pearl with one pawn missing
+    tags: [noble]
+  - text: a silver ewer stamped with the arms of a house that lost its lands
+    tags: [noble]
+  - text: a strongbox of copper coins minted for a king nobody remembers
+    tags: [trade]
+  - text: a lute with a mother-of-pearl moon set into its neck
+  - text: a cask of forty-year brandy, the seal unbroken
+    tags: [trade]
+  - text: a jeweller's case of loose garnets, sorted by size
+  - text: a bronze astrolabe that points somewhere other than north
+    tags: [magic]

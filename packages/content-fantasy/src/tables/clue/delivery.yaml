@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.clue.delivery
+title: The clue comes as
+tags: [clue]
+entries:
+  - text: a receipt in the wrong pocket
+  - text: a smell that should not be in this room
+  - text: a witness who corrects one detail too quickly
+  - text: a muddy print on a freshly swept floor
+  - text: a page torn out of an otherwise careful ledger
+    tags: [trade]
+  - text: a dog that will not go past one door
+  - text: a coin from a mint that closed years ago
+    tags: [trade]
+  - text: a song the children sing with the wrong words in one verse

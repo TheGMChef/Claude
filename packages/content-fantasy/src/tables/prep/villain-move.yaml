@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.prep.villain-move
+title: "The front's next move:"
+tags: []
+entries:
+  - text: buys up the debts of someone the party protects
+    tags: [debt]
+  - text: hires {ctx.mention.name|or:a trusted face} to carry its messages
+  - text: closes the road into {ctx.settlement.name|or:town} with a new toll
+    tags: [road]
+  - text: spreads a story that the party started the trouble
+  - text: sends a generous gift that comes with strings
+  - text: moves its stores out of {ctx.settlement.name|or:the town} by night
+  - text: recruits a disgruntled ally of the party
+  - text: calls in a favour from the town council
+    tags: [urban]

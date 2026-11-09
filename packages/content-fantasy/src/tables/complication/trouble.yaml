@@ -1,0 +1,17 @@
+kind: table
+id: fantasy.complication.trouble
+title: Just then,
+tags: [complication]
+entries:
+  - text: someone they owe money to walks in
+    tags: [debt]
+  - text: the floor gives way into a cellar nobody mentioned
+    tags: [underground]
+  - text: a cart overturns and blocks the only lane
+    tags: [road]
+  - text: the person they came to see is already leaving, at speed
+  - text: a wedding party spills through the door and insists they join
+    tags: [family]
+  - text: a bell starts ringing, and everyone else knows what it means
+  - text: an old friend recognises them and calls their name across the room
+  - text: the rain turns to hail, and the only shelter belongs to a rival

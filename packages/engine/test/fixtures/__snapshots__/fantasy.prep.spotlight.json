@@ -1,0 +1,13 @@
+{
+  "display": "A stranger knows a hero by a name they have not used in years",
+  "fields": {
+    "hook": {
+      "value": "a stranger knows a hero by a name they have not used in years",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.prep.spotlight-hook#2"
+      ]
+    }
+  }
+}

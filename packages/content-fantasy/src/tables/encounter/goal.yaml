@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.encounter.goal
+title: The other side wants
+tags: [encounter]
+entries:
+  - text: to be seen winning, not to win
+  - text: time, so their friends can arrive
+  - text: one particular item, and nothing else in the room
+  - text: an apology, delivered in public
+  - text: to learn who sent the party
+  - text: to make them leave without anyone getting hurt
+    safety: [violence]
+  - text: to pass along a message without being caught with it
+  - text: a fair price, and proof that they set it
+    tags: [trade]

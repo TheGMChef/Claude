@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.clue.trace
+title: It shows
+tags: [clue]
+entries:
+  - text: who was in the room after midnight
+  - text: that the letter was written left-handed
+  - text: that the lock was opened from the inside
+  - text: which road the cart took, by the colour of its mud
+    tags: [road]
+  - text: that someone paid for silence in advance
+    tags: [crime]
+  - text: that the host knew the visitor well enough to pour two cups
+  - text: how long the room has stood empty, to the hour
+  - text: that two people told the same lie, word for word

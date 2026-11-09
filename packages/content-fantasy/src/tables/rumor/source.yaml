@@ -1,0 +1,20 @@
+kind: table
+id: fantasy.rumor.source
+title: Heard from
+tags: [rumor]
+entries:
+  - text: a carter who wants a free drink for it
+    tags: [road]
+  - text: a washerwoman who hears everything said over a tub
+    tags: [urban]
+  - text: a ribbon seller who repeats her customers word for word
+    tags: [trade]
+  - text: a tax clerk who offers it as a warning, then asks for a coin
+  - text: a pedlar who heard it two towns back and has improved it since
+    tags: [road, trade]
+  - text: a ferry passenger who swears it happened to her sister
+    tags: [river, family]
+  - text: a chalk message on the back of the privy door
+    tags: [urban]
+  - text: a shepherd who came down from the high pasture early and won't say why
+    tags: [mountain, rural]

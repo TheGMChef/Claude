@@ -1,0 +1,43 @@
+kind: situation
+id: fantasy.situation.mortgaged-bridge
+title: Mortgaged bridge
+summary: The only bridge for miles is pledged against a loan nobody can repay.
+tags: [situation, river, debt]
+safety: []
+facets:
+  enemy:
+    - text: a moneylender who will close the bridge the day the note falls due
+      tags: [trade]
+    - text: the toll-farmer, who wants the bridge to fail so he can buy it cheap
+    - text: a ferry family who would be rich again without the bridge
+      tags: [family]
+    - text: a councillor who signed the note and wants the proof gone
+  friend:
+    - text: the bridge-warden's apprentice, who has copied every payment
+    - text: a mason who knows the bridge needs repairs more than money
+    - text: the carters' guild, who want the road kept open
+      tags: [road, trade]
+    - text: the moneylender's estranged daughter, who thinks the loan was a trick
+      tags: [family]
+  complication:
+    - text: the money was borrowed to mend the bridge, and the work was never done
+    - text: the note is lawful, signed by everyone who now complains
+    - text: closing the bridge would ruin the lender's own customers too
+    - text: the far bank belongs to another town that wants the tolls for itself
+  thing:
+    - text: the original loan note, with one signature that looks wrong
+    - text: the warden's tally sticks, notched for twenty years
+    - text: a strongbox of tolls that never reached the lender
+    - text: the mason's survey, showing a cracked pier
+  place:
+    - text: the toll house, where the warden sleeps beside the cashbox
+    - text: the middle span, the only place both towns will meet
+    - text: the lender's office, upstairs from a bakery
+      tags: [urban]
+    - text: the dry arch under the bridge, where people meet unseen
+  pressure:
+    - text: at the spring fair the note falls due and the gates shut
+    - text: after the next flood, the cracked pier will give way
+      safety: [drowning]
+    - text: by harvest the carters take the long road, and the market empties
+    - text: when the lender retires, his heirs will sell the note to someone worse

@@ -1,0 +1,11 @@
+kind: table
+id: fantasy.rumor.truth
+title: And the rumor is
+tags: [rumor]
+entries:
+  - text: 'true'
+    weight: 2
+  - text: 'half true: the details are wrong'
+    weight: 2
+  - text: false, but someone wants it believed
+    weight: 1

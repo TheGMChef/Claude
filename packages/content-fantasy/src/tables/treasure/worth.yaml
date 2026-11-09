@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.treasure.worth
+title: It is
+tags: [loot]
+entries:
+  - text: worth a month's wages
+  - text: worth more than the house it was found in
+  - text: worth a fortune, if anyone can prove it is genuine
+  - text: worth nothing here and plenty three valleys over
+    tags: [trade]
+  - text: worth exactly one large favour from the right person
+  - text: worth a year's rent on a good room in the city
+    tags: [urban]
+  - text: enough to clear a modest debt, and not a coin more
+    tags: [debt]
+  - text: priced by weight, and it is surprisingly heavy

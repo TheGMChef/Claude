@@ -1,0 +1,48 @@
+kind: situation
+id: fantasy.situation.two-mayor-town
+title: Two-mayor town
+summary: Two rival mayors both claim the town, and each has a seal to prove it.
+tags: [situation, urban]
+safety: []
+facets:
+  enemy:
+    - text: the old mayor, who refuses to hand back the chain of office
+    - text: the new mayor's backers, who paid for votes and want a return
+      tags: [crime]
+    - text: a clerk who serves both mayors and sells each the other's plans
+    - text: a landlord who collects rent for both and pays tax to neither
+      tags: [debt]
+  friend:
+    - text: the town crier, who reads both proclamations and wants it over
+    - text: a baker who feeds both camps and hears everything
+      tags: [trade]
+    - text: an archivist hunting for the charter that settles the question
+    - text: the mayors' grown children, who are quietly courting
+      tags: [family]
+  complication:
+    - text: both elections were fair by the rules each side follows
+    - text: the lord upriver will take the town if it cannot choose
+      tags: [noble]
+    - text: every contract signed this year is valid under one mayor only
+      tags: [trade]
+    - text: half the town has stopped caring and the other half is getting loud
+  thing:
+    - text: the true town seal, cast in bronze and missing for a week
+    - text: the charter page that says how a mayor is chosen
+    - text: a ballot box with a false bottom
+      tags: [crime]
+    - text: the chain of office, which both mayors wear a copy of
+  place:
+    - text: the town hall, split down the middle with a chalk line
+    - text: the market square, where both mayors hold court at noon
+      tags: [trade]
+    - text: the archive cellar, damp since last spring and never sorted
+      tags: [underground]
+    - text: the tavern both camps drink at, on alternating nights
+  pressure:
+    - text: by quarter-day, two sets of tax collectors knock on every door
+    - text: at midsummer the lord upriver arrives to choose for them
+      tags: [noble]
+    - text: before the next market, one side will hire bruisers
+      safety: [violence]
+    - text: when the granary opens for winter, both mayors will claim the key

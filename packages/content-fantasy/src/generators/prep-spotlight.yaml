@@ -1,0 +1,6 @@
+kind: generator
+id: fantasy.prep.spotlight
+title: Spotlight
+fields:
+  hook: { table: fantasy.prep.spotlight-hook }
+display: '{hook|cap}'

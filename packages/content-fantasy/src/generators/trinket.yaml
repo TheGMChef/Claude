@@ -1,0 +1,7 @@
+kind: generator
+id: fantasy.trinket
+title: Trinket
+fields:
+  item: { table: fantasy.trinket.item }
+  detail: { table: fantasy.trinket.detail }
+display: '{item|cap}'

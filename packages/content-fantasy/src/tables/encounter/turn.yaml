@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.encounter.turn
+title: Halfway through,
+tags: [encounter]
+entries:
+  - text: an onlooker picks a side
+  - text: the thing they came for turns out to be fake
+  - text: a second group arrives wanting the same thing
+  - text: someone on your side changes their mind
+  - text: the ground underfoot gives way into something older
+    tags: [underground, ruin]
+  - text: the leader of the other side is called away, and a hothead takes over
+  - text: it starts to pour, and nobody can hear a word
+  - text: an old debt between two people in the scene comes up
+    tags: [debt]

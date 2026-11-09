@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.prep.return
+title: 'Comes back:'
+tags: []
+entries:
+  - text: '{ctx.mention.name|or:an old acquaintance} turns up with news nobody wanted'
+  - text: '{ctx.mention.name|or:someone they helped} returns the favour, at a bad moment'
+  - text: a debt owed to {ctx.mention.name|or:an old ally} falls due
+    tags: [debt]
+  - text: '{ctx.mention.name|or:a familiar face} has switched sides and seems happier for it'
+  - text: a letter from {ctx.mention.name|or:a past employer} asks for one last job
+  - text: '{ctx.mention.name|or:someone they wronged} arrives with witnesses'
+  - text: the thing they sold last time is back on the market, and cheaper
+    tags: [trade]
+  - text: '{ctx.mention.name|or:an old rival} needs their help and hates asking'

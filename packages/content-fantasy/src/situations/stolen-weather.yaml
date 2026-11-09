@@ -1,0 +1,47 @@
+kind: situation
+id: fantasy.situation.stolen-weather
+title: Stolen weather
+summary: Someone has bottled the rain, and the valley is drying out.
+tags: [situation, magic, rural]
+safety: []
+facets:
+  enemy:
+    - text: a weather-witch who sells rain by the barrel to whoever pays most
+      tags: [trade]
+    - text: a landowner who wants his neighbours dry so he can buy their fields
+      tags: [debt]
+    - text: a travelling showman whose jars of storm are the real thing
+    - text: the river-folk downstream, who say the rain was always theirs
+      tags: [river]
+  friend:
+    - text: an almanac-maker whose predictions have all gone wrong
+    - text: a well-digger who knows where water still runs below ground
+      tags: [underground]
+    - text: a goatherd who saw the jars being filled up on the ridge
+      tags: [mountain]
+    - text: the weather-witch's apprentice, who never agreed to any of this
+  complication:
+    - text: the rain was taken from a valley that had too much of it
+    - text: opening the jars needs a word only the thief knows
+    - text: the buyers have already paid, and they are not patient people
+    - text: the village elders signed something with the witch years ago
+  thing:
+    - text: a stoppered jar that sloshes and rumbles like distant thunder
+    - text: a weathervane that points to wherever the rain is hidden
+    - text: the witch's ledger of who bought which storm
+      tags: [trade]
+    - text: a cloak that is always wet, even in full sun
+  place:
+    - text: the cracked reservoir above the village, empty for the first time
+    - text: a cellar lined with shelves of humming jars
+      tags: [underground]
+    - text: the hilltop where clouds gather every night and never break
+      tags: [mountain]
+    - text: the dry riverbed, where the old stepping-stones are carved with signs
+      tags: [river]
+  pressure:
+    - text: by midsummer the wells fail and the herds are sold off cheap
+    - text: at the next full moon the witch sells the autumn rain too
+    - text: when the harvest fails, the landowner buys the valley for a song
+    - text: before the month is out, the dry grass will catch and burn
+      safety: [fire]

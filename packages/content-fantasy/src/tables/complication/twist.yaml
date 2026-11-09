@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.complication.twist
+title: 'Twist:'
+tags: [complication]
+entries:
+  - text: the stolen thing was stolen first from someone worse
+    tags: [crime]
+  - text: the person asking for help caused the problem
+  - text: both sides are paying the same go-between
+  - text: the map is right, but the river has moved since
+    tags: [river]
+  - text: the employer has already hired a second crew for the same job
+  - text: the missing person left on purpose and has a new name
+  - text: the reward was never real, and the notice is bait
+    tags: [crime]
+  - text: the quiet one in the corner owns the whole building

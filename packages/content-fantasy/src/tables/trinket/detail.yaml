@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.trinket.detail
+title: 'Look closer:'
+tags: [loot]
+entries:
+  - text: it is warm when nobody is holding it
+    tags: [magic]
+  - text: someone has scratched a tally of thirty-one marks into it
+  - text: it smells faintly of oranges, years after it should
+  - text: a name is engraved inside, then carefully filed off
+  - text: it has been mended twice, by two very different hands
+  - text: a pawnbroker's ticket is still tied to it, dated next spring
+    tags: [trade, magic]
+  - text: it hums quietly when carried north
+    tags: [magic]
+  - text: a second, smaller one is hidden inside it

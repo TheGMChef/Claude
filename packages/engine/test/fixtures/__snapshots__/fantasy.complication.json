@@ -1,0 +1,21 @@
+{
+  "display": "The rain turns to hail, and the only shelter belongs to a rival",
+  "fields": {
+    "trouble": {
+      "value": "the rain turns to hail, and the only shelter belongs to a rival",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.complication.trouble#7"
+      ]
+    },
+    "twist": {
+      "value": "both sides are paying the same go-between",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.complication.twist#2"
+      ]
+    }
+  }
+}

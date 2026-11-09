@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.encounter.opposition
+title: 'Standing in the way:'
+tags: [encounter]
+entries:
+  - text: a toll-keeper with a ledger and no imagination
+    tags: [road]
+  - text: a rival crew who got here first and are already digging
+    tags: [crime]
+  - text: the weather, turning faster than anyone foretold
+  - text: a proud old knight who will only stand aside for a better story
+    tags: [noble]
+  - text: a crowd that has already made up its mind
+    tags: [urban]
+  - text: a clerk with every form except the one they need
+    tags: [urban]
+  - text: a river spirit who wants a gift, and has opinions about it
+    tags: [river, magic]
+  - text: a band of masked riders who take everything that rattles
+    tags: [road, crime]
+    safety: [violence]

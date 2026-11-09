@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.trinket.item
+title: Tucked in a pocket
+tags: [loot]
+entries:
+  - text: a brass thimble engraved with a stranger's initials
+  - text: a wooden spider whose legs fold flat
+    safety: [spiders]
+  - text: a ring set with amber, a tiny spider caught in the stone
+    safety: [spiders]
+  - text: a pressed flower in a waxed paper envelope, labelled with a date
+  - text: a tin whistle that only plays one note, beautifully
+  - text: a set of dice carved from three different woods
+  - text: a key on a ribbon, much too small for any door
+  - text: a folded map of a garden, with one bed marked in ink

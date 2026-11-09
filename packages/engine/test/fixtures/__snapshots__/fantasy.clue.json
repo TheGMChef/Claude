@@ -1,0 +1,29 @@
+{
+  "display": "A coin from a mint that closed years ago: which road the cart took, by the colour of its mud",
+  "fields": {
+    "delivery": {
+      "value": "a coin from a mint that closed years ago",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.clue.delivery#6"
+      ]
+    },
+    "trace": {
+      "value": "which road the cart took, by the colour of its mud",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.clue.trace#3"
+      ]
+    },
+    "where": {
+      "value": "sewn into the lining of a coat on the wrong peg",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.clue.where#1"
+      ]
+    }
+  }
+}

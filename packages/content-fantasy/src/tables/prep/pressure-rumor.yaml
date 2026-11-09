@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.prep.pressure-rumor
+title: People are saying
+tags: []
+entries:
+  - text: '{ctx.front.name|or:someone powerful} is quietly hiring in {ctx.settlement.name|or:town}'
+  - text: the price of bread doubled overnight and nobody knows who is buying
+    tags: [trade]
+  - text: '{ctx.front.name|or:the new landlord} keeps a list of names, and it is growing'
+  - text: strangers have been asking which houses stand empty
+  - text: '{ctx.mention.name|or:the reeve} has not been seen since market day'
+  - text: the north road is closed, and the official reason keeps changing
+    tags: [road]
+  - text: '{ctx.front.name|or:an old enemy} paid the toll-keeper to look away last week'
+    tags: [crime]
+  - text: a second ledger has turned up, and someone wants it back

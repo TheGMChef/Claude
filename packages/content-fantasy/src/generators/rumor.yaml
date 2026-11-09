@@ -1,0 +1,8 @@
+kind: generator
+id: fantasy.rumor
+title: Rumor
+fields:
+  text: { table: fantasy.rumor.text }
+  truth: { table: fantasy.rumor.truth }
+  source: { table: fantasy.rumor.source }
+display: '{text|cap}'

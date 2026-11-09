@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.encounter.question
+title: Can they
+tags: [encounter]
+entries:
+  - text: can they get the ferry across before the rope gives?
+    tags: [river]
+    safety: [drowning]
+  - text: can they talk their way past the gatekeeper without a name?
+  - text: can they find the right door before the household wakes?
+    tags: [urban]
+  - text: can they keep the auction honest for one more lot?
+    tags: [trade]
+  - text: can they reach the pass before the snow closes it?
+    tags: [mountain]
+  - text: can they win over the crowd before the rival speaker does?
+    tags: [urban]
+  - text: can they calm the bolting horses before the cart tips?
+    tags: [road]
+  - text: can they persuade the old hermit to come down from the tower?
+    tags: [wilderness]

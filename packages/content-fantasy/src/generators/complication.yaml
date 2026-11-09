@@ -1,0 +1,7 @@
+kind: generator
+id: fantasy.complication
+title: Complication
+fields:
+  trouble: { table: fantasy.complication.trouble }
+  twist: { table: fantasy.complication.twist }
+display: '{trouble|cap}'
