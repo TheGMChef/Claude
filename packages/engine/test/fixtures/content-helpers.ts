@@ -137,3 +137,51 @@ export function uncoveredTables(
     .map((t) => t.id)
     .filter((id) => !specIds.includes(id) && !structural.has(id) && !Object.hasOwn(excluded, id));
 }
+
+/**
+ * Ids of every table generator `id` can roll from: its field sources (situation facets included),
+ * template fields, `{gen:}` slots and whole-generator `gen` fields, recursing through the table
+ * slots inside entries. Used to tell which generators can ever show a safety-tagged entry.
+ */
+export function reachableTables(lib: Library, id: string): Set<string> {
+  const tables = new Set<string>();
+  const gens = new Set<string>();
+
+  const visitTable = (tableId: string): void => {
+    if (tables.has(tableId)) return;
+    tables.add(tableId);
+    for (const e of lib.table(tableId)?.entries ?? []) visitAst(e.ast);
+  };
+  const visitAst = (ast: TemplateAst): void => {
+    for (const el of ast) {
+      if (typeof el === 'string') continue;
+      if (el.slot.kind === 'table') visitTable(el.slot.ref);
+      else if (el.slot.kind === 'gen') visitGen(el.slot.generator);
+    }
+  };
+  const visitSource = (src: FieldSource): void => {
+    if ('table' in src) visitTable(src.table);
+    else if ('pick' in src) visitTable(src.pick.table);
+    else if ('template' in src) visitAst(src.template);
+    else if ('gen' in src) visitGen(src.gen);
+    else if ('situation' in src) visitTable(src.situation.table);
+    else if ('facet' in src)
+      for (const s of allSituations(lib)) visitTable(s.facets[src.facet.name]);
+  };
+  function visitGen(genId: string): void {
+    if (gens.has(genId)) return;
+    gens.add(genId);
+    const gen = lib.generator(genId);
+    if (!gen) return;
+    Object.values(gen.fields).forEach(visitSource);
+  }
+
+  visitGen(id);
+  return tables;
+}
+
+/** True when some table `id` can roll from holds an entry carrying a safety tag. */
+export const reachesTagged = (lib: Library, id: string): boolean =>
+  [...reachableTables(lib, id)].some((t) =>
+    (lib.table(t)?.entries ?? []).some((e) => e.safety.length > 0),
+  );

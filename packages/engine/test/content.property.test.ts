@@ -6,10 +6,13 @@ import type { Rng } from '../src/rng';
 import { SAFETY_VOCABULARY } from '../src/safety';
 import type { SafetySettings } from '../src/safety';
 import { GENERATORS } from './fixtures/content-spec';
-import { entryOfSource } from './fixtures/content-helpers';
+import { entryOfSource, reachesTagged } from './fixtures/content-helpers';
 import { lib } from './fixtures/starter-packs';
 
 const n = GENERATORS.length;
+const NONVACUOUS_SEEDS = 2_000;
+const NONVACUOUS_FLOOR = 20;
+const NO_LINES: SafetySettings = { lines: [], veils: [] };
 const BAD_PARTS = ['{', '}', '[missing', 'undefined', 'null', '  ', ' ,', ' .', '..'];
 
 const sourceTags = (card: Card, field: string): string[] =>
@@ -73,8 +76,7 @@ describe('determinism', () => {
 });
 
 describe('lines over 10,000 generations', () => {
-  it('never show a lined source, flag every veil, and are not vacuous', () => {
-    let lined = 0;
+  it('never show a lined source and flag every veil, rerolls included', () => {
     let rerolled = 0;
     for (let i = 0; i < 10_000; i++) {
       const id = GENERATORS[i % n] as string;
@@ -82,16 +84,6 @@ describe('lines over 10,000 generations', () => {
       const safety = randomSafety(rng);
       const card = generate(lib, id, { seed: `p${i}`, context: { safety } });
       checkCard(`${id} ${i}`, card, safety);
-      const free = generate(lib, id, {
-        seed: `p${i}`,
-        context: { safety: { lines: [], veils: [] } },
-      });
-      if (
-        Object.keys(free.fields).some((f) =>
-          sourceTags(free, f).some((t) => safety.lines.includes(t)),
-        )
-      )
-        lined++;
       if (i % 5 === 0) {
         const names = Object.keys(card.fields);
         const locks = names.filter(() => rng.next() < 0.5);
@@ -105,10 +97,34 @@ describe('lines over 10,000 generations', () => {
       }
     }
     expect(rerolled, 'I3: rerolled cards').toBe(2_000);
-    expect(
-      lined,
-      'I3: seeds where no-lines generation shows a lined source',
-    ).toBeGreaterThanOrEqual(500);
+  });
+
+  /**
+   * Non-vacuity, per generator (Ruling R47). A global floor over the rotation is diluted by every
+   * new generator, so each generator that can reach a safety-tagged entry gets its own run: in
+   * NONVACUOUS_SEEDS seeds, the same seed rolled with no lines must show a source the random lines
+   * cover at least NONVACUOUS_FLOOR times, and every such lined card is checked. The floor is 1% of
+   * the seeds: at S1a the sparsest tagged generator (fantasy.shop) shows 47 in 2,000, so 20 leaves
+   * room for reshuffles; with blocking skipped, the lined cards fail checkCard on the first hit.
+   * A generator that reaches no tagged entry must never show one (it has nothing to prove).
+   */
+  it.each(GENERATORS)('%s exercises lines when it can reach a tagged entry', (id) => {
+    const canReach = reachesTagged(lib, id);
+    let lined = 0;
+    for (let i = 0; i < NONVACUOUS_SEEDS; i++) {
+      const safety = randomSafety(createRng(`vac-${id}`, i));
+      const free = generate(lib, id, { seed: `v${i}`, context: { safety: NO_LINES } });
+      const tags = Object.keys(free.fields).flatMap((f) => sourceTags(free, f));
+      if (!canReach) {
+        expect(tags, `${id} ${i}: reached a tagged entry the walk missed`).toEqual([]);
+        continue;
+      }
+      if (!tags.some((t) => safety.lines.includes(t))) continue;
+      lined++;
+      checkCard(`${id} ${i}`, generate(lib, id, { seed: `v${i}`, context: { safety } }), safety);
+    }
+    if (canReach)
+      expect(lined, `I3: ${id} seeds with a lined source`).toBeGreaterThanOrEqual(NONVACUOUS_FLOOR);
   });
 
   it('with all 25 lines every field is blocked or clean', () => {
