@@ -12,3 +12,4 @@ declare var console: {
   debug(...data: unknown[]): void;
 };
 declare var crypto: { getRandomValues<T extends ArrayBufferView>(array: T): T };
+declare var performance: { now(): number };
