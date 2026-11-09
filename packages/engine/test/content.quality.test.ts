@@ -10,16 +10,19 @@ import {
   AUDIT_EXCEPTIONS,
   POOLS,
   TABLE_SPEC,
+  UNGATED_TABLES,
   TERRAIN,
 } from './fixtures/content-spec';
 import {
   allGenerators,
   allSituations,
   allTables,
+  articleProblem,
   articleTables,
   astText,
   facetTables,
   literalText,
+  uncoveredTables,
 } from './fixtures/content-helpers';
 import { corePack, fantasyPack, lib } from './fixtures/starter-packs';
 
@@ -141,23 +144,57 @@ describe('pattern entries', () => {
 });
 
 describe('articles', () => {
-  const BAD_FIRST = new Set(['a', 'an', 'the', 'one', 'hour', 'honest', 'honour', 'heir']);
-
-  it('tables read through an "a" slot never start with an article or a vowel-sound trap', () => {
+  it('tables read through an "a" slot render cleanly with the engine article()', () => {
     const bad: string[] = [];
-    for (const id of articleTables(lib)) {
+    for (const id of articleTables(lib))
       for (const e of lib.table(id)?.entries ?? []) {
         if (startsWithSlot(e)) continue;
-        const w = words(astText(e.ast).toLowerCase())[0] ?? '';
-        if (BAD_FIRST.has(w) || w.startsWith('uni') || w.startsWith('eu'))
-          bad.push(`${e.id}: ${w}`);
+        const problem = articleProblem(astText(e.ast));
+        if (problem) bad.push(`${e.id}: ${problem}`);
       }
-    }
     none('article traps', bad);
   });
 
   it('reaches fantasy.npc.role (the walk is not vacuous)', () => {
     expect(articleTables(lib).has('fantasy.npc.role')).toBe(true);
+  });
+
+  it('gate fixture: pronunciation-correct entries pass, a manual article fails', () => {
+    for (const ok of ['usurer with a ledger', 'one-eyed ferryman', 'hourglass maker'])
+      expect(articleProblem(ok), ok).toBe('');
+    for (const bad of ['an usurer', 'a ferryman', 'the usurer'])
+      expect(articleProblem(bad), bad).not.toBe('');
+  });
+});
+
+describe('every table is gated', () => {
+  const structural = new Set([
+    ...facets.map((t) => t.id),
+    ...allTables(lib)
+      .filter((t) => t.entries.some((e) => e.ref !== undefined))
+      .map((t) => t.id),
+  ]);
+
+  it('each shipped table has a TABLE_SPEC row, is a situation table, or is excluded with a reason', () => {
+    none(
+      'tables with no gate',
+      uncoveredTables(allTables(lib), Object.keys(TABLE_SPEC), structural, UNGATED_TABLES),
+    );
+  });
+
+  it('exclusions carry a reason and name a real table', () => {
+    for (const [id, reason] of Object.entries(UNGATED_TABLES)) {
+      expect(reason.length, id).toBeGreaterThan(10);
+      expect(lib.table(id), `stale exclusion ${id}`).toBeDefined();
+    }
+  });
+
+  it('gate fixture: a table with no row fails, and rows, structure and exclusions cover it', () => {
+    const t = (id: string) => ({ id, tags: [], entries: [] });
+    const tables = [t('x.a'), t('x.b'), t('x.c'), t('x.d')];
+    expect(
+      uncoveredTables(tables, ['x.a'], new Set(['x.b']), { 'x.c': 'documented reason' }),
+    ).toEqual(['x.d']);
   });
 });
 

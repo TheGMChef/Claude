@@ -1,3 +1,4 @@
+import { article } from '../../src/article';
 import type { Library } from '../../src/library';
 import type {
   CompiledEntry,
@@ -113,4 +114,26 @@ export function articleTables(lib: Library): Set<string> {
     for (const src of Object.values(gen.fields)) if ('template' in src) walk(src.template, gen);
   }
   return found;
+}
+
+/**
+ * Renders `text` as the `|a` modifier would (with the engine's own `article()`) and returns what
+ * is wrong with it, or ''. Catches a manual article ("an usurer", "the usurer") that would double
+ * up, so the gate and the renderer cannot drift.
+ */
+export function articleProblem(text: string): string {
+  const rendered = `${article(text)} ${text}`;
+  return /^(a|an) (a|an|the)\b/i.test(rendered) ? `"${rendered}" doubles the article` : '';
+}
+
+/** Ids of `tables` with no spec row, no structural role (situation facet/index) and no exclusion. */
+export function uncoveredTables(
+  tables: Array<{ id: string }>,
+  specIds: string[],
+  structural: Set<string>,
+  excluded: Record<string, string>,
+): string[] {
+  return tables
+    .map((t) => t.id)
+    .filter((id) => !specIds.includes(id) && !structural.has(id) && !Object.hasOwn(excluded, id));
 }

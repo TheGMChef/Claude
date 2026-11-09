@@ -33,6 +33,11 @@ rewritten in your own voice. Common single words (oracle meanings like "betray" 
 fine. All content is licensed CC-BY-4.0 (see `LICENSE-CONTENT`), so only contribute what you have
 the right to license that way.
 
+**Originality check.** For every table you write or extend, pick its most distinctive entries
+(across the tables of one task, 15 phrases in all), search each verbatim in quotes on the web, and
+confirm no published match. Rewrite any hit. Avoid proper nouns from published settings and system
+terms such as gp, hit points or DCs.
+
 ## Tags
 
 - `tags` are free-form helpers (`urban`, `rural`, `coastal`, `wilderness`, `debt`, `family`,

@@ -16,7 +16,7 @@ export type TableSpec = {
   pocket?: true;
   /** Each TERRAIN tag on at least 3 entries once full. */
   terrain?: true;
-  /** Word tables in Title Case (default lower case). */
+  /** Word tables in Title Case (default lower case); ignored for family `oracle`, which is /^[a-z]+$/. */
   caps?: true;
   /** Every entry ends with '?'. */
   end?: '?';
@@ -175,3 +175,10 @@ export const AUDIT_EXCEPTIONS: Array<{
     reason: '"guard" is a verb about keeping a relic; no watch, guard post or arrest is involved',
   },
 ];
+
+/**
+ * Tables deliberately outside TABLE_SPEC (id to reason). Situation facet and index tables are
+ * covered structurally and need no row. A table added without a row, or an entry here, fails the
+ * "every table is gated" test.
+ */
+export const UNGATED_TABLES: Record<string, string> = {};
