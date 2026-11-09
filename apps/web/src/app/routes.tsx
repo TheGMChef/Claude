@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import type { ReactNode } from 'react';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 import { App } from './App';
 import { Home } from './Home';
 import { ModeShell } from './ModeShell';

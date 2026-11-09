@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router';
 import { IconButton, InkOutline } from '../kit';
 import type { IconName } from '../kit';
 import { MODES } from './modes';

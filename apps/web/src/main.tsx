@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { routes } from './app/routes';
 import { ThemeProvider } from './app/ThemeProvider';
 import './styles/fonts.css';
@@ -13,7 +14,7 @@ if (!root) throw new Error('missing #root');
 createRoot(root).render(
   <StrictMode>
     <ThemeProvider>
-      <RouterProvider router={createBrowserRouter(routes)} future={{ v7_startTransition: true }} />
+      <RouterProvider router={createBrowserRouter(routes)} />
     </ThemeProvider>
   </StrictMode>,
 );

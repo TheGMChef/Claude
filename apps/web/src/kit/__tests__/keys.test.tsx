@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+import { createMemoryRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { Button, Chip, DockButton, IconButton, Tabs } from '..';
 import { UpdateChip } from '../../app/UpdateChip';
 import { routes } from '../../app/routes';
@@ -170,7 +171,7 @@ describe('key components', () => {
     const router = createMemoryRouter(routes, { initialEntries: ['/prep'] });
     render(
       <ThemeProvider>
-        <RouterProvider router={router} future={{ v7_startTransition: true }} />
+        <RouterProvider router={router} />
       </ThemeProvider>,
     );
     const nav = screen.getByRole('navigation', { name: 'Modes' });

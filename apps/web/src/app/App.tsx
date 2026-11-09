@@ -1,4 +1,4 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import { InkFilter } from '../kit';
 import { TopBar } from './TopBar';
