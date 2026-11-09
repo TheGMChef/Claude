@@ -1,0 +1,42 @@
+version: 2
+updates:
+  # One pnpm workspace; the root lockfile covers apps/*, packages/* and tools/*.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      dev-tooling:
+        dependency-type: development
+        update-types: [minor, patch]
+      runtime:
+        dependency-type: production
+        update-types: [minor, patch]
+    ignore:
+      # Pinned to the Chromium build installed in the sandbox and CI (CLAUDE.md); bump by hand.
+      - dependency-name: '@playwright/test'
+      # Node 22 is the runtime (.nvmrc); Node types follow it.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
+      # react-router 8 needs React 19; move together with React.
+      - dependency-name: react-router
+        update-types: ['version-update:semver-major']
+      - dependency-name: react
+        update-types: ['version-update:semver-major']
+      - dependency-name: react-dom
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@types/react-dom'
+        update-types: ['version-update:semver-major']
+      # eslint 9+ needs the flat-config migration; plan it as its own task.
+      - dependency-name: eslint
+        update-types: ['version-update:semver-major']
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
