@@ -24,6 +24,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Dependency audit (fails on any unwaived moderate or worse advisory)
         run: pnpm audit --audit-level moderate
+      - name: Production dependency licenses (allowlist in scripts/licenses.mjs)
+        run: node scripts/licenses.mjs --check
       - run: pnpm lint
       - run: pnpm typecheck
       - run: pnpm test

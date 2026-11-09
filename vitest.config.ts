@@ -4,6 +4,12 @@ import { defineConfig } from 'vitest/config';
 // (apps/web/vite.config.ts, packages/engine/vitest.config.ts) and its own globalSetup.
 export default defineConfig({
   test: {
-    projects: ['apps/*', 'packages/*', 'tools/*'],
+    projects: [
+      'apps/*',
+      'packages/*',
+      'tools/*',
+      // Repo scripts (scripts/licenses.mjs and friends): plain Node, no setup.
+      { test: { name: 'scripts', include: ['scripts/**/*.test.mjs'], environment: 'node' } },
+    ],
   },
 });
