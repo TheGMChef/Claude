@@ -1,3 +1,6 @@
+import type { FieldSource } from './schema';
+import type { TemplateAst } from './template';
+
 /**
  * Input limits for content the engine did not ship: user packs (validateUserPack), card JSON
  * (parseCard) and the runtime render budget. The UI can show these numbers to authors.
@@ -185,4 +188,278 @@ export function safeBannedRegExp(src: string): RegExp | null {
   } catch {
     return null;
   }
+}
+
+// ---------- User pack checks (validateUserPack runs these before and after compileDocs) ----------
+
+type RawDoc = { file: string; data: unknown };
+type Problem = { message: string; path: string };
+
+const isObj = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/** UTF-8 byte length without TextEncoder (the engine has no DOM lib). */
+export function utf8Length(s: string): number {
+  let n = 0;
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c < 0x80) n += 1;
+    else if (c < 0x800) n += 2;
+    else if (c >= 0xd800 && c <= 0xdbff && i + 1 < s.length) {
+      n += 4;
+      i += 1;
+    } else n += 3;
+  }
+  return n;
+}
+
+const MAX_WALK_DEPTH = 32;
+
+/** Longest string a name-part rule set can produce. */
+function partsLength(rules: unknown): number {
+  if (!isObj(rules) || !Array.isArray(rules.pattern) || !isObj(rules.parts)) return 0;
+  const parts = rules.parts;
+  let n = 0;
+  for (const token of rules.pattern) {
+    if (typeof token !== 'string') continue;
+    const key = token.split('?')[0] as string;
+    const options = Object.hasOwn(parts, key) ? parts[key] : undefined;
+    if (!Array.isArray(options)) continue;
+    n += Math.max(0, ...options.map((o) => (typeof o === 'string' ? o.length : 0)));
+  }
+  return n;
+}
+
+/**
+ * Shape limits over raw (unvalidated) user documents: counts, string lengths, `__proto__` keys,
+ * pick counts, field counts, culture name lengths, banned and part-list sizes. Defensive: data
+ * may have any shape; zod reports shape errors afterwards.
+ */
+export function userPackProblems(docs: RawDoc[]): Problem[] {
+  const out: Problem[] = [];
+  if (docs.length > MAX_DOCUMENTS) {
+    return [
+      {
+        message: `a user pack may hold at most ${MAX_DOCUMENTS} documents (more than ${MAX_DOCUMENTS} documents found)`,
+        path: '',
+      },
+    ];
+  }
+  let tables = 0;
+  const walk = (v: unknown, path: string, depth: number): void => {
+    if (out.length > 50) return;
+    if (depth > MAX_WALK_DEPTH) {
+      out.push({ message: `nested more than ${MAX_WALK_DEPTH} levels deep`, path });
+      return;
+    }
+    if (typeof v === 'string') {
+      if (v.length > MAX_TEXT_LENGTH) {
+        out.push({ message: `text longer than ${MAX_TEXT_LENGTH} characters`, path });
+      }
+    } else if (Array.isArray(v)) {
+      v.forEach((x, i) => walk(x, `${path}[${i}]`, depth + 1));
+    } else if (isObj(v)) {
+      for (const key of Object.keys(v)) {
+        if (key === '__proto__') {
+          out.push({ message: 'the key "__proto__" is not allowed', path });
+          continue;
+        }
+        walk(v[key], path.endsWith('#') ? `${path}${key}` : `${path}.${key}`, depth + 1);
+      }
+    }
+  };
+  for (const { file, data } of docs) {
+    walk(data, `${file}#`, 0);
+    if (!isObj(data)) continue;
+    const at = (p: string): string => `${file}#${p}`;
+    if (data.kind === 'table') {
+      tables += 1;
+      if (Array.isArray(data.entries) && data.entries.length > MAX_ENTRIES_PER_TABLE) {
+        out.push({
+          message: `a table may hold at most ${MAX_ENTRIES_PER_TABLE} entries (more than ${MAX_ENTRIES_PER_TABLE} entries found)`,
+          path: at('entries'),
+        });
+      }
+    }
+    if (data.kind === 'situation') {
+      tables += 6;
+      if (isObj(data.facets)) {
+        for (const [f, list] of Object.entries(data.facets)) {
+          if (Array.isArray(list) && list.length > MAX_ENTRIES_PER_TABLE) {
+            out.push({
+              message: `a facet may hold at most ${MAX_ENTRIES_PER_TABLE} entries (more than ${MAX_ENTRIES_PER_TABLE} entries found)`,
+              path: at(`facets.${f}`),
+            });
+          }
+        }
+      }
+    }
+    if (data.kind === 'generator' && isObj(data.fields)) {
+      const names = Object.keys(data.fields);
+      if (names.length > MAX_FIELDS) {
+        out.push({
+          message: `a generator may have at most ${MAX_FIELDS} fields (more than ${MAX_FIELDS} fields found)`,
+          path: at('fields'),
+        });
+      }
+      for (const name of names) {
+        const src = data.fields[name];
+        const pick = isObj(src) && isObj(src.pick) ? src.pick : undefined;
+        if (pick && typeof pick.count === 'number' && pick.count > MAX_PICK_COUNT) {
+          out.push({
+            message: `pick.count is ${pick.count}; it may be at most ${MAX_PICK_COUNT}`,
+            path: at(`fields.${name}`),
+          });
+        }
+      }
+    }
+    if (data.kind === 'culture' && isObj(data.names)) {
+      const names = data.names;
+      if (Array.isArray(names.banned) && names.banned.length > MAX_BANNED_PATTERNS) {
+        out.push({
+          message: `a culture may have at most ${MAX_BANNED_PATTERNS} banned patterns (more than ${MAX_BANNED_PATTERNS} banned patterns found)`,
+          path: at('names.banned'),
+        });
+      }
+      for (const which of ['given', 'family'] as const) {
+        const rules = names[which];
+        if (!isObj(rules) || !isObj(rules.parts)) continue;
+        if (Array.isArray(rules.pattern) && rules.pattern.length > 16) {
+          out.push({
+            message: 'a name pattern may have at most 16 parts',
+            path: at(`names.${which}.pattern`),
+          });
+        }
+        for (const [key, list] of Object.entries(rules.parts)) {
+          if (Array.isArray(list) && list.length > MAX_NAME_PART_OPTIONS) {
+            out.push({
+              message: `a name part may list at most ${MAX_NAME_PART_OPTIONS} options (more than ${MAX_NAME_PART_OPTIONS} options found)`,
+              path: at(`names.${which}.parts.${key}`),
+            });
+          }
+        }
+      }
+      const given = partsLength(names.given);
+      const family = partsLength(names.family);
+      const format =
+        typeof names.format === 'string'
+          ? names.format
+          : family > 0
+            ? '{given} {family}'
+            : '{given}';
+      const literal = format.replace('{given}', '').replace('{family}', '').length;
+      const longest =
+        literal +
+        (format.includes('{given}') ? given : 0) +
+        (format.includes('{family}') ? family : 0);
+      const example = Array.isArray(names.examples)
+        ? Math.max(0, ...names.examples.map((e) => (typeof e === 'string' ? e.length : 0)))
+        : 0;
+      const worst = Math.max(longest, example);
+      if (worst > MAX_NAME_LENGTH) {
+        out.push({
+          message: `these rules can make names up to ${worst} characters long; names may be at most ${MAX_NAME_LENGTH}`,
+          path: at('names'),
+        });
+      }
+    }
+  }
+  if (tables > MAX_TABLES) {
+    out.unshift({
+      message: `a user pack may define at most ${MAX_TABLES} tables (more than ${MAX_TABLES} tables found)`,
+      path: '',
+    });
+  }
+  return out;
+}
+
+// ---------- Static expansion bound ----------
+
+type PackLike = {
+  tables: Record<string, { entries: Array<{ ast: TemplateAst; ref?: string }> }>;
+  generators: Record<string, { fields: Record<string, FieldSource>; display: TemplateAst }>;
+  situations?: Record<string, { facets: Record<string, string> }>;
+};
+
+/**
+ * Worst-case work for every table and generator of `pack`, keyed `table:<id>` and
+ * `generator:<id>`: 1 per table selection or sub-generator, plus slots along the most expensive
+ * entry of each table, summed over a generator's fields and display; `pick` multiplies by the
+ * number of entries it can draw. Cycles count 0 here (lint reports them).
+ */
+export function expansionCost(pack: PackLike, deps: PackLike[] = []): Map<string, number> {
+  const all = [...deps, pack];
+  const tables = new Map(all.flatMap((p) => Object.entries(p.tables)));
+  const gens = new Map(all.flatMap((p) => Object.entries(p.generators)));
+  const situations = new Map(all.flatMap((p) => Object.entries(p.situations ?? {})));
+  const memo = new Map<string, number>();
+  const active = new Set<string>();
+
+  const memoised = (key: string, f: () => number): number => {
+    const known = memo.get(key);
+    if (known !== undefined) return known;
+    if (active.has(key)) return 0;
+    active.add(key);
+    const v = f();
+    active.delete(key);
+    memo.set(key, v);
+    return v;
+  };
+  const ast = (a: TemplateAst, fields?: Record<string, unknown>): number => {
+    let n = 0;
+    for (const el of a) {
+      if (typeof el === 'string') continue;
+      const { slot } = el;
+      if (slot.kind === 'table' && !(fields && Object.hasOwn(fields, slot.ref)))
+        n += table(slot.ref);
+      else if (slot.kind === 'gen') n += gen(slot.generator);
+      else if (slot.kind === 'name') n += 1;
+    }
+    return n;
+  };
+  const table = (id: string): number =>
+    memoised(`table:${id}`, () => {
+      const t = tables.get(id);
+      if (!t) return 0;
+      return 1 + Math.max(0, ...t.entries.map((e) => ast(e.ast)));
+    });
+  const facetCost = (
+    g: { fields: Record<string, FieldSource> },
+    of: string,
+    name: string,
+  ): number => {
+    const src = Object.hasOwn(g.fields, of) ? g.fields[of] : undefined;
+    if (!src || !('situation' in src)) return 0;
+    const index = tables.get(src.situation.table);
+    let worst = 0;
+    for (const e of index?.entries ?? []) {
+      const st = e.ref !== undefined ? situations.get(e.ref) : undefined;
+      const facetId = st && Object.hasOwn(st.facets, name) ? st.facets[name] : undefined;
+      if (facetId !== undefined) worst = Math.max(worst, table(facetId));
+    }
+    return worst;
+  };
+  const gen = (id: string): number =>
+    memoised(`generator:${id}`, () => {
+      const g = gens.get(id);
+      if (!g) return 0;
+      let n = 1 + ast(g.display, g.fields);
+      for (const src of Object.values(g.fields)) {
+        if ('table' in src) n += table(src.table);
+        else if ('pick' in src) {
+          const entries = tables.get(src.pick.table)?.entries.length ?? 0;
+          n += Math.min(src.pick.count, entries) * table(src.pick.table);
+        } else if ('gen' in src) n += gen(src.gen);
+        else if ('template' in src) n += ast(src.template);
+        else if ('situation' in src) n += table(src.situation.table);
+        else if ('facet' in src) n += facetCost(g, src.facet.of, src.facet.name);
+        else n += 1; // name, culture
+      }
+      return n;
+    });
+
+  const out = new Map<string, number>();
+  for (const id of Object.keys(pack.tables)) out.set(`table:${id}`, table(id));
+  for (const id of Object.keys(pack.generators)) out.set(`generator:${id}`, gen(id));
+  return out;
 }
