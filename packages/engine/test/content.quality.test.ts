@@ -160,7 +160,13 @@ describe('articles', () => {
   });
 
   it('gate fixture: pronunciation-correct entries pass, a manual article fails', () => {
-    for (const ok of ['usurer with a ledger', 'one-eyed ferryman', 'hourglass maker', 'a-frame builder', 'an-tiro the cook'])
+    for (const ok of [
+      'usurer with a ledger',
+      'one-eyed ferryman',
+      'hourglass maker',
+      'a-frame builder',
+      'an-tiro the cook',
+    ])
       expect(articleProblem(ok), ok).toBe('');
     for (const bad of ['an usurer', 'a ferryman', 'the usurer'])
       expect(articleProblem(bad), bad).not.toBe('');
