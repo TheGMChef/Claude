@@ -4,6 +4,7 @@ coverage
 playwright-report
 test-results
 .superpowers
+.claude
 docs
 pnpm-lock.yaml
 __snapshots__
