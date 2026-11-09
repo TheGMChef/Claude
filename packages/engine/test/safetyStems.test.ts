@@ -32,9 +32,21 @@ describe('stemHits', () => {
       expect(stemHits(text, { wholeWord: true })).toEqual([]);
     },
   );
-  it('wholeWord stops prefix hits in names', () => {
-    expect(stemHits('Corpsewick')).toEqual(['death']);
-    expect(stemHits('Corpsewick', { wholeWord: true })).toEqual([]);
+  it('wholeWord stops ordinary prefix hits in names', () => {
+    expect(stemHits('Torturelle')).toEqual(['torture']);
+    expect(stemHits('Torturelle', { wholeWord: true })).toEqual([]);
+  });
+  it.each([
+    ['Corpsewick', 'death'],
+    ['Bloodmere', 'violence'],
+    ['Gravewick', 'death'],
+    ['Gorefell', 'gore'],
+    ['Slaughterby', 'animal-harm'],
+  ])('wholeWord still catches high-risk compound %s', (name, topic) => {
+    expect(stemHits(name, { wholeWord: true })).toContain(topic);
+  });
+  it.each(['Gravelle', 'Gorecki', 'Killian'])('wholeWord lets %s through', (name) => {
+    expect(stemHits(name, { wholeWord: true })).toEqual([]);
   });
   it('keeps the owner-approved imperial examples', () => {
     const ex = Object.values(fantasyPack.cultures).flatMap((c) => c.examples);

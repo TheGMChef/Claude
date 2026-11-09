@@ -156,6 +156,34 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
   ],
 };
 
+/**
+ * High-risk stems that `wholeWord` (example-name) matching still treats as PREFIXES, because a
+ * death or violence word is often hidden inside an invented compound ("Corpsewick", "Bloodmere").
+ * Each is a stem none of whose prefix forms is a common real name start. `except` lists whole
+ * words (regex fragments, case-insensitive) that begin with the stem but are legitimate names.
+ * Keep this list short; every addition needs a reason. `sever` is deliberately absent (Severin).
+ */
+export const NAME_PREFIX_STEMS: ReadonlyArray<{
+  topic: string;
+  stem: string;
+  except: readonly string[];
+}> = [
+  { topic: 'death', stem: 'corpse', except: [] },
+  { topic: 'violence', stem: 'blood', except: [] },
+  { topic: 'violence', stem: 'murder', except: [] },
+  { topic: 'violence', stem: 'kill', except: ['killian', 'killoran'] },
+  { topic: 'gore', stem: 'gore', except: ['goren', 'gorey', 'gorecki'] },
+  { topic: 'death', stem: 'grave', except: ['gravel\\w*'] },
+  { topic: 'animal-harm', stem: 'slaughter', except: [] },
+];
+
+const prefixHit = (text: string, topic: string): boolean =>
+  NAME_PREFIX_STEMS.some(({ topic: t, stem, except }) => {
+    if (t !== topic) return false;
+    const ok = new RegExp(`^(?:${except.join('|') || '(?!)'})$`, 'i');
+    return (text.match(new RegExp(`\\b${stem}\\w*`, 'gi')) ?? []).some((w) => !ok.test(w));
+  });
+
 const build = (suffix: string): ReadonlyArray<readonly [string, RegExp]> =>
   SAFETY_VOCABULARY.map((topic) => [
     topic,
@@ -170,5 +198,7 @@ const WHOLE_WORD_MATCHERS = build('\\b');
  */
 export function stemHits(text: string, opts: { wholeWord?: boolean } = {}): string[] {
   const ms = opts.wholeWord ? WHOLE_WORD_MATCHERS : MATCHERS;
-  return ms.filter(([, re]) => re.test(text)).map(([topic]) => topic);
+  return ms
+    .filter(([topic, re]) => re.test(text) || (opts.wholeWord === true && prefixHit(text, topic)))
+    .map(([topic]) => topic);
 }

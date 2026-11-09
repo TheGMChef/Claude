@@ -187,7 +187,7 @@ describe('lintPack', () => {
   it('flags culture examples and voice tips that match a safety stem (culture-safety)', () => {
     const c = {
       ...(marshJson as CompiledCulture),
-      examples: ['Hanged Vey'],
+      examples: ['Corpsewick Vey'],
       voice: { summary: 's', tips: ['Pray before you lie.'] },
     };
     const errs = lintPack(pack({ cultures: { [c.id]: c } }), []);
