@@ -34,6 +34,10 @@ export default defineConfig({
       devOptions: { enabled: false },
     }),
   ],
+  // Vite's own client defaults, spelled out so Vitest 4 (jsdom) resolves packages the same way the
+  // browser build does. Without this, tests load react-router's CJS build while react-router/dom
+  // require()s the ESM build (Node 22 module-sync), giving two router contexts.
+  resolve: { conditions: ['module', 'browser', 'development|production'] },
   test: {
     environment: 'jsdom',
     globals: true,
