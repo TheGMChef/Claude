@@ -18,6 +18,11 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
     'riot',
     'ambush',
     'blood',
+    'strangl',
+    'throttl',
+    'lynch',
+    'execut(?:e[sd]?|ing|ion|ioner)\\b',
+    'throat',
   ],
   gore: [
     'gore\\b',
@@ -47,16 +52,28 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
     'coffin',
     'ghost',
     'undead',
+    'poison',
+    'starv',
   ],
   torture: ['tortur', 'torment', 'thumbscrew'],
-  'sexual-content': ['brothel', 'seduc', 'naked', 'nude', 'sexual', 'courtesan', 'lover'],
+  'sexual-content': [
+    'brothel',
+    'seduc',
+    'naked',
+    'nude',
+    'sexual',
+    'courtesan',
+    'lover',
+    'rape[sd]?\\b',
+    'orgy\\b',
+  ],
   abuse: ['abus', 'bully', 'bullie'],
-  'child-harm': ['child-?(?:beat|harm)', 'infantic'],
-  'self-harm': ['self-harm', 'self-injur'],
-  suicide: ['suicid', 'noose', 'hanged'],
-  addiction: ['addict', 'drunk', 'opium', 'craving', 'withdrawal'],
-  slavery: ['slave', 'enslav', 'shackle', 'thrall', 'indentur', 'chattel'],
-  'body-horror': ['parasite', 'mutat', 'fester', 'pustule', 'flesh-'],
+  'child-harm': ['child-?(?:beat|harm)', 'infantic', 'orphan'],
+  'self-harm': ['self-harm', 'self-injur', 'hurt (?:her|him|them)sel'],
+  suicide: ['suicid', 'noose', 'hanged', 'own life', 'hang(?:s|ed|ing)?\\b'],
+  addiction: ['addict', 'drunk', 'opium', 'craving', 'withdrawal', 'gambl'],
+  slavery: ['slave', 'enslav', 'shackle', 'thrall', 'indentur', 'chattel', 'chained\\b'],
+  'body-horror': ['parasite', 'mutat', 'fester', 'pustule', 'flesh-', 'worm\\b'],
   insects: [
     'insect',
     'beetle',
@@ -153,8 +170,41 @@ export const SAFETY_STEMS: Readonly<Record<string, readonly string[]>> = {
     'mercenar',
     'regiment',
     'veteran',
+    'hostage',
+    'razed\\b',
   ],
 };
+
+/**
+ * High-risk stems that `wholeWord` (example-name) matching still treats as PREFIXES, because a
+ * death or violence word is often hidden inside an invented compound ("Corpsewick", "Bloodmere").
+ * Each is a stem none of whose prefix forms is a common real name start. `except` lists whole
+ * words (regex fragments, case-insensitive) that begin with the stem but are legitimate names.
+ * Keep this list short; every addition needs a reason. `sever` is deliberately absent (Severin).
+ */
+export const NAME_PREFIX_STEMS: ReadonlyArray<{
+  topic: string;
+  stem: string;
+  except: readonly string[];
+}> = [
+  { topic: 'death', stem: 'corpse', except: [] },
+  { topic: 'violence', stem: 'blood', except: [] },
+  { topic: 'violence', stem: 'murder', except: [] },
+  { topic: 'violence', stem: 'kill', except: ['killian', 'killoran'] },
+  { topic: 'gore', stem: 'gore', except: ['goren', 'gorey', 'gorecki'] },
+  { topic: 'death', stem: 'grave', except: ['gravel\\w*'] },
+  { topic: 'animal-harm', stem: 'slaughter', except: [] },
+  { topic: 'death', stem: 'dead', except: [] },
+  { topic: 'death', stem: 'tomb', except: ['tombl\\w*'] },
+  { topic: 'violence', stem: 'slay', except: ['slaymaker', 'slayton'] },
+];
+
+const prefixHit = (text: string, topic: string): boolean =>
+  NAME_PREFIX_STEMS.some(({ topic: t, stem, except }) => {
+    if (t !== topic) return false;
+    const ok = new RegExp(`^(?:${except.join('|') || '(?!)'})$`, 'i');
+    return (text.match(new RegExp(`\\b${stem}\\w*`, 'gi')) ?? []).some((w) => !ok.test(w));
+  });
 
 const build = (suffix: string): ReadonlyArray<readonly [string, RegExp]> =>
   SAFETY_VOCABULARY.map((topic) => [
@@ -170,5 +220,7 @@ const WHOLE_WORD_MATCHERS = build('\\b');
  */
 export function stemHits(text: string, opts: { wholeWord?: boolean } = {}): string[] {
   const ms = opts.wholeWord ? WHOLE_WORD_MATCHERS : MATCHERS;
-  return ms.filter(([, re]) => re.test(text)).map(([topic]) => topic);
+  return ms
+    .filter(([topic, re]) => re.test(text) || (opts.wholeWord === true && prefixHit(text, topic)))
+    .map(([topic]) => topic);
 }

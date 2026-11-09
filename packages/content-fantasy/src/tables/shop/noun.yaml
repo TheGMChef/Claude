@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.shop.noun
+title: Shop name noun
+tags: [shop]
+entries:
+  - text: Needle
+  - text: Ladle
+  - text: Compass
+  - text: Thimble
+  - text: Spindle
+  - text: Satchel
+  - text: Lathe
+  - text: Button

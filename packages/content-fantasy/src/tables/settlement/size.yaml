@@ -1,0 +1,23 @@
+kind: table
+id: fantasy.settlement.size
+title: The settlement is a
+tags: [settlement]
+entries:
+  - text: hamlet
+    weight: 2
+    tags: [rural]
+  - text: village
+    weight: 6
+    tags: [rural]
+  - text: mill village
+    weight: 3
+    tags: [rural, river]
+  - text: market town
+    weight: 3
+    tags: [urban, trade]
+  - text: cliff town
+    weight: 1
+    tags: [urban, coastal]
+  - text: river port
+    weight: 1
+    tags: [urban, river, trade]

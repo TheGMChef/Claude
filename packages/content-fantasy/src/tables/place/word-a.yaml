@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.place.word-a
+title: Place name, first half
+tags: [place]
+entries:
+  - text: Heron
+  - text: Thorn
+  - text: Salt
+  - text: Wren
+  - text: Alder
+  - text: Otter
+  - text: Sallow
+  - text: Marl

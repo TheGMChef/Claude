@@ -1,0 +1,22 @@
+kind: table
+id: fantasy.shop.kind
+title: The shop is a
+tags: [shop]
+entries:
+  - text: tinker's cart that became a shop by never leaving
+    tags: [road, trade]
+  - text: apothecary that smells of aniseed and mild apology
+    tags: [urban]
+  - text: cobbler's stall wedged into the gap between two houses
+    tags: [urban, trade]
+  - text: pawnbroker behind a bakery counter
+    tags: [urban, debt]
+  - text: hedge-witch's shed selling charms by weight
+    tags: [rural, magic]
+    safety: [religion]
+  - text: button-and-ribbon shop run from a beached fishing smack
+    tags: [coastal, trade]
+  - text: mapmaker's loft above a fishmonger's
+    tags: [urban, coastal]
+  - text: dry-goods store at a mountain pass, prices chalked on the wall
+    tags: [mountain, road]

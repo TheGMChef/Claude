@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.place.sound
+title: What you hear
+tags: [place]
+entries:
+  - text: a loose gate-latch keeping uneven time
+    tags: [urban]
+  - text: water dripping into a bucket someone keeps emptying
+    tags: [rural]
+  - text: distant bells, never quite agreeing
+    tags: [urban]
+  - text: geese arguing behind a wall
+    tags: [rural]
+  - text: wind in the rocks, like someone learning a flute
+    tags: [mountain, wilderness]
+  - text: a pulley squealing as a hoist swings a sack of grain
+    tags: [urban, trade]
+  - text: a skipping rhyme chanted in a house with every shutter open
+    tags: [rural]
+  - text: hooves on stone, slower than the rider seems to be going
+    tags: [road, forest]

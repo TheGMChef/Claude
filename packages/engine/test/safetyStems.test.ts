@@ -32,9 +32,55 @@ describe('stemHits', () => {
       expect(stemHits(text, { wholeWord: true })).toEqual([]);
     },
   );
-  it('wholeWord stops prefix hits in names', () => {
-    expect(stemHits('Corpsewick')).toEqual(['death']);
-    expect(stemHits('Corpsewick', { wholeWord: true })).toEqual([]);
+  it('wholeWord stops ordinary prefix hits in names', () => {
+    expect(stemHits('Torturelle')).toEqual(['torture']);
+    expect(stemHits('Torturelle', { wholeWord: true })).toEqual([]);
+  });
+  it.each([
+    ['strangled', 'violence'],
+    ['a lynch mob', 'violence'],
+    ['he hanged himself', 'suicide'],
+    ['took her own life', 'suicide'],
+    ['she will hurt herself', 'self-harm'],
+    ['poisoned wine', 'death'],
+    ['starving', 'death'],
+    ['she gambled everything', 'addiction'],
+    ['kept chained', 'slavery'],
+    ['a hostage', 'war'],
+    ['an orphan', 'child-harm'],
+    ['a worm in the apple', 'body-horror'],
+  ])('plain stem hits %s', (text, topic) => {
+    expect(stemHits(text)).toContain(topic);
+  });
+  it.each([
+    'a hangar',
+    "Hangman's Rest",
+    'Tomlin',
+    'Tomblin',
+    'Slaymaker',
+    'wormwood',
+    'executive',
+  ])('plain stems let %s through', (text) => {
+    expect(stemHits(text, { wholeWord: true })).toEqual([]);
+  });
+  it.each([
+    ['Deadwick', 'death'],
+    ['Tombwatch', 'death'],
+    ['Slayby', 'violence'],
+  ])('wholeWord catches compound %s', (name, topic) => {
+    expect(stemHits(name, { wholeWord: true })).toContain(topic);
+  });
+  it.each([
+    ['Corpsewick', 'death'],
+    ['Bloodmere', 'violence'],
+    ['Gravewick', 'death'],
+    ['Gorefell', 'gore'],
+    ['Slaughterby', 'animal-harm'],
+  ])('wholeWord still catches high-risk compound %s', (name, topic) => {
+    expect(stemHits(name, { wholeWord: true })).toContain(topic);
+  });
+  it.each(['Gravelle', 'Gorecki', 'Killian'])('wholeWord lets %s through', (name) => {
+    expect(stemHits(name, { wholeWord: true })).toEqual([]);
   });
   it('keeps the owner-approved imperial examples', () => {
     const ex = Object.values(fantasyPack.cultures).flatMap((c) => c.examples);

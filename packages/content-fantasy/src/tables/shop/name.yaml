@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.shop.name
+title: The shop is called
+tags: [shop]
+entries:
+  - text: "{name:family}'s {noun}"
+  - text: "{name:given}'s {noun}"
+  - text: The Second-Best {noun}
+  - text: '{name:family} and Niece'
+  - text: The {noun} Works
+  - text: '{noun} Row'
+  - text: A Good {noun}
+  - text: "{name:family}'s Odds and Ends"

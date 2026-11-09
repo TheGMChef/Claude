@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.place.sight
+title: What catches the eye first
+tags: [place]
+entries:
+  - text: a bedsheet strung between two chimneys, sewn from eleven different shirts
+    tags: [urban]
+  - text: a drained pond with a rowboat resting on the mud
+    tags: [rural, river]
+  - text: jar-glass hung in the branches, catching the last light
+    tags: [forest]
+  - text: a staircase cut into the rock, worn to a groove in the middle
+    tags: [mountain]
+  - text: nets drying on a fence made from old oars
+    tags: [coastal]
+  - text: a road paved with broken crockery, glittering after rain
+    tags: [road]
+  - text: tally marks scratched into a doorframe, thousands of them
+    tags: [ruin]
+  - text: moss that has swallowed a carved gate, leaving only the hinges
+    tags: [ruin, wilderness]

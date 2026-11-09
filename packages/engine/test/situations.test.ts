@@ -677,3 +677,45 @@ describe('situation fix round 1 (R39)', () => {
     ]);
   });
 });
+
+describe('multi-peer distinctFrom (Task 2 re-review)', () => {
+  const multiDoc = {
+    kind: 'generator',
+    id: 's.multi',
+    title: 'Multi',
+    fields: {
+      a: { situation: { table: 's.situations' } },
+      b: { situation: { table: 's.situations', distinctFrom: 'a' } },
+      c: { situation: { table: 's.situations', distinctFrom: 'a' } },
+    },
+    display: '{a}, {b}, {c}',
+  };
+  const multi = compileDocs(situationManifest, asDocs([...situationOnlyDocs, multiDoc]));
+  const mlib = loadPacks([multi.pack]);
+
+  it('compiles', () => {
+    expect(multi.errors).toEqual([]);
+  });
+
+  it('rerolling a with b and c locked excludes both peers, not only the last', () => {
+    let bothDistinct = 0;
+    for (let i = 0; i < 2_000; i++) {
+      const start = generate(mlib, 's.multi', { seed: `mp${i}` });
+      const next = reroll(mlib, start, { locks: ['b', 'c'] });
+      const [a, b, c] = ['a', 'b', 'c'].map((n) => next.fields[n] as CardField) as [
+        CardField,
+        CardField,
+        CardField,
+      ];
+      expect(a.value, `multi ${i}: a repeats b`).not.toBe(b.value);
+      expect(a.value, `multi ${i}: a repeats c`).not.toBe(c.value);
+      if (b.value !== c.value) {
+        bothDistinct++;
+        // Three situations, two excluded: exactly one is left for a.
+        expect(a.blocked, `multi ${i}: a blocked`).toBeUndefined();
+      }
+    }
+    // With b = c only one peer is excluded, so the floor shows the two-peer case really occurs.
+    expect(bothDistinct).toBeGreaterThanOrEqual(500);
+  });
+});

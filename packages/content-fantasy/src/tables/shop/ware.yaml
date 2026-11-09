@@ -1,0 +1,16 @@
+kind: table
+id: fantasy.shop.ware
+title: In the window
+tags: [shop]
+entries:
+  - text: left-handed scissors in three sizes
+  - text: jars of river water labelled by the mile
+    tags: [river]
+  - text: a brass doorknob with no door, priced as a bargain
+  - text: ink in seven shades of grey
+  - text: hand-knotted shoelaces, sold by the arm's length
+  - text: boxes of mismatched buttons, sorted by mood
+  - text: sun-faded maps of places that have since moved
+    tags: [road]
+  - text: oilcloth gloves, stiff until worn in
+    tags: [trade]

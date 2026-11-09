@@ -1,0 +1,55 @@
+{
+  "display": "The Hollow at Alder, a market stalls built into the arches of a dry aqueduct",
+  "fields": {
+    "name": {
+      "value": "The Hollow at Alder",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.name#3",
+        "fantasy.place.word-b#0",
+        "fantasy.place.word-a#4"
+      ]
+    },
+    "kind": {
+      "value": "market stalls built into the arches of a dry aqueduct",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.kind#4"
+      ]
+    },
+    "sight": {
+      "value": "nets drying on a fence made from old oars",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sight#4"
+      ]
+    },
+    "sound": {
+      "value": "a skipping rhyme chanted in a house with every shutter open",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sound#6"
+      ]
+    },
+    "smell": {
+      "value": "pine resin and somebody's boiled laundry",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.smell#2"
+      ]
+    },
+    "happening": {
+      "value": "a surveyor has pegged a new boundary through the middle of the road, and the cart ruts are ignoring it",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.happening#7"
+      ]
+    }
+  }
+}

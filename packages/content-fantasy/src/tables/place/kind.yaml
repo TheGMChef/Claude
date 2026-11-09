@@ -1,0 +1,23 @@
+kind: table
+id: fantasy.place.kind
+title: The place is a
+tags: [place]
+entries:
+  - text: ferry landing where the queue is the main attraction
+    tags: [river, road]
+  - text: charcoal burners' clearing, three huts and one stubborn donkey
+    tags: [forest, rural]
+    safety: [fire]
+  - text: drovers' waystation with a bunkroom nobody warms
+    tags: [road, mountain]
+  - text: salt-pan flat where the white crust crunches like old snow
+    tags: [coastal, wilderness]
+  - text: market stalls built into the arches of a dry aqueduct
+    tags: [urban, ruin]
+  - text: toppled lighthouse used as a goat pen
+    tags: [ruin, coastal]
+  - text: cartwheel shrine where travellers leave a spoke
+    tags: [road, faith]
+    safety: [religion]
+  - text: pass-top hut with a guest ledger and a spare boot
+    tags: [mountain, wilderness]

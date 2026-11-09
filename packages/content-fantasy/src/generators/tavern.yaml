@@ -1,0 +1,13 @@
+kind: generator
+id: fantasy.tavern
+title: Tavern
+fields:
+  name: { table: fantasy.tavern.name }
+  keeper: { name: full }
+  keeperWay: { table: fantasy.tavern.keeper-way }
+  sight: { table: fantasy.place.sight }
+  sound: { table: fantasy.place.sound }
+  smell: { table: fantasy.place.smell }
+  menu: { table: fantasy.tavern.menu }
+  regular: { table: fantasy.tavern.regular }
+display: '{name}, kept by {keeper}'

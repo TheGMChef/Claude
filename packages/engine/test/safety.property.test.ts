@@ -19,7 +19,7 @@ import type { SafetySettings } from '../src/safety';
 import { FACETS } from '../src/schema';
 
 /**
- * Spec §6 / I3: lines never appear across 15,000 generations, through every path: nested table
+ * Spec §6 / I3: lines never appear across about 19,800 generations, through every path: nested table
  * slots, `{gen:}` slots, gen fields (sub-generators), pick fields, template fields, situation and
  * facet fields (with `distinctFrom`), locked fields (reroll), share rebuilds, batch and
  * applySafety. Every tagged entry's text carries a `~tag~` marker per tag, so a leak shows in the
@@ -376,17 +376,20 @@ function probe() {
   /** Non-vacuity for one path: tagged content reached every main field and every facet. */
   function expectReach(path: string, opts: { main: boolean; seed: boolean }): void {
     if (opts.main) {
-      expect(tagsAt(path, 'display'), `${path}.display`).toBe(TAGS.length);
+      expect(tagsAt(path, 'display'), `I3: ${path}.display`).toBe(TAGS.length);
       for (const field of ['role', 'look', 'friend', 'traits'])
-        expect(tagsAt(path, field), `${path}.${field}`).toBeGreaterThanOrEqual(4);
+        expect(tagsAt(path, field), `I3: ${path}.${field}`).toBeGreaterThanOrEqual(4);
     }
     if (opts.seed) {
       for (const field of ['enemy', 'thing', 'pressure'])
-        expect(tagsAt(path, field), `${path}.${field}`).toBeGreaterThanOrEqual(3);
-      expect(reach[path]?.['seed-display']?.has('fire'), `${path}.seed-display fire`).toBe(true);
-      expect(reach[path]?.['seed-display']?.has('religion'), `${path}.seed-display religion`).toBe(
+        expect(tagsAt(path, field), `I3: ${path}.${field}`).toBeGreaterThanOrEqual(3);
+      expect(reach[path]?.['seed-display']?.has('fire'), `I3: ${path}.seed-display fire`).toBe(
         true,
       );
+      expect(
+        reach[path]?.['seed-display']?.has('religion'),
+        `I3: ${path}.seed-display religion`,
+      ).toBe(true);
     }
   }
 
@@ -427,12 +430,11 @@ describe('generation-level safety property (I3)', () => {
   afterAll(() => warn.mockRestore());
 
   it('the fixture compiles and has the situation index', () => {
-    expect(compiled.errors).toEqual([]);
-    expect(lib.table('p.situations')?.entries.map((x) => x.ref)).toEqual([
-      'p.situation.ember-toll',
-      'p.situation.reed-vow',
-      'p.situation.bell-debt',
-    ]);
+    expect(compiled.errors, 'I3: compiled.errors').toEqual([]);
+    expect(
+      lib.table('p.situations')?.entries.map((x) => x.ref),
+      'I3: lib.table(p.situations)?.entries.map((x) => x.ref)',
+    ).toEqual(['p.situation.ember-toll', 'p.situation.reed-vow', 'p.situation.bell-debt']);
   });
 
   it('generate: 4,000 main cards and 2,000 seed cards', () => {
@@ -449,17 +451,17 @@ describe('generation-level safety property (I3)', () => {
         safety,
       );
     }
-    expect(p.stats.checked).toBe(6_000);
-    expect(p.stats.seedChecked).toBe(2_000);
+    expect(p.stats.checked, 'I3: p.stats.checked').toBe(6_000);
+    expect(p.stats.seedChecked, 'I3: p.stats.seedChecked').toBe(2_000);
     p.expectReach('generate', { main: true, seed: true });
-    expect(p.stats.fieldsOk).toBeGreaterThan(p.stats.fieldsBlocked);
-    expect(p.stats.omenBlocked).toBeGreaterThan(500);
-    expect(p.reach.generate?.omen?.has('fire'), 'generate.omen').toBe(true);
+    expect(p.stats.fieldsOk, 'I3: p.stats.fieldsOk').toBeGreaterThan(p.stats.fieldsBlocked);
+    expect(p.stats.omenBlocked, 'I3: p.stats.omenBlocked').toBeGreaterThan(500);
+    expect(p.reach.generate?.omen?.has('fire'), 'I3: generate.omen').toBe(true);
     // Per-path floors sum to the brief's totals: distinct > 3,000 and facetByOf > 100.
-    expect(p.stats.distinct).toBeGreaterThan(1_500);
-    expect(p.stats.facetByOf).toBeGreaterThan(150);
+    expect(p.stats.distinct, 'I3: p.stats.distinct').toBeGreaterThan(1_500);
+    expect(p.stats.facetByOf, 'I3: p.stats.facetByOf').toBeGreaterThan(150);
     // Fails if fields generate in declared order: `enemy` would always find `a` missing.
-    expect(p.stats.enemyVisible).toBeGreaterThanOrEqual(1_000);
+    expect(p.stats.enemyVisible, 'I3: p.stats.enemyVisible').toBeGreaterThanOrEqual(1_000);
   });
 
   it('reroll with locks under new lines: 2,000 main cards and 1,000 seed cards', () => {
@@ -476,12 +478,12 @@ describe('generation-level safety property (I3)', () => {
     };
     for (let i = 0; i < 2000; i++) run(GEN, LOCKABLE, i);
     for (let i = 0; i < 1000; i++) run(SEED, SEED_LOCKABLE, i);
-    expect(p.stats.checked).toBe(3_000);
-    expect(p.stats.seedChecked).toBe(1_000);
+    expect(p.stats.checked, 'I3: p.stats.checked').toBe(3_000);
+    expect(p.stats.seedChecked, 'I3: p.stats.seedChecked').toBe(1_000);
     p.expectReach('reroll', { main: true, seed: true });
-    expect(p.reach.reroll?.omen?.has('fire'), 'reroll.omen').toBe(true);
-    expect(p.stats.distinct).toBeGreaterThan(400);
-    expect(p.stats.facetByOf).toBeGreaterThan(150);
+    expect(p.reach.reroll?.omen?.has('fire'), 'I3: reroll.omen').toBe(true);
+    expect(p.stats.distinct, 'I3: p.stats.distinct').toBeGreaterThan(400);
+    expect(p.stats.facetByOf, 'I3: p.stats.facetByOf').toBeGreaterThan(150);
   });
 
   it('cardFromShare rebuilds under the pasting context: 2,000 main cards and 1,000 seed cards', () => {
@@ -500,15 +502,15 @@ describe('generation-level safety property (I3)', () => {
     };
     for (let i = 0; i < 2000; i++) run(GEN, LOCKABLE, i);
     for (let i = 0; i < 1000; i++) run(SEED, SEED_LOCKABLE, i);
-    expect(p.stats.checked).toBe(3_000);
-    expect(p.stats.seedChecked).toBe(1_000);
+    expect(p.stats.checked, 'I3: p.stats.checked').toBe(3_000);
+    expect(p.stats.seedChecked, 'I3: p.stats.seedChecked').toBe(1_000);
     p.expectReach('share', { main: true, seed: true });
-    expect(p.reach.share?.omen?.has('fire'), 'share.omen').toBe(true);
-    expect(p.stats.distinct).toBeGreaterThan(500);
-    expect(p.stats.facetByOf).toBeGreaterThan(30);
+    expect(p.reach.share?.omen?.has('fire'), 'I3: share.omen').toBe(true);
+    expect(p.stats.distinct, 'I3: p.stats.distinct').toBeGreaterThan(500);
+    expect(p.stats.facetByOf, 'I3: p.stats.facetByOf').toBeGreaterThan(30);
     // Both R36 branches run: exact codes rebuild, inexact ones fall back to the card JSON.
-    expect(p.stats.exact).toBeGreaterThan(2_000);
-    expect(p.stats.inexact).toBeGreaterThan(10);
+    expect(p.stats.exact, 'I3: p.stats.exact').toBeGreaterThan(2_000);
+    expect(p.stats.inexact, 'I3: p.stats.inexact').toBeGreaterThan(10);
   });
 
   it('batch: 2,000 main cards, 800 seed cards and 3,200 table rolls', () => {
@@ -539,17 +541,17 @@ describe('generation-level safety property (I3)', () => {
         }
       });
     }
-    expect(p.stats.checked).toBe(2_800);
-    expect(p.stats.seedChecked).toBe(800);
-    expect(p.stats.rolls).toBe(3_200);
+    expect(p.stats.checked, 'I3: p.stats.checked').toBe(2_800);
+    expect(p.stats.seedChecked, 'I3: p.stats.seedChecked').toBe(800);
+    expect(p.stats.rolls, 'I3: p.stats.rolls').toBe(3_200);
     // Direct facet rolls both show and block (the situation's line blocks every entry).
-    expect(facetVisible).toBeGreaterThan(600);
-    expect(facetBlocked).toBeGreaterThan(200);
+    expect(facetVisible, 'I3: facetVisible').toBeGreaterThan(600);
+    expect(facetBlocked, 'I3: facetBlocked').toBeGreaterThan(200);
     p.expectReach('batch', { main: true, seed: true });
-    expect(p.reach.batch?.roll?.size).toBe(TAGS.length);
-    expect(p.reach.batch?.omen?.has('fire'), 'batch.omen').toBe(true);
-    expect(p.stats.distinct).toBeGreaterThan(600);
-    expect(p.stats.facetByOf).toBeGreaterThan(40);
+    expect(p.reach.batch?.roll?.size, 'I3: p.reach.batch?.roll?.size').toBe(TAGS.length);
+    expect(p.reach.batch?.omen?.has('fire'), 'I3: batch.omen').toBe(true);
+    expect(p.stats.distinct, 'I3: p.stats.distinct').toBeGreaterThan(600);
+    expect(p.stats.facetByOf, 'I3: p.stats.facetByOf').toBeGreaterThan(40);
   });
 
   it('applySafety toggles: lines on never leak and never reroll; off restores exactly (2,000 cards)', () => {
@@ -598,11 +600,11 @@ describe('generation-level safety property (I3)', () => {
         if (card.fields[name]?.blocked && !freed.fields[name]?.blocked) p.stats.refilled++;
       }
     }
-    expect(p.stats.checked).toBe(4_000);
-    expect(p.stats.toggles).toBe(4_000);
-    expect(p.stats.restored).toBe(2_000);
-    expect(p.stats.hidden).toBeGreaterThan(500);
-    expect(p.stats.refilled).toBeGreaterThan(100);
+    expect(p.stats.checked, 'I3: p.stats.checked').toBe(4_000);
+    expect(p.stats.toggles, 'I3: p.stats.toggles').toBe(4_000);
+    expect(p.stats.restored, 'I3: p.stats.restored').toBe(2_000);
+    expect(p.stats.hidden, 'I3: p.stats.hidden').toBeGreaterThan(500);
+    expect(p.stats.refilled, 'I3: p.stats.refilled').toBeGreaterThan(100);
     p.expectReach('toggle', { main: true, seed: false });
   });
 
@@ -634,17 +636,17 @@ describe('generation-level safety property (I3)', () => {
       }
 
       const back = applySafety(lib, lined, { context: ctx(before) });
-      expect(back.fields, `apply ${i}: restore differs`).toEqual(card.fields);
+      expect(back.fields, `I3: apply ${i}: restore differs`).toEqual(card.fields);
       must(JSON.stringify(back) === JSON.stringify(card), `apply ${i}: restored card differs`);
       p.stats.restored++;
     }
-    expect(p.stats.applied).toBe(1_000);
-    expect(p.stats.restored).toBe(1_000);
-    expect(p.stats.seedChecked).toBe(1_000);
+    expect(p.stats.applied, 'I3: p.stats.applied').toBe(1_000);
+    expect(p.stats.restored, 'I3: p.stats.restored').toBe(1_000);
+    expect(p.stats.seedChecked, 'I3: p.stats.seedChecked').toBe(1_000);
     p.expectReach('apply', { main: false, seed: true });
-    expect(hiddenSituations).toBeGreaterThan(100);
-    expect(hiddenFacets).toBeGreaterThan(100);
-    expect(p.stats.distinct).toBeGreaterThan(350);
-    expect(p.stats.facetByOf).toBeGreaterThan(200);
+    expect(hiddenSituations, 'I3: hiddenSituations').toBeGreaterThan(100);
+    expect(hiddenFacets, 'I3: hiddenFacets').toBeGreaterThan(100);
+    expect(p.stats.distinct, 'I3: p.stats.distinct').toBeGreaterThan(350);
+    expect(p.stats.facetByOf, 'I3: p.stats.facetByOf').toBeGreaterThan(200);
   });
 });

@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.tavern.adj
+title: Tavern name adjective
+tags: [tavern]
+entries:
+  - text: Leaning
+  - text: Patient
+  - text: Copper
+  - text: Crooked
+  - text: Sleepy
+  - text: Hopeful
+  - text: Brass
+  - text: Weary

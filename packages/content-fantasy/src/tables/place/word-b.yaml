@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.place.word-b
+title: Place name, second half
+tags: [place]
+entries:
+  - text: hollow
+  - text: fell
+  - text: mere
+  - text: ford
+  - text: stead
+  - text: stair
+  - text: combe
+  - text: cross

@@ -1,0 +1,15 @@
+kind: table
+id: fantasy.tavern.name
+title: The tavern is called
+tags: [tavern]
+entries:
+  - text: The {adj} {noun}
+  - text: "{name:family}'s {noun}"
+  - text: The Last {noun}
+  - text: The {adj} Welcome
+  - text: "Old {name:given}'s {noun}"
+  - text: At the Sign of the {noun}
+  - text: '{name:given} and the {noun}'
+  - text: The {noun} Under the Hill
+    tags: [underground]
+    safety: [claustrophobia]

@@ -1,0 +1,70 @@
+{
+  "display": "The Leaning Welcome, kept by Otto Fabrance",
+  "fields": {
+    "name": {
+      "value": "The Leaning Welcome",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.tavern.name#3",
+        "fantasy.tavern.adj#0"
+      ]
+    },
+    "keeper": {
+      "value": "Otto Fabrance",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.culture.imperial"
+      ]
+    },
+    "keeperWay": {
+      "value": "answers every question with another question",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.tavern.keeper-way#4"
+      ]
+    },
+    "sight": {
+      "value": "nets drying on a fence made from old oars",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sight#4"
+      ]
+    },
+    "sound": {
+      "value": "a skipping rhyme chanted in a house with every shutter open",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.sound#6"
+      ]
+    },
+    "smell": {
+      "value": "pine resin and somebody's boiled laundry",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.place.smell#2"
+      ]
+    },
+    "menu": {
+      "value": "pickled walnuts and a crumbly white cheese",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.tavern.menu#4"
+      ]
+    },
+    "regular": {
+      "value": "a bard who only knows the second half of every song",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.tavern.regular#2"
+      ]
+    }
+  }
+}

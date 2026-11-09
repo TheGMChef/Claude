@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.tavern.noun
+title: Tavern name noun
+tags: [tavern]
+entries:
+  - text: Kettle
+  - text: Lantern
+  - text: Anchor
+  - text: Plough
+  - text: Goose
+  - text: Ladder
+  - text: Pigeon
+  - text: Spoon

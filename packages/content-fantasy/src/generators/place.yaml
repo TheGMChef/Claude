@@ -1,0 +1,11 @@
+kind: generator
+id: fantasy.place
+title: Place
+fields:
+  name: { table: fantasy.place.name }
+  kind: { table: fantasy.place.kind }
+  sight: { table: fantasy.place.sight }
+  sound: { table: fantasy.place.sound }
+  smell: { table: fantasy.place.smell }
+  happening: { table: fantasy.place.happening }
+display: '{name}, {kind|a}'

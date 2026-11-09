@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.shop.haggle
+title: Haggling
+tags: [shop]
+entries:
+  - text: takes offers only in rhyme
+  - text: never lowers a price but throws in something odd
+  - text: gives a discount for a good story, lies included
+  - text: names a high price and drops it when the customer reaches the door
+  - text: trades only by weight, never by the coin's face
+  - text: halves the price for anyone who admits what they really came for
+  - text: refuses to haggle before noon
+  - text: asks what the customer would pay, sighs, then agrees

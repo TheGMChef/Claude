@@ -1,0 +1,21 @@
+kind: table
+id: fantasy.settlement.known-for
+title: It is known for
+tags: [settlement]
+entries:
+  - text: a cheese so strong the road to it has a nickname
+    tags: [rural]
+  - text: the only working clock for forty miles, always seven minutes slow
+    tags: [urban]
+  - text: boatbuilders who refuse to sell to anyone from upriver
+    tags: [river, trade]
+  - text: an annual race of overloaded handcarts down the main street
+    tags: [road]
+  - text: wool dyed a blue that fades to exactly the colour of the buyer's eyes
+    tags: [trade]
+  - text: a lending library of a hundred umbrellas, every one returned
+    tags: [urban]
+  - text: stonemasons who carve one tiny mistake into every wall, for luck
+    tags: [trade]
+  - text: pears so good that neighbouring villages pay to be rude about them
+    tags: [rural]

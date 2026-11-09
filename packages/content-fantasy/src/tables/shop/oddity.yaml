@@ -1,0 +1,14 @@
+kind: table
+id: fantasy.shop.oddity
+title: Odd about the place
+tags: [shop]
+entries:
+  - text: every price is quoted in a different currency
+    tags: [trade]
+  - text: the keeper never sets anything down, only hands it over
+  - text: a rope across the doorway is lowered only for polite customers
+  - text: shelves are sorted by who last returned the item
+  - text: a clock runs backwards and nobody may fix it
+  - text: the doorbell sounds a different note every visit
+  - text: the floor slopes so the goods slide toward the till
+  - text: a hand-lettered sign promises refunds on yesterday

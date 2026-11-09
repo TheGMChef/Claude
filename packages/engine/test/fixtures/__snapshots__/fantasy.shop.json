@@ -1,0 +1,55 @@
+{
+  "display": "Drusenne and Niece, a hedge-witch's shed selling charms by weight",
+  "fields": {
+    "name": {
+      "value": "Drusenne and Niece",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.shop.name#3"
+      ]
+    },
+    "kind": {
+      "value": "hedge-witch's shed selling charms by weight",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.shop.kind#4"
+      ]
+    },
+    "keeper": {
+      "value": "Otto Fabrance",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.culture.imperial"
+      ]
+    },
+    "wares": {
+      "value": "jars of river water labelled by the mile; ink in seven shades of grey; a brass doorknob with no door, priced as a bargain",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.shop.ware#1",
+        "fantasy.shop.ware#3",
+        "fantasy.shop.ware#2"
+      ]
+    },
+    "oddity": {
+      "value": "shelves are sorted by who last returned the item",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.shop.oddity#3"
+      ]
+    },
+    "haggle": {
+      "value": "never lowers a price but throws in something odd",
+      "locked": false,
+      "nonce": 0,
+      "sources": [
+        "fantasy.shop.haggle#1"
+      ]
+    }
+  }
+}

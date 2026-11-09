@@ -18,6 +18,7 @@ export type { Library } from './library';
 export { selectEntry } from './select';
 export { fieldDeps, fieldOrder, inDeclaredOrder } from './situations';
 export type { TagFilter, Selection } from './select';
+export { article } from './article';
 export { renderTemplate } from './render';
 export type { CampaignLookup, Context, RenderEnv, RenderResult } from './render';
 export { generateName, nameWithRng, normalizeName } from './names';

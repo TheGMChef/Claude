@@ -187,7 +187,7 @@ describe('lintPack', () => {
   it('flags culture examples and voice tips that match a safety stem (culture-safety)', () => {
     const c = {
       ...(marshJson as CompiledCulture),
-      examples: ['Hanged Vey'],
+      examples: ['Corpsewick Vey'],
       voice: { summary: 's', tips: ['Pray before you lie.'] },
     };
     const errs = lintPack(pack({ cultures: { [c.id]: c } }), []);
@@ -226,5 +226,21 @@ describe('lintPack', () => {
       },
     ]);
     expect(errors.map((e) => e.code)).toEqual(['cycle']);
+  });
+
+  describe('culture example names use whole-word matching (M5)', () => {
+    const lintExamples = (examples: string[]) =>
+      lintPack(
+        pack({ cultures: { [marshJson.id]: { ...(marshJson as CompiledCulture), examples } } }),
+      );
+    it.each(['Torturelle Vey', 'Warren Pell', 'Severin Oko'])('lets %s through', (name) => {
+      expect(lintExamples([name]).map((e) => e.code)).toEqual([]);
+    });
+    it.each(['Bloodworth Pell', 'Murderby Vey', 'Corpsewick Vey'])('flags %s', (name) => {
+      const errs = lintExamples(['Ok Name', name]);
+      expect(errs.map((e) => [e.code, e.path])).toEqual([
+        ['culture-safety', `${marshJson.id}#names.examples[1]`],
+      ]);
+    });
   });
 });

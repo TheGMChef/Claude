@@ -1,0 +1,13 @@
+kind: table
+id: fantasy.tavern.keeper-way
+title: The keeper
+tags: [tavern]
+entries:
+  - text: greets every customer by the wrong name, deliberately
+  - text: keeps a ledger of the evening's arguments and reads it aloud at closing
+  - text: will not serve anyone who is still standing
+  - text: cooks only what the first customer of the day asked for
+  - text: answers every question with another question
+  - text: charges by the hour of conversation, not by the drink
+  - text: pours in silence and listens harder than anyone
+  - text: consults the house cat before letting a stranger in
