@@ -1,3 +1,4 @@
+import { article } from './article';
 import type { Library } from './library';
 import type { Rng } from './rng';
 import type { SafetySettings } from './safety';
@@ -85,7 +86,7 @@ function applyMod(text: string, mod: Modifier): string {
     case 'cap':
       return text === '' ? text : text.charAt(0).toUpperCase() + text.slice(1);
     case 'a':
-      return text === '' ? text : `${/^[aeiou]/i.test(text) ? 'an' : 'a'} ${text}`;
+      return text === '' ? text : `${article(text)} ${text}`;
     case 'or':
       return text.trim() === '' ? mod.fallback : text;
   }

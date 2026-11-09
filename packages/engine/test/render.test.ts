@@ -76,6 +76,18 @@ describe('renderTemplate', () => {
     expect(render('{t.empty|a|cap}').text).toBe('');
   });
 
+  it('the a modifier follows pronunciation, not just the first letter (R44)', () => {
+    const cases: Array<[string, string]> = [
+      ['usurer', 'a usurer'],
+      ['one-eyed ferryman', 'a one-eyed ferryman'],
+      ['heirloom dealer', 'an heirloom dealer'],
+      ['hourglass maker', 'an hourglass maker'],
+      ['ushers the choir', 'a ushers the choir'],
+    ];
+    for (const [name, out] of cases)
+      expect(render('{ctx.pc.name|a}', mkEnv({}, { pc: { name } })).text).toBe(out);
+  });
+
   it('uses ctx values, or: fallback, and campaign.get', () => {
     const env = mkEnv({}, { settlement: { name: 'Saltmere' } });
     expect(render('{ctx.settlement.name|or:town}', env).text).toBe('Saltmere');
