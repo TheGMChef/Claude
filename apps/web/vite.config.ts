@@ -1,11 +1,45 @@
+import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import type { Plugin } from 'vite';
 import { configDefaults, defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import { defaultClientConditions } from 'vite';
+import { inlineScriptHashes, metaCsp, parseCsp, parseHeaders } from './security/headers';
+
+// One source of truth for the security headers: public/_headers (what static hosts serve).
+const HEADERS = parseHeaders(
+  readFileSync(fileURLToPath(new URL('./public/_headers', import.meta.url)), 'utf8'),
+)['/*'] as Record<string, string>;
+const CSP = HEADERS['Content-Security-Policy'] as string;
+
+/**
+ * Build only (the dev server injects inline scripts): fails the build when an inline script's hash
+ * is missing from the CSP, and adds the meta-safe part of the CSP to index.html, so hosts that
+ * ignore _headers still get it.
+ */
+function contentSecurityPolicy(): Plugin {
+  return {
+    name: 'prepdesk-csp',
+    apply: 'build',
+    transformIndexHtml: {
+      order: 'post',
+      handler(html) {
+        const allowed = parseCsp(CSP)['script-src'] ?? [];
+        const missing = inlineScriptHashes(html).filter((h) => !allowed.includes(h));
+        if (missing.length > 0) {
+          throw new Error(`public/_headers script-src is missing ${missing.join(' ')}`);
+        }
+        const meta = `<meta http-equiv="Content-Security-Policy" content="${metaCsp(CSP)}" />`;
+        return html.replace(/(<meta charset="UTF-8" \/>)/, `$1\n    ${meta}`);
+      },
+    },
+  };
+}
 
 export default defineConfig({
   plugins: [
+    contentSecurityPolicy(),
     react(),
     VitePWA({
       registerType: 'prompt',
@@ -39,6 +73,8 @@ export default defineConfig({
   // browser build does. Without this, tests load react-router's CJS build while react-router/dom
   // require()s the ESM build (Node 22 module-sync), giving two router contexts.
   resolve: { conditions: [...defaultClientConditions] },
+  // `vite preview` (e2e) serves the production headers, so every e2e spec runs under the CSP.
+  preview: { headers: HEADERS },
   test: {
     environment: 'jsdom',
     globals: true,

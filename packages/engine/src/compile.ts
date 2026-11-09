@@ -1,5 +1,6 @@
 import type { ZodIssue } from 'zod';
 import { ContentError } from './errors';
+import { regexRisk } from './limits';
 import { lintWith } from './lint';
 import { SAFETY_VOCABULARY } from './safety';
 import type { LintKind } from './lint';
@@ -282,7 +283,15 @@ export function compileDocs(
     const validBanned = (banned ?? []).filter((b, i) => {
       try {
         new RegExp(b, 'i');
-        return true;
+        // Banned patterns run on every generated name: refuse ones that could hang (ReDoS).
+        const risk = regexRisk(b);
+        if (risk === null) return true;
+        fail(
+          'schema',
+          `banned pattern "${b}" is unsafe: ${risk}`,
+          `${fileOf('culture', c.id)}#names.banned[${i}]`,
+        );
+        return false;
       } catch (e) {
         fail(
           'schema',

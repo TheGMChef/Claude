@@ -1,4 +1,5 @@
 import { ContentError } from './errors';
+import { safeBannedRegExp } from './limits';
 import type { Library } from './library';
 import { createRng, toSeed } from './rng';
 import type { Rng } from './rng';
@@ -44,7 +45,8 @@ const bannedCache = new WeakMap<CompiledCulture, RegExp[]>();
 function bannedOf(culture: CompiledCulture): RegExp[] {
   let res = bannedCache.get(culture);
   if (!res) {
-    res = culture.banned.map((b) => new RegExp(b, 'i'));
+    // A compiled culture may not have come through compile (stored JSON): skip unsafe patterns.
+    res = culture.banned.map(safeBannedRegExp).filter((re) => re !== null);
     bannedCache.set(culture, res);
   }
   return res;
@@ -63,7 +65,7 @@ function buildPart(rules: NameParts, rng: Rng): string {
       const p = m[3] !== undefined ? Number(m[3]) : 0.5;
       if (rng.next() >= p) continue;
     }
-    const options = rules.parts[key] ?? [];
+    const options = Object.hasOwn(rules.parts, key) ? (rules.parts[key] ?? []) : [];
     if (options.length === 0) continue;
     out += options[rng.int(options.length)] ?? '';
   }

@@ -1,5 +1,6 @@
 import { article } from './article';
 import type { Library } from './library';
+import { MAX_RENDER_STEPS } from './limits';
 import type { Rng } from './rng';
 import type { SafetySettings } from './safety';
 import { selectEntry } from './select';
@@ -43,6 +44,30 @@ export type RenderResult = {
 };
 
 const MAX_DEPTH = 8;
+
+/** Shown in place of a slot once a call has used its render budget (MAX_RENDER_STEPS). */
+export const BUDGET_PLACEHOLDER = '…';
+
+// Steps used per generate/roll/batch call, keyed by the call's shared warn set (env.warned), else
+// by the env. Bounds template explosion at runtime even for packs that skipped validateUserPack.
+const budgets = new WeakMap<object, { steps: number }>();
+
+function spend(env: RenderEnv): boolean {
+  const key = env.warned ?? env;
+  let b = budgets.get(key);
+  if (!b) {
+    b = { steps: 0 };
+    budgets.set(key, b);
+  }
+  if (b.steps >= MAX_RENDER_STEPS) return false;
+  b.steps += 1;
+  return true;
+}
+
+/** True once the call owning `key` (its env.warned set) has used its render budget. */
+export function renderBudgetSpent(key: object): boolean {
+  return (budgets.get(key)?.steps ?? 0) >= MAX_RENDER_STEPS;
+}
 
 // One warning set per env (or env.warned when given), so each missing path/ref warns once.
 const warnedByEnv = new WeakMap<RenderEnv, Set<string>>();
@@ -94,6 +119,10 @@ function applyMod(text: string, mod: Modifier): string {
 
 export function renderTemplate(ast: TemplateAst, env: RenderEnv, depth = 0): RenderResult {
   const out: RenderResult = { text: '', sources: [], veiled: [], blocked: false, relaxed: false };
+  if (!spend(env)) {
+    out.text = BUDGET_PLACEHOLDER;
+    return out;
+  }
 
   // Returns undefined when the value is missing (so modifiers other than `or` are skipped).
   const resolve = (slot: Slot): string | undefined => {
@@ -116,6 +145,7 @@ export function renderTemplate(ast: TemplateAst, env: RenderEnv, depth = 0): Ren
         const table = env.lib.table(slot.ref);
         if (!table) return undefined;
         if (depth + 1 > MAX_DEPTH) return '';
+        if (!spend(env)) return BUDGET_PLACEHOLDER;
         const sel = selectEntry(table, env.rng, {
           genre: env.ctx.genre,
           tags: env.ctx.tags,

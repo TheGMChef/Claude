@@ -1,3 +1,4 @@
+import { MAX_SHARE_CODE_LENGTH } from './limits';
 import { CROCKFORD, hashSeed, normalizeSeed } from './rng';
 
 /**
@@ -123,8 +124,11 @@ export function encodeShare(state: ShareState): string {
  * parsed. Errors: `checksum` (typo), `malformed`, `field-count` (code for another generator).
  */
 export function decodeShare(code: string, fieldCount: number): DecodeResult {
+  if (code.length > MAX_SHARE_CODE_LENGTH * 4) return { ok: false, error: 'malformed' };
   const raw = code.toUpperCase().replace(/\s+/g, '');
-  if (raw.length < 2) return { ok: false, error: 'malformed' };
+  // Untrusted text: base-32 BigInt parsing is quadratic in a piece's length.
+  if (raw.length < 2 || raw.length > MAX_SHARE_CODE_LENGTH)
+    return { ok: false, error: 'malformed' };
   const body = raw.slice(0, -1);
   const values = bodyValues(body);
   const check = raw.slice(-1);

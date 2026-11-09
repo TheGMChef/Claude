@@ -2,7 +2,7 @@ import { ContentError } from './errors';
 import type { Library } from './library';
 import { nameWithRng, normalizeName } from './names';
 import type { NameResult } from './names';
-import { renderTemplate } from './render';
+import { renderBudgetSpent, renderTemplate } from './render';
 import type { Context, RenderEnv } from './render';
 import { CROCKFORD, createRng, randomId, toSeed } from './rng';
 import type { Rng } from './rng';
@@ -216,7 +216,7 @@ function subCard(
   rng: Rng,
 ): Built | null {
   const gen = state.lib.generator(generatorId);
-  if (!gen || depth + 1 > MAX_GEN_DEPTH) return null;
+  if (!gen || depth + 1 > MAX_GEN_DEPTH || renderBudgetSpent(state.warned)) return null;
   const seed = seedFrom(rng);
   return assemble(
     state,

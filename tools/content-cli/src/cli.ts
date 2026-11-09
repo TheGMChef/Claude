@@ -25,6 +25,13 @@ export function main(argv: string[], io: Io): number {
   const outFlag = rest.indexOf('--out');
   const outDir = join(resolve(dir), outFlag >= 0 ? (rest[outFlag + 1] ?? 'dist') : 'dist');
   const { pack, errors } = compileDir(dir);
+  // The id names the output file: keep it a plain file name inside the output folder.
+  if (!/^[a-z0-9][a-z0-9_-]*$/.test(pack.id)) {
+    io.out.push(
+      `schema package.json#prepdesk.id pack id "${pack.id}" must match [a-z0-9][a-z0-9_-]*`,
+    );
+    return 1;
+  }
   for (const e of errors) io.out.push(`${e.code} ${e.path} ${e.message}`);
   if (errors.length > 0) return 1;
   if (cmd === 'build') {

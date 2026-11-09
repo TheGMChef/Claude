@@ -111,3 +111,19 @@ describe('culture-safety fixture', () => {
     expect(errors[0]?.path).toMatch(/src\/culture\.yaml/);
   });
 });
+
+describe('build output path', () => {
+  it('refuses a pack id that would write outside the output folder', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'pd-'));
+    cpSync(fx('good'), dir, { recursive: true });
+    const pkg = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8')) as {
+      prepdesk: { id: string };
+    };
+    pkg.prepdesk.id = '../../escaped';
+    writeFileSync(join(dir, 'package.json'), JSON.stringify(pkg));
+    const io = { out: [] as string[], err: [] as string[] };
+    expect(main(['build', dir], io)).toBe(1);
+    expect(io.out.join('\n')).toMatch(/pack id "..\/..\/escaped"/);
+    expect(existsSync(join(dir, '..', 'escaped.json'))).toBe(false);
+  });
+});

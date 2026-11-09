@@ -1,3 +1,4 @@
+import './zodConfig';
 export const VERSION = '0.1.0';
 export { createRng, hashSeed, newSeed, normalizeSeed } from './rng';
 export type { Rng } from './rng';
@@ -7,6 +8,7 @@ export * from './template';
 export * from './safety';
 export { SAFETY_STEMS, stemHits } from './safetyStems';
 export * from './errors';
+export * from './limits';
 export * from './schema';
 export { compileDocs } from './compile';
 export { lintPack } from './lint';
