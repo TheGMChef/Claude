@@ -49,6 +49,8 @@ export const MAX_EXPANSION = 2000;
  * batch call. Past it, slots render as BUDGET_PLACEHOLDER and sub-generators stop.
  */
 export const MAX_RENDER_STEPS = 50_000;
+/** Share code length accepted by decodeShare (whitespace removed), in characters. */
+export const MAX_SHARE_CODE_LENGTH = 512;
 /** Card JSON text accepted by parseCard, in characters. */
 export const MAX_CARD_JSON_LENGTH = 256_000;
 
