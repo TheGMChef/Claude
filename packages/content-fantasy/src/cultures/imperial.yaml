@@ -32,18 +32,18 @@ names:
           Ott,
           Pell,
           Ser,
-          Tib,
+          Ren,
           Emil,
           Dor,
-          Hon,
-          Alb,
+          Hen,
+          Lav,
         ]
-      end: [a, ia, el, in, us, ian, ius, ene, o, ina, ello, ine, ette, ora, ino]
+      end: [a, ia, el, in, us, ian, ius, ene, o, ina, ello, ine, ela, ora]
   family:
     pattern: [start, end]
     parts:
-      start: [Vell, Tant, Calv, Mor, Var, Sab, Drus, Pell, Cint, Ser, Leon, Aur, Dom, Lucr, Fabr]
-      end: [ane, is, o, ari, ino, ius, enne, ora, ance, elli, ato, ian, esse]
+      start: [Vell, Tant, Calv, Mor, Var, Sab, Drus, Gall, Cint, Nor, Leon, Bell, Dom, Lucr, Fabr]
+      end: [ane, is, o, ari, ius, enne, ora, ance, elli, ato, ian, esse]
   format: '{given} {family}'
   examples:
     - Cassia Vellane

@@ -360,6 +360,63 @@ describe('culture names (D41)', () => {
     none(`safety-stem names for ${id}`, bad);
   });
 
+  /** Every word a name part list can produce (optional tokens both ways), capitalised. */
+  const wordsOf = (rules: { pattern: string[]; parts: Record<string, string[]> }): string[] => {
+    let acc = [''];
+    for (const token of rules.pattern) {
+      const m = /^([^?]+)(\?(?::(.+))?)?$/.exec(token);
+      const opts = rules.parts[m?.[1] ?? ''] ?? [];
+      const next = acc.flatMap((a) => opts.map((o) => a + o));
+      acc = m?.[2] ? [...acc, ...next] : next;
+    }
+    return [...new Set(acc.map((w) => w.charAt(0).toUpperCase() + w.slice(1)))];
+  };
+  /** Words that read as a real word, a brand, a catchphrase or a bad joke (D41 review). */
+  const FORBIDDEN =
+    /^(semen\w*|money|one|data|skata|hakka|dakka|gravel|dusk|albus|tibia|honus|octette|cassette|domino|calvino|lola|dad|tarn|hand|kind|hard|bold)$/i;
+
+  it.each(cultures.map((c) => c.id))('%s: every producible word is clean and distinct', (id) => {
+    const c = lib.culture(id) as (typeof cultures)[number];
+    const banned = c.banned.map((b) => new RegExp(b, 'i'));
+    const givens = wordsOf(c.names.given);
+    const families = wordsOf(c.names.family ?? { pattern: [], parts: {} });
+    const reachableG = givens.filter((g) =>
+      families.some((f) => !banned.some((re) => re.test(`${g} ${f}`))),
+    );
+    const reachableF = families.filter((f) =>
+      reachableG.some((g) => !banned.some((re) => re.test(`${g} ${f}`))),
+    );
+    const bad: string[] = [];
+    for (const w of [...reachableG, ...reachableF]) {
+      if (FORBIDDEN.test(w)) bad.push(`${w}: forbidden word`);
+      if (stemHits(w, { wholeWord: true }).length > 0) bad.push(`${w}: safety stem`);
+      const p = pronunciationProblem(w);
+      if (p) bad.push(`${w}: ${p}`);
+    }
+    const fam = new Set(reachableF.map((w) => w.toLowerCase()));
+    for (const g of reachableG)
+      if (fam.has(g.toLowerCase())) bad.push(`${g}: both given and family`);
+    none(`producible words for ${id}`, bad);
+  });
+
+  it('shares no producible word between cultures', () => {
+    const seen = new Map<string, string>();
+    const bad: string[] = [];
+    for (const c of cultures) {
+      const all = [
+        ...wordsOf(c.names.given),
+        ...wordsOf(c.names.family ?? { pattern: [], parts: {} }),
+      ];
+      for (const w of all.filter((x) => x.length >= 4)) {
+        const key = w.toLowerCase();
+        const other = seen.get(key);
+        if (other && other !== c.id) bad.push(`${w}: ${other} and ${c.id}`);
+        seen.set(key, c.id);
+      }
+    }
+    none('cross-culture words', bad);
+  });
+
   it('every curated example is pronounceable, passes its own banned rules and is unique', () => {
     const seen = new Map<string, string>();
     const bad: string[] = [];
@@ -408,6 +465,13 @@ describe('GM moves deck (D41)', () => {
     expect(tagged / cards.length).toBeLessThanOrEqual(0.3);
     const drawable = cards.filter((c) => !(c.safety ?? []).some((t) => STRICT_LINES.includes(t)));
     expect(drawable.length).toBeGreaterThanOrEqual(17);
+  });
+
+  it('varies its openings and tags a good-news-too-late move for death', () => {
+    expect(cards.filter((c) => c.text.startsWith('Let ')).length).toBeLessThanOrEqual(4);
+    expect(cards.find((c) => c.id === 'core.move.news-too-late')?.safety).toContain('death');
+    const firstWords = cards.map((c) => c.text.split(' ').slice(0, 2).join(' ').toLowerCase());
+    expect(new Set(firstWords).size).toBe(cards.length);
   });
 
   it('has distinct texts', () => {

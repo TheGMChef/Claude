@@ -15,14 +15,13 @@ names:
   given:
     pattern: [start, end]
     parts:
-      start:
-        [Bra, Dra, Ska, Rhu, Bru, Ko, Ge, To, Ga, Vo, Ke, Da, Gu, Ha, Ta, Du, Skra, Gra, Kra, Ro]
-      end: [kka, vel, sa, n, gar, rik, th, mar, ra, dek, ta, va, rn, ld, sk]
+      start: [Bra, Dra, Ska, Rhu, Bru, Ko, Ge, To, Ga, Vo, Ke, Da, Gu, Ha, Du, Skra, Kra, Ro]
+      end: [vel, sa, gar, rik, th, mar, kra, dek, va, lek, rak, vik, dun, kor]
   family:
     pattern: [start, end]
     parts:
       start: [Dun, Ath, Rhun, Gor, Brak, Strath, Carn, Dor, Kel, Tar, Crag, Hold]
-      end: ['', ach, ig, holm, ard, orm, ok]
+      end: ['', ach, ik, holm, ard, orm, ok]
   format: '{given} {family}'
   examples:
     - Brakka Dunmor
@@ -32,13 +31,13 @@ names:
     - Dagra Strathe
     - Vorna Kell
     - Skarrik Gorm
-    - Ketta Dorig
+    - Ketta Dorik
     - Tormar Cragholm
     - Gudrik Holdach
-    - Dakka Strathach
+    - Dakra Strathach
     - Tovar Carnard
-    - Rhuga Tarig
-    - Skarra Kelig
+    - Rhuga Tarik
+    - Skarra Kelik
     - Bruvek Dorholm
     - Gavar Dunach
   exampleChance: 0.25

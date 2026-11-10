@@ -1,6 +1,6 @@
 # Safety review (I6, D41): a card that touches a safety-vocabulary topic carries `safety: [tag]`, like a
 # table entry; drawMove never draws a card behind a Line. All 24 moves were audited one by one.
-# Six are tagged on doubt (violence, death, fire, war, religion, police); the other 18 stay
+# Seven are tagged on doubt (violence, death twice, fire, war, religion, police); the other 17 stay
 # abstract. Every move is a stage direction the GM can use in one breath, and every one fails
 # forward: something changes, nothing stalls. Original wording (CC-BY-4.0).
 kind: deck
@@ -8,16 +8,16 @@ id: core.gm-moves
 title: GM moves
 cards:
   - id: core.move.threat-steps-closer
-    text: Move a threat one step closer
+    text: Let the danger take its next step
     prompt: What changed while nobody was watching?
   - id: core.move.name-the-price
-    text: Name the price before they pay
+    text: State the cost, then let them decide
     prompt: What will this cost, and who collects it?
   - id: core.move.split-the-path
     text: Force a choice between two goods
     prompt: "Which two things can't both be saved?"
   - id: core.move.rival-gains
-    text: Let someone else claim it first
+    text: Hand the prize to someone else
     prompt: Who just won something, and how will the party find out?
   - id: core.move.shift-the-ground
     text: Change something they took for granted
@@ -25,24 +25,15 @@ cards:
   - id: core.move.quiet-voice
     text: Bring a background face forward
     prompt: Who has been standing at the edge of the scene, and what do they finally say?
-  - id: core.move.break-a-tool
-    text: Break something they rely on
-    prompt: Which tool, ally or plan stops working right now?
   - id: core.move.yes-with-strings
-    text: Grant the request, with strings attached
+    text: Say yes, but tie it to something
     prompt: They get what they reached for, so what comes along with it?
-  - id: core.move.old-choice-returns
-    text: Bring back an earlier choice
-    prompt: Which past decision catches up with them here?
-  - id: core.move.tempting-shortcut
-    text: Offer a faster, worse way
-    prompt: What quicker route is open, and what is wrong with it?
   - id: core.move.thread-surfaces
-    text: Let a secret slip into view
+    text: Spill a hidden fact into the open
     prompt: Which secret could surface right now, and who sees it first?
   - id: core.move.paint-the-pause
-    text: Stop and describe the moment
-    prompt: What do they hear, smell and notice before anyone acts?
+    text: Pause on a detail that changes the mood
+    prompt: What do they notice that shifts how the scene feels?
   - id: core.move.quiet-promise
     text: Let a quiet promise come due
     prompt: Who made a small promise nobody wrote down, and who remembers it?
@@ -58,23 +49,33 @@ cards:
   - id: core.move.news-too-late
     text: Let good news arrive too late
     prompt: Who hears it after it stopped helping, and what do they do?
+    safety: [death]
   - id: core.move.wrong-helper
     text: Offer help from the wrong person
     prompt: Who steps forward that nobody would have chosen?
+  - id: core.move.time-shrinks
+    text: Shorten the time they thought they had
+    prompt: What date moved closer, and who moved it?
+  - id: core.move.party-pulled-apart
+    text: Pull the group in two directions
+    prompt: Which two needs arrive at once, and who answers which?
+  - id: core.move.stranger-knows-them
+    text: Have a stranger greet them by name
+    prompt: What does this stranger know, and who told them?
   - id: core.move.quarrel-turns-physical
-    text: Let a quarrel turn physical
+    text: Turn a quarrel physical
     prompt: Who throws the first shove, and who steps between?
     safety: [violence]
   - id: core.move.old-grief-resurfaces
-    text: Let an old grief resurface
+    text: Stir up an old grief
     prompt: Who is still mourning here, and what sets it off?
     safety: [death]
   - id: core.move.small-fire-spreads
-    text: Let a small fire get loose
+    text: Set a small fire loose
     prompt: What is burning, and who smells it first?
     safety: [fire]
   - id: core.move.border-turns-hostile
-    text: Let a border dispute turn hostile
+    text: Sour a border dispute into hostility
     prompt: Which side blinked first, and who saw it?
     safety: [war]
   - id: core.move.oath-gets-expensive

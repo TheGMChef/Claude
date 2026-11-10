@@ -15,14 +15,14 @@ names:
   given:
     pattern: [start, mid?:0.15, end]
     parts:
-      start: [O, Elo, Ta, We, Me, Fe, Lo, Ne, Se, Ha, Ro, Be, Mo, Ve, Nu, Lu]
-      mid: [la, ne, ri, me, lo, se]
+      start: [O, Elo, Ta, We, Me, Fe, Lo, Ne, Sa, Ha, Ro, Be, Mo, Vi, Nu, Lu]
+      mid: [la, ne, ri, lo, se, wa]
       end:
-        [drin, lin, sin, row, na, wen, thel, lith, wyn, ra, mon, bel, ney, ren, rin, ssa, lla, ne]
+        [drin, lin, sin, row, na, wen, thel, lith, wyn, ra, mon, bel, rey, ren, rin, ssa, lla, nel]
   family:
     pattern: [start, end]
     parts:
-      start: [Vey, Mer, Fen, Brack, Sal, Wil, Mose, Tull, Hale, Sedge, Lun, Rill, Moor, Tarn, Mare]
+      start: [Vey, Mer, Fen, Brack, Sal, Wil, Mose, Tull, Hale, Sedge, Lun, Rill, Moor, Mare]
       end: ['', wick, by, mere, ling, low, water, wade]
   format: '{given} {family}'
   examples:
@@ -35,11 +35,11 @@ names:
     - Nessa Tullow
     - Orrin Salmere
     - Belwyn Sedgewater
-    - Mowen Tarnmere
-    - Selma Rillwick
+    - Mowen Rillmere
+    - Sellen Rillwick
     - Lorin Mosling
     - Neleth Hale
-    - Tarna Sallow
+    - Telna Sallow
     - Fenlie Mareby
     - Roslin Lunwater
   exampleChance: 0.25
