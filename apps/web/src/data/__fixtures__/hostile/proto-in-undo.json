@@ -1,0 +1,103 @@
+{
+  "format": "prepdesk-export",
+  "formatVersion": 1,
+  "schemaVersion": 1,
+  "appVersion": "0.1.0",
+  "packs": { "core": "0.2.0", "fantasy": "0.2.0" },
+  "exportedAt": 1789000000000,
+  "campaign": {
+    "id": "cmp_00000000000000A1",
+    "name": "Fixture camp",
+    "genre": "fantasy",
+    "safety": { "lines": ["child-harm"], "veils": [] },
+    "cultureIds": ["fantasy.culture.marsh"],
+    "createdAt": 1,
+    "updatedAt": 2
+  },
+  "sessions": [
+    {
+      "id": "ses_0000000000000001",
+      "campaignId": "cmp_00000000000000A1",
+      "number": 1,
+      "status": "prepping",
+      "prepStep": 1,
+      "stepsVisited": [],
+      "stepsSkipped": [],
+      "prepElapsedMs": 0,
+      "presentPcIds": [],
+      "spotlightPcIds": [],
+      "plannedTicks": {},
+      "sceneOrder": [],
+      "pocketSeed": "SEED-0001",
+      "pausedMs": 0,
+      "recap": "",
+      "createdAt": 1,
+      "updatedAt": 1
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent_0000000000000001",
+      "campaignId": "cmp_00000000000000A1",
+      "kind": "npc",
+      "title": "Fixture 1",
+      "aliases": [],
+      "summary": "s",
+      "fields": { "want": "w" },
+      "body": "See [[Fixture 2]]",
+      "canon": "kept",
+      "veiled": [],
+      "origin": "manual",
+      "tokens": [],
+      "wikiTargets": [],
+      "createdAt": 1,
+      "updatedAt": 1
+    },
+    {
+      "id": "ent_0000000000000002",
+      "campaignId": "cmp_00000000000000A1",
+      "kind": "npc",
+      "title": "Fixture 2",
+      "aliases": [],
+      "summary": "s",
+      "fields": { "want": "w" },
+      "body": "",
+      "canon": "kept",
+      "veiled": [],
+      "origin": "manual",
+      "tokens": [],
+      "wikiTargets": [],
+      "createdAt": 1,
+      "updatedAt": 1
+    }
+  ],
+  "links": [
+    {
+      "id": "lnk_0000000000000001",
+      "campaignId": "cmp_00000000000000A1",
+      "fromId": "ent_0000000000000001",
+      "toId": "ent_0000000000000002",
+      "rel": "knows",
+      "origin": "explicit",
+      "createdAt": 1
+    }
+  ],
+  "ledger": [
+    {
+      "id": "evt_0000000000000001",
+      "campaignId": "cmp_00000000000000A1",
+      "sessionId": "ses_0000000000000001",
+      "at": 1,
+      "t": 0,
+      "kind": "note",
+      "text": "x",
+      "review": "none",
+      "undo": { "__proto__": { "x": 1 } }
+    }
+  ],
+  "shortlist": [],
+  "usedNames": [],
+  "pocket": [],
+  "drafts": [],
+  "prepAnswers": []
+}

@@ -145,6 +145,44 @@ describe('search ranking (D58)', () => {
   });
 });
 
+describe('search edge cases (m2)', () => {
+  it('truncates a long query word to 64 characters, like the indexed word', () => {
+    const long = 'x'.repeat(70);
+    const idx = buildIndex([ent({ title: `Zed ${long}` })]);
+    expect(search(idx, long, { now: NOW })).toHaveLength(1);
+    expect(search(idx, long.slice(0, 64), { now: NOW })).toHaveLength(1);
+  });
+
+  it('orders equal scores by folded title A to Z whatever the input order, then by id', () => {
+    const t = (title: string) => ent({ title });
+    const list = [t('bea marsh'), t('Ámy Marsh'), t('Cyd Marsh')];
+    for (const input of [list, [...list].reverse(), [list[1]!, list[2]!, list[0]!]]) {
+      expect(titles(search(buildIndex(input), 'marsh', { now: NOW }))).toEqual([
+        'Ámy Marsh',
+        'bea marsh',
+        'Cyd Marsh',
+      ]);
+    }
+    const twinA = ent({ title: 'Twin Marsh' });
+    const twinB = ent({ title: 'Twin Marsh' });
+    const ids = search(buildIndex([twinB, twinA]), 'twin', { now: NOW }).map((r) => r.entity.id);
+    expect(ids).toEqual([twinA.id, twinB.id]);
+  });
+
+  it('treats limit NaN or Infinity as the default, and a negative limit as none', () => {
+    const many = Array.from({ length: 30 }, (_, i) => ent({ title: `Marsh ${i}` }));
+    const idx = buildIndex(many);
+    expect(search(idx, 'marsh', { now: NOW, limit: NaN })).toHaveLength(20);
+    expect(search(idx, 'marsh', { now: NOW, limit: Infinity })).toHaveLength(20);
+    expect(search(idx, 'marsh', { now: NOW, limit: -3 })).toHaveLength(0);
+  });
+
+  it('gives no recency bonus to a timestamp in the future', () => {
+    const future = ent({ title: 'Marsh Light', updatedAt: NOW + DAY });
+    expect(search(buildIndex([future]), 'marsh', { now: NOW })[0]?.score).toBe(60);
+  });
+});
+
 describe('commands (spec 5.6)', () => {
   it('has the fourteen labels verbatim', () => {
     expect(COMMANDS.map((c) => c.label)).toEqual([

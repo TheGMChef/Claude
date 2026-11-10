@@ -2,6 +2,7 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { seedFullCampaign, snapshotDb } from '../../test/backupFixtures';
 import { seedCampaign, testDeps } from '../../test/fixtures';
+import { CULTURES } from '../../content/lib';
 import { RepoError } from '../deps';
 import { buildBackup } from '../export/json';
 import {
@@ -9,6 +10,7 @@ import {
   RESTORE_MESSAGES,
   YIELD_EVERY,
   droppedMessage,
+  type DroppedCard,
   readBackup,
   restoreBackup,
 } from '../export/restore';
@@ -133,7 +135,10 @@ describe('hostile files (Review Focus 1)', () => {
     'long-title',
     'plain-array',
     'proto-at-root',
+    'proto-in-answers',
     'proto-in-fields',
+    'proto-in-planned-ticks',
+    'proto-in-undo',
     'unknown-key',
     'unknown-safety-topic',
     'wrong-format',
@@ -157,6 +162,12 @@ describe('hostile files (Review Focus 1)', () => {
       Object.hasOwn(JSON.parse(fixtureText('proto-in-fields')).entities[0].fields, '__proto__'),
     ).toBe(true);
     expect(Object.hasOwn(JSON.parse(fixtureText('proto-at-root')), '__proto__')).toBe(true);
+    const f = (n: string) => JSON.parse(fixtureText(n)) as Backup;
+    expect(Object.hasOwn(f('proto-in-planned-ticks').sessions[0]!.plannedTicks, '__proto__')).toBe(
+      true,
+    );
+    expect(Object.hasOwn(f('proto-in-answers').prepAnswers[0]!.answers, '__proto__')).toBe(true);
+    expect(Object.hasOwn(f('proto-in-undo').ledger[0]!.undo, '__proto__')).toBe(true);
     expect(
       Object.hasOwn(
         JSON.parse(fixtureText('constructor-key-in-fields')).entities[0].fields,
@@ -404,11 +415,31 @@ describe('versions and size (D63 steps 1 and 4)', () => {
     expect(RESTORE_MESSAGES.newer).toBe(
       'This backup was made by a newer Prep Desk. Update the app, then try again.',
     );
-    expect(droppedMessage(3)).toBe(
+    const kept = (id: string): DroppedCard => ({
+      store: 'entities',
+      id,
+      title: id,
+      action: 'card-removed',
+    });
+    const lost = (id: string): DroppedCard => ({
+      store: 'pocket',
+      id,
+      title: id,
+      action: 'record-dropped',
+    });
+    expect(droppedMessage([])).toBe('');
+    expect(droppedMessage([kept('a'), kept('b'), kept('c')])).toBe(
       "3 saved cards couldn't be read and were left out. Your text is kept.",
     );
-    expect(droppedMessage(1)).toBe(
+    expect(droppedMessage([kept('a')])).toBe(
       "1 saved card couldn't be read and was left out. Your text is kept.",
+    );
+    // a record that had no text is not "text kept"
+    expect(droppedMessage([lost('a')])).toBe(
+      '1 saved item had only an unreadable card, so it was left out.',
+    );
+    expect(droppedMessage([lost('a'), lost('b'), kept('c')])).toBe(
+      "1 saved card couldn't be read and was left out. Your text is kept. 2 saved items had only an unreadable card, so they were left out.",
     );
   });
 });
@@ -564,5 +595,108 @@ describe('derived data is recomputed, never trusted (D63 step 10, R65)', () => {
     const zeroDelay = spy.mock.calls.filter((c) => c[1] === 0).length;
     // two yields while recomputing tokens and two more while deriving links
     expect(zeroDelay).toBeGreaterThanOrEqual(4);
+  });
+});
+
+describe('readBackup never throws (I1)', () => {
+  it('a hidden card with a 30,000-deep context is dropped and counted, not thrown', async () => {
+    const d = testDeps();
+    const { camp, a } = await seedFullCampaign(d);
+    const backup = await buildBackup(d, camp.id);
+    const ent = backup.entities.find((e) => e.id === a.id)!;
+    const card = JSON.parse(ent.card!);
+    card.fields.look.hidden = { value: 'x', sources: [] };
+    // 30,000 levels: past what a recursive walker (zod, serialize) survives
+    const deep = '{"a":'.repeat(30_000) + '1' + '}'.repeat(30_000);
+    ent.card = JSON.stringify(card).replace('"context":{', `"context":{"deep":${deep},`);
+    expect(Object.keys(JSON.parse(ent.card).context)).toContain('deep');
+    // the shape pre-scan sees the card only as a string, so this reaches cleanCard
+    const result = await readBackup(d, asBlob(backup)).catch((e) => `THREW ${String(e)}`);
+    expect(typeof result).toBe('object');
+    if (typeof result === 'string' || !result.ok) return;
+    expect(result.dropped).toBe(1);
+    expect('card' in result.backup.entities.find((e) => e.id === a.id)!).toBe(false);
+  });
+
+  it('an engine call that throws on a card drops that card', async () => {
+    const d = testDeps();
+    const { camp } = await seedFullCampaign(d);
+    const backup = await buildBackup(d, camp.id);
+    const engine = await import('@prepdesk/engine');
+    vi.spyOn(engine, 'parseCard').mockImplementation(() => {
+      throw new RangeError('Maximum call stack size exceeded');
+    });
+    const r = await readBackup(d, asBlob(backup));
+    expect(r.ok).toBe(true);
+    if (r.ok) expect(r.dropped).toBeGreaterThan(0);
+  });
+});
+
+describe('cultures this build lacks (I2)', () => {
+  it('filters unknown ids out and reports them', async () => {
+    const d = testDeps();
+    const b = valid();
+    b.campaign.cultureIds = ['fantasy.culture.marsh', 'fantasy.culture.lost-isles'];
+    const r = await readBackup(d, asBlob(b));
+    if (!r.ok) throw new Error('read failed');
+    expect(r.backup.campaign.cultureIds).toEqual(['fantasy.culture.marsh']);
+    expect(r.droppedCultures).toEqual(['fantasy.culture.lost-isles']);
+  });
+
+  it('falls back to every culture when none are known', async () => {
+    const d = testDeps();
+    const b = valid();
+    b.campaign.cultureIds = ['nope.one', 'nope.two'];
+    const r = await readBackup(d, asBlob(b));
+    if (!r.ok) throw new Error('read failed');
+    expect([...r.backup.campaign.cultureIds].sort()).toEqual(CULTURES.map((c) => c.id).sort());
+    expect(r.droppedCultures).toEqual(['nope.one', 'nope.two']);
+    const clean = await readBackup(d, blob(fixtureText('valid')));
+    if (clean.ok) expect(clean.droppedCultures).toEqual([]);
+  });
+});
+
+describe('restore details (m4, m5, m6)', () => {
+  it('names the campaign on the device, not the one in the file, when replacing', async () => {
+    const d = testDeps();
+    const { camp } = await seedFullCampaign(d, 'On the device');
+    const backup = await buildBackup(d, camp.id);
+    backup.campaign.name = 'In the file';
+    const r = await readBackup(d, asBlob(backup));
+    if (!r.ok) throw new Error('read failed');
+    expect(r.exists).toBe(true);
+    expect(r.existingName).toBe('On the device');
+    const fresh = await readBackup(testDeps(), blob(fixtureText('valid')));
+    if (fresh.ok) expect('existingName' in fresh).toBe(false);
+  });
+
+  it('keeps one link per (from, to, rel)', async () => {
+    const d = testDeps();
+    const b = valid();
+    b.links.push({ ...b.links[0]!, id: 'lnk_0000000000000002' });
+    const r = await readBackup(d, asBlob(b));
+    if (!r.ok) throw new Error('read failed');
+    const knows = r.backup.links.filter((l) => l.rel === 'knows');
+    expect(knows.map((l) => l.id)).toEqual(['lnk_0000000000000001']);
+  });
+
+  it('an explicit mention beats a derived one for the same pair', async () => {
+    const d = testDeps();
+    const b = valid();
+    const [e1, e2] = [b.entities[0]!.id, b.entities[1]!.id];
+    b.links.push({
+      id: 'lnk_0000000000000099',
+      campaignId: b.campaign.id,
+      fromId: e1,
+      toId: e2,
+      rel: 'mentions',
+      origin: 'explicit',
+      createdAt: 1,
+    });
+    const r = await readBackup(d, asBlob(b));
+    if (!r.ok) throw new Error('read failed');
+    const m = r.backup.links.filter((l) => l.rel === 'mentions');
+    expect(m).toHaveLength(1);
+    expect(m[0]!.origin).toBe('explicit');
   });
 });

@@ -4,7 +4,6 @@
  * afterwards. `shape.ts` rejects prototype keys, deep nesting and huge arrays before zod sees them.
  */
 import { SAFETY_VOCABULARY } from '@prepdesk/engine';
-import { CULTURES } from '../../content/lib';
 import { ID_PATTERNS } from '../ids';
 import { LIMITS } from '../repo/entities';
 import { ENTITY_KINDS, LINK_RELS, STATES_BY_KIND, SUBTYPES_BY_KIND } from '../schema';
@@ -34,6 +33,8 @@ export const FORBIDDEN_KEYS = new Set(['__proto__', 'constructor', 'prototype'])
 const ANSWER_KEY = /^[A-Za-z0-9_.-]{1,60}$/;
 
 const id = (p: keyof typeof ID_PATTERNS) => z.string().regex(ID_PATTERNS[p]);
+// Timestamps and counters are integers (.int()): S3 and S4 must store whole milliseconds, or an
+// export of their data won't restore.
 const ts = z.number().int().min(0).max(8.64e15);
 const smallInt = z.number().int().min(0).max(1_000_000);
 const text = (max: number) => z.string().max(max);
@@ -44,8 +45,6 @@ const topic = z
 const topics = z.array(topic).max(SAFETY_VOCABULARY.length);
 const entIds = z.array(id('ent')).max(5000);
 const noForbidden = (keys: string[]) => !keys.some((k) => FORBIDDEN_KEYS.has(k));
-
-const CultureIds = new Set(CULTURES.map((c) => c.id));
 
 const SafetySchema = z
   .strictObject({ lines: topics, veils: topics })
@@ -62,11 +61,12 @@ export const CampaignSchema = z.strictObject({
   name: z.string().trim().min(1).max(120),
   genre: z.literal('fantasy'),
   safety: SafetySchema,
+  // Unknown ids are not an error: readBackup filters them out and reports them (I2).
   cultureIds: z
     .array(z.string().max(100))
     .min(1)
     .max(50)
-    .refine((l) => l.every((c) => CultureIds.has(c)) && new Set(l).size === l.length),
+    .refine((l) => new Set(l).size === l.length),
   createdAt: ts,
   updatedAt: ts,
   lastExportedAt: ts.optional(),
@@ -296,6 +296,7 @@ export const BackupSchema = z.strictObject({
   formatVersion: z.literal(CURRENT_FORMAT),
   schemaVersion: z.literal(CURRENT_SCHEMA),
   appVersion: ver,
+  // Strict on purpose: a future pack id means a newer format, which bumps formatVersion first.
   packs: z.strictObject({ core: ver, fantasy: ver }),
   exportedAt: ts,
   campaign: CampaignSchema,

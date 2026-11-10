@@ -1,5 +1,5 @@
 import { parseCard, serializeCard } from '@prepdesk/engine';
-import { lib } from '../../content/lib';
+import { CULTURES, lib } from '../../content/lib';
 import { CAMPAIGN_STORES } from '../db';
 import { RepoError } from '../deps';
 import type { RepoDeps } from '../deps';
@@ -24,8 +24,26 @@ export type DroppedCard = {
   action: 'card-removed' | 'record-dropped';
 };
 
+declare const checked: unique symbol;
+/**
+ * A backup that `readBackup` has validated, cleaned and recomputed. `restoreBackup` accepts only
+ * this type, so a hand-built or `buildBackup` object can't reach the device unchecked (m6).
+ */
+export type CheckedBackup = Backup & { readonly [checked]: true };
+
 export type ReadResult =
-  | { ok: true; backup: Backup; exists: boolean; dropped: number; droppedCards: DroppedCard[] }
+  | {
+      ok: true;
+      backup: CheckedBackup;
+      exists: boolean;
+      /** The campaign's name on this device when `exists`, for the replace Dialog (m5). */
+      existingName?: string;
+      /** Unreadable cards, whether or not the record survived. Equals `droppedCards.length`. */
+      dropped: number;
+      droppedCards: DroppedCard[];
+      /** Culture ids in the file this build doesn't have; they were removed from the campaign (I2). */
+      droppedCultures: string[];
+    }
   | { ok: false; error: 'too-big' | 'newer' | 'not-backup' };
 
 export const RESTORE_MESSAGES: Record<'too-big' | 'newer' | 'not-backup', string> = {
@@ -35,11 +53,24 @@ export const RESTORE_MESSAGES: Record<'too-big' | 'newer' | 'not-backup', string
   'not-backup': "That file isn't a Prep Desk backup. Choose a .json file exported from Prep Desk.",
 };
 
-/** The status sentence that follows a restore when cards were left out (D63 step 9). */
-export function droppedMessage(n: number): string {
-  return n === 1
-    ? "1 saved card couldn't be read and was left out. Your text is kept."
-    : `${n} saved cards couldn't be read and were left out. Your text is kept.`;
+/**
+ * The status sentences that follow a restore when cards were left out (D63 step 9). Cards whose
+ * record kept its text and records that held nothing but the card are told apart, so each sentence
+ * is true. Empty when nothing was dropped.
+ */
+export function droppedMessage(list: readonly DroppedCard[]): string {
+  const kept = list.filter((x) => x.action === 'card-removed').length;
+  const lost = list.length - kept;
+  const out: string[] = [];
+  if (kept === 1) out.push("1 saved card couldn't be read and was left out. Your text is kept.");
+  else if (kept > 1) {
+    out.push(`${kept} saved cards couldn't be read and were left out. Your text is kept.`);
+  }
+  if (lost === 1) out.push('1 saved item had only an unreadable card, so it was left out.');
+  else if (lost > 1) {
+    out.push(`${lost} saved items had only an unreadable card, so they were left out.`);
+  }
+  return out.join(' ');
 }
 
 const fail = (error: 'too-big' | 'newer' | 'not-backup'): ReadResult => ({ ok: false, error });
@@ -172,6 +203,15 @@ export async function findCollision(d: RepoDeps, b: Backup): Promise<string | un
  * its original string.
  */
 function cleanCard(card: string): string | undefined {
+  try {
+    return cleanCardUnsafe(card);
+  } catch {
+    // A card that makes the engine throw (a 30,000-deep context, say) is an unreadable card.
+    return undefined;
+  }
+}
+
+function cleanCardUnsafe(card: string): string | undefined {
   const parsed = parseCard(lib, card);
   if (!parsed.ok) return undefined;
   const fields = Object.values(parsed.card.fields);
@@ -243,7 +283,7 @@ function sanitizeCards(b: Backup): { backup: Backup; dropped: DroppedCard[] } {
 }
 
 /** D63 step 10 and the wiki-link rule (R65): derived data is rebuilt, never trusted. Yields to the page. */
-async function recompute(d: RepoDeps, b: Backup): Promise<Backup> {
+async function recompute(d: RepoDeps, b: Backup): Promise<CheckedBackup> {
   const entities: Entity[] = [];
   for (let i = 0; i < b.entities.length; i++) {
     const e = b.entities[i]!;
@@ -253,7 +293,19 @@ async function recompute(d: RepoDeps, b: Backup): Promise<Backup> {
   const links: Link[] = [...b.links.filter((l) => l.origin !== 'wiki')];
   links.push(...(await deriveWikiLinksInMemory(d, entities, b.links, tick, YIELD_EVERY)));
   links.sort((a, c) => (a.id < c.id ? -1 : a.id > c.id ? 1 : 0));
-  return { ...b, entities, links };
+  // One link per (from, to, rel): explicit ones win over derived ones, then the smaller id.
+  const seen = new Set<string>();
+  const unique: Link[] = [];
+  for (const l of [...links].sort(
+    (a, c) => Number(a.origin === 'wiki') - Number(c.origin === 'wiki'),
+  )) {
+    const key = `${l.fromId}|${l.toId}|${l.rel}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push(l);
+  }
+  unique.sort((a, c) => (a.id < c.id ? -1 : a.id > c.id ? 1 : 0));
+  return { ...b, entities, links: unique } as CheckedBackup;
 }
 
 /** Steps 1 to 10 of D63. Reads the device (collisions) but writes nothing. */
@@ -276,14 +328,37 @@ export async function readBackup(d: RepoDeps, file: Blob): Promise<ReadResult> {
     return fail('not-backup');
   }
   if ((await findCollision(d, parsed)) !== undefined) return fail('not-backup');
-  const exists = (await d.db.campaigns.get(parsed.campaign.id)) !== undefined;
-  const { backup, dropped } = sanitizeCards(parsed);
+  const existing = await d.db.campaigns.get(parsed.campaign.id);
+  try {
+    const { cultureIds, droppedCultures } = reconcileCultures(parsed.campaign.cultureIds);
+    const campaign = { ...parsed.campaign, cultureIds };
+    const { backup, dropped } = sanitizeCards({ ...parsed, campaign });
+    return {
+      ok: true,
+      backup: await recompute(d, backup),
+      exists: existing !== undefined,
+      ...(existing ? { existingName: existing.name } : {}),
+      dropped: dropped.length,
+      droppedCards: dropped,
+      droppedCultures,
+    };
+  } catch {
+    // Never throw into the UI: anything unexpected while cleaning means the file isn't usable.
+    return fail('not-backup');
+  }
+}
+
+/** Cultures this build lacks are removed; if none remain the campaign gets all of them (I2). */
+function reconcileCultures(ids: readonly string[]): {
+  cultureIds: string[];
+  droppedCultures: string[];
+} {
+  const known = new Set(CULTURES.map((c) => c.id));
+  const kept = ids.filter((id) => known.has(id));
+  const droppedCultures = ids.filter((id) => !known.has(id));
   return {
-    ok: true,
-    backup: await recompute(d, backup),
-    exists,
-    dropped: dropped.length,
-    droppedCards: dropped,
+    cultureIds: kept.length > 0 ? kept : CULTURES.map((c) => c.id),
+    droppedCultures,
   };
 }
 
@@ -292,7 +367,7 @@ export async function readBackup(d: RepoDeps, file: Blob): Promise<ReadResult> {
  * since the read), deletes the campaign's rows if it exists, bulk-adds the backup, and makes it
  * current. Any failure rolls the whole device back to how it was.
  */
-export async function restoreBackup(d: RepoDeps, backup: Backup): Promise<Campaign> {
+export async function restoreBackup(d: RepoDeps, backup: CheckedBackup): Promise<Campaign> {
   const tables = CAMPAIGN_STORES.map((s) => d.db.table(s));
   const cid = backup.campaign.id;
   return d.db.transaction('rw', [d.db.campaigns, d.db.settings, ...tables], async () => {

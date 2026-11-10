@@ -68,7 +68,10 @@ export function search(
   const qt = tokenize(qf).slice(0, MAX_QUERY_TOKENS);
   const now = opts.now ?? Date.now();
   const kinds = opts.kinds ? new Set<EntityKind>(opts.kinds) : undefined;
-  const limit = Math.min(MAX_RESULTS, Math.max(0, Math.floor(opts.limit ?? MAX_RESULTS)));
+  const asked = opts.limit ?? MAX_RESULTS;
+  const limit = Number.isFinite(asked)
+    ? Math.min(MAX_RESULTS, Math.max(0, Math.floor(asked)))
+    : MAX_RESULTS;
 
   const hits: { e: IndexedEntity; score: number }[] = [];
   for (const e of index.entries) {
@@ -76,7 +79,8 @@ export function search(
     let score = phraseScore(e, qf);
     if (score === 0 && qt.length > 0) score = tokenScore(e, qt);
     if (score === 0) continue;
-    if (now - e.updatedAt <= RECENT_MS) score += 5;
+    const age = now - e.updatedAt;
+    if (age >= 0 && age <= RECENT_MS) score += 5; // a future timestamp earns no bonus
     hits.push({ e, score });
   }
   hits.sort(
