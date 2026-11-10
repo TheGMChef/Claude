@@ -1,0 +1,44 @@
+kind: situation
+id: fantasy.situation.cellar-bazaar
+title: Cellar bazaar
+summary: A night bazaar has grown in the cellars beneath the town, and the landlord above has noticed.
+tags: [situation, urban, underground, crime]
+safety: [claustrophobia]
+facets:
+  enemy:
+    - text: a landlord who wants a share of the stalls, or the cellars back, whichever costs less
+      tags: [trade]
+    - text: a stallholder who sells her neighbours' secrets to anyone and tonight is buying
+      tags: [crime]
+    - text: a tax assessor who has taken a stall under a false name and wants to learn who else is down there
+    - text: an upstairs market that loses trade every night the cellars stay open
+      tags: [trade]
+  friend:
+    - text: a candle-seller who has walked every route in and out
+    - text: a stairwell guide who sells passwords and a steady arm to first-time visitors
+    - text: a hawker of stolen goods who would rather go straight, if anyone offered work
+      tags: [crime]
+    - text: a cheesemonger whose cellar is the market's front door
+  complication:
+    - text: the market is the only place the poor can sell goods without paying a stall fee
+    - text: each stall pays protection to a different crew, and the crews do not know about each other
+      tags: [crime]
+    - text: no stranger is admitted without a password that changes every night
+    - text: half the goods are stolen and half are honest, and nobody wants to sort them
+      tags: [crime]
+  thing:
+    - text: a numbered brass token that gets the bearer past a trapdoor
+    - text: a crate of fine tableware wrapped in someone's best curtains
+    - text: a violet candle lit by a doorkeeper when someone unwelcome arrives
+    - text: a heap of secondhand coats with something left in every pocket
+  place:
+    - text: a wine cellar with a trapdoor behind the barrels
+    - text: a vaulted ice-house where stalls are set out on cold shelves
+    - text: a low brick passage where stooping stallholders swap goods in whispers
+    - text: a cooper's yard that serves as the market's back exit
+  pressure:
+    - text: the day after tomorrow the cellar entrance is bricked up, goods or no goods
+    - text: when the first hard rain seeps through, the lowest cellars are too wet to trade in
+    - text: before the new moon an assessor completes his count and announces a fine
+    - text: in a week a stolen shipment arrives that everyone wants and no one can afford to be seen buying
+      tags: [crime]

@@ -1,0 +1,42 @@
+kind: situation
+id: fantasy.situation.mushroom-rush
+title: Mushroom rush
+summary: A prized fungus has appeared in an old woodland, and everyone with a basket wants to stake a claim first.
+tags: [situation, forest, crime]
+safety: []
+facets:
+  enemy:
+    - text: an exporter from the coast who pays foragers in advance and expects the whole harvest
+      tags: [trade]
+    - text: a woodland steward who wants the trees enclosed before the next flush
+    - text: a gang of pickers who work by night, strip whole slopes bare and trample the rest
+      tags: [crime]
+    - text: a forester who fines pickers and keeps what he finds in their baskets
+  friend:
+    - text: a mushroom-wife who finds the fungus by smell and refuses to say where
+    - text: a lodge cook who needs a steady supply for a banquet
+    - text: an apothecary's apprentice who needs one particular specimen and cannot pay much
+    - text: a cottager whose garden sits on the best patch and who wants only to be left alone
+  complication:
+    - text: a lookalike sells for a tenth of the price, and buyers cannot tell until it is cooked
+    - text: the best ground belongs to nobody anyone can name
+    - text: the fungus fruits only for a few days after rain, so every claim is a race
+    - text: local pickers hold customary shares, and newcomers ignore them
+  thing:
+    - text: a pig trained to point at the fungus and very reluctant to hand it over
+    - text: a basket lined with damp moss, heavier than it looks
+    - text: a walking stick notched for every good patch
+    - text: a drying rack in a loft, loaded with a whole season's harvest and no owner
+      tags: [rural]
+  place:
+    - text: a beech glade ringed with fallen timber, where a claim-stake already stands
+    - text: a lodge kitchen where sacks are weighed and coins change hands quietly
+    - text: a muddy track where trade wagons queue each dawn
+      tags: [road]
+    - text: a boggy dell nobody wants to enter, where the fungus grows thickest
+  pressure:
+    - text: after a night of rain the fungus fruits for three days only, then is gone
+    - text: by the end of the week a new gate goes up on the main track, and the foragers' old rights end with it
+    - text: when exporters move on to the next harvest, so does the money, and half the pickers have spent their advances
+      tags: [debt]
+    - text: when the cold sets in the woods close for winter, fungus or no

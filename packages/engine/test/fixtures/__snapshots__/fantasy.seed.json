@@ -1,12 +1,12 @@
 {
-  "display": "Wandering boundary meets Wreck claim",
+  "display": "Two-mayor town meets Wreck claim",
   "fields": {
     "a": {
-      "value": "Wandering boundary",
+      "value": "Two-mayor town",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#7"
+        "fantasy.situations#15"
       ]
     },
     "b": {
@@ -14,16 +14,16 @@
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#9"
+        "fantasy.situations#19"
       ]
     },
     "enemy": {
-      "value": "an advocate for hire who argues for whichever lord paid last",
+      "value": "the new mayor's backers, who paid for votes and want a return",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#7",
-        "fantasy.situation.wandering-boundary.enemy#1"
+        "fantasy.situations#15",
+        "fantasy.situation.two-mayor-town.enemy#1"
       ]
     },
     "friend": {
@@ -31,7 +31,7 @@
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#9",
+        "fantasy.situations#19",
         "fantasy.situation.wreck-claim.friend#3"
       ]
     },
@@ -40,17 +40,17 @@
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#9",
+        "fantasy.situations#19",
         "fantasy.situation.wreck-claim.complication#1"
       ]
     },
     "thing": {
-      "value": "a marker with a face carved on its underside that nobody remembers",
+      "value": "the charter page that says how a mayor is chosen",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#7",
-        "fantasy.situation.wandering-boundary.thing#1"
+        "fantasy.situations#15",
+        "fantasy.situation.two-mayor-town.thing#1"
       ]
     },
     "place": {
@@ -58,17 +58,17 @@
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#9",
+        "fantasy.situations#19",
         "fantasy.situation.wreck-claim.place#1"
       ]
     },
     "pressure": {
-      "value": "when the hay is cut both lords ride out to walk the line, each trailing a crowd of advisers",
+      "value": "by quarter-day, two sets of tax collectors knock on every door",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#7",
-        "fantasy.situation.wandering-boundary.pressure#0"
+        "fantasy.situations#15",
+        "fantasy.situation.two-mayor-town.pressure#0"
       ]
     }
   }

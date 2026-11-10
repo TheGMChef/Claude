@@ -1,0 +1,43 @@
+kind: situation
+id: fantasy.situation.pilgrim-drought
+title: Pilgrim drought
+summary: Pilgrims have stopped walking the shrine road, and the towns that lived on their purses are starting to panic.
+tags: [situation, road]
+safety: [religion]
+facets:
+  enemy:
+    - text: a rival shrine's keeper who has been telling travellers the road is closed
+    - text: an innkeeper who pays strangers to walk the road in grey cloaks, to keep up appearances
+      tags: [trade]
+    - text: a mayor who has borrowed against next year's pilgrim crowds
+      tags: [debt]
+    - text: a relic-seller who can prove nothing and sells hope by the pound
+      tags: [trade]
+  friend:
+    - text: a hospitaller who kept the rest-houses stocked and now counts every loaf
+    - text: a pilgrim who walked anyway and wants to know why the road is empty
+    - text: a pair of musicians who earn their bread from pilgrims' songs
+    - text: a young novice sent to find out what went wrong, with no money for the trip
+  complication:
+    - text: the road is perfectly open, and nobody can say why the pilgrims stopped
+    - text: a story says the blessing has run out, and no one knows who first told it
+    - text: the shrine's keepers are forbidden to ask anyone to come
+    - text: several towns share the road's upkeep, and all have stopped paying
+      tags: [trade]
+  thing:
+    - text: a pilgrim staff cut with a hundred notches, one for each journey
+    - text: a worn stone at the first milestone, touched for luck and now split in two
+    - text: a sealed jar of road-dust said to carry a blessing
+    - text: a basket of unsold clay badges stamped with a shrine gate
+      tags: [trade]
+  place:
+    - text: a rest-house with forty empty beds and a full pantry
+    - text: a crossroads shrine where offerings have lain untouched for weeks
+    - text: a ridge where pilgrims once caught their first glimpse of the shrine
+    - text: a hostel kitchen where unpaid cooks keep stew warm for nobody
+  pressure:
+    - text: by the shrine's feast day the road must be full, or the shrine stops its yearly alms to the towns
+    - text: when winter closes the high passes, rest-houses must be restocked or abandoned
+    - text: before harvest a loan comes due, and no pilgrim money has come to meet it
+      tags: [debt]
+    - text: in a month a second pilgrimage opens elsewhere, and the road's last travellers turn away

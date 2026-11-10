@@ -1,0 +1,45 @@
+kind: situation
+id: fantasy.situation.gifted-press
+title: Gifted press
+summary: A far-off patron gave the town a printing press, and now everyone has opinions about what it should print.
+tags: [situation, urban, noble]
+safety: []
+facets:
+  enemy:
+    - text: a pamphleteer who prints whatever pays and has already been paid twice
+      tags: [crime]
+    - text: an alderman who wants every sheet approved in advance, by him
+    - text: a bookseller whose hand-copied stock is worthless the day the press runs
+      tags: [trade]
+    - text: a patron's agent who expects the first sheet to praise the patron and has money to see it done
+      tags: [noble]
+  friend:
+    - text: a tired journeyman printer who wants a proper workshop and a day off
+    - text: a schoolmistress who needs two hundred copies of one reading primer
+    - text: a ballad-singer who needs tomorrow's song in print by tomorrow
+    - text: a town crier whose job is the first the press will replace, and who is quietly learning to set type
+  complication:
+    - text: paper comes from only one mill in the county
+      tags: [trade]
+    - text: only one man in town can set type, and his eyes are failing
+    - text: their distant patron expects an annual report printed free, in his own flattering words
+      tags: [noble]
+    - text: the type arrived in an alphabet nobody in town reads
+  thing:
+    - text: a case of lead letters with the commonest ones nearly worn smooth
+    - text: a woodcut block of a stern face that locals swear resembles an alderman
+    - text: a cask of ink that stains everything it touches, hands included
+    - text: a press screw carved with a crest and far too heavy to turn
+  place:
+    - text: a draughty warehouse where the press sits crated and half unpacked
+    - text: a coffeehouse where the town's talkers argue until the ink dries
+    - text: a market square where the crier calls the news and the press now competes
+      tags: [trade]
+    - text: a rag mill upstream, loud and damp
+      tags: [river]
+  pressure:
+    - text: by the next council day new rules take effect, and the press is licensed or shut
+    - text: before the next market day a first printed sheet must exist, and it must sell
+      tags: [trade]
+    - text: when the winter damp arrives the paper store rots and the press stands idle until spring
+    - text: tomorrow's sheet is promised to three different buyers

@@ -1,0 +1,44 @@
+kind: situation
+id: fantasy.situation.recalled-enchantment
+title: Recalled enchantment
+summary: A distant college lent the town a spell to keep its streets frost-free, and wants it back.
+tags: [situation, magic, urban]
+safety: []
+facets:
+  enemy:
+    - text: a college bursar who holds the lending terms and has a cold eye for exceptions
+    - text: a roofer who loses his winter trade while the streets stay warm
+      tags: [trade]
+    - text: a neighbouring town's mage who offers to buy the spell cheaply and move it away
+      tags: [magic]
+    - text: a landlord who has raised rents on streets that are never icy
+      tags: [trade]
+  friend:
+    - text: an apprentice mage who maintains the spell on a student's pay
+    - text: an apothecary whose winter trade in chilblains has all but vanished, and who is glad of it
+    - text: a market gardener whose seedlings sprout in the warmed street borders
+      tags: [trade]
+    - text: a blind busker who plays on the warmest cobbles and can tell where they have started to cool
+  complication:
+    - text: the spell is anchored in a single paving stone, and the paving is being dug up for drainage
+    - text: recalling it costs the college nothing, and keeping it costs the town more each year
+      tags: [trade]
+    - text: the town's own mages never learned how it works
+    - text: moss and mushrooms and worse have taken to the warm gutters
+  thing:
+    - text: a paving stone engraved with a spiral, always faintly warm
+    - text: a brass lending seal on a chain, said to open the spell's controls
+    - text: a jar of frost kept sealed since the spell began, cold enough to numb a hand
+    - text: a tuning fork that hums whenever the spell weakens
+      tags: [magic]
+  place:
+    - text: a warm square where the market stays open all winter
+      tags: [trade]
+    - text: a college outpost's narrow office above a hatter's
+    - text: a drainage trench where paving stones lie in numbered rows
+    - text: an inn's roof terrace where snow never settles
+  pressure:
+    - text: by midwinter collectors from the lending college arrive, and the streets freeze
+    - text: before the first hard frost the drainage works must finish or the paving cracks
+    - text: when the lease runs out at the solstice the warmth stops all at once
+    - text: in a fortnight an offer from elsewhere lapses, and with it the town's only other choice

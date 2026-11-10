@@ -1,0 +1,46 @@
+kind: situation
+id: fantasy.situation.tapped-spring
+title: Tapped spring
+summary: A spa town's healing spring has quietly gone dry, and someone is piping in ordinary water.
+tags: [situation, crime, magic]
+safety: []
+facets:
+  enemy:
+    - text: a bathhouse owner who has bought a cistern and a very quiet pump
+      tags: [trade]
+    - text: a physician who prescribes the waters and takes a cut of every bottle
+      tags: [trade]
+    - text: a well-digger who sold the town its pipes and would rather not say where they lead
+      tags: [crime]
+    - text: a guidebook writer who was paid to praise the water and cannot afford to be wrong
+  friend:
+    - text: a bath attendant who noticed the water no longer tingles
+    - text: a retired miner who can taste that the water comes from the wrong hill
+    - text: a launderer whose kettles have stopped furring up
+      tags: [trade]
+    - text: a visitor who travelled far and is determined to feel better, one way or another
+  complication:
+    - text: half the town's income rests on the spring's reputation
+      tags: [trade]
+    - text: water from the pipes tastes cleaner than the spring ever did, and nobody has complained of a cold since
+    - text: the spring belongs to a distant landlord who takes a share and asks no questions
+      tags: [noble]
+    - text: a few visitors really do feel better, and swear by it
+  thing:
+    - text: a brass tap fitted into a garden statue
+    - text: a sealed bottle from the spring's best year, still faintly fizzing
+      tags: [magic]
+    - text: a pump handle much whiter than the rest of the machinery
+    - text: a trail of numbered chalk marks across a meadow, running toward the hills
+  place:
+    - text: a steamy bathhouse where every conversation is overheard
+    - text: a grotto at the springhead, hung with dried herbs and visitors' notes
+      tags: [magic]
+    - text: a water tower behind the pump-room, locked at night
+    - text: a hillside pasture where a stream now surfaces for no reason anyone can give
+      tags: [rural]
+  pressure:
+    - text: at the start of the season the first coaches arrive, expecting a spring that flows
+    - text: when the dry months come, the pipes run low and visitors start to notice
+    - text: when the season's most distinguished guest arrives, expecting a cure for something
+    - text: by midsummer a town down the valley announces a spring of its own

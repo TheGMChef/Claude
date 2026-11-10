@@ -188,10 +188,10 @@ export const FREE_TEXT_KEYS = ['pc.want', 'truth.text'];
 export const SITUATIONS = {
   required: true,
   target: 20,
-  stub: 10,
+  stub: 20,
   facetTarget: 4,
   facetStub: 4,
-  full: false,
+  full: true,
 };
 
 export const CULTURES_SPEC = { examples: 16, tips: 4, full: false };

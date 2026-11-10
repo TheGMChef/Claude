@@ -1,0 +1,43 @@
+kind: situation
+id: fantasy.situation.phantom-tenants
+title: Phantom tenants
+summary: A crumbling tenement collects rent from tenants nobody has met, and the money goes somewhere.
+tags: [situation, crime, debt]
+safety: []
+facets:
+  enemy:
+    - text: a rent collector who invented a dozen tenants to pocket the rents of the real ones
+      tags: [crime]
+    - text: a landlord who has been told the building is full and has borrowed against it
+      tags: [debt]
+    - text: a lodging-house keeper who rents the empty rooms off the books
+      tags: [trade]
+    - text: a broker who sold shares in the building's income to a street full of small investors
+      tags: [trade]
+  friend:
+    - text: a real tenant of fifteen years who is listed under three different names
+    - text: a retired postman who still climbs the stairs from habit and has noticed which names never answer
+    - text: a bookkeeper who keeps finding the sums too neat
+    - text: a night-soil collector who sees which rooms get used
+  complication:
+    - text: several invented tenants have begun to receive real letters
+    - text: the building is falling apart, and phantom rents are all that has kept the roof on
+    - text: the investors are neighbours, and exposing the fraud ruins half the street
+      tags: [trade]
+    - text: a stranger has taken to living under one of the invented names
+  thing:
+    - text: a rent book with thirty names in thirty similar hands
+    - text: a set of polished brass door numbers, some for doors that do not exist
+    - text: a kettle that is always warm in a room nobody rents
+    - text: a tailor's dummy dressed as a tenant and propped at a window
+  place:
+    - text: a stairwell where every landing smells of a different supper
+    - text: a rent office with a hatch and a very long queue
+    - text: a top-floor room furnished for no one, with a freshly made bed
+    - text: a courtyard where washing is pegged out for tenants who do not exist
+  pressure:
+    - text: on rent day a visiting investor wants to meet the tenants
+    - text: at quarter's end the real tenants agree to withhold their rents until someone mends the stairs
+    - text: when the autumn rains test the roof, phantom rents will not cover the repair
+    - text: by the new year shares in the building's income mature, and holders expect payment
+      tags: [debt]
