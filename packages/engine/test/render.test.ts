@@ -106,6 +106,14 @@ describe('renderTemplate', () => {
     expect(render('{ctx.front.name|or:the old guild}', e('Ash Court')).text).toBe('Ash Court');
   });
 
+  it('trims context values, collapses inner whitespace and treats blank as absent (S1 review 8)', () => {
+    const e = (name: string): RenderEnv => mkEnv({}, { pc: { name } });
+    expect(render('x {ctx.pc.name} y', e('  Ulf  ')).text).toBe('x Ulf y');
+    expect(render('{ctx.pc.name}', e(' Ulla \t  Brack\n')).text).toBe('Ulla Brack');
+    expect(render('{ctx.pc.name|or:someone}', e('   ')).text).toBe('someone');
+    expect(render('{ctx.pc.name|a}', e('  ember ')).text).toBe('an ember');
+  });
+
   it('or: only applies when empty', () => {
     expect(render('{t.role|or:x}').text).toBe('innkeeper');
     expect(render('{t.empty|or:x}').text).toBe('x');

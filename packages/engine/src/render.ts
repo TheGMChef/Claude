@@ -89,16 +89,22 @@ function own(obj: unknown, key: string): unknown {
   return (obj as Record<string, unknown>)[key];
 }
 
+/** User-typed text: trimmed, inner whitespace collapsed, and blank reads as absent. */
+function tidy(v: string | undefined): string | undefined {
+  const t = v?.replace(/\s+/g, ' ').trim();
+  return t === undefined || t === '' ? undefined : t;
+}
+
 /** A ctx path, walked through own properties; only a string, number or boolean renders. */
 function readCtx(ctx: Context, path: string): string | undefined {
   if (path.startsWith('campaign.')) {
     const campaign = own(ctx, 'campaign') as Context['campaign'];
-    return campaign?.get(path.slice('campaign.'.length));
+    return tidy(campaign?.get(path.slice('campaign.'.length)));
   }
   let cur: unknown = ctx;
   for (const key of path.split('.')) cur = own(cur, key);
   const t = typeof cur;
-  return t === 'string' || t === 'number' || t === 'boolean' ? String(cur) : undefined;
+  return t === 'string' || t === 'number' || t === 'boolean' ? tidy(String(cur)) : undefined;
 }
 
 function fieldValue(fields: Record<string, string> | undefined, key: string): string | undefined {
