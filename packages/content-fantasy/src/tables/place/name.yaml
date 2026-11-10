@@ -11,3 +11,5 @@ entries:
   - text: '{word-a} Common'
   - text: The Old {word-b|cap}
   - text: '{word-a}side'
+  - text: '{word-a} {word-b|cap}'
+  - text: Upper {word-a}{word-b}

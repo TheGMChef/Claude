@@ -1,54 +1,54 @@
 {
-  "display": "The Hollow at Alder, a market of stalls built into the arches of a dry aqueduct",
+  "display": "Little Saltmead, a woodcutters' camp built around one enormous stew pot",
   "fields": {
     "name": {
-      "value": "The Hollow at Alder",
+      "value": "Little Saltmead",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.name#3",
-        "fantasy.place.word-b#0",
-        "fantasy.place.word-a#4"
+        "fantasy.place.name#4",
+        "fantasy.place.word-a#2",
+        "fantasy.place.word-b#17"
       ]
     },
     "kind": {
-      "value": "market of stalls built into the arches of a dry aqueduct",
+      "value": "woodcutters' camp built around one enormous stew pot",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.kind#4"
+        "fantasy.place.kind#18"
       ]
     },
     "sight": {
-      "value": "fish weirs woven so fine they shimmer",
+      "value": "a barge wedged under a bridge that is slightly too low",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.sight#29"
+        "fantasy.place.sight#27"
       ]
     },
     "sound": {
-      "value": "a wheel rim ringing on a rock, followed by cursing in two accents",
+      "value": "doves clattering out of a roof that has no roof",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.sound#40"
+        "fantasy.place.sound#38"
       ]
     },
     "smell": {
-      "value": "woodsmoke and boiled cabbage",
+      "value": "turned earth after rain",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.smell#16"
+        "fantasy.place.smell#14"
       ]
     },
     "happening": {
-      "value": "a surveyor has pegged a new boundary through the middle of the road, and the cart ruts are ignoring it",
+      "value": "fog is rolling in and the guide has stopped talking",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.happening#7"
+        "fantasy.place.happening#31"
       ]
     }
   }

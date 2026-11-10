@@ -21,3 +21,56 @@ entries:
     safety: [religion]
   - text: pass-top hut with a guest ledger and a spare boot
     tags: [mountain, wilderness]
+  - text: half-built bridge, already charging to cross
+    tags: [river, road]
+  - text: toll gate with a long list of exemptions nailed beside it
+    tags: [road]
+  - text: tide mill that grinds only when the sea allows
+    tags: [coastal, rural]
+  - text: shingle beach used as a net-mending yard
+    tags: [coastal]
+  - text: harbour steps where boats queue to unload
+    tags: [coastal, urban]
+  - text: dyers' row where the gutters run three colours
+    tags: [urban, trade]
+  - text: clock yard with seven clocks and no agreed time
+    tags: [urban]
+  - text: night market that sets up on the quay when the day market leaves
+    tags: [urban, river]
+  - text: threshing floor swept clean for a dance
+    tags: [rural]
+  - text: water-mill whose wheel is older than the mill
+    tags: [river, rural]
+  - text: woodcutters' camp built around one enormous stew pot
+    tags: [forest]
+  - text: shrine in the split trunk of an oak, stuffed with folded letters
+    tags: [forest, faith]
+    safety: [religion]
+  - text: glade where six paths meet and none agree on the way out
+    tags: [forest, wilderness]
+  - text: shepherds' hut on a high pasture, a bell hung on the door
+    tags: [mountain, rural]
+  - text: rope-bridge station with a fee bucket on a long pole
+    tags: [mountain, road]
+  - text: snow-fence depot where the pass is cleared each morning
+    tags: [mountain, road]
+  - text: fallen manor now run as a tenants' cooperative
+    tags: [ruin, rural]
+  - text: roofless chapel used as a corn store
+    tags: [ruin, faith]
+    safety: [religion]
+  - text: stump of a tower, its base rented out as three shops
+    tags: [ruin, urban]
+  - text: moorland cottage with a lamp in the window every night
+    tags: [wilderness]
+  - text: peat-cutters' track marked out with white stones
+    tags: [wilderness, rural]
+  - text: cheese cellar cut into the hillside, wheels ageing on shelves
+    tags: [underground, rural]
+    safety: [claustrophobia]
+  - text: tunnel inn where the beer stays cool all year
+    tags: [underground]
+    safety: [claustrophobia]
+  - text: old mine mouth with a ticket window
+    tags: [underground, mountain]
+    safety: [claustrophobia]
