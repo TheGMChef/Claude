@@ -1,4 +1,6 @@
 import { SAFETY_VOCABULARY } from '@prepdesk/engine';
+import type { Card } from '@prepdesk/engine';
+import { serializeCard } from '@prepdesk/engine';
 import { RepoError } from '../deps';
 import type { RepoDeps } from '../deps';
 import { ENTITY_KINDS, STATES_BY_KIND, SUBTYPES_BY_KIND } from '../schema';
@@ -347,4 +349,68 @@ export function deleteEntity(d: RepoDeps, id: string): Promise<void> {
       await touchCampaign(d, e.campaignId, d.now());
     },
   );
+}
+
+export type CardOpts = {
+  campaignId: string;
+  subtype?: string;
+  canon?: Canon;
+  origin: Entity['origin'];
+  /** The DM's own words, used as the title of a truth or scene. */
+  text?: string;
+  sessionId?: string;
+};
+
+/** A title the repository accepts: no brackets or bars, at most 200 characters, never empty. */
+function titleFrom(raw: string): string {
+  const t = raw
+    .slice(0, 1000)
+    .replace(/\[\[|\]\]/g, ' ')
+    .replace(/\|/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w !== '')
+    .join(' ')
+    .slice(0, LIMITS.title)
+    .trim();
+  return t === '' ? 'Untitled' : t;
+}
+
+/**
+ * Spec 5.4: the pure mapping from a rolled card to an entity. Fields are copied one to one (a blocked
+ * field is not), and from then on the entity's fields are the record (D4).
+ */
+export function entityFromCard(card: Card, kind: EntityKind, opts: CardOpts): EntityInput {
+  const fields: Record<string, string> = {};
+  for (const [key, f] of Object.entries(card.fields)) {
+    if (f.blocked || FORBIDDEN_KEYS.has(key) || !FIELD_KEY.test(key)) continue;
+    fields[key] = f.value.slice(0, LIMITS.text);
+  }
+  const display = card.display;
+  const name = fields['name'];
+  let title = display;
+  let summary = display;
+  if (kind === 'npc') {
+    title = name ?? display;
+    summary = fields['role'] ?? display;
+  } else if (kind === 'place') {
+    title = name ?? display;
+    const tail = name !== undefined && display.startsWith(`${name}, `) ? name.length + 2 : -1;
+    const cut = tail >= 0 ? tail : display.indexOf(', ') >= 0 ? display.indexOf(', ') + 2 : -1;
+    summary = fields['kind'] ?? fields['size'] ?? (cut >= 0 ? display.slice(cut) : display);
+  } else if (kind === 'truth' || kind === 'scene') {
+    title = opts.text !== undefined && opts.text.trim() !== '' ? opts.text : display;
+  }
+  const input: EntityInput = {
+    kind,
+    title: titleFrom(title),
+    summary: summary.slice(0, LIMITS.text),
+    fields,
+    card: serializeCard(card),
+    veiled: [...card.flags.veiled],
+    origin: opts.origin,
+  };
+  if (opts.subtype !== undefined) input.subtype = opts.subtype;
+  if (opts.canon !== undefined) input.canon = opts.canon;
+  if (opts.sessionId !== undefined) input.firstSessionId = opts.sessionId;
+  return input;
 }

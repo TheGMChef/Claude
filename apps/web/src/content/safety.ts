@@ -3,7 +3,7 @@
  * required `Safety` and always puts it in the context, over anything a stored or imported card
  * carries. ESLint bans importing the raw functions anywhere else in apps/web/src.
  */
-import { applySafety, generate, reroll } from '@prepdesk/engine';
+import { applySafety, generate, parseCard, reroll } from '@prepdesk/engine';
 import type { Card, Context } from '@prepdesk/engine';
 import type { Safety } from '../data/schema';
 import { lib } from './lib';
@@ -54,11 +54,28 @@ export function recheckCard(card: Card, safety: Safety): Card {
 }
 
 /**
- * D64: the campaign's current lines that a stored card's table entries touch, or 'unreadable'.
- * Stub until Task 6; it never reads the card's own context.safety.
+ * D64: the campaign's CURRENT lines that a stored card's table entries touch (sorted), or
+ * 'unreadable'. It reads the sources of every field, hidden ones included, and never the card's own
+ * context.safety. A source it can't place (unknown table, bad index) counts as no hit; it never throws.
  */
 export function linedTopics(cardJson: string, safety: Safety): string[] | 'unreadable' {
-  void cardJson;
-  void safety;
-  return [];
+  try {
+    const parsed = parseCard(lib, cardJson);
+    if (!parsed.ok) return 'unreadable';
+    const lines = new Set(safety.lines);
+    const hits = new Set<string>();
+    if (lines.size === 0) return [];
+    for (const field of Object.values(parsed.card.fields)) {
+      for (const src of [...field.sources, ...(field.hidden?.sources ?? [])]) {
+        const cut = src.lastIndexOf('#');
+        const index = src.slice(cut + 1);
+        if (cut <= 0 || index === '' || index.length > 9 || !/^[0-9]+$/.test(index)) continue;
+        const entry = lib.table(src.slice(0, cut))?.entries[Number(index)];
+        for (const topic of entry?.safety ?? []) if (lines.has(topic)) hits.add(topic);
+      }
+    }
+    return [...hits].sort();
+  } catch {
+    return 'unreadable';
+  }
 }
