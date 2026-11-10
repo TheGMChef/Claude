@@ -1,8 +1,8 @@
 {
-  "display": "The Copper Welcome, kept by Otto Fabrance",
+  "display": "The Copper Table, kept by Otto Fabrance",
   "fields": {
     "name": {
-      "value": "The Copper Welcome",
+      "value": "The Copper Table",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -51,7 +51,7 @@
       ]
     },
     "menu": {
-      "value": "a clear spirit from the back room, poured into thimbles and counted",
+      "value": "a clear spirit from the back room, poured in small measures and watched",
       "locked": false,
       "nonce": 0,
       "sources": [

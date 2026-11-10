@@ -3,12 +3,12 @@ id: fantasy.tavern.menu
 title: On the board tonight
 tags: [tavern]
 entries:
-  - text: barley stew with a spoonful of something sharp, and no one asks what
+  - text: 'hare stew with juniper berries, served in a bowl that is mostly bowl'
     safety: [animal-harm]
   - text: eel pie that takes forty minutes and is worth thirty-nine of them
     tags: [coastal]
     safety: [animal-harm]
-  - text: plum dumplings the size of a fist, three to a bowl
+  - text: 'plum dumplings the size of a fist, rolled in toasted crumbs'
   - text: one long loaf, torn by the keeper, who stares until everyone has taken a piece
   - text: pickled walnuts and a crumbly white cheese
   - text: buttered mushrooms on toast, with the toast slightly ahead of the mushrooms
@@ -17,29 +17,29 @@ entries:
     tags: [rural]
   - text: rabbit and prune pie under a lid of suet pastry
     safety: [animal-harm]
-  - text: roast chestnuts in a paper twist, three to a customer
+  - text: 'roast chestnuts in a paper twist'
   - text: "hot spiced cider, watered down by the keeper's own standards"
-  - text: oat porridge with a thumb of butter and a choice of salt or honey
-  - text: grilled sausages sold by the yard and measured against the bar rail
+  - text: 'oat porridge with a thumb of butter and a pinch of salt'
+  - text: 'grilled sausages in a coil, served with brown mustard'
     safety: [animal-harm]
-  - text: pea and ham soup that has been simmering since Tuesday
+  - text: 'ham hock with parsley sauce, carved thick at the table'
     safety: [animal-harm]
   - text: a bowl of boiled eggs, each stamped with a tiny crest
   - text: baked apples stuffed with raisins, served in their own juice
   - text: cabbage rolls, six to a plate, and an argument about the sixth
   - text: oatcakes with soured cream and chives
-  - text: a clear spirit from the back room, poured into thimbles and counted
+  - text: 'a clear spirit from the back room, poured in small measures and watched'
     safety: [addiction]
   - text: grilled trout with almonds, boned with great ceremony
     safety: [animal-harm]
-  - text: bean and barley pottage with a spoonful of mustard on top
+  - text: 'braised beans with mustard and a heel of bread'
   - text: honey cakes stacked into a tower that the regulars take turns toppling
-  - text: roast squash stuffed with chestnuts and sage
-  - text: lentils with sour plums
+  - text: 'buttered kale with caraway'
+  - text: 'lentils with sorrel'
   - text: buckwheat pancakes folded around stewed pears
-  - text: leek and potato broth thin enough to read through
+  - text: 'leeks baked in cream under a crust of crumbs'
   - text: flatbread with mashed broad beans and a green oil
-  - text: pease pudding, served in slices like a cake
-  - text: walnuts in the shell and a smooth stone to crack them with
+  - text: 'sliced cold beetroot with horseradish cream'
+  - text: 'hazelnuts in the shell and a smooth stone to crack them with'
   - text: peppered mutton broth with bread to sop it up
     safety: [animal-harm]

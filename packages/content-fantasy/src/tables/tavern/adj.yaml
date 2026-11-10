@@ -7,7 +7,7 @@ entries:
   - text: Patient
   - text: Copper
   - text: Crooked
-  - text: Sleepy
+  - text: 'Stately'
   - text: Hopeful
   - text: Brass
   - text: Weary
@@ -22,14 +22,14 @@ entries:
   - text: Silver
   - text: Lucky
   - text: Honest
-  - text: Modest
+  - text: 'Ample'
   - text: Wandering
-  - text: Sulking
-  - text: Hungry
+  - text: 'Steady'
+  - text: 'Plain'
   - text: Dusty
   - text: Stubborn
   - text: Cheerful
   - text: Rambling
   - text: Patched
   - text: Quiet
-  - text: Grudging
+  - text: 'Generous'

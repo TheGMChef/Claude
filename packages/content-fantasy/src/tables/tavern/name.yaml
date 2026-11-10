@@ -6,7 +6,7 @@ entries:
   - text: The {adj} {noun}
   - text: "{name:family}'s {noun}"
   - text: The Last {noun}
-  - text: The {adj} Welcome
+  - text: 'The {adj} Table'
   - text: "Old {name:given}'s {noun}"
   - text: At the Sign of the {noun}
   - text: '{name:given} and the {noun}'
