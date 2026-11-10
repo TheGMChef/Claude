@@ -5,19 +5,19 @@ tags: [loot]
 entries:
   - text: it is warm when nobody is holding it
     tags: [magic]
-  - text: someone has scratched a tally of thirty-one marks into it
-  - text: it smells faintly of oranges, years after it should
-  - text: a name is engraved inside, then carefully filed off
-  - text: it has been mended twice, by two very different hands
+  - text: a chalk tick has been drawn on it, as if it were checked off a list
+  - text: it smells of cedar, as if it spent years in a chest
+  - text: a receipt for a different item is folded around it
+  - text: a pale ring on the surface shows where it sat on a shelf for years
   - text: it hums quietly when carried north
     tags: [magic]
-  - text: a second, smaller one is hidden inside it
+  - text: it is slightly lighter than it should be
   - text: the edges are worn pale where a thumb has rubbed them for years
   - text: it is far older than the pocket it was found in
-  - text: the maker's mark has been stamped upside down
+  - text: a faint pattern of dents makes a small face when held to the light
   - text: it leaves a faint blue stain on whatever it touches
   - text: dust never seems to settle on it
-  - text: a date is scratched on the back, and it is next year's
+  - text: a date is inked on the back, and it is next year's
   - text: it is cold enough to numb the fingers, whatever the weather
   - text: it rattles slightly, though nothing inside can be seen
   - text: one side is much cleaner than the other
@@ -36,7 +36,7 @@ entries:
     safety: [fire]
   - text: a rust-brown smear on one side has never washed off
     safety: [violence]
-  - text: it is stamped with the badge of a school that closed long ago
+  - text: it carries a badge of three crossed quills
   - text: years in one pocket have bent it to the curve of a hip
   - text: the lining of the pocket was cut away to fit it
   - text: someone has written "do not lose" on it three times, in three hands

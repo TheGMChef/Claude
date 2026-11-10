@@ -1,8 +1,8 @@
 {
-  "display": "A scrap of slate scratched with the board of a game nobody can name",
+  "display": "A scrap of slate marked with the grid of an unfamiliar game",
   "fields": {
     "item": {
-      "value": "a scrap of slate scratched with the board of a game nobody can name",
+      "value": "a scrap of slate marked with the grid of an unfamiliar game",
       "locked": false,
       "nonce": 0,
       "sources": [

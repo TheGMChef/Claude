@@ -10,19 +10,19 @@
       ]
     },
     "worth": {
-      "value": "worth a season's grain for a whole hamlet",
+      "value": "worth a pardon, if someone with the power to give one wants it badly enough",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.treasure.worth#8"
+        "fantasy.treasure.worth#10"
       ]
     },
     "hook": {
-      "value": "whoever hid it left word of the one person who must never see it",
+      "value": "someone needs it by the end of the week and will not say why",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.treasure.hook#8"
+        "fantasy.treasure.hook#7"
       ]
     }
   }

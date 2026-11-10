@@ -8,19 +8,17 @@ entries:
     tags: [trade]
   - text: every dealer in the region has been told to watch for it
     tags: [crime]
-  - text: it is half of a pair, and the other half is not for sale
-  - text: a scholar will pay double for it, provided it stays intact
+  - text: a collector wants it badly, and the reason changes each time they explain
+    tags: [trade]
+  - text: a scholar has been asking after exactly this, and will pay double to learn where it was found
   - text: the family who lost it are still in town, and they are not rich
     tags: [family]
   - text: it was lent as surety for a loan, and the lender is already asking
     tags: [debt]
-  - text: moving it breaks a promise someone made long ago
-    tags: [magic]
+  - text: someone needs it by the end of the week and will not say why
   - text: whoever hid it left word of the one person who must never see it
-  - text: two heirs each hold a deed that says it is theirs
+  - text: two cousins each hold a deed that says it is theirs
     tags: [family, noble]
-  - text: the giver has just been disgraced and wants every gift returned
-    tags: [noble]
   - text: a forger swears it is one of theirs, and can prove it
     tags: [crime]
   - text: the village is certain it belongs to the village
@@ -31,20 +29,19 @@ entries:
     tags: [crime]
   - text: it is far too recognisable to sell anywhere in this country
     tags: [crime]
-  - text: the one person who needs it most cannot afford to say so
-  - text: a competing crew is two days behind, and knows exactly what to look for
-    tags: [wilderness]
-  - text: the guide who led the way wants a share, and has a witness
+  - text: the baker two doors down needs it to meet a quarter's rent, and has said nothing
+    tags: [urban, debt]
+  - text: a second party is already on the way, with a better claim on paper
   - text: it has begun to draw odd weather to wherever it is kept
     tags: [magic]
-  - text: the buyer insists on a demonstration, and no one knows how it works
-    tags: [trade]
-  - text: it was meant for a feast that never happened, and the two families are still feuding
-    tags: [family]
-  - text: a local carver has been selling exact copies for years, cheap
+  - text: the only buyer with the money is hiding from someone
+    tags: [trade, crime]
+  - text: the best offer on the table expires at dusk tomorrow
     tags: [trade]
   - text: selling it would ruin the only honest broker in the district
     tags: [trade]
-  - text: it was promised in a toast, in public, to someone who has not forgotten
-    tags: [noble]
-  - text: its maker's old partner swears it was stolen from the workshop
+  - text: whoever holds it for long dreams of the same corridor
+    tags: [magic]
+  - text: it leaves a scent on the carrier that lingers for days
+  - text: it must be declared before sunset, and declaring it means answering questions
+    tags: [trade, crime]

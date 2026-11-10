@@ -13,14 +13,21 @@ entries:
     tags: [urban]
   - text: enough to clear a modest debt, and no more
     tags: [debt]
-  - text: priced by weight, and it is surprisingly heavy
+  - text: priced by the ounce, and every dealer weighs it differently
   - text: worth a season's grain for a whole hamlet
     tags: [rural]
   - text: worth almost nothing, until the right collector hears of it
   - text: worth a pardon, if someone with the power to give one wants it badly enough
     tags: [noble]
+    safety: [police]
   - text: worth a full wagon of trade goods bound for the coast
     tags: [trade, coastal]
   - text: worth more to one particular family than to the whole market
     tags: [family]
   - text: worth a lifetime of free lodging, to the right innkeeper
+  - text: worth a small estate, tenants and all
+    tags: [noble, rural]
+  - text: worth a whole caravan's cargo, wagons included
+    tags: [trade]
+  - text: worth a year of a town's takings at the weekly market
+    tags: [urban, trade]

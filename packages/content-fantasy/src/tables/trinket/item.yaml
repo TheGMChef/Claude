@@ -11,16 +11,16 @@ entries:
   - text: a paper swan folded so tightly it has never come undone
   - text: a pencil stub with a name bitten into the end
   - text: a glass globe holding a small town, where the snow falls upward
-  - text: a thumb-sized wooden lighthouse with a number painted inside the door
-    tags: [coastal]
-  - text: a pouch of fine black sand, labelled with the name of a beach
-  - text: a rabbit's foot dyed bright blue
+  - text: a thumb-sized wooden windmill whose sails turn against the wind
+    tags: [magic]
+  - text: a pouch of fine black sand, from a beach that has since washed away
+  - text: a rabbit's foot dyed bright yellow
     safety: [animal-harm]
-  - text: a penknife with a horn handle, too small to frighten anyone
+  - text: a penknife with a plain wooden handle, too small to frighten anyone
     safety: [violence]
-  - text: a stoppered bottle that smells of a kitchen nobody has cooked in for years
+  - text: a stoppered bottle that smells of a kitchen on baking day
   - text: a hairpin topped with a green glass drop
-  - text: a comb with three teeth missing and a different name carved on each side
+  - text: a comb with three teeth missing and a row of notches along the spine
   - text: a tuning fork that rings a different note each morning
     tags: [magic]
   - text: a single playing card, the queen of owls, creased in four
@@ -31,26 +31,26 @@ entries:
   - text: a pilgrim's badge sewn onto a scrap of felt
     tags: [faith]
     safety: [religion]
-  - text: a knucklebone polished smooth, with a wish scratched into it
+  - text: a knucklebone polished smooth, with a wish pressed into it with a thumbnail
     safety: [death]
   - text: a locket holding a curl of grey hair and a scrap of sheet music
     safety: [death]
   - text: a cork carved into a grinning face
   - text: a spinning top that takes a very long time to fall
   - text: a small vial of cloudy liquid, labelled in a shaky hand "not for the dog"
-    safety: [death]
+    safety: [death, animal-harm]
   - text: a fan of painted paper with one rib snapped
   - text: a stub of chalk worn to the shape of someone's thumb
-  - text: a luggage tag from a coach line that stopped running
+  - text: a luggage tag bound for a port three weeks inland
     tags: [road]
   - text: a flat metal token stamped with a number and the word "returned"
     tags: [urban]
   - text: a small leather purse sewn shut, and heavier than it looks
-  - text: a walnut shell carved into a hinged box, empty and smelling of cloves
+  - text: a hinged box carved from a cherry stone, empty and smelling of cloves
   - text: a dried seed pod that rattles like distant rain
   - text: a hand-sized piece of driftwood shaped almost exactly like a gull
     tags: [coastal]
-  - text: a signet with the face worn smooth
+  - text: a signet whose device is an empty shield
     tags: [noble]
   - text: a glass bead strung on a cord of knots, each knot a different size
   - text: a folded square of tissue holding a single sequin
@@ -58,24 +58,23 @@ entries:
   - text: a toy drum no bigger than a plum
   - text: a hazelnut with a tiny door painted on it
   - text: a stick of liquorice so old it rings when tapped
-  - text: a scrap of slate scratched with the board of a game nobody can name
-  - text: a pocket diary in which every page says the same date
+  - text: a scrap of slate marked with the grid of an unfamiliar game
+  - text: a pocket diary in which every entry is the single word "later"
     tags: [magic]
   - text: a porcelain doll's hand, the fingers curled around nothing
     safety: [body-horror]
   - text: a hollow reed stopped at both ends, with something small inside that slides
   - text: a scale weight stamped with a merchant's mark, wrapped in a sock
     tags: [trade]
-  - text: a faded programme from a play that closed on its first night
+  - text: a faded programme for a play with a part listed only as "the Stranger"
     tags: [urban]
   - text: a shadow puppet cut from card in the shape of a long-necked bird
   - text: a knot of woven straw that someone clearly believed in
     tags: [rural, faith]
     safety: [religion]
   - text: a wedge of dried apricot wrapped in a page from someone's diary
-  - text: a clear crystal on a chain that clouds whenever someone nearby is lying
+  - text: a crystal that clouds in company
     tags: [magic]
-    safety: [body-horror]
   - text: a hank of bright thread plaited into a tiny braid
-  - text: a flask-gourd of water from a spring nobody can find twice
+  - text: a flask-gourd of water that stays level whichever way it is tipped
     tags: [magic]
