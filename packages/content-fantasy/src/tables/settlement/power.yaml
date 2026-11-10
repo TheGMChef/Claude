@@ -3,53 +3,53 @@ id: fantasy.settlement.power
 title: Who really runs it
 tags: [settlement]
 entries:
-  - text: a widow who holds every mortgage in town
+  - text: a retired lender who holds every mortgage here
     tags: [rural, debt]
   - text: a council of five that cannot agree on the fifth chair
     tags: [urban]
-  - text: the salt-weighers, who set the day's prices before anyone has opened a shop
+  - text: "the salt-weighers, who set the day's prices before anyone has opened a shop"
     tags: [trade, coastal]
-  - text: an absent baron's steward, who has never met the baron he signs for
+  - text: "an absent baron's steward, who has never met the baron he signs for"
     tags: [noble]
-  - text: the innkeeper, who has never forgotten who owes her a favour and keeps the list in the thatch
+  - text: an innkeeper with a long memory and a list of favours owed, kept in the rafters
     tags: [trade]
-  - text: the town crier, who decides which news reaches the market first
+  - text: a crier who picks which news reaches the market first
     tags: [urban]
   - text: a shrine-keeper whose blessing every wedding and sale depends on
     tags: [faith]
     safety: [religion]
   - text: the three eldest households, taking turns and counting each turn
     tags: [family]
-  - text: the timber factors, who decide which trees come down and which families keep a roof
+  - text: the timber factors; no tree comes down and no roof goes up without their nod
     tags: [forest, trade]
-  - text: a schoolmaster whose former pupils now hold every clerkship in the district
+  - text: a schoolmaster whose former pupils now sit on every committee in the district
     tags: [urban]
-  - text: the granary-keeper, who knows which households will run short before the thaw
-    tags: [rural]
-  - text: the brewers' circle, who can make or break any feast by what they send
+  - text: a seed merchant whose spring credit decides who plants anything at all
+    tags: [rural, trade]
+  - text: "a brewers' circle whose barrels decide how any feast goes"
     tags: [trade]
-  - text: a landlord in the capital who has never seen the town and sets its rents by letter
-    tags: [noble, rural]
+  - text: a tenant farmer who sublets half the valley and answers to no one
+    tags: [rural]
   - text: the stallholders, who can empty the market by agreeing to sit still
     tags: [urban, trade]
   - text: a circle of old women who settle disputes over tea, and are never appealed
     tags: [family]
-  - text: the lock-keeper, who decides which cargoes pass before nightfall
+  - text: whoever holds the lock key, and so decides which cargoes pass before nightfall
     tags: [river]
-  - text: the potters, who dig the only good clay and sell it to friends first
+  - text: potters with the only good clay and a habit of selling to friends first
     tags: [river, trade]
-  - text: the quarry owner, whose stone built half the houses and whose lawyer holds the deeds to the rest
+  - text: the quarry owner, whose stone built half the houses and who still owns the road that carries it away
     tags: [mountain, trade]
   - text: a reeve elected for life by a vote nobody remembers
     tags: [rural]
-  - text: the fishing cooperative, which sets the week's quota by a show of boats
+  - text: "the fishing cooperative, which sets the week's quota by a show of boats"
     tags: [coastal]
-  - text: the land-registrar, whose ledger holds the only record of who owns what
+  - text: an apothecary who knows which household is ailing before the household does
     tags: [urban]
-  - text: the undertaker, who is invited to every reading of a will
+  - text: an undertaker, invited to every reading of a will
     tags: [urban]
     safety: [death]
   - text: a family everyone pretends is a haulage firm
     tags: [crime, road]
-  - text: the lamplighters' guild, who decide which streets are kept bright after dark
+  - text: "the lamplighters' guild, who decide which streets are kept bright after dark"
     tags: [urban]

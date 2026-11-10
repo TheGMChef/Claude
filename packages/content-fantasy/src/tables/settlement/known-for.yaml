@@ -9,12 +9,12 @@ entries:
     tags: [road]
   - text: wool dyed a blue that fades to exactly the colour of the buyer's eyes
     tags: [trade]
-  - text: stonemasons who carve one tiny mistake into every wall, for luck
+  - text: stonemasons who carve one tiny mistake into every wall, on principle
     tags: [trade]
   - text: pears so good that neighbouring villages pay to be rude about them
     tags: [rural]
   - text: the only honest weigh-house for three valleys
-    tags: [trade]
+    tags: [urban, trade]
   - text: a dark ale that tastes of pepper and is sold only in the week the swallows return
     tags: [rural]
   - text: a market day that moves to whichever weekday it last rained on
@@ -35,7 +35,7 @@ entries:
     tags: [rural]
   - text: freshwater pearls the size of peas, sold by weight and by rumour
     tags: [river, trade]
-  - text: a gatepost at the edge of town that travellers pat for luck
+  - text: a gatepost on the road in that travellers pat for luck
     tags: [road]
   - text: slate roofs so even from above that sailors steer by them
     tags: [coastal]
@@ -61,5 +61,5 @@ entries:
     tags: [road, wilderness]
   - text: thatchers who roof every cottage in the marsh within a day's ride
     tags: [wilderness, trade]
-  - text: twin towns across a stream that share one name and nothing else
+  - text: a stream with a village on each bank, each swearing the other one moved
     tags: [river]

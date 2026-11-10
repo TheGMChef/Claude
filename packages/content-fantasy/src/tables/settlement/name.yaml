@@ -11,6 +11,7 @@ entries:
   - text: "{name:given}'s Well"
     tags: [rural]
   - text: '{fantasy.place.word-a}-on-the-{fantasy.place.word-b|cap}'
+    tags: [river, coastal]
   - text: '{fantasy.place.word-a}bridge'
     tags: [river]
   - text: Nether {fantasy.place.word-a}
