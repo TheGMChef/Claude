@@ -18,7 +18,7 @@
       ]
     },
     "enemy": {
-      "value": "a rival surveyor who sells readings of the old survey to the highest bidder",
+      "value": "an advocate for hire who argues for whichever lord paid last",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -45,7 +45,7 @@
       ]
     },
     "thing": {
-      "value": "the founding survey, in two halves, one kept by each lord",
+      "value": "a marker with a face carved on its underside that nobody remembers",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -63,7 +63,7 @@
       ]
     },
     "pressure": {
-      "value": "when the hay is cut both lords ride out to walk the line, each with a full retinue",
+      "value": "when the hay is cut both lords ride out to walk the line, each trailing a crowd of advisers",
       "locked": false,
       "nonce": 0,
       "sources": [

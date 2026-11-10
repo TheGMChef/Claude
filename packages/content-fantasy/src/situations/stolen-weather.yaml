@@ -6,10 +6,9 @@ tags: [situation, magic, rural]
 safety: []
 facets:
   enemy:
-    - text: a weather-witch who sells rain by the barrel to whoever pays most
+    - text: a weather-witch who sells rain by the barrel to anyone with coin
       tags: [trade]
     - text: a landowner who wants his neighbours dry so he can buy their fields
-      tags: [debt]
     - text: a travelling showman whose jars of storm are the real thing
     - text: the river-folk downstream, who say the rain was always theirs
       tags: [river]
@@ -19,16 +18,16 @@ facets:
       tags: [underground]
     - text: a goatherd who saw the jars being filled up on the ridge
       tags: [mountain]
-    - text: the weather-witch's apprentice, who never agreed to any of this
+    - text: a weather-witch's apprentice, who never agreed to any of this
   complication:
     - text: the rain was taken from a valley that had too much of it
     - text: opening the jars needs a word only the thief knows
     - text: the buyers have already paid, and they are not patient people
-    - text: the village elders signed something with the witch years ago
+    - text: the village elders once traded something to a witch for good harvests, and never said what
   thing:
     - text: a stoppered jar that sloshes and rumbles like distant thunder
     - text: a weathervane that points to wherever the rain is hidden
-    - text: the witch's customer list, scratched inside a barrel lid
+    - text: a rain barrel that fills every night with water from somewhere else
       tags: [trade]
     - text: a cloak that is always wet, even in full sun
   place:
@@ -41,7 +40,7 @@ facets:
       tags: [river]
   pressure:
     - text: by midsummer the wells fail and the herds are sold off cheap
-    - text: at the next full moon the witch sells the autumn rain too
-    - text: when the harvest fails, the landowner buys the valley at a quarter of its worth
+    - text: at the next full moon the autumn rain is sold as well
+    - text: when the harvest fails, someone with ready money buys the valley at a quarter of its worth
     - text: before the month is out, the dry grass will catch and burn
       safety: [fire]

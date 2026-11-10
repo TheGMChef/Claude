@@ -1,38 +1,38 @@
 kind: situation
 id: fantasy.situation.borrowed-saint
 title: Borrowed saint
-summary: A chapel borrowed a revered saint's carving to draw pilgrims, and its owners want it back.
+summary: A chapel borrowed a revered saint's carving from an abbey to draw pilgrims, and the abbey wants it back.
 tags: [situation, faith, road]
 safety: [religion]
 facets:
   enemy:
-    - text: a proctor from the lending abbey, who has a signed receipt and no sense of humour
-    - text: the chapel's treasurer, who wants a copy made and the original kept
+    - text: a proctor with a lease in his satchel and no sense of humour
+    - text: a chapel treasurer who wants a copy made and the real one kept
     - text: a rival shrine's keeper, who would like the carving to fail in public
     - text: a pilgrim-captain who has told hundreds that the saint chose to stay
   friend:
-    - text: a woodcarver's widow who knows exactly how old the carving really is
-    - text: the abbey's lay-sister, who wants it home but not the proctor's way
+    - text: an aged woodcarver with a hunch that the carving is newer than claimed
+    - text: an abbey lay-sister who wants it home, but not by the proctor's methods
     - text: a pilgrim who swears the carving cured her and will not see it moved
-    - text: the chapel sweeper, who noticed the carving's left hand has changed
+    - text: a chapel sweeper who noticed the carving's left hand has changed
   complication:
     - text: the carving draws crowds the chapel cannot feed or house
-    - text: the abbey's records call the loan a gift, and the proctor's papers call it a lease
-    - text: the copy in the nave is better loved than the original, which has gone missing
-    - text: the pilgrims' offerings are what keep the chapel roof on
+    - text: the abbey's records call the loan a gift, but the lease on file says otherwise
+    - text: a copy stands in the nave while the original has gone missing
+    - text: pilgrims' offerings are what keep the chapel roof on
   thing:
     - text: the carving itself, knee-high, with a chip missing from the hem
-    - text: the loan receipt, signed in a hand the abbey says is not theirs
-    - text: a hollow in the carving's base that held something now gone
-    - text: the book of petitions, with six names crossed out
+    - text: a loan receipt signed in a hand the abbey says is not theirs
+    - text: a hollow in a carving's base that held something now gone
+    - text: a pilgrim's staff left leaning against the carving, which nobody will claim
   place:
-    - text: the side chapel, rearranged each week to fit a bigger crowd
+    - text: a side chapel, rearranged each week to fit a bigger crowd
     - text: the pilgrims' camp at the crossroads, with its own rules and its own cook
-    - text: the abbey workshop, where the copy was carved and the shavings still lie
+    - text: a carver's workshop smelling of fresh shavings, with a half-finished saint on the bench
     - text: a drovers' rest on the pilgrim road, where the carving spent a night unattended
       tags: [rural]
   pressure:
     - text: on the saint's feast day the abbey comes in person, and so does the crowd
-    - text: before the roads close for winter the proctor takes it back, or the loan renews at a price
-    - text: when the pilgrims learn about the copy, the offerings stop and the mood turns
+    - text: before the roads close for winter the carving must travel home or stay until spring
+    - text: when the pilgrims learn the carving in the nave is a copy, the offerings stop
     - text: by the new year the roof beams give out unless the offerings keep coming

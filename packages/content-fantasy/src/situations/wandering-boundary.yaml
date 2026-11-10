@@ -6,39 +6,41 @@ tags: [situation, noble, rural]
 safety: []
 facets:
   enemy:
-    - text: a border-baron who moves the markers by night, a few paces at a time
-    - text: a rival surveyor who sells readings of the old survey to the highest bidder
+    - text: a border baron who grazes his herds a little further over every season
+    - text: an advocate for hire who argues for whichever lord paid last
       tags: [trade]
-    - text: a farmer whose field would change lordship, and who has been nudging markers his way
+    - text: a farmer whose field would change lordship, and who nudges markers his way
     - text: a border steward who profits from fines levied on both sides
   friend:
     - text: an old shepherd who remembers where the stones were set and is not believed
-    - text: a registrar's junior who found the land register has been altered
-    - text: a stonecutter who carved the original markers and signed each one underneath
-    - text: a smuggler who crosses the line daily and knows exactly where it really runs
+    - text: a junior from the land office who found a page of the register has been altered
+    - text: a stonecutter who carved his mark on the underside of every marker he cut
+    - text: a smuggler who crosses the line daily and knows where it really runs
       tags: [crime]
   complication:
     - text: one of the markers really is moving, slowly, and nobody can say why
       tags: [magic]
-    - text: the old survey used two different units of length, so both claims can be true
+    - text: the old records measure in two different units, so both claims can be true
     - text: the disputed strip holds the only spring for three villages
-    - text: both lords' ancestors swore the line would never be redrawn, and neither will break the oath first
+    - text: neither lord's family will be first to break an oath never to redraw the line
+      tags: [family]
   thing:
-    - text: a surveyor's chain, four links shorter than regulation
-    - text: the founding survey, in two halves, one kept by each lord
+    - text: a measuring chain, four links shorter than regulation
     - text: a marker with a face carved on its underside that nobody remembers
     - text: a brass plumb-weight that always swings toward the line's true course
       tags: [magic]
+    - text: a shepherd's dog trained to turn the flock back at the old line
   place:
-    - text: the disputed strip, a long narrow meadow with a spring at its centre
-    - text: the border post, where both lords' officers share a single table
+    - text: the disputed strip, a long narrow meadow of unusually good grass
+    - text: a border post with two flags and one table
       tags: [road]
     - text: a wayside inn built exactly on the line, with two sets of taxes and one kitchen
       tags: [road, trade]
-    - text: the stonecutter's yard, with spare markers stacked and uncounted
+    - text: a stonecutter's yard with spare markers stacked and uncounted
   pressure:
-    - text: when the hay is cut both lords ride out to walk the line, each with a full retinue
-    - text: when the spring runs low in late summer, three villages need the same water
+    - text: when the hay is cut both lords ride out to walk the line, each trailing a crowd of advisers
     - text: by autumn a royal commissioner arrives to settle it, and will favour whoever looks calmer
     - text: at the turn of the year all trade across the line is suspended until it is agreed
       tags: [trade]
+    - text: before the first frost a disputed field is ploughed to the new line, and then it is too late to move
+      tags: [rural]

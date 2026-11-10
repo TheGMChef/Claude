@@ -6,39 +6,37 @@ tags: [situation, rural, trade]
 safety: []
 facets:
   enemy:
-    - text: the estate manager, who has locked the stores and wants the field-hands replaced
-    - text: a tenant farmer who promised wages he never had and now hides behind his landlord
+    - text: an estate manager who has locked the stores and wants the field-hands replaced
+    - text: a tenant farmer who promised wages he never had and hides behind his landlord
       tags: [debt]
-    - text: a gangmaster who hires out hands by the dozen and wants the dispute to run on
-      tags: [crime]
-    - text: the absent owner, whose letters insist everything is fine
+    - text: a contractor who hires out hands by the dozen and wants the dispute to run on
+    - text: an absent owner whose letters insist everything is fine
       tags: [noble]
   friend:
-    - text: the reapers' spokeswoman, who can read the contract and has counted every sheaf
+    - text: a reaper who can read, and has counted every sheaf to prove the shortfall
     - text: a village schoolmaster who writes the reapers' letters and wants them to stop
     - text: an elderly foreman who has worked the estate for fifty years and is torn
-    - text: a pedlar who has been selling bread to both sides at the same price
-      tags: [trade]
+    - text: a ploughman who wants the quarrel over before sowing time
   complication:
-    - text: the crop is ripe now and spoils within the week, so every day costs both sides
-    - text: the contract was signed by a manager the estate says never worked there
+    - text: the barley is ripe now and spoils within the week, so every day costs both sides
+    - text: the reapers' contract was a handshake, and the man who shook hands has left the district
     - text: the reapers are split between those who want back pay and those who want the work
     - text: if the field-hands win, the next estate over must pay the same, and its owner is watching
   thing:
-    - text: the wage roll, with the pages for last spring glued shut
     - text: a scythe passed down the foremen, notched once for every season
     - text: a jar of grain from the north field that shows the crop is not as poor as claimed
-    - text: a quilt stitched with every reaper's mark, their only signed agreement
-      tags: [family]
+    - text: a quilt stitched with every reaper's mark, hung from a beam as their banner
+    - text: a sealed jug of the cider owed to the reapers at the season's start
   place:
     - text: the north field, half cut, with the line of abandoned work visible from the road
-    - text: the threshing floor, where the strikers meet at noon
-    - text: the manager's gatehouse, with a tidy desk and a locked cabinet
-    - text: the stream crossing where the outside workers are due to arrive
+    - text: a threshing floor where the reapers meet at noon
+    - text: an estate office with a tidy desk and a locked cabinet
+    - text: a stream crossing where outside hands are due to arrive
       tags: [river]
   pressure:
-    - text: within the week the barley lies too long and the whole season is lost
-    - text: by the weekend the gangmaster's crew arrives, and the reapers must settle or be replaced
-    - text: at the first heavy rain the cut grain rots where it lies, and no one will pay for it
-    - text: once the owner's agent hears of it, the whole village's leases are up for review
+    - text: at the end of the month the mill stops buying, and next year's seed money is gone
+      tags: [trade]
+    - text: by the weekend a crew of outside hands arrives, and the reapers must settle or be replaced
+    - text: at the first heavy rain the cut grain rots where it lies, and nobody will pay for it
+    - text: once the owner's agent hears of it, every lease in the village is up for review
       tags: [noble]

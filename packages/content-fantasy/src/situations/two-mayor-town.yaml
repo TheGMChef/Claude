@@ -16,14 +16,14 @@ facets:
     - text: the town crier, who reads both proclamations and wants it over
     - text: a baker who feeds both camps and hears everything
       tags: [trade]
-    - text: an archivist hunting for the charter that settles the question
+    - text: an archivist hunting for the page that settles the question
     - text: the mayors' grown children, who are quietly courting
       tags: [family]
   complication:
     - text: both elections were fair by the rules each side follows
     - text: the lord upriver will take the town if it cannot choose
       tags: [noble]
-    - text: every contract signed this year is valid under one mayor only
+    - text: every contract made this year is valid under one mayor only
       tags: [trade]
     - text: half the town has stopped caring and the other half is getting loud
   thing:
@@ -41,8 +41,8 @@ facets:
     - text: the tavern both camps drink at, on alternating nights
   pressure:
     - text: by quarter-day, two sets of tax collectors knock on every door
-    - text: at midsummer the lord upriver arrives to choose for them
+    - text: at midsummer a lord from upriver arrives to choose for them
       tags: [noble]
     - text: before the next market, one side will hire bruisers
       safety: [violence]
-    - text: when the granary opens for winter, both mayors will claim the key
+    - text: when the winter stores are handed out, both mayors will claim the right to hand them out
