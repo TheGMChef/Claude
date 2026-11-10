@@ -14,7 +14,7 @@ entries:
     tags: [coastal, wilderness]
   - text: market of stalls built into the arches of a dry aqueduct
     tags: [urban, ruin]
-  - text: toppled lighthouse used as a goat pen
+  - text: toppled lighthouse used as a hay store
     tags: [ruin, coastal]
   - text: cartwheel shrine where travellers leave a spoke
     tags: [road, faith]
@@ -29,7 +29,7 @@ entries:
     tags: [coastal, rural]
   - text: shingle beach used as a net-mending yard
     tags: [coastal]
-  - text: harbour steps where boats queue to unload
+  - text: harbour steps where the catch is sold before it reaches the top
     tags: [coastal, urban]
   - text: dyers' row where the gutters run three colours
     tags: [urban, trade]
@@ -50,7 +50,7 @@ entries:
     tags: [forest, wilderness]
   - text: shepherds' hut on a high pasture, a bell hung on the door
     tags: [mountain, rural]
-  - text: rope-bridge station with a fee bucket on a long pole
+  - text: rope-bridge station with a lantern signal to call the keeper across
     tags: [mountain, road]
   - text: snow-fence depot where the pass is cleared each morning
     tags: [mountain, road]

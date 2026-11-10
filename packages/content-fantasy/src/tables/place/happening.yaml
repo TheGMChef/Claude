@@ -21,27 +21,27 @@ entries:
     tags: [road, wilderness]
   - text: the ferry is on the far bank and the ferryman is asleep
     tags: [river]
-  - text: a carter is selling raffle tickets for a load he cannot deliver
+  - text: a drover's wife is selling raffle tickets for a prize nobody has seen
     tags: [road, trade]
   - text: a drover is counting sheep for the fourth time and getting a different number
     tags: [road, rural]
-  - text: a guild banner is being hoisted upside down and nobody dares say so
+  - text: a guild banner is being hoisted upside down while the guildmaster beams
     tags: [urban]
   - text: a baker is giving away yesterday's loaves to anyone who will sit through a speech
     tags: [urban, trade]
-  - text: a clerk is nailing a notice to a door that was bricked up last week
+  - text: a clerk is nailing a notice to a door that was painted over last week
     tags: [urban]
   - text: a harvest cart has lost a wheel and a crowd has gathered to advise
     tags: [rural]
   - text: the tide has gone out further than anyone remembers, and people are walking out to look
     tags: [coastal]
     safety: [drowning]
-  - text: a fishwife is selling a catch nobody can name
+  - text: a fishwife is swearing her odd-looking catch is a kind of herring
     tags: [coastal, trade]
-  - text: a ship's figurehead has washed up and the harbour is arguing over who owns it
+  - text: a ship's figurehead has washed up and two crews have already sworn it was theirs
     tags: [coastal]
     safety: [drowning]
-  - text: someone is fishing from a boat tied to a jetty, in a heated dispute with the jetty's owner
+  - text: someone is fishing from a boat tied to a jetty, and the owner is charging by the fish
     tags: [river]
   - text: washerwomen are racing bedsheets down the current for a bet
     tags: [river]
@@ -49,11 +49,11 @@ entries:
     tags: [forest]
   - text: mushroom pickers are trailing a stranger who claims to know the good spots
     tags: [forest, wilderness]
-  - text: the woodpile has been stacked into a perfect spiral and nobody will say who did it
+  - text: the woodpile has been stacked into a perfect spiral and the whole street has an alibi
     tags: [forest, rural]
-  - text: a rockfall has closed the pass and queues are forming on both sides
+  - text: a rockfall has closed the pass and both sides are shouting offers across it
     tags: [mountain, road]
-  - text: a mule train is waiting for a signal nobody will give
+  - text: a mule train is waiting for a signal that has not come
     tags: [mountain, road]
   - text: a line of lanterns is being strung down the passage, one volunteer at a time
     tags: [underground]
@@ -63,7 +63,7 @@ entries:
     safety: [drowning]
   - text: a choir is rehearsing in the vault below for the sake of the echo
     tags: [underground]
-    safety: [claustrophobia]
+    safety: [claustrophobia, religion]
   - text: someone is rebuilding the wall stone by stone, only at night
     tags: [ruin]
   - text: a family is picnicking beside a collapsed staircase
@@ -72,7 +72,7 @@ entries:
     tags: [ruin, rural]
   - text: fog is rolling in and the guide has stopped talking
     tags: [wilderness]
-  - text: a painter is shouting at a mountain to hold still
+  - text: a kite has snagged something heavy and half the hillside is hauling on the string
     tags: [wilderness, mountain]
   - text: a hailstorm is turning the high pasture white in midsummer
     tags: [mountain, rural]
