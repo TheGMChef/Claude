@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { entityTokens, fold, tokenize, validTitle } from '../text';
+import {
+  MAX_FOLD_LENGTH,
+  MAX_INDEXED_CHARS,
+  entityTokens,
+  fold,
+  tokenize,
+  validTitle,
+} from '../text';
 
 describe('fold', () => {
   it('removes diacritics, lowercases and collapses whitespace', () => {
@@ -96,5 +103,37 @@ describe('validTitle', () => {
     expect(validTitle('   ')).toBeNull();
     expect(validTitle('x'.repeat(200))).toBe('x'.repeat(200));
     expect(validTitle('x'.repeat(201))).toBeNull();
+  });
+});
+
+describe('bounds on expanding text', () => {
+  it('keeps folded output within the cap even when NFKD expands a character (U+FDFA)', () => {
+    expect(fold('\uFDFA'.repeat(200_000)).length).toBeLessThanOrEqual(MAX_FOLD_LENGTH);
+    expect(fold('\uFDFA')).toHaveLength(18);
+  });
+
+  it('stops indexing after MAX_INDEXED_CHARS of text per entity, keeping title and kind label', () => {
+    const fields: Record<string, string> = {};
+    for (let i = 0; i < 11; i++) fields[`f${i}`] = 'aaa '.repeat(5000);
+    fields['late'] = 'zzlate';
+    const tokens = entityTokens({ kind: 'npc', title: 'Odrin', aliases: [], summary: '', fields });
+    expect(MAX_INDEXED_CHARS).toBe(200_000);
+    expect(tokens).toContain('aaa');
+    expect(tokens).toContain('odrin');
+    expect(tokens).toContain('npc');
+    expect(tokens).not.toContain('zzlate');
+  });
+
+  it('indexes an entity of 100 expanding fields quickly', () => {
+    const fields: Record<string, string> = {};
+    for (let i = 0; i < 100; i++) fields[`f${i}`] = '\uFDFA'.repeat(20_000);
+    const start = performance.now();
+    entityTokens({ kind: 'note', title: 'x', aliases: [], summary: '', fields });
+    expect(performance.now() - start).toBeLessThan(2000);
+  });
+
+  it('refuses a title that folds to nothing', () => {
+    expect(validTitle('\u0301\u0301')).toBeNull();
+    expect(validTitle('e\u0301')).toBe('e\u0301');
   });
 });

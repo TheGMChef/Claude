@@ -3,15 +3,19 @@ import type { Entity } from './schema';
 
 /** Hard bounds so hostile input (a pasted book, a crafted backup) can't stall a save or a search. */
 export const MAX_FOLD_LENGTH = 200_000;
+/** Most characters of one entity's text that are indexed (shared with restore, which recomputes tokens). */
+export const MAX_INDEXED_CHARS = 200_000;
 export const MAX_TOKEN_LENGTH = 64;
 export const MAX_TOKENS = 5_000;
 export const MAX_TITLE_LENGTH = 200;
 
 /** NFKD, combining marks removed, lowercase, whitespace collapsed and trimmed (D56). Linear time. */
 export function fold(s: string): string {
+  // NFKD can expand a character (U+FDFA becomes 18), so the output is cut again.
   return s
     .slice(0, MAX_FOLD_LENGTH)
     .normalize('NFKD')
+    .slice(0, MAX_FOLD_LENGTH)
     .replace(/\p{M}+/gu, '')
     .toLowerCase()
     .split(/\s+/u)
@@ -35,24 +39,28 @@ export function entityTokens(
   e: Pick<Entity, 'kind' | 'title' | 'aliases' | 'summary' | 'fields'>,
 ): string[] {
   const seen = new Set<string>();
+  let budget = MAX_INDEXED_CHARS;
   const add = (text: string) => {
-    for (const t of tokenize(text)) {
+    if (budget <= 0) return;
+    const piece = text.length > budget ? text.slice(0, budget) : text;
+    budget -= piece.length;
+    for (const t of tokenize(piece)) {
       if (seen.size >= MAX_TOKENS) return;
       seen.add(t);
     }
   };
   add(e.title);
+  add(KIND_LABELS[e.kind]);
   for (const a of e.aliases) add(a);
   add(e.summary);
   for (const v of Object.values(e.fields)) add(v);
-  add(KIND_LABELS[e.kind]);
   return [...seen];
 }
 
 /** The trimmed title, or null when it is empty, over 200 characters, or has `[[`, `]]` or `|` (D56). */
 export function validTitle(s: string): string | null {
   const t = s.trim();
-  if (t === '' || t.length > MAX_TITLE_LENGTH) return null;
+  if (t === '' || t.length > MAX_TITLE_LENGTH || fold(t) === '') return null;
   if (t.includes('[[') || t.includes(']]') || t.includes('|')) return null;
   return t;
 }
