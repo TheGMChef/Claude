@@ -1,7 +1,8 @@
 kind: table
 id: fantasy.shop.ware
-title: In the window
-tags: [shop]
+title: On the shelf
+tags:
+  - shop
 entries:
   - text: left-handed scissors in three sizes
   - text: jars of river water labelled by the mile
@@ -14,3 +15,69 @@ entries:
     tags: [road]
   - text: oilcloth gloves, stiff until worn in
     tags: [trade]
+  - text: boots resoled with old saddle leather
+    safety: [animal-harm]
+  - text: a tin whistle only dogs seem to hear
+  - text: plain-glass spectacles, a cure for looking foolish
+  - text: a barrel of odd keys, each sure to fit something
+  - text: pickled lemons in a jar with a handwritten warning
+  - text: wax seals in colours no office uses
+  - text: letter-paper pre-folded in all the wrong places
+  - text: kitchen knives and a whetstone, sold only as a set
+    tags: [trade]
+    safety: [violence]
+  - text: a stuffed owl wearing a tiny pair of spectacles
+    safety: [animal-harm]
+  - text: glass marbles that roll very slightly uphill
+  - text: wool dyed to match the sky over the door
+  - text: spoons from one pear-wood log, no two alike
+  - text: folding stools for people who expect to wait
+  - text: a bag of seeds from a plant nobody has identified
+    tags: [rural]
+  - text: salt in linen sacks with a stranger's family crest
+    tags: [family]
+  - text: soap shaped like fruit, regretted if bitten
+  - text: a brass telescope with a cap that always sticks
+  - text: pens that skip, discounted for the honest
+  - text: net bags knotted by someone with strong opinions
+  - text: jam in unlabelled jars, identified by colour
+  - text: tin soldiers, each missing something small
+    safety: [war]
+  - text: a chessboard with an extra row of squares
+  - text: paper patterns for coats nobody has cloth to make
+  - text: candied peel in screw-top tins
+  - text: a hand mirror that flatters, at a surcharge
+  - text: hair ribbons in colours named after weather
+  - text: a copper pot with a dent in the shape of a face
+  - text: horseshoe nails by the handful, with a luck leaflet
+  - text: a hat stand dressed in a different hat each morning
+  - text: hand-bound notebooks, first page already torn out
+  - text: feather dusters made of real feathers
+    safety: [animal-harm]
+  - text: a bone-handled letter opener, bookmark still in it
+    safety: [animal-harm]
+  - text: rat traps in a basket, each with a bait recipe
+    safety: [rats, animal-harm]
+  - text: cough drops in a jar labelled 'brandy, medicinally'
+    safety: [addiction]
+  - text: loose tea blended to order, never the same twice
+  - text: a lodestone on a string, for finding what isn't lost
+  - text: baskets with a hidden pocket woven into every one
+  - text: honey graded by the flower nearest the hive
+    tags: [rural]
+  - text: walking sticks, each carved with a different bird
+  - text: wind chimes tuned to a scale nobody plays
+  - text: a trunk of theatre costumes, mostly kings
+  - text: handkerchiefs embroidered with the wrong initials
+  - text: clay whistles shaped like fish
+  - text: flour sacks restitched into aprons
+  - text: kites with tails of knotted ribbon
+  - text: paper lanterns that fold flat as a hand
+  - text: a sack of river pebbles, sold for skipping
+    tags: [river]
+  - text: jars of summer air, lids sealed in July
+    tags: [magic]
+  - text: a shelf of cracked mugs, discounted for honesty
+  - text: an ink-stained apron that has outlived three owners
+  - text: a crate of pot lids with no pots to go with them
+  - text: two tin cups joined by string, range ten paces

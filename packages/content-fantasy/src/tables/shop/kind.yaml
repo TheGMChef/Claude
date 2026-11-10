@@ -1,12 +1,10 @@
 kind: table
 id: fantasy.shop.kind
 title: The shop is a
-tags: [shop]
+tags:
+  - shop
 entries:
-  - text: tinker's cart that became a shop by never leaving
-    tags: [road, trade]
   - text: apothecary that smells of aniseed and mild apology
-    tags: [urban]
   - text: cobbler's stall wedged into the gap between two houses
     tags: [urban, trade]
   - text: pawnbroker behind a bakery counter
@@ -20,3 +18,37 @@ entries:
     tags: [urban, coastal]
   - text: dry-goods store at a mountain pass, prices chalked on the wall
     tags: [mountain, road]
+  - text: bookbinder's workshop with the glue pots lined up in the window
+    tags: [trade]
+  - text: seed seller's barn stall, packets sorted by the month to sow
+    tags: [rural]
+  - text: lens-grinder who sells spectacles from a back room
+    tags: [trade]
+  - text: secondhand instrument dealer, every instrument slightly out of tune
+  - text: saddler's workshop that smells of oil and warm hide
+    tags: [trade]
+    safety: [animal-harm]
+  - text: broom-maker's yard where brooms are cut to the buyer's height
+    tags: [rural]
+  - text: kite-and-windmill-toy maker's shop on a hill road
+    tags: [rural, road]
+  - text: salvage dealer in a barn full of other people's lost property
+    tags: [trade]
+  - text: tea-and-spice seller's stall that sells more advice than tea
+    tags: [trade]
+  - text: glassblower's cabin with a window made of mismatched bottle ends
+    tags: [trade]
+  - text: secondhand clothier whose coats still carry the tailor's chalk marks
+    tags: [urban, trade]
+  - text: potter's shed at the edge of a clay pit, seconds sold by the bucket
+    tags: [rural, trade]
+  - text: toymaker's workshop with half-finished animals in every window
+    tags: [trade]
+  - text: angler's tackle shop whose floats are painted to match the owner's moods
+    tags: [river]
+  - text: scribe's counter where letters are written to dictation for a copper
+    tags: [trade]
+  - text: mender's trestle set up wherever the road forks
+    tags: [road, trade]
+  - text: antiquarian's front room, every item tagged 'probably old'
+    tags: [urban]

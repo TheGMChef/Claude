@@ -1,5 +1,5 @@
 {
-  "display": "Drusenne and Niece, a hedge-witch's shed selling charms by weight",
+  "display": "Drusenne and Niece, a salvage dealer in a barn full of other people's lost property",
   "fields": {
     "name": {
       "value": "Drusenne and Niece",
@@ -10,11 +10,11 @@
       ]
     },
     "kind": {
-      "value": "hedge-witch's shed selling charms by weight",
+      "value": "salvage dealer in a barn full of other people's lost property",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.shop.kind#4"
+        "fantasy.shop.kind#14"
       ]
     },
     "keeper": {
@@ -26,29 +26,29 @@
       ]
     },
     "wares": {
-      "value": "jars of river water labelled by the mile; ink in seven shades of grey; a brass doorknob with no door, priced as a bargain",
+      "value": "a barrel of odd keys, each sure to fit something; pens that skip, discounted for the honest; folding stools for people who expect to wait",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.shop.ware#1",
-        "fantasy.shop.ware#3",
-        "fantasy.shop.ware#2"
+        "fantasy.shop.ware#11",
+        "fantasy.shop.ware#25",
+        "fantasy.shop.ware#20"
       ]
     },
     "oddity": {
-      "value": "shelves are sorted by who last returned the item",
+      "value": "the window display rearranges itself whenever nobody is looking",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.shop.oddity#3"
+        "fantasy.shop.oddity#11"
       ]
     },
     "haggle": {
-      "value": "never lowers a price but throws in something odd",
+      "value": "the price drops the moment a customer turns toward the door",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.shop.haggle#1"
+        "fantasy.shop.haggle#3"
       ]
     }
   }

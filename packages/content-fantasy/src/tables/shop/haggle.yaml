@@ -1,13 +1,27 @@
 kind: table
 id: fantasy.shop.haggle
-title: Haggling
-tags: [shop]
+title: If you haggle
+tags:
+  - shop
 entries:
-  - text: takes offers only in rhyme
-  - text: never lowers a price but throws in something odd
-  - text: gives a discount for a good story, lies included
-  - text: names a high price and drops it when the customer reaches the door
-  - text: trades only by weight, never by the coin's face
-  - text: halves the price for anyone who admits what they really came for
-  - text: refuses to haggle before noon
-  - text: asks what the customer would pay, sighs, then agrees
+  - text: the keeper knocks the price down for a good story
+  - text: the keeper takes offers only in rhyme
+  - text: the keeper never lowers a price but throws in something odd
+  - text: the price drops the moment a customer turns toward the door
+  - text: the keeper trades only by weight, never by the coin's face
+  - text: anyone who admits what they really came for pays half
+  - text: the keeper refuses to haggle before noon
+  - text: the keeper asks what the customer would pay, sighs, then agrees
+  - text: a regular has to vouch for newcomers first, and charges a finder's fee
+  - text: the keeper bargains by tapping fingers on the counter, and the taps are the offer
+  - text: the keeper starts at a ruinous price and waits to be insulted
+  - text: the keeper drops the price at the mere mention of a rival
+  - text: the keeper will swap anything for anything, once it has been valued aloud
+  - text: every concession must be matched by one from the customer, in public
+  - text: the keeper's grandchild whispers the real floor price from under the counter
+  - text: the keeper accepts a favour owed in place of coin, and writes it down
+    tags: [debt]
+  - text: the final price is settled by a single hand of cards from the keeper's deck
+  - text: an offer accepted without blinking is followed by days of fretting
+  - text: the keeper discounts anything the customer can say something kind about
+  - text: a long pause works better than any counter-offer

@@ -1,13 +1,26 @@
 kind: table
 id: fantasy.shop.noun
 title: Shop name noun
-tags: [shop]
+tags:
+  - shop
 entries:
   - text: Needle
   - text: Ladle
-  - text: Compass
-  - text: Thimble
   - text: Spindle
   - text: Satchel
   - text: Lathe
   - text: Button
+  - text: Bobbin
+  - text: Trestle
+  - text: Hamper
+  - text: Spool
+  - text: Gimlet
+  - text: Cruet
+  - text: Funnel
+  - text: Sieve
+  - text: Shuttle
+  - text: Trivet
+  - text: Pannier
+  - text: Tassel
+  - text: Mallet
+  - text: Skein

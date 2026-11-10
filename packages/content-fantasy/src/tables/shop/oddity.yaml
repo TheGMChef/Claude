@@ -1,14 +1,37 @@
 kind: table
 id: fantasy.shop.oddity
-title: Odd about the place
-tags: [shop]
+title: The odd thing here
+tags:
+  - shop
 entries:
   - text: every price is quoted in a different currency
     tags: [trade]
   - text: the keeper never sets anything down, only hands it over
-  - text: a rope across the doorway is lowered only for polite customers
   - text: shelves are sorted by who last returned the item
-  - text: a clock runs backwards and nobody may fix it
-  - text: the doorbell sounds a different note every visit
   - text: the floor slopes so the goods slide toward the till
   - text: a hand-lettered sign promises refunds on yesterday
+  - text: every price tag is written in a different hand
+  - text: a stool by the door is offered to anyone who looks tired, and they are then asked to mind the shop
+  - text: the sales book already shows tomorrow's date
+    tags: [magic]
+  - text: the keeper's reflection in the window waves a moment late
+    tags: [magic]
+  - text: nothing bought here may be unwrapped until the customer is well away
+  - text: a fish painted on the door wears a different expression each day
+  - text: the window display rearranges itself whenever nobody is looking
+    tags: [magic]
+  - text: half the shelves hold goods left for named customers who have never come
+  - text: prices come in fractions, never a whole coin
+    tags: [trade]
+  - text: the shop closes for lunch at an hour that depends on who came in last
+  - text: a second counter at knee height has its own tiny ledger
+  - text: a locked cabinet marked 'not for sale' is the only thing anyone asks about
+  - text: the whole place smells of something different every hour, never of what it sells
+  - text: a tally on the wall counts the days since anything was stolen
+    tags: [crime]
+  - text: customers pay in whatever they can carry in one hand
+  - text: the keeper announces every sale with a drumroll on the counter
+  - text: a window sign says 'back soon' and has said so for years
+  - text: everything for sale is labelled with where it was found, not what it is
+  - text: a visitors' board by the door is covered in notes addressed to the keeper's late partner
+    safety: [death]
