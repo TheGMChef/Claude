@@ -5,21 +5,21 @@ tags: []
 entries:
   - text: '{ctx.mention.name|or:an old acquaintance} turns up with news nobody wanted'
   - text: '{ctx.mention.name|or:someone they helped} returns the favour, at a bad moment'
-  - text: a promise made to {ctx.mention.name|or:an old ally} comes due
+  - text: a promise made to {ctx.mention.name|or:a past ally} comes due
     tags: [debt]
   - text: '{ctx.mention.name|or:a familiar face} has switched sides and seems happier for it'
   - text: a message from {ctx.mention.name|or:a past employer} asks for one last job
   - text: '{ctx.mention.name|or:someone they wronged} arrives with witnesses'
-  - text: the thing they sold last time is back on the market, and cheaper
+  - text: the thing they sold last time is back for sale, and cheaper
     tags: [trade]
-  - text: '{ctx.mention.name|or:an old rival} needs their help and hates asking'
+  - text: '{ctx.mention.name|or:a former rival} needs their help and hates asking'
   - text: '{ctx.mention.name|or:a former client} wants to know what became of the job they left half done'
-  - text: '{ctx.mention.name|or:an old friend} is back in town under a different name'
+  - text: '{ctx.mention.name|or:a friend from before} is back in town under a different name'
   - text: '{ctx.mention.name|or:a witness} has been telling the story of last time, and it is not quite how it happened'
   - text: word spreads that {ctx.mention.name|or:someone they once helped} is doing well and means to share it
-  - text: '{ctx.mention.name|or:a former companion} turns up unwell and in need of a bed'
+  - text: '{ctx.mention.name|or:a former companion} arrives unwell and in need of a bed'
   - text: '{ctx.mention.name|or:the person they rescued} brings a gift for the whole party, oddly specific'
-  - text: '{ctx.mention.name|or:an old comrade} returns from the front, changed'
+  - text: '{ctx.mention.name|or:a comrade} returns from the front, changed'
     safety: [war]
   - text: '{ctx.mention.name|or:a former ally} asks them to attend a funeral, and explains why'
     safety: [death]

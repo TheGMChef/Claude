@@ -12,7 +12,7 @@ entries:
   - text: someone has been telling stories about {ctx.pc.name|or:one hero} in the next town, and some are true
   - text: an heirloom of {ctx.pc.name|or:one hero}'s family shows up in a pawnshop window
     tags: [family]
-  - text: a problem turns up that only {ctx.pc.name|or:a hero}'s particular talent can solve, and everyone knows it
+  - text: a problem arises that only {ctx.pc.name|or:a hero}'s particular talent can solve, and everyone knows it
   - text: an eager admirer has followed {ctx.pc.name|or:one hero} for three towns and wants to learn their trade
   - text: '{ctx.pc.name|or:a hero} is mistaken for someone more important, and the mistake turns out to be useful'
   - text: somebody offers {ctx.pc.name|or:one hero} a shortcut to what they want, with a condition they will hate
@@ -30,5 +30,5 @@ entries:
     safety: [war]
   - text: a formal challenge is delivered to {ctx.pc.name|or:one hero}, with a time and a place
     safety: [violence]
-  - text: the temple {ctx.pc.name|or:a hero} left behind sends a summons they have been ignoring
+  - text: the temple {ctx.pc.name|or:a hero} left behind has changed its mind about them, and says so in public
     safety: [religion]

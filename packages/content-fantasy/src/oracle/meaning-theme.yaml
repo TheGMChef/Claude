@@ -3,56 +3,59 @@ id: fantasy.meaning.theme
 title: 'Meaning: theme'
 tags: [oracle]
 entries:
-  - text: debt
-  - text: oath
-  - text: rumour
+  - text: anchor
+  - text: hourglass
+  - text: bellows
   - text: legacy
-  - text: hunger
-  - text: pride
+  - text: thorn
+  - text: antler
   - text: map
   - text: storm
   - text: border
-  - text: secret
-  - text: rival
+  - text: furrow
+  - text: cairn
   - text: gift
-  - text: ruin
-  - text: memory
-  - text: home
+  - text: loom
+  - text: mirror
+  - text: ladder
   - text: coin
   - text: letter
   - text: witness
   - text: key
   - text: harvest
   - text: crown
-  - text: stranger
+  - text: lantern
   - text: mistake
   - text: promise
-  - text: shelter
+  - text: kettle
   - text: road
   - text: mask
   - text: song
   - text: envy
-  - text: freedom
+  - text: beacon
   - text: faith
     safety: [religion]
   - text: grief
     safety: [death]
   - text: thaw
   - text: orchard
-  - text: refuge
-  - text: scandal
-  - text: treaty
+  - text: ford
+  - text: pearl
+  - text: cobbles
   - text: shadow
   - text: tribute
+    safety: [war]
   - text: loyalty
   - text: fever
   - text: kin
   - text: contract
   - text: ambition
   - text: mercy
+    safety: [violence]
   - text: luck
-  - text: whisper
+  - text: quill
   - text: tenant
   - text: cargo
+    safety: [slavery]
   - text: ember
     safety: [fire]

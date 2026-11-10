@@ -10,7 +10,7 @@
       ]
     },
     "turn": {
-      "value": "the first death is blamed on something else",
+      "value": "a death is blamed on something else",
       "locked": false,
       "nonce": 0,
       "sources": [

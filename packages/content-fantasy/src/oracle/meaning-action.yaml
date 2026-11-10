@@ -3,44 +3,43 @@ id: fantasy.meaning.action
 title: 'Meaning: action'
 tags: [oracle]
 entries:
-  - text: betray
-  - text: protect
+  - text: unravel
+  - text: harbour
   - text: bargain
-  - text: reveal
-  - text: hide
-  - text: abandon
+  - text: smuggle
+  - text: cloak
+  - text: strand
   - text: summon
   - text: steal
   - text: mend
   - text: follow
-  - text: deceive
+  - text: feign
   - text: honour
-  - text: hunt
-    safety: [violence, animal-harm]
+  - text: forage
   - text: release
   - text: bind
     safety: [slavery]
   - text: warn
   - text: scatter
-  - text: claim
+  - text: stake
   - text: forgive
   - text: test
   - text: delay
-  - text: gather
+  - text: assemble
   - text: trespass
+    safety: [police]
   - text: flee
   - text: inherit
   - text: persuade
-  - text: uncover
-  - text: surrender
-    safety: [war]
+  - text: trace
+  - text: relent
   - text: challenge
     safety: [violence]
   - text: return
   - text: lend
-  - text: pledge
+  - text: weigh
   - text: outwit
-  - text: mislead
+  - text: divert
   - text: outbid
   - text: forge
   - text: rescue
@@ -48,12 +47,15 @@ entries:
   - text: repay
   - text: confide
   - text: ration
-  - text: cheat
+  - text: swindle
   - text: rebuild
   - text: interrupt
   - text: tempt
+    safety: [addiction]
   - text: accuse
+    safety: [police]
   - text: exile
+    safety: [police]
   - text: mimic
   - text: hoard
-  - text: reclaim
+  - text: salvage

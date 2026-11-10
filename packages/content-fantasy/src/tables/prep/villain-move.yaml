@@ -5,18 +5,18 @@ tags: []
 entries:
   - text: buys up the leases of the people the party protects
     tags: [trade]
-  - text: hires {ctx.mention.name|or:a trusted face} to carry its messages
-  - text: closes the road into {ctx.settlement.name|or:town} for repairs that never seem to start
-    tags: [road]
+  - text: engages {ctx.mention.name|or:a trusted face} to carry its messages
+  - text: rewrites the rules of the weekly sale so only its own stalls may trade after noon
+    tags: [trade]
   - text: spreads a story that the party started the trouble
-  - text: sends a generous gift that comes with strings
+  - text: lends the miller a new millstone, with a clause about who may use it
   - text: moves its stores out of {ctx.settlement.name|or:the town} by night
-  - text: recruits a disgruntled ally of the party
-  - text: calls in a favour from the town council
+  - text: recruits a disgruntled ally of the party, and lets the party hear of it
+  - text: has the council move its next assembly to a hall it owns
     tags: [urban]
-  - text: offers a critic of the party a seat at its table
+  - text: publishes a pamphlet praising the party in terms no one believes
   - text: calls a meeting for the same night as the one the party arranged
-  - text: replaces a trusted official with a cousin of its own
+  - text: replaces the most trusted person in the counting-house with a cousin of its own
   - text: stages a small crisis so that it can be the one to solve it
   - text: buys the silence of the only witness
     tags: [crime]
@@ -25,18 +25,18 @@ entries:
     tags: [crime]
   - text: writes to a distant authority about {ctx.settlement.name|or:the town}, and mentions the party by name
   - text: pays for a new fountain, with its own name painted large over the entrance
-  - text: offers work to everyone the old arrangement turned away
-  - text: has someone follow {ctx.mention.name|or:a friend of the party} from market to nightfall
+  - text: offers work to everyone the usual arrangement turned away
+  - text: writes down who visits {ctx.mention.name|or:a friend of the party}, and how often
   - text: swears friendship in public, before witnesses it chose with care
   - text: rewards informers in {ctx.settlement.name|or:town}, until everybody has something to report
   - text: sells off land that everyone assumed was common
     tags: [rural]
-  - text: invites someone dear to the party to a long stay, and does not say when it ends
+  - text: invites someone dear to the party to dinner every week and starts asking questions
   - text: loses a lawsuit on purpose, to look harmless
     tags: [urban]
-  - text: hires a private watch to keep order in {ctx.settlement.name|or:the town}
-    safety: [police]
-  - text: sets a fire in a building nobody will miss, and blames the nearest enemy
+  - text: gives out free seed to every farm, each sack stamped with its mark
+    tags: [rural]
+  - text: sets a fire in a building that stands empty, and blames the nearest enemy
     safety: [fire]
   - text: sends hired muscle to lean on a witness
     safety: [violence]
