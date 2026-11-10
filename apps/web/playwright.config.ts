@@ -6,6 +6,9 @@ const PREINSTALLED = '/opt/pw-browsers/chromium';
 const executablePath = existsSync(PREINSTALLED) ? PREINSTALLED : undefined;
 const launchOptions = executablePath ? { executablePath } : {};
 
+// Parallel checkouts (implementers, reviewers) set PW_PORT so their preview servers do not collide.
+const PORT = Number(process.env.PW_PORT ?? 4173);
+
 export default defineConfig({
   testDir: './e2e',
   fullyParallel: true,
@@ -13,7 +16,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: 'http://localhost:4173',
+    baseURL: `http://localhost:${PORT}`,
     trace: 'off',
     launchOptions,
   },
@@ -25,8 +28,8 @@ export default defineConfig({
   ],
   // The e2e build keeps /kit and /forge-preview reachable (production builds drop them).
   webServer: {
-    command: 'pnpm build:e2e && pnpm preview --port 4173 --strictPort',
-    url: 'http://localhost:4173',
+    command: `pnpm build:e2e && pnpm preview --port ${PORT} --strictPort`,
+    url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 180_000,
   },
