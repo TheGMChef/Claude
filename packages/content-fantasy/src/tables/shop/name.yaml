@@ -4,11 +4,11 @@ title: The shop is called
 tags:
   - shop
 entries:
-  - text: "{name:family}'s {noun}"
-  - text: "{name:given}'s {noun}"
-  - text: The Second-Best {noun}
+  - text: The {adj} {noun}
   - text: '{name:family} and Niece'
+  - text: The Second-Best {noun}
   - text: The {noun} Works
-  - text: The {fantasy.tavern.adj} {noun}
   - text: A Good {noun}
   - text: "{name:family}'s Odds and Ends"
+  - text: Three {noun}s
+  - text: "{name:given}'s Fine {noun}s"

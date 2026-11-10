@@ -1,12 +1,13 @@
 {
-  "display": "Drusenne and Niece, a salvage dealer in a barn full of other people's lost property",
+  "display": "The Ladle Works, a salvage dealer in a barn full of other people's lost property",
   "fields": {
     "name": {
-      "value": "Drusenne and Niece",
+      "value": "The Ladle Works",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.shop.name#3"
+        "fantasy.shop.name#3",
+        "fantasy.shop.noun#1"
       ]
     },
     "kind": {
@@ -26,7 +27,7 @@
       ]
     },
     "wares": {
-      "value": "a barrel of odd keys, each sure to fit something; pens that skip, discounted for the honest; folding stools for people who expect to wait",
+      "value": "a barrel of odd hinges, each sure to fit something; pens that skip but sign beautifully; folding stools for people who expect to wait",
       "locked": false,
       "nonce": 0,
       "sources": [

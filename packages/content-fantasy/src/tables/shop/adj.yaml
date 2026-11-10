@@ -1,0 +1,30 @@
+kind: table
+id: fantasy.shop.adj
+title: Shop name adjective
+tags:
+  - shop
+entries:
+  - text: Oaken
+  - text: Linen
+  - text: Waxed
+  - text: Pewter
+  - text: Lacquered
+  - text: Woven
+  - text: Painted
+  - text: Folding
+  - text: Sturdy
+  - text: Neat
+  - text: Nimble
+  - text: Fair
+  - text: Busy
+  - text: Tidy
+  - text: Bright
+  - text: Square
+  - text: Ready
+  - text: Willing
+  - text: Careful
+  - text: Handy
+  - text: Clever
+  - text: Trusty
+  - text: Sensible
+  - text: Tinned

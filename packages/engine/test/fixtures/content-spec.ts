@@ -66,6 +66,7 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   line('tavern', 'menu', 30, { pocket: true, full: true }),
   line('tavern', 'regular', 30, { pocket: true, full: true }),
   row('shop.name', { family: 'shop', target: 8, full: true, kind: 'pattern' }),
+  row('shop.adj', { family: 'shop', target: 24, full: true, kind: 'word', caps: true }),
   row('shop.noun', { family: 'shop', target: 20, full: true, kind: 'word', caps: true }),
   line('shop', 'kind', 24, { pocket: true, full: true }),
   line('shop', 'ware', 60, { pocket: true, full: true }),

@@ -11,11 +11,9 @@ entries:
   - text: the floor slopes so the goods slide toward the till
   - text: a hand-lettered sign promises refunds on yesterday
   - text: every price tag is written in a different hand
-  - text: a stool by the door is offered to anyone who looks tired, and they are then asked to mind the shop
-  - text: the sales book already shows tomorrow's date
-    tags: [magic]
-  - text: the keeper's reflection in the window waves a moment late
-    tags: [magic]
+  - text: customers offered the stool by the door end up minding the shop
+  - text: a shop dog sits on the best chair and is consulted on large purchases
+  - text: every customer is handed a numbered pebble and must return it on leaving
   - text: nothing bought here may be unwrapped until the customer is well away
   - text: a fish painted on the door wears a different expression each day
   - text: the window display rearranges itself whenever nobody is looking
@@ -23,14 +21,13 @@ entries:
   - text: half the shelves hold goods left for named customers who have never come
   - text: prices come in fractions, never a whole coin
     tags: [trade]
-  - text: the shop closes for lunch at an hour that depends on who came in last
-  - text: a second counter at knee height has its own tiny ledger
+  - text: the shop shuts whenever it rains, and no one explains
+  - text: a very long counter has a keeper at each end, who disagree about prices
   - text: a locked cabinet marked 'not for sale' is the only thing anyone asks about
-  - text: the whole place smells of something different every hour, never of what it sells
-  - text: a tally on the wall counts the days since anything was stolen
-    tags: [crime]
+  - text: the whole place smells of something other than what it sells
+  - text: a jar by the till collects coins customers swear they did not drop
   - text: customers pay in whatever they can carry in one hand
-  - text: the keeper announces every sale with a drumroll on the counter
+  - text: every purchase is wrapped in a page from a different book
   - text: a window sign says 'back soon' and has said so for years
   - text: everything for sale is labelled with where it was found, not what it is
   - text: a visitors' board by the door is covered in notes addressed to the keeper's late partner

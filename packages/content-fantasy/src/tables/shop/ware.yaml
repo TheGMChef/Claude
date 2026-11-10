@@ -11,23 +11,21 @@ entries:
   - text: ink in seven shades of grey
   - text: hand-knotted shoelaces, sold by the arm's length
   - text: boxes of mismatched buttons, sorted by mood
-  - text: sun-faded maps of places that have since moved
-    tags: [road]
+  - text: a roll of oilcloth in a pattern nobody asked for
   - text: oilcloth gloves, stiff until worn in
     tags: [trade]
   - text: boots resoled with old saddle leather
     safety: [animal-harm]
   - text: a tin whistle only dogs seem to hear
-  - text: plain-glass spectacles, a cure for looking foolish
-  - text: a barrel of odd keys, each sure to fit something
+  - text: tubs of wax polish in the scents of different rooms
+  - text: a barrel of odd hinges, each sure to fit something
   - text: pickled lemons in a jar with a handwritten warning
   - text: wax seals in colours no office uses
   - text: letter-paper pre-folded in all the wrong places
   - text: kitchen knives and a whetstone, sold only as a set
     tags: [trade]
     safety: [violence]
-  - text: a stuffed owl wearing a tiny pair of spectacles
-    safety: [animal-harm]
+  - text: a porcelain frog with a chipped smile
   - text: glass marbles that roll very slightly uphill
   - text: wool dyed to match the sky over the door
   - text: spoons from one pear-wood log, no two alike
@@ -38,14 +36,14 @@ entries:
     tags: [family]
   - text: soap shaped like fruit, regretted if bitten
   - text: a brass telescope with a cap that always sticks
-  - text: pens that skip, discounted for the honest
-  - text: net bags knotted by someone with strong opinions
+  - text: pens that skip but sign beautifully
+  - text: net bags worked by someone with strong opinions
   - text: jam in unlabelled jars, identified by colour
   - text: tin soldiers, each missing something small
     safety: [war]
   - text: a chessboard with an extra row of squares
   - text: paper patterns for coats nobody has cloth to make
-  - text: candied peel in screw-top tins
+  - text: candied peel in screw-top boxes
   - text: a hand mirror that flatters, at a surcharge
   - text: hair ribbons in colours named after weather
   - text: a copper pot with a dent in the shape of a face
@@ -55,29 +53,30 @@ entries:
   - text: feather dusters made of real feathers
     safety: [animal-harm]
   - text: a bone-handled letter opener, bookmark still in it
-    safety: [animal-harm]
+    safety: [animal-harm, violence]
   - text: rat traps in a basket, each with a bait recipe
     safety: [rats, animal-harm]
   - text: cough drops in a jar labelled 'brandy, medicinally'
     safety: [addiction]
-  - text: loose tea blended to order, never the same twice
+  - text: dried apple rings strung up like beads
   - text: a lodestone on a string, for finding what isn't lost
   - text: baskets with a hidden pocket woven into every one
   - text: honey graded by the flower nearest the hive
     tags: [rural]
+    safety: [insects]
   - text: walking sticks, each carved with a different bird
   - text: wind chimes tuned to a scale nobody plays
   - text: a trunk of theatre costumes, mostly kings
   - text: handkerchiefs embroidered with the wrong initials
-  - text: clay whistles shaped like fish
+  - text: painted wooden eggs, some hollow and rattling
   - text: flour sacks restitched into aprons
-  - text: kites with tails of knotted ribbon
+  - text: kites with patched tails
   - text: paper lanterns that fold flat as a hand
   - text: a sack of river pebbles, sold for skipping
     tags: [river]
   - text: jars of summer air, lids sealed in July
     tags: [magic]
   - text: a shelf of cracked mugs, discounted for honesty
-  - text: an ink-stained apron that has outlived three owners
+  - text: sponges in graded sizes, none of them cheap
   - text: a crate of pot lids with no pots to go with them
-  - text: two tin cups joined by string, range ten paces
+  - text: two clay cups joined by string, range ten paces
