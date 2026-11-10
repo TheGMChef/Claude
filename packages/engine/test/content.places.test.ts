@@ -33,6 +33,18 @@ describe('place and settlement names (R46)', () => {
 });
 
 describe('settlement.size', () => {
+  it('holds exactly the six sizes with their weights', () => {
+    const entries = lib.table('fantasy.settlement.size')?.entries ?? [];
+    expect(entries.map((e) => [text(e), e.weight])).toEqual([
+      ['hamlet', 3],
+      ['village', 5],
+      ['market town', 3],
+      ['walled town', 2],
+      ['river port', 1],
+      ['city', 1],
+    ]);
+  });
+
   it('weights favour village over every other size', () => {
     const entries = lib.table('fantasy.settlement.size')?.entries ?? [];
     const village = entries.find((e) => text(e) === 'village');

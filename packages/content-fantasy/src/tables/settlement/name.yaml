@@ -14,3 +14,6 @@ entries:
   - text: '{fantasy.place.word-a}bridge'
     tags: [river]
   - text: Nether {fantasy.place.word-a}
+  - text: Upper {fantasy.place.word-a}
+  - text: '{fantasy.place.word-a}mouth'
+    tags: [coastal, river]

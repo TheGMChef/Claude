@@ -3,7 +3,7 @@ id: fantasy.settlement.power
 title: Who really runs it
 tags: [settlement]
 entries:
-  - text: the miller's widow, who holds every debt in the valley
+  - text: a widow who holds every mortgage in town
     tags: [rural, debt]
   - text: a council of five that cannot agree on the fifth chair
     tags: [urban]
@@ -20,3 +20,36 @@ entries:
     safety: [religion]
   - text: the three eldest households, taking turns and counting each turn
     tags: [family]
+  - text: the timber factors, who decide which trees come down and which families keep a roof
+    tags: [forest, trade]
+  - text: a schoolmaster whose former pupils now hold every clerkship in the district
+    tags: [urban]
+  - text: the granary-keeper, who knows which households will run short before the thaw
+    tags: [rural]
+  - text: the brewers' circle, who can make or break any feast by what they send
+    tags: [trade]
+  - text: a landlord in the capital who has never seen the town and sets its rents by letter
+    tags: [noble, rural]
+  - text: the stallholders, who can empty the market by agreeing to sit still
+    tags: [urban, trade]
+  - text: a circle of old women who settle disputes over tea, and are never appealed
+    tags: [family]
+  - text: the lock-keeper, who decides which cargoes pass before nightfall
+    tags: [river]
+  - text: the potters, who dig the only good clay and sell it to friends first
+    tags: [river, trade]
+  - text: the quarry owner, whose stone built half the houses and whose lawyer holds the deeds to the rest
+    tags: [mountain, trade]
+  - text: a reeve elected for life by a vote nobody remembers
+    tags: [rural]
+  - text: the fishing cooperative, which sets the week's quota by a show of boats
+    tags: [coastal]
+  - text: the land-registrar, whose ledger holds the only record of who owns what
+    tags: [urban]
+  - text: the undertaker, who is invited to every reading of a will
+    tags: [urban]
+    safety: [death]
+  - text: a family everyone pretends is a haulage firm
+    tags: [crime, road]
+  - text: the lamplighters' guild, who decide which streets are kept bright after dark
+    tags: [urban]

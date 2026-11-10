@@ -3,19 +3,63 @@ id: fantasy.settlement.known-for
 title: It is known for
 tags: [settlement]
 entries:
-  - text: a cheese so strong the road to it has a nickname
-    tags: [rural]
-  - text: the only working clock for forty miles, always seven minutes slow
-    tags: [urban]
   - text: boatbuilders who refuse to sell to anyone from upriver
     tags: [river, trade]
   - text: an annual race of overloaded handcarts down the main street
     tags: [road]
   - text: wool dyed a blue that fades to exactly the colour of the buyer's eyes
     tags: [trade]
-  - text: a lending library of a hundred umbrellas, every one returned
-    tags: [urban]
   - text: stonemasons who carve one tiny mistake into every wall, for luck
     tags: [trade]
   - text: pears so good that neighbouring villages pay to be rude about them
     tags: [rural]
+  - text: the only honest weigh-house for three valleys
+    tags: [trade]
+  - text: a dark ale that tastes of pepper and is sold only in the week the swallows return
+    tags: [rural]
+  - text: a market day that moves to whichever weekday it last rained on
+    tags: [urban]
+  - text: gloves so well stitched that thieves in three counties refuse to take them
+    tags: [trade]
+  - text: horn spoons carved so thin the light shines through them
+    tags: [urban, trade]
+  - text: a walnut tree whose shade is rented by the hour in summer
+    tags: [rural]
+  - text: carved toy animals with a face at each end, sold by the pair
+    tags: [trade]
+  - text: a night market that opens only when the mist is thick
+    tags: [urban]
+  - text: a fair where every stall must sell something it did not make
+    tags: [urban, trade]
+  - text: singing contests between rival hamlets that outlast the supper
+    tags: [rural]
+  - text: freshwater pearls the size of peas, sold by weight and by rumour
+    tags: [river, trade]
+  - text: a gatepost at the edge of town that travellers pat for luck
+    tags: [road]
+  - text: slate roofs so even from above that sailors steer by them
+    tags: [coastal]
+  - text: smoked herring wrapped in last year's news-sheets
+    tags: [coastal, trade]
+  - text: a hill track so steep that brakes outsell every other ware
+    tags: [mountain, road]
+  - text: chairs that never wobble, and are priced to match
+    tags: [forest, trade]
+  - text: lace so fine that buyers are asked to wash their hands before looking
+    tags: [urban, trade]
+  - text: a shelf of tools anyone can borrow and everyone returns oiled
+    tags: [rural]
+  - text: a sweetshop queue that has formed every dawn for sixty years
+    tags: [urban]
+  - text: plough blades that hold an edge for a lifetime, and a smith who will not say why
+    tags: [road, trade]
+  - text: a harness maker whose bridles are bought by every rider in the county
+    tags: [mountain, trade]
+  - text: a riddle painted on the customs-house wall that has outlived three painters
+    tags: [urban]
+  - text: a shaded camping meadow kept free for travellers by a charter nobody dares test
+    tags: [road, wilderness]
+  - text: thatchers who roof every cottage in the marsh within a day's ride
+    tags: [wilderness, trade]
+  - text: twin towns across a stream that share one name and nothing else
+    tags: [river]

@@ -3,10 +3,10 @@ id: fantasy.settlement.trouble
 title: What is going wrong
 tags: [settlement]
 entries:
-  - text: the mill wheel has seized, and the miller blames the neighbours
+  - text: the one pump in town has seized, and the plumber blames the neighbours
     tags: [rural, trade]
-  - text: two families both claim the new bridge as their toll, and both have a gate to prove it
-    tags: [trade, family]
+  - text: two families both hold a deed to the same meadow, signed by the same obliging clerk
+    tags: [family, noble]
   - text: the well water has gone sweet and nobody will say who first noticed
     tags: [rural]
   - text: the grain-tax clerk arrived early and has not left
@@ -20,3 +20,49 @@ entries:
     safety: [mental-illness]
   - text: the winter stores were counted twice and came out different both times
     tags: [rural, crime]
+  - text: the harvest festival has been cancelled by a committee that will not say who sits on it
+    tags: [rural]
+  - text: a stranger has quietly paid off half the town's debts and has not yet named a price
+    tags: [debt]
+  - text: the night watch has put down its lanterns until someone settles the matter of boots
+    tags: [urban]
+    safety: [police]
+  - text: the town's only baker has retired, and three cousins are arguing over who inherits the oven
+    tags: [urban, family]
+  - text: the price of flour rose again overnight, and every sack in the granary is accounted for
+    tags: [rural, trade]
+  - text: someone is buying every empty building on the main street through three different agents
+    tags: [urban, trade]
+  - text: the river shifted course in the night and now runs through the neighbour's field
+    tags: [river, rural]
+  - text: a rival town has built a perfect copy of the guildhall and calls it the original
+    tags: [urban, trade]
+  - text: someone keeps repainting doors in the lane a different colour overnight
+    tags: [urban]
+  - text: the cistern holds two inches less than the town records say
+    tags: [urban]
+  - text: a lost heir has been announced for the manor, and four people have arrived claiming the title
+    tags: [noble]
+  - text: a hard frost has ruined the late crop and every farm suspects the next of hoarding seed
+    tags: [rural]
+  - text: a travelling troupe has outstayed its welcome, and the town is too polite to say so
+    tags: [road]
+  - text: the census lists forty residents nobody has ever met
+    tags: [urban, crime]
+  - text: a drought has the water-carriers charging by the cup, and a quiet dispute over who owns the spring
+    tags: [mountain, rural]
+  - text: the new tollkeeper is honest, and the smugglers cannot stand it
+    tags: [road, crime]
+  - text: a rigged raffle has split the town into those who won and those who counted
+    tags: [urban]
+  - text: half the roofs need re-thatching and the thatcher has left with his deposits
+    tags: [rural, crime]
+  - text: a landslip has cut the road, and someone is charging to carry goods over it
+    tags: [mountain, road]
+  - text: the guild now demands a new seal on every document, and only one engraver can cut it
+    tags: [urban, trade]
+  - text: the only scribe has begun charging by the word, and letters have become oddly short
+    tags: [urban, trade]
+  - text: someone has altered the posted tide table, and three boats have already missed the morning water
+    tags: [coastal]
+    safety: [drowning]

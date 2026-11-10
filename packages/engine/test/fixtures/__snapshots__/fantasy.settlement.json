@@ -1,16 +1,16 @@
 {
-  "display": "Drusenne's Landing, a market town",
+  "display": "Marcellin's Well, a walled town",
   "fields": {
     "name": {
-      "value": "Drusenne's Landing",
+      "value": "Marcellin's Well",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.settlement.name#3"
+        "fantasy.settlement.name#4"
       ]
     },
     "size": {
-      "value": "market town",
+      "value": "walled town",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -18,27 +18,27 @@
       ]
     },
     "knownFor": {
-      "value": "an annual race of overloaded handcarts down the main street",
+      "value": "singing contests between rival hamlets that outlast the supper",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.settlement.known-for#3"
+        "fantasy.settlement.known-for#14"
       ]
     },
     "trouble": {
-      "value": "the winter stores were counted twice and came out different both times",
+      "value": "the only scribe has begun charging by the word, and letters have become oddly short",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.settlement.trouble#7"
+        "fantasy.settlement.trouble#28"
       ]
     },
     "power": {
-      "value": "an absent baron's steward, who has never met the baron he signs for",
+      "value": "the granary-keeper, who knows which households will run short before the thaw",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.settlement.power#3"
+        "fantasy.settlement.power#10"
       ]
     },
     "sight": {
