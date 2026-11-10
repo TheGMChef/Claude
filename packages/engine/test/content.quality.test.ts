@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { generateName } from '../src/names';
 import { stemHits } from '../src/safetyStems';
 import { SAFETY_VOCABULARY } from '../src/safety';
 import type { CompiledEntry, CompiledTable } from '../src/schema';
@@ -9,6 +10,7 @@ import {
   FREE_TEXT_KEYS,
   AUDIT_EXCEPTIONS,
   POOLS,
+  STRICT_LINES,
   TABLE_SPEC,
   UNGATED_TABLES,
   TERRAIN,
@@ -22,6 +24,7 @@ import {
   astText,
   facetTables,
   literalText,
+  pronunciationProblem,
   uncoveredTables,
 } from './fixtures/content-helpers';
 import { corePack, fantasyPack, lib } from './fixtures/starter-packs';
@@ -334,5 +337,80 @@ describe('cultures', () => {
         if (c.voice.tips.length !== tips) bad.push(`${c.id}: ${c.voice.tips.length} tips`);
       }
     none('culture counts', bad);
+  });
+});
+
+describe('culture names (D41)', () => {
+  const cultures = Object.values(fantasyPack.cultures);
+  const rolled = (id: string): string[] =>
+    Array.from({ length: 300 }, (_, i) => generateName(lib, id, { seed: `QUAL-${i}` }).name);
+
+  it.each(cultures.map((c) => c.id))('%s rolls only pronounceable names', (id) => {
+    const bad: string[] = [];
+    for (const name of new Set(rolled(id)))
+      for (const word of name.split(' ')) {
+        const problem = pronunciationProblem(word);
+        if (problem) bad.push(`${name}: ${problem}`);
+      }
+    none(`unpronounceable names for ${id}`, bad);
+  });
+
+  it.each(cultures.map((c) => c.id))('%s rolls no name that touches a safety stem', (id) => {
+    const bad = [...new Set(rolled(id))].filter((n) => stemHits(n, { wholeWord: true }).length > 0);
+    none(`safety-stem names for ${id}`, bad);
+  });
+
+  it('every curated example is pronounceable, passes its own banned rules and is unique', () => {
+    const seen = new Map<string, string>();
+    const bad: string[] = [];
+    for (const c of cultures) {
+      const banned = c.banned.map((b) => new RegExp(b, 'i'));
+      for (const ex of c.examples) {
+        if (banned.some((re) => re.test(ex)))
+          bad.push(`${c.id}: "${ex}" is banned by its own rules`);
+        if (stemHits(ex, { wholeWord: true }).length > 0) bad.push(`${c.id}: "${ex}" hits a stem`);
+        for (const word of ex.split(' ')) {
+          const problem = pronunciationProblem(word);
+          if (problem) bad.push(`${c.id}: "${ex}" ${problem}`);
+        }
+        const key = ex.toLowerCase();
+        if (seen.has(key)) bad.push(`"${ex}" in ${seen.get(key)} and ${c.id}`);
+        seen.set(key, c.id);
+      }
+    }
+    none('culture examples', bad);
+  });
+});
+
+describe('GM moves deck (D41)', () => {
+  const cards = lib.deck('core.gm-moves')?.cards ?? [];
+
+  it('has namespaced lowercase ids, short moves and question prompts', () => {
+    const bad: string[] = [];
+    for (const c of cards) {
+      if (!/^core\.move\.[a-z]+(-[a-z]+)*$/.test(c.id)) bad.push(`${c.id}: id`);
+      if (words(c.text).length > 8) bad.push(`${c.id}: text over 8 words`);
+      if (!c.prompt?.endsWith('?')) bad.push(`${c.id}: prompt is not a question`);
+      if (/[.!?]$/.test(c.text)) bad.push(`${c.id}: text ends with punctuation`);
+    }
+    none('move shape', bad);
+  });
+
+  it('tags every move that touches the vocabulary, tags at most 30%, keeps 17 drawable under strict lines', () => {
+    const missing = cards
+      .filter((c) => {
+        const hits = stemHits(`${c.text} ${c.prompt ?? ''}`);
+        return hits.some((h) => !(c.safety ?? []).includes(h));
+      })
+      .map((c) => c.id);
+    none('moves with an untagged stem hit', missing);
+    const tagged = cards.filter((c) => (c.safety ?? []).length > 0).length;
+    expect(tagged / cards.length).toBeLessThanOrEqual(0.3);
+    const drawable = cards.filter((c) => !(c.safety ?? []).some((t) => STRICT_LINES.includes(t)));
+    expect(drawable.length).toBeGreaterThanOrEqual(17);
+  });
+
+  it('has distinct texts', () => {
+    expect(new Set(cards.map((c) => c.text.toLowerCase())).size).toBe(cards.length);
   });
 });

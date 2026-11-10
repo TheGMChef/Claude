@@ -1,8 +1,8 @@
 {
-  "display": "Marcellin's Well, a walled town",
+  "display": "Terezia's Well, a walled town",
   "fields": {
     "name": {
-      "value": "Marcellin's Well",
+      "value": "Terezia's Well",
       "locked": false,
       "nonce": 0,
       "sources": [

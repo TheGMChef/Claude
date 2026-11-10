@@ -1,43 +1,87 @@
-# Safety review (I6): a card that touches a safety-vocabulary topic carries `safety: [tag]`, like a
-# table entry; drawMove never draws a card behind a Line. Each move below was reviewed and none
-# names a vocabulary topic (they are abstract GM moves), so none is tagged.
+# Safety review (I6, D41): a card that touches a safety-vocabulary topic carries `safety: [tag]`, like a
+# table entry; drawMove never draws a card behind a Line. All 24 moves were audited one by one.
+# Six are tagged on doubt (violence, death, fire, war, religion, police); the other 18 stay
+# abstract. Every move is a stage direction the GM can use in one breath, and every one fails
+# forward: something changes, nothing stalls. Original wording (CC-BY-4.0).
 kind: deck
 id: core.gm-moves
 title: GM moves
 cards:
-  - id: threat-steps-closer
+  - id: core.move.threat-steps-closer
     text: Move a threat one step closer
     prompt: What changed while nobody was watching?
-  - id: name-the-price
+  - id: core.move.name-the-price
     text: Name the price before they pay
     prompt: What will this cost, and who collects it?
-  - id: split-the-path
+  - id: core.move.split-the-path
     text: Force a choice between two goods
-    prompt: Which two things can't both be saved?
-  - id: rival-gains
-    text: Let a rival get ahead
+    prompt: "Which two things can't both be saved?"
+  - id: core.move.rival-gains
+    text: Let someone else claim it first
     prompt: Who just won something, and how will the party find out?
-  - id: shift-the-ground
+  - id: core.move.shift-the-ground
     text: Change something they took for granted
     prompt: What about this place is no longer true?
-  - id: quiet-voice
+  - id: core.move.quiet-voice
     text: Bring a background face forward
     prompt: Who has been standing at the edge of the scene, and what do they finally say?
-  - id: break-a-tool
+  - id: core.move.break-a-tool
     text: Break something they rely on
     prompt: Which tool, ally or plan stops working right now?
-  - id: yes-with-strings
+  - id: core.move.yes-with-strings
     text: Grant the request, with strings attached
     prompt: They get what they reached for, so what comes along with it?
-  - id: old-choice-returns
+  - id: core.move.old-choice-returns
     text: Bring back an earlier choice
     prompt: Which past decision catches up with them here?
-  - id: tempting-shortcut
+  - id: core.move.tempting-shortcut
     text: Offer a faster, worse way
     prompt: What quicker route is open, and what is wrong with it?
-  - id: thread-surfaces
+  - id: core.move.thread-surfaces
     text: Let a secret slip into view
     prompt: Which secret could surface right now, and who sees it first?
-  - id: paint-the-pause
+  - id: core.move.paint-the-pause
     text: Stop and describe the moment
     prompt: What do they hear, smell and notice before anyone acts?
+  - id: core.move.quiet-promise
+    text: Let a quiet promise come due
+    prompt: Who made a small promise nobody wrote down, and who remembers it?
+  - id: core.move.reason-to-bargain
+    text: Give the opposition a reason to bargain
+    prompt: What do they want badly enough to sit down and talk?
+  - id: core.move.loyalties-at-odds
+    text: Put two loyalties at odds
+    prompt: Whom does each character owe, and can both be kept?
+  - id: core.move.cost-of-a-win
+    text: Show the cost of an earlier win
+    prompt: "What did last session's victory break without anyone noticing?"
+  - id: core.move.news-too-late
+    text: Let good news arrive too late
+    prompt: Who hears it after it stopped helping, and what do they do?
+  - id: core.move.wrong-helper
+    text: Offer help from the wrong person
+    prompt: Who steps forward that nobody would have chosen?
+  - id: core.move.quarrel-turns-physical
+    text: Let a quarrel turn physical
+    prompt: Who throws the first shove, and who steps between?
+    safety: [violence]
+  - id: core.move.old-grief-resurfaces
+    text: Let an old grief resurface
+    prompt: Who is still mourning here, and what sets it off?
+    safety: [death]
+  - id: core.move.small-fire-spreads
+    text: Let a small fire get loose
+    prompt: What is burning, and who smells it first?
+    safety: [fire]
+  - id: core.move.border-turns-hostile
+    text: Let a border dispute turn hostile
+    prompt: Which side blinked first, and who saw it?
+    safety: [war]
+  - id: core.move.oath-gets-expensive
+    text: Make a sworn oath expensive
+    prompt: Who swore it, and who holds them to it?
+    safety: [religion]
+  - id: core.move.watch-takes-notice
+    text: "Draw the watch's attention"
+    prompt: What did the watch notice, and who gets blamed?
+    safety: [police]

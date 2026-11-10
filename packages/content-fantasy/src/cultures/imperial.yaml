@@ -8,13 +8,16 @@ voice:
     - 'Use the whole name and title, every time: "Magistrate Aurel Tantis".'
     - 'Wrap every refusal in thanks: "how very kind, and how impossible".'
     - Apologise for things that are not your fault, at length.
+    - Introduce every guest with their three most respectable relatives.
 names:
+  # Consonant-ending Latin stems + vowel-opening endings, no middles (D41): "Aur" + "el" reads as
+  # one smooth name instead of a chain of syllables.
   given:
-    pattern: [start, mid?:0.4, end]
+    pattern: [start, end]
     parts:
       start:
         [
-          Cas,
+          Cass,
           Aur,
           Sev,
           Val,
@@ -27,21 +30,19 @@ names:
           Jul,
           Ves,
           Ott,
-          Al,
           Pell,
           Ser,
           Tib,
           Emil,
           Dor,
           Hon,
+          Alb,
         ]
-      mid: [er, el, en, ar, is, av, ic, ent]
-      end: [a, ia, el, in, us, ian, ius, ene, o, ina, ello, ane, iel, ine, ette, ilde]
+      end: [a, ia, el, in, us, ian, ius, ene, o, ina, ello, ine, ette, ora, ino]
   family:
     pattern: [start, end]
     parts:
-      start:
-        [Vell, Tant, Calv, Mor, Var, Sab, Drus, Pell, Cint, Ser, Leon, Aur, Quint, Dom, Lucr, Fabr]
+      start: [Vell, Tant, Calv, Mor, Var, Sab, Drus, Pell, Cint, Ser, Leon, Aur, Dom, Lucr, Fabr]
       end: [ane, is, o, ari, ino, ius, enne, ora, ance, elli, ato, ian, esse]
   format: '{given} {family}'
   examples:
@@ -54,6 +55,13 @@ names:
     - Marcellin Drusenne
     - Lucia Morino
     - Alessin Varo
+    - Julian Sabato
+    - Flavia Domelli
+    - Tiberin Fabrio
+    - Honora Leonato
+    - Emilia Lucrari
+    - Valerian Domano
+    - Ottavia Cintelli
   exampleChance: 0.25
   # Keep imperial names polished: no harsh clusters or doubled vowels.
   banned:

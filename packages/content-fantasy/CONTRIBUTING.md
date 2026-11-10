@@ -76,8 +76,15 @@ this pack.
 
 ## Cultures
 
-Each culture needs a voice summary, exactly three voice tips the GM can do straight away, at least
-8 curated example names, and name parts that pass the `weak-culture` lint (20 distinct names).
+Each culture needs a voice summary, exactly four voice tips the GM can do straight away, at least
+16 curated example names (none shared with another culture), and name parts that pass the
+`weak-culture` lint (20 distinct names).
+
+**Pronounceable names.** Build name parts so every join is safe: open syllable then a consonant-initial
+ending, or a consonant-ending stem then a vowel-initial ending. The quality tests roll 300 names per
+culture and fail on illegal consonant clusters (`Ketd`, `Dagk`) or odd vowel runs, so read a few
+hundred rolled names before you commit.
+
 Make cultures sound different from each other, with different sounds and letter clusters and
 not just different lists. Use `banned` patterns (case-insensitive) to reject results that break
 the culture's sound.
@@ -85,8 +92,7 @@ the culture's sound.
 **Names and voice notes.** Culture `examples` and voice `tips` must not touch any safety topic.
 The `culture-safety` lint rejects words from the short per-topic stem list in
 `packages/engine/src/safetyStems.ts`. Generated names carry no safety tags. Never rename a name
-the owner wrote to get past the lint; fix the stem list instead. The counts above stay as they are
-until the cultures are raised to 16 examples and 4 tips each.
+the owner wrote to get past the lint; fix the stem list instead.
 
 ## Situations
 

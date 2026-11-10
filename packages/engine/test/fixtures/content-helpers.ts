@@ -185,3 +185,84 @@ export const reachesTagged = (lib: Library, id: string): boolean =>
   [...reachableTables(lib, id)].some((t) =>
     (lib.table(t)?.entries ?? []).some((e) => e.safety.length > 0),
   );
+
+/**
+ * Pronounceability of a generated name (D41). Every consonant run (y counts as a vowel) must be
+ * built from legal pairs, and vowel runs from a short list of pairs. Doubles are fine.
+ */
+const LIQUIDS = 'lrwh';
+const SONORANTS = 'lrnm';
+const consonantPairOk = (a: string, b: string): boolean => {
+  if (a === b) return true;
+  if (
+    [
+      'db',
+      'ck',
+      'dg',
+      'ch',
+      'sh',
+      'th',
+      'ph',
+      'gh',
+      'ft',
+      'ct',
+      'pt',
+      'sk',
+      'st',
+      'sp',
+      'sc',
+    ].includes(a + b)
+  )
+    return true;
+  if (SONORANTS.includes(a))
+    return !(a + b === 'lr' || a + b === 'ml' || a + b === 'nr' || a + b === 'mr');
+  if (b === 's') return true;
+  if (LIQUIDS.includes(b) && 'bcdfgkpstw'.includes(a)) return true;
+  if (a === 's' && 'ktpcmnlwh'.includes(b)) return true;
+  return false;
+};
+const VOWEL_PAIRS = [
+  'ai',
+  'au',
+  'ay',
+  'ea',
+  'eo',
+  'ee',
+  'ei',
+  'eu',
+  'ey',
+  'ia',
+  'ie',
+  'io',
+  'iu',
+  'oa',
+  'oi',
+  'oo',
+  'ou',
+  'ue',
+];
+
+/** What is wrong with the pronunciation of one name word, or null. */
+export function pronunciationProblem(word: string): string | null {
+  const w = word.toLowerCase().replace(/[^a-z]/g, '');
+  // Digraphs sound as one consonant: "Strath" is s-t-r-T, and any pair with a digraph is fine.
+  for (const run of w.replace(/tch|th|sh|ch|ph|gh|ck|ng|dg/g, 'D').match(/[^aeiouy]+/g) ?? []) {
+    if (run.length > 3) return `consonant run "${run}"`;
+    for (let i = 0; i + 1 < run.length; i++) {
+      if (
+        run[i] !== 'D' &&
+        run[i + 1] !== 'D' &&
+        !consonantPairOk(run[i] as string, run[i + 1] as string)
+      )
+        return `cluster "${run[i]}${run[i + 1]}" in "${run}"`;
+    }
+  }
+  for (const run of w.match(/[aeiouy]+/g) ?? []) {
+    if (run.length > 3) return `vowel run "${run}"`;
+    for (let i = 0; i + 1 < run.length; i++) {
+      const pair = run.slice(i, i + 2);
+      if (pair[0] !== pair[1] && !VOWEL_PAIRS.includes(pair)) return `vowel pair "${pair}"`;
+    }
+  }
+  return null;
+}

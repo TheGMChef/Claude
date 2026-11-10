@@ -195,9 +195,9 @@ export const SITUATIONS = {
   full: true,
 };
 
-export const CULTURES_SPEC = { examples: 16, tips: 4, full: false };
+export const CULTURES_SPEC = { examples: 16, tips: 4, full: true };
 
-export const DECK_SPEC = { id: 'core.gm-moves', target: 24, stub: 12, full: false };
+export const DECK_SPEC = { id: 'core.gm-moves', target: 24, stub: 12, full: true };
 
 /**
  * Stem hits that are not real safety content (a true false positive). "A cosy fireplace" is NOT

@@ -8,39 +8,21 @@ voice:
     - Cut words short; hit every k and t like a hammer.
     - 'Answer with a question: "And who else would carry it?"'
     - 'Measure things in winters and climbs: "three winters back".'
+    - Count favours out loud, like prices at market.
 names:
+  # Open start syllable + consonant-initial end for the given name, consonant-ending stem + an end
+  # that opens with a vowel or liquid for the family, so no join stacks stop on stop (D41).
   given:
     pattern: [start, end]
     parts:
       start:
-        [
-          Bra,
-          Kor,
-          Ges,
-          Dra,
-          Tor,
-          Hak,
-          Gar,
-          Rhu,
-          Ska,
-          Vor,
-          Kel,
-          Dag,
-          Bru,
-          Ket,
-          Strom,
-          Gud,
-          Har,
-          Tak,
-          Dur,
-          Ost,
-        ]
-      end: [kka, vel, sa, k, n, gar, rik, th, mar, d, ra, ek, ta, gra, va, dek]
+        [Bra, Dra, Ska, Rhu, Bru, Ko, Ge, To, Ga, Vo, Ke, Da, Gu, Ha, Ta, Du, Skra, Gra, Kra, Ro]
+      end: [kka, vel, sa, n, gar, rik, th, mar, ra, dek, ta, va, rn, ld, sk]
   family:
     pattern: [start, end]
     parts:
-      start: [Dun, Ath, Rhun, Gorm, Brak, Strath, Carn, Dor, Kell, Tarr, Crag, Hold]
-      end: ['', mor, e, rig, holm, ach, gard, ek, ra]
+      start: [Dun, Ath, Rhun, Gor, Brak, Strath, Carn, Dor, Kel, Tar, Crag, Hold]
+      end: ['', ach, ig, holm, ard, orm, ok]
   format: '{given} {family}'
   examples:
     - Brakka Dunmor
@@ -50,8 +32,15 @@ names:
     - Dagra Strathe
     - Vorna Kell
     - Skarrik Gorm
-    - Ketta Dunrig
+    - Ketta Dorig
     - Tormar Cragholm
+    - Gudrik Holdach
+    - Dakka Strathach
+    - Tovar Carnard
+    - Rhuga Tarig
+    - Skarra Kelig
+    - Bruvek Dorholm
+    - Gavar Dunach
   exampleChance: 0.25
   # Keep highland names hard but sayable: no soft glides, long vowels or unpronounceable clusters.
   banned:
@@ -66,6 +55,7 @@ names:
       '[wyqz]',
       'hh',
       'dd',
+      '^(\w)\w\1\b',
       'kk\b',
       '^\S+[^aeiou\s]{3}',
       '^\S*[^aeiour\s]n\b',

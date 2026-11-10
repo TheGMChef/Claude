@@ -1,5 +1,5 @@
 {
-  "display": "The Copper Table, kept by Otto Fabrance",
+  "display": "The Copper Table, kept by Dorine Domelli",
   "fields": {
     "name": {
       "value": "The Copper Table",
@@ -11,7 +11,7 @@
       ]
     },
     "keeper": {
-      "value": "Otto Fabrance",
+      "value": "Dorine Domelli",
       "locked": false,
       "nonce": 0,
       "sources": [

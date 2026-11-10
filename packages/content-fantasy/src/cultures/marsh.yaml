@@ -8,18 +8,22 @@ voice:
     - Stretch the vowels; nobody out here hurries.
     - 'Refuse sideways: "tide''s not right for that."'
     - 'Swear by the water: "by the low tide", "mud take it".'
+    - 'Give directions by landmarks that move: "left at the heron, if it''s there."'
 names:
+  # Open start syllable + optional consonant-vowel middle + consonant-initial end, so every join is
+  # vowel-then-consonant and a name never piles up consonants or vowels (D41).
   given:
-    pattern: [start, mid?:0.4, end]
+    pattern: [start, mid?:0.15, end]
     parts:
-      start: [O, Il, Tam, Wen, Mer, Fen, Ul, El, Ar, Ves, Lor, Nel, Sel, Hal, Ro, Ne, Bel, Mo]
-      mid: [dr, s, wy, l, n, r, th]
-      end: [in, a, sin, row, na, el, ey, wen, ith, on, ia, ell, ra]
+      start: [O, Elo, Ta, We, Me, Fe, Lo, Ne, Se, Ha, Ro, Be, Mo, Ve, Nu, Lu]
+      mid: [la, ne, ri, me, lo, se]
+      end:
+        [drin, lin, sin, row, na, wen, thel, lith, wyn, ra, mon, bel, ney, ren, rin, ssa, lla, ne]
   family:
     pattern: [start, end]
     parts:
-      start: [Vey, Mer, Fen, Brack, Sal, Reed, Wil, Mos, Tull, Hal, Sedge, Lun, Rill, Moor]
-      end: ['', row, wick, by, more, ling, low, mere, water]
+      start: [Vey, Mer, Fen, Brack, Sal, Wil, Mose, Tull, Hale, Sedge, Lun, Rill, Moor, Tarn, Mare]
+      end: ['', wick, by, mere, ling, low, water, wade]
   format: '{given} {family}'
   examples:
     - Odrin Vey
@@ -31,6 +35,13 @@ names:
     - Nessa Tullow
     - Orrin Salmere
     - Belwyn Sedgewater
+    - Mowen Tarnmere
+    - Selma Rillwick
+    - Lorin Mosling
+    - Neleth Hale
+    - Tarna Sallow
+    - Fenlie Mareby
+    - Roslin Lunwater
   exampleChance: 0.25
   # Keep marsh names soft: no consonant pile-ups or y-glides in the given name, no stutters.
   banned:
