@@ -24,10 +24,9 @@ facets:
     - text: each stall pays protection to a different crew, and the crews do not know about each other
       tags: [crime]
     - text: no stranger is admitted without a password that changes every night
-    - text: half the goods are stolen and half are honest, and nobody wants to sort them
-      tags: [crime]
+    - text: honest traders pay the same bribes as thieves and resent it
   thing:
-    - text: a numbered brass token that gets the bearer past a trapdoor
+    - text: a carved bone token that gets the bearer past a trapdoor
     - text: a crate of fine tableware wrapped in someone's best curtains
     - text: a violet candle lit by a doorkeeper when someone unwelcome arrives
     - text: a heap of secondhand coats with something left in every pocket
@@ -39,6 +38,6 @@ facets:
   pressure:
     - text: the day after tomorrow the cellar entrance is bricked up, goods or no goods
     - text: when the first hard rain seeps through, the lowest cellars are too wet to trade in
-    - text: before the new moon an assessor completes his count and announces a fine
+    - text: before the new moon the night's password leaks to the whole street
     - text: in a week a stolen shipment arrives that everyone wants and no one can afford to be seen buying
       tags: [crime]

@@ -6,7 +6,8 @@ tags: [situation, road]
 safety: [religion]
 facets:
   enemy:
-    - text: a rival shrine's keeper who has been telling travellers the road is closed
+    - text: a road contractor who was paid to mend the route and pocketed the money
+      tags: [crime]
     - text: an innkeeper who pays strangers to walk the road in grey cloaks, to keep up appearances
       tags: [trade]
     - text: a mayor who has borrowed against next year's pilgrim crowds
@@ -22,22 +23,21 @@ facets:
     - text: the road is perfectly open, and nobody can say why the pilgrims stopped
     - text: a story says the blessing has run out, and no one knows who first told it
     - text: the shrine's keepers are forbidden to ask anyone to come
-    - text: several towns share the road's upkeep, and all have stopped paying
+    - text: the only guidebooks in circulation describe a different, shorter route
       tags: [trade]
   thing:
-    - text: a pilgrim staff cut with a hundred notches, one for each journey
+    - text: a battered travelling drum that once set the walking pace for a whole company
     - text: a worn stone at the first milestone, touched for luck and now split in two
-    - text: a sealed jar of road-dust said to carry a blessing
+    - text: a jar of road-dust said to carry a blessing
     - text: a basket of unsold clay badges stamped with a shrine gate
       tags: [trade]
   place:
     - text: a rest-house with forty empty beds and a full pantry
-    - text: a crossroads shrine where offerings have lain untouched for weeks
+    - text: a market-town inn yard with a tally board of pilgrim numbers, last year's rubbed faint
     - text: a ridge where pilgrims once caught their first glimpse of the shrine
-    - text: a hostel kitchen where unpaid cooks keep stew warm for nobody
+    - text: a ford where pilgrims once washed their feet, now weedy and silent
   pressure:
-    - text: by the shrine's feast day the road must be full, or the shrine stops its yearly alms to the towns
-    - text: when winter closes the high passes, rest-houses must be restocked or abandoned
-    - text: before harvest a loan comes due, and no pilgrim money has come to meet it
-      tags: [debt]
+    - text: by midsummer the high rest-houses close for the season and the road goes quiet for good
+    - text: before harvest the road-menders are laid off, and the first washout goes unmended
     - text: in a month a second pilgrimage opens elsewhere, and the road's last travellers turn away
+    - text: at the autumn gathering the shrine's keepers must decide whether to send runners out to find the pilgrims

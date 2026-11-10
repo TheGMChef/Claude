@@ -14,24 +14,24 @@ facets:
       tags: [crime]
     - text: a guidebook writer who was paid to praise the water and cannot afford to be wrong
   friend:
-    - text: a bath attendant who noticed the water no longer tingles
-    - text: a retired miner who can taste that the water comes from the wrong hill
+    - text: a bath attendant who will lose her post if the water stops tingling, and has noticed it already has
+    - text: a miner who has bet his savings on the cure and can taste that the water comes from the wrong hill
     - text: a launderer whose kettles have stopped furring up
       tags: [trade]
     - text: a visitor who travelled far and is determined to feel better, one way or another
   complication:
-    - text: half the town's income rests on the spring's reputation
+    - text: most of the town's income rests on the spring's reputation
       tags: [trade]
     - text: water from the pipes tastes cleaner than the spring ever did, and nobody has complained of a cold since
-    - text: the spring belongs to a distant landlord who takes a share and asks no questions
+    - text: the spring belongs to a distant owner who takes a share and asks no questions
       tags: [noble]
     - text: a few visitors really do feel better, and swear by it
   thing:
-    - text: a brass tap fitted into a garden statue
-    - text: a sealed bottle from the spring's best year, still faintly fizzing
+    - text: a copper tap fitted into a garden statue
+    - text: a bottle from the spring's best year, still faintly fizzing
       tags: [magic]
     - text: a pump handle much whiter than the rest of the machinery
-    - text: a trail of numbered chalk marks across a meadow, running toward the hills
+    - text: a trail of chalk arrows across a meadow, running toward the hills
   place:
     - text: a steamy bathhouse where every conversation is overheard
     - text: a grotto at the springhead, hung with dried herbs and visitors' notes
@@ -41,6 +41,6 @@ facets:
       tags: [rural]
   pressure:
     - text: at the start of the season the first coaches arrive, expecting a spring that flows
-    - text: when the dry months come, the pipes run low and visitors start to notice
+    - text: when the dry months come, the town's real wells run low and the pipes start drawing on them
     - text: when the season's most distinguished guest arrives, expecting a cure for something
     - text: by midsummer a town down the valley announces a spring of its own

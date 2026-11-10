@@ -14,9 +14,9 @@ facets:
     - text: a merchant who learned prices a day early and wants the silence to last
       tags: [trade]
   friend:
-    - text: a mirror-polisher who can tell from the glare which tower has gone wrong
-    - text: a retired signaller whose old flash code still works
-    - text: an apprentice keeper left alone on duty, afraid to admit she cannot read the new code
+    - text: a mirror-polisher whose wages stop if towers stay dark, and who reads glare like gossip
+    - text: a signaller dismissed last spring for being too accurate, whose old flash code still works
+    - text: a keeper's daughter left alone on duty, afraid to admit she cannot read a freshly issued code
     - text: a caravan master stuck at the pass who will pay for any word from the next valley
       tags: [road]
   complication:
@@ -27,19 +27,18 @@ facets:
     - text: the hills are under cloud for days, and mirrors need sun
   thing:
     - text: a hand-ground mirror as wide as a barrel-head, wrapped in sacking
-    - text: a brass shutter-lever worn bright by one particular grip
+    - text: a boxwood shutter-lever worn bright by one particular grip
     - text: a spyglass with a cracked eyepiece, taped with wax
     - text: a signal flag stitched from a wedding veil, flown only for the worst news
   place:
     - text: a windy tower top where the mirrors are mounted and one stool sits
-    - text: a hill shelter crowded with stranded travellers waiting for news
+    - text: a signal hut stocked with blankets and a single bunk
       tags: [road]
     - text: an inn where couriers swap gossip for free beds
       tags: [trade]
     - text: a bare ridge with a clear line of sight to three valleys and one lone thorn tree
   pressure:
-    - text: by the next market day a lower valley will price its harvest blind
-      tags: [trade]
+    - text: by the weekend a wedding party in the lower valley must be told the road is washed out
     - text: before the snow melts, a warning about the thaw must pass down the whole line of towers
     - text: within a fortnight a neighbouring town finishes its own tower and takes the custom
       tags: [trade]

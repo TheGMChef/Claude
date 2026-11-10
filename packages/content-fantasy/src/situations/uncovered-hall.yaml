@@ -16,7 +16,7 @@ facets:
     - text: a goat-keeper who has known the hillside's hollows since youth and was never asked
     - text: a stonemason who recognises the carving style and is fascinated
     - text: a young digger who has already been inside and says almost nothing
-    - text: a diviner who promises to find the safest way in, for a fee
+    - text: a diviner who needs one clean find to save her name, and will share the credit
       tags: [magic]
   complication:
     - text: the roof is still settling, and the arches creak at every footstep
@@ -25,10 +25,10 @@ facets:
     - text: by local custom a find belongs to whoever's tools touch it first
     - text: the carvings inside are fragile, and heavy tools ruin them
   thing:
-    - text: a stone basin carved with a procession of animals
+    - text: a carved stone trough, plain apart from a border of leaves
     - text: a mosaic floor, half under rubble, with a single panel already lifted
     - text: a bronze hinge as long as a man's arm
-    - text: a stack of oilcloth bundles someone has already taken out and hidden in the heather
+    - text: a crowbar wedged in a joint, newer than anything around it
       tags: [crime]
   place:
     - text: a vaulted hall with daylight spilling through the new hole
@@ -37,8 +37,8 @@ facets:
       tags: [road]
     - text: a stream gully running ochre with the slide's clay
   pressure:
-    - text: at the next heavy downpour the slope slips again and seals the only way in
-    - text: within a week a rival crew arrives with proper winches and drives out the rest
+    - text: at the next heavy downpour the slope slips again and closes the only track
+    - text: within a week the lowest camp runs out of food and diggers start trading finds for bread
     - text: when the harvest ends, farmhands arrive in hundreds, hungry for work and willing to dig
       tags: [rural]
     - text: at the first frost the salvage crews go home, and someone will strip the hall unwatched

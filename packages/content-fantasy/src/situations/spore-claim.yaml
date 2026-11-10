@@ -1,6 +1,6 @@
 kind: situation
-id: fantasy.situation.mushroom-rush
-title: Mushroom rush
+id: fantasy.situation.spore-claim
+title: Spore claim
 summary: A prized fungus has appeared in an old woodland, and everyone with a basket wants to stake a claim first.
 tags: [situation, forest, crime]
 safety: []
@@ -15,7 +15,7 @@ facets:
   friend:
     - text: a mushroom-wife who finds the fungus by smell and refuses to say where
     - text: a lodge cook who needs a steady supply for a banquet
-    - text: an apothecary's apprentice who needs one particular specimen and cannot pay much
+    - text: an apothecary who needs one particular specimen and cannot pay much
     - text: a cottager whose garden sits on the best patch and who wants only to be left alone
   complication:
     - text: a lookalike sells for a tenth of the price, and buyers cannot tell until it is cooked
@@ -25,7 +25,7 @@ facets:
   thing:
     - text: a pig trained to point at the fungus and very reluctant to hand it over
     - text: a basket lined with damp moss, heavier than it looks
-    - text: a walking stick notched for every good patch
+    - text: a hazel walking stick with a hooked end, used to part the leaf-litter
     - text: a drying rack in a loft, loaded with a whole season's harvest and no owner
       tags: [rural]
   place:
@@ -33,10 +33,10 @@ facets:
     - text: a lodge kitchen where sacks are weighed and coins change hands quietly
     - text: a muddy track where trade wagons queue each dawn
       tags: [road]
-    - text: a boggy dell nobody wants to enter, where the fungus grows thickest
+    - text: a steep ravine nobody climbs willingly, where the fungus grows thickest
   pressure:
     - text: after a night of rain the fungus fruits for three days only, then is gone
     - text: by the end of the week a new gate goes up on the main track, and the foragers' old rights end with it
-    - text: when exporters move on to the next harvest, so does the money, and half the pickers have spent their advances
-      tags: [debt]
+    - text: when the season's exporters settle their contracts, the price of the fungus halves overnight
+      tags: [trade]
     - text: when the cold sets in the woods close for winter, fungus or no

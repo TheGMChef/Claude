@@ -28,7 +28,7 @@ facets:
     - text: a crown of paper laurel that fits only one head in town
     - text: a pair of identical masks worn by two people who are not related
   place:
-    - text: a ballroom in the old dye-works, where the floor is stained blue
+    - text: a ballroom in a disused brewery, where the old vats serve as boxes
     - text: a maskmaker's attic, a forest of faces on pegs
     - text: a covered arcade where nobody can say who came in or went out
     - text: the city gate, where a queue of the masked argues with the gatekeeper
@@ -37,6 +37,6 @@ facets:
     - text: on the tenth night a winner is crowned and everyone must unmask at once
     - text: by the weekend the stalls close, because nobody can sign for goods
       tags: [trade]
-    - text: if it rains on the ninth night the dye runs and every secret face shows at once
+    - text: if it rains on the ninth night the face-paint runs and every secret face shows at once
     - text: before the final night someone will slip away with the winner's jewelled mask, worth a street
       tags: [crime]

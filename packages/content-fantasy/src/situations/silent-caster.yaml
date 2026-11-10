@@ -1,0 +1,44 @@
+kind: situation
+id: fantasy.situation.silent-caster
+title: Silent caster
+summary: The mage whose spell keeps the town's streets frost-free has stopped answering letters, and the warmth is fading.
+tags: [situation, magic, urban]
+safety: []
+facets:
+  enemy:
+    - text: a roofer who loses his winter trade while the streets stay warm
+      tags: [trade]
+    - text: a hedge-wizard who claims to be the caster's successor and wants the town to pay for his lessons
+      tags: [magic]
+    - text: a neighbouring town's mage who offers to take over the spell and move its anchor home
+      tags: [magic]
+    - text: a peat-seller whose trade has collapsed and who would like the warmth to fail
+      tags: [trade]
+  friend:
+    - text: a postmistress who forwards the caster's mail and swears the last reply was in a different hand
+    - text: an apothecary whose winter trade in chilblains has all but vanished, and who is glad of it
+    - text: a market gardener whose seedlings sprout in warmed street borders, and who cannot afford a frost
+      tags: [trade]
+    - text: a blind busker who plays on the warmest cobbles and can tell where they have started to cool
+  complication:
+    - text: the spell is anchored in a single paving stone, and the paving is being dug up for drainage
+    - text: nobody in town knows how the spell was cast, and the caster's rooms are paid for years ahead
+    - text: moss and weeds have taken to the warm gutters, and the council wants them gone
+    - text: the warmth is fading unevenly, so one quarter freezes first and blames another
+  thing:
+    - text: a paving stone engraved with a spiral, always faintly warm
+    - text: a pair of spectacles left on a window sill, always faintly warm
+    - text: a jar of frost that has never thawed, kept on a cold shelf
+    - text: a pewter tuning fork that hums whenever the spell weakens
+      tags: [magic]
+  place:
+    - text: a warm square where the market stays open all winter
+      tags: [trade]
+    - text: a locked room above a hatter's, with letters stacked behind the door
+    - text: a drainage trench where paving stones lie in numbered rows
+    - text: an inn's roof terrace where snow never settles
+  pressure:
+    - text: by midwinter the warmth fails street by street, starting with the poorest quarter
+    - text: before the first hard frost the drainage works must finish or the paving cracks
+    - text: at the solstice the caster's rooms are to be let and their contents cleared out
+    - text: in a fortnight a neighbouring town's mage withdraws an offer to take on the spell

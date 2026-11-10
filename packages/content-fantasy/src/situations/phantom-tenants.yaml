@@ -6,38 +6,38 @@ tags: [situation, crime, debt]
 safety: []
 facets:
   enemy:
-    - text: a rent collector who invented a dozen tenants to pocket the rents of the real ones
+    - text: a rent collector who books rent for a dozen tenants who do not exist and pockets the real rents on the side
       tags: [crime]
-    - text: a landlord who has been told the building is full and has borrowed against it
+    - text: an absentee owner who has been told the building is full and has borrowed against it
       tags: [debt]
     - text: a lodging-house keeper who rents the empty rooms off the books
       tags: [trade]
     - text: a broker who sold shares in the building's income to a street full of small investors
       tags: [trade]
   friend:
-    - text: a real tenant of fifteen years who is listed under three different names
-    - text: a retired postman who still climbs the stairs from habit and has noticed which names never answer
-    - text: a bookkeeper who keeps finding the sums too neat
-    - text: a night-soil collector who sees which rooms get used
+    - text: a tenant of fifteen years who wants her own name on her door, not three borrowed ones
+    - text: a junior bookkeeper who will be blamed for the sums unless someone looks closer
+    - text: a postman who is tired of carrying letters to names nobody answers to
+    - text: a night-soil collector who wants paying for twelve rooms that never produce any
   complication:
     - text: several invented tenants have begun to receive real letters
     - text: the building is falling apart, and phantom rents are all that has kept the roof on
-    - text: the investors are neighbours, and exposing the fraud ruins half the street
+    - text: small investors in the building are neighbours, and exposing the fraud ruins a whole street
       tags: [trade]
     - text: a stranger has taken to living under one of the invented names
   thing:
-    - text: a rent book with thirty names in thirty similar hands
-    - text: a set of polished brass door numbers, some for doors that do not exist
+    - text: a rent box with a slot for each flat, most of them stiff from disuse
+    - text: a door on the second landing that opens onto a bricked-up wall
     - text: a kettle that is always warm in a room nobody rents
     - text: a tailor's dummy dressed as a tenant and propped at a window
   place:
     - text: a stairwell where every landing smells of a different supper
     - text: a rent office with a hatch and a very long queue
-    - text: a top-floor room furnished for no one, with a freshly made bed
-    - text: a courtyard where washing is pegged out for tenants who do not exist
+    - text: a top-floor room stacked to the sill with unclaimed deliveries
+    - text: a courtyard well where the whole building queues each morning to trade news
   pressure:
-    - text: on rent day a visiting investor wants to meet the tenants
+    - text: at year's end small investors who bought shares in the building expect their first payout
+      tags: [debt]
     - text: at quarter's end the real tenants agree to withhold their rents until someone mends the stairs
     - text: when the autumn rains test the roof, phantom rents will not cover the repair
-    - text: by the new year shares in the building's income mature, and holders expect payment
-      tags: [debt]
+    - text: on rent day a new tenant arrives with a lease for a room that is supposedly full

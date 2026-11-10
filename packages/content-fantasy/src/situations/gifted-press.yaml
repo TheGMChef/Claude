@@ -22,7 +22,7 @@ facets:
     - text: paper comes from only one mill in the county
       tags: [trade]
     - text: only one man in town can set type, and his eyes are failing
-    - text: their distant patron expects an annual report printed free, in his own flattering words
+    - text: the distant patron who gave the press expects an annual report printed free, in his own flattering words
       tags: [noble]
     - text: the type arrived in an alphabet nobody in town reads
   thing:
