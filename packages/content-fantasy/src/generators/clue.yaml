@@ -5,4 +5,4 @@ fields:
   delivery: { table: fantasy.clue.delivery }
   trace: { table: fantasy.clue.trace }
   where: { table: fantasy.clue.where }
-display: '{delivery|cap}: {trace}'
+display: '{delivery|cap}. It shows {trace}.'

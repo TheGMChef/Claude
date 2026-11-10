@@ -1,3 +1,5 @@
+import corePkg from '../../content-core/package.json?raw';
+import fantasyPkg from '../../content-fantasy/package.json?raw';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { askOracle, drawMove } from '../src/oracle';
 import { batch, generate } from '../src/generate';
@@ -24,6 +26,16 @@ const CULTURES = ['fantasy.culture.marsh', 'fantasy.culture.highland', 'fantasy.
 const fullLines = { lines: [...SAFETY_VOCABULARY], veils: [] };
 
 describe('starter packs', () => {
+  it("each content package's version matches its pack version (prepdesk.version)", () => {
+    for (const [dir, raw] of [
+      ['content-core', corePkg],
+      ['content-fantasy', fantasyPkg],
+    ] as const) {
+      const pkg = JSON.parse(raw) as { version: string; prepdesk: { version: string } };
+      expect(pkg.version, dir).toBe(pkg.prepdesk.version);
+    }
+  });
+
   it('S1 content is complete: every spec row is full', () => {
     expect(Object.values(TABLE_SPEC).every((s) => s.full)).toBe(true);
     expect(SITUATIONS.full).toBe(true);

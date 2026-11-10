@@ -8,13 +8,13 @@ entries:
   - text: a chalk tick has been drawn on it, as if it were checked off a list
   - text: it smells of cedar, as if it spent years in a chest
   - text: a receipt for a different item is folded around it
-  - text: a pale ring on the surface shows where it sat on a shelf for years
+  - text: a pale ring shows where it sat on a shelf for years
   - text: it hums quietly when carried north
     tags: [magic]
   - text: it is slightly lighter than it should be
   - text: the edges are worn pale where a thumb has rubbed them for years
   - text: it is far older than the pocket it was found in
-  - text: a faint pattern of dents makes a small face when held to the light
+  - text: a pressed flower is tucked beside it, long dried
   - text: it leaves a faint blue stain on whatever it touches
   - text: dust never seems to settle on it
   - text: a date is inked on the back, and it is next year's
@@ -23,20 +23,20 @@ entries:
   - text: one side is much cleaner than the other
   - text: it feels a little heavier each time it is picked up
     tags: [magic]
-  - text: it was painted over an older design, which shows through in good light
+  - text: it is wrapped in a scrap of cloth embroidered with someone's initials
   - text: every animal that passes stops to sniff at it
   - text: in complete darkness it gives off a faint glow
     tags: [magic]
   - text: the wrapping is a flyer for an event that was never held
-  - text: a tiny hole is drilled through it, as if it once hung from something precious
-  - text: the maker's name is spelled wrong, and corrected in a different hand
-  - text: the surface is covered in fingerprints, none of them the owner's
+  - text: a stranger once offered to buy it and would not say why
+  - text: it has been mended once, with great care
+  - text: it is covered in fingerprints, none of them the owner's
     tags: [crime]
   - text: scorch marks run along one edge, as though it was snatched from a blaze
     safety: [fire]
   - text: a rust-brown smear on one side has never washed off
     safety: [violence]
   - text: it carries a badge of three crossed quills
-  - text: years in one pocket have bent it to the curve of a hip
+  - text: years in one pocket have worn it smooth
   - text: the lining of the pocket was cut away to fit it
   - text: someone has written "do not lose" on it three times, in three hands

@@ -1,17 +1,17 @@
 kind: situation
 id: fantasy.situation.salt-tithe
-title: Salt tithe
+title: Salt levy
 summary: A powerful house takes a cut of the salt everyone needs to live.
 tags: [situation, coastal, trade]
 safety: []
 facets:
   enemy:
-    - text: a tithe-assessor who rounds every sack up and keeps the difference
+    - text: a levy-assessor who rounds every sack up and keeps the difference
     - text: the house steward, who wants the salt-pans enclosed by spring
       tags: [noble]
-    - text: a smuggler who profits from the tithe and wants it kept
+    - text: a smuggler who profits from the levy and wants it kept
       tags: [crime]
-    - text: a steward's nephew, eager to prove the tithe can be raised
+    - text: a steward's nephew, eager to prove the levy can be raised
       tags: [noble]
   friend:
     - text: a retired salt-boiler who knows which scales are crooked
@@ -20,7 +20,7 @@ facets:
     - text: a fishing family who cannot cure their catch without cheap salt
       tags: [family]
   complication:
-    - text: the tithe pays for the harbour upkeep, and nobody else will
+    - text: the levy pays for the harbour upkeep, and nobody else will
     - text: half the boilers already owe the house money
       tags: [debt]
     - text: only the house's collectors are allowed to handle the scales
@@ -29,7 +29,7 @@ facets:
     - text: an honest set of brass scales, wrapped in oilcloth
     - text: a salt-boiler's iron pan, stamped with a much older measure
     - text: a half-blind mule that walks straight to a sea cave every evening
-    - text: a wagon-load of untithed salt hidden under drying nets
+    - text: a wagon-load of salt that dodged the levy, hidden under drying nets
       tags: [crime]
   place:
     - text: the boiling sheds, where nobody can hear a word over the pans
@@ -38,7 +38,7 @@ facets:
       tags: [underground, crime]
     - text: the house's counting room, above the coach house
   pressure:
-    - text: at the next new moon the tithe doubles, and the collectors bring a longer list
+    - text: at the next new moon the levy doubles, and the collectors bring a longer list
     - text: by the autumn catch, families start leaving for the next bay
       tags: [family]
     - text: when the frost comes, the boilers sell their pans to the house at half price
