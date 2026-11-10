@@ -627,7 +627,7 @@ body.scroll-locked {
   gap: var(--space-3) var(--space-5);
 }
 
-.empty-state__secondary {
+.empty-state__secondary > * {
   display: inline-flex;
   align-items: center;
   min-height: 44px;

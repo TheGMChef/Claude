@@ -174,6 +174,13 @@ describe('Dialog css', () => {
   });
 });
 
+describe('EmptyState css', () => {
+  it('stretches a secondary link to a 44px target itself, not just its wrapper', () => {
+    const KIT = css('../kit.css');
+    expect(KIT).toMatch(/\.empty-state__secondary > \*\s*\{[^}]*min-height:\s*44px/);
+  });
+});
+
 describe('EmptyState', () => {
   it('renders an h2, the sentence and both CTAs, in a labelled section', () => {
     render(
