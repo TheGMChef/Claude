@@ -1,10 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { seedCampaign, testDeps } from '../../test/fixtures';
 import { RepoError } from '../deps';
 import { addLink } from '../repo/links';
 import {
   createEntity,
   deleteEntity,
+  findDuplicateTitle,
   getEntity,
   renameEntity,
   updateEntity,
@@ -66,21 +67,35 @@ describe('parseWiki', () => {
     }
   });
 
-  it('is linear on hostile input', () => {
-    const cases: [string, number][] = [
-      ['['.repeat(100_000), 50],
-      ['[['.repeat(50_000), 100],
-      [']]'.repeat(50_000), 100],
-      ['[[|'.repeat(33_000), 100],
-      ['[[a'.repeat(33_000), 100],
-      ['[[a]'.repeat(25_000) + ']]', 100],
-      [`[[${'x'.repeat(100_000)}`, 100],
-    ];
-    for (const [input, budget] of cases) {
-      const start = performance.now();
-      parseWiki(input);
-      expect(performance.now() - start).toBeLessThan(budget);
+  it('is linear on hostile input: no per-opening rescans (counted, not timed)', () => {
+    const indexOf = vi.spyOn(String.prototype, 'indexOf');
+    try {
+      for (const input of [
+        '['.repeat(100_000),
+        '[['.repeat(50_000),
+        '[[a'.repeat(33_000),
+        ']]'.repeat(50_000),
+        '[[|'.repeat(33_000),
+      ]) {
+        indexOf.mockClear();
+        parseWiki(input);
+        expect(indexOf.mock.calls.length).toBeLessThanOrEqual(10);
+      }
+    } finally {
+      indexOf.mockRestore();
     }
+  });
+
+  it('smoke: hostile inputs finish well inside half a second', () => {
+    const start = performance.now();
+    for (const input of [
+      '[['.repeat(50_000),
+      '[[a]'.repeat(25_000) + ']]',
+      `[[${'x'.repeat(100_000)}`,
+    ]) {
+      parseWiki(input);
+    }
+    expect(performance.now() - start).toBeLessThan(500);
   });
 });
 
@@ -207,6 +222,23 @@ describe('deriveWikiLinks (on every create and update)', () => {
     await updateEntity(d, a.id, { body: 'no links now' });
     expect(await pairs()).toEqual([]);
     expect((await d.db.links.toArray()).filter((l) => l.origin === 'explicit')).toHaveLength(1);
+  });
+
+  it('keeps an explicit mentions link through re-derivation (M6)', async () => {
+    const { d, make, wikiLinks } = await world();
+    const b = await make('B');
+    await make('C');
+    const a = await make('A', { body: '[[C]]' });
+    const explicit = await addLink(d, {
+      campaignId: a.campaignId,
+      fromId: a.id,
+      toId: b.id,
+      rel: 'mentions',
+    });
+    await updateEntity(d, a.id, { body: '[[C]] and more' });
+    await updateEntity(d, a.id, { body: 'no links' });
+    expect((await d.db.links.get(explicit.id))?.origin).toBe('explicit');
+    expect(await wikiLinks()).toHaveLength(0);
   });
 
   it('stores wikiTargets folded, with unresolved targets kept', async () => {
@@ -336,6 +368,48 @@ describe('renameEntity (D47, D56, Review Focus 3)', () => {
     expect(toG1.sort()).toEqual([f.id, h.id].sort());
     const toG2 = (await d.db.links.toArray()).filter((l) => l.toId === g2.id).map((l) => l.fromId);
     expect(toG2).toEqual([f.id]);
+  });
+
+  it('does not redirect a link when the new title already belongs to an older entry (I1)', async () => {
+    const { d, make, pairs } = await world();
+    const y = await make('Odrin');
+    const x = await make('Odrin Vey');
+    const a = await make('A', { body: 'owes [[Odrin Vey]]' });
+    expect(await findDuplicateTitle(d, x.campaignId, 'Odrin', x.id)).toMatchObject({ id: y.id });
+    expect(await findDuplicateTitle(d, x.campaignId, 'Nobody', x.id)).toBeUndefined();
+    await renameEntity(d, x.id, 'Odrin');
+    expect((await getEntity(d, a.id))?.body).toBe('owes [[Odrin Vey]]');
+    const link = (await d.db.links.toArray()).find((l) => l.fromId === a.id)!;
+    expect(link.toId).toBe(x.id);
+    expect(await pairs()).toEqual(['A>Odrin']);
+    expect((await getEntity(d, x.id))?.aliases).toContain('Odrin Vey');
+  });
+
+  it('is not blocked by a referrer at its field cap: that text is left to resolve through the alias (I2)', async () => {
+    const { d, make } = await world();
+    const x = await make('Odrin Vey');
+    const big = await make('Big', { fields: { note: `${'x'.repeat(19_977)}[[Odrin Vey]]` } });
+    const small = await make('Small', { body: '[[Odrin Vey]]' });
+    const renamed = await renameEntity(d, x.id, 'Odrin Vey of the Salt Marsh');
+    expect(renamed.title).toBe('Odrin Vey of the Salt Marsh');
+    expect((await getEntity(d, big.id))?.fields['note']).toBe(big.fields['note']);
+    expect((await getEntity(d, small.id))?.body).toBe('[[Odrin Vey of the Salt Marsh]]');
+    const toX = (await d.db.links.toArray()).filter((l) => l.toId === x.id).map((l) => l.fromId);
+    expect(toX.sort()).toEqual([big.id, small.id].sort());
+  });
+
+  it('is not blocked by a full alias list: the oldest alias goes, the old title stays (I2)', async () => {
+    const { d, make } = await world();
+    const aliases = Array.from({ length: 50 }, (_, i) => `Alias ${i}`);
+    const x = await make('Odrin Vey', { aliases });
+    const renamed = await renameEntity(d, x.id, 'Odrin Hale');
+    expect(renamed.aliases).toHaveLength(50);
+    expect(renamed.aliases).toContain('Odrin Vey');
+    expect(renamed.aliases).not.toContain('Alias 0');
+    expect(renamed.aliases).toContain('Alias 49');
+    const viaUpdate = await updateEntity(d, x.id, { title: 'Odrin Fenn' });
+    expect(viaUpdate.aliases).toHaveLength(50);
+    expect(viaUpdate.aliases).toContain('Odrin Hale');
   });
 
   it('resolves earlier unresolved text for the new title', async () => {

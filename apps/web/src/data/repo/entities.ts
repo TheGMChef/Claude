@@ -1,6 +1,6 @@
 import { SAFETY_VOCABULARY } from '@prepdesk/engine';
+import { BLOCKED_DISPLAY, BLOCKED_VALUE, serializeCard } from '@prepdesk/engine';
 import type { Card } from '@prepdesk/engine';
-import { serializeCard } from '@prepdesk/engine';
 import { RepoError } from '../deps';
 import type { RepoDeps } from '../deps';
 import { ENTITY_KINDS, STATES_BY_KIND, SUBTYPES_BY_KIND } from '../schema';
@@ -211,6 +211,13 @@ async function renameCore(
   const byId = new Map(list.map((e) => [e.id, e]));
   const resolveBefore = makeResolver(list);
 
+  // A full alias list loses its oldest alias; the old title is the one alias that must stay.
+  const aliases = [...(rest.aliases ?? before.aliases), ...(retitled ? [before.title] : [])].slice(
+    -LIMITS.aliases,
+  );
+  const next = { ...build(before.kind, { ...rest, title, aliases }, before), updatedAt: now };
+  const resolveAfter = makeResolver(list.map((e) => (e.id === next.id ? next : e)));
+
   const rewritten: string[] = [];
   if (retitled) {
     const inbound = await d.db.links.where('toId').equals(before.id).toArray();
@@ -219,8 +226,12 @@ async function renameCore(
     );
     for (const rid of referrers) {
       const r = byId.get(rid);
-      // The old title must mean THIS entity from the referrer's side, not an older duplicate.
-      if (!r || r.id === before.id || resolveBefore(oldKey, r.id)?.id !== before.id) continue;
+      if (!r || r.id === before.id) continue;
+      // The old title must mean THIS entity from the referrer's side, not an older duplicate, and
+      // the new title must too: if an older entry already has it, [[Old]] stays and resolves through
+      // the alias instead of being redirected.
+      if (resolveBefore(oldKey, r.id)?.id !== before.id) continue;
+      if (resolveAfter(fold(title), r.id)?.id !== before.id) continue;
       const body = rewriteTargets(r.body, before.title, title);
       const summary = rewriteTargets(r.summary, before.title, title);
       const fields = Object.fromEntries(
@@ -231,13 +242,19 @@ async function renameCore(
         summary !== r.summary ||
         Object.keys(fields).some((k) => fields[k] !== r.fields[k]);
       if (!changed) continue;
-      await d.db.entities.put({ ...build(r.kind, { body, summary, fields }, r), updatedAt: now });
+      let rebuilt: Entity;
+      try {
+        rebuilt = { ...build(r.kind, { body, summary, fields }, r), updatedAt: now };
+      } catch (e) {
+        // An unrelated cap (a field at 20,000 characters) must not block the rename: leave that text
+        // alone; it keeps resolving through the alias.
+        if (e instanceof RepoError) continue;
+        throw e;
+      }
+      await d.db.entities.put(rebuilt);
       rewritten.push(r.id);
     }
   }
-
-  const aliases = [...(rest.aliases ?? before.aliases), ...(retitled ? [before.title] : [])];
-  const next = { ...build(before.kind, { ...rest, title, aliases }, before), updatedAt: now };
   await d.db.entities.put(next);
 
   const resolve = makeResolver(await campaignEntities(d, before.campaignId));
@@ -309,6 +326,20 @@ export function renameEntity(d: RepoDeps, id: string, newTitle: string): Promise
   });
 }
 
+/** D56: another entry in the campaign that already has this title (folded), for the warning. */
+export async function findDuplicateTitle(
+  d: RepoDeps,
+  cid: string,
+  title: string,
+  exceptId?: string,
+): Promise<Entity | undefined> {
+  const key = fold(title);
+  const list = await campaignEntities(d, cid);
+  return list
+    .filter((e) => e.id !== exceptId && fold(e.title) === key)
+    .sort((a, b) => a.createdAt - b.createdAt || (a.id < b.id ? -1 : 1))[0];
+}
+
 export function getEntity(d: RepoDeps, id: string): Promise<Entity | undefined> {
   return d.db.entities.get(id);
 }
@@ -331,7 +362,13 @@ export function setClock(d: RepoDeps, id: string, filled: number): Promise<void>
   });
 }
 
-/** One transaction: the entry's links, shortlist rows and the entry. The Ledger is kept (D8). */
+/**
+ * One transaction: the entry's links, shortlist rows and the entry. The Ledger is kept (D8).
+ *
+ * Handoff (S3/S4): other stores may still hold this entity's id afterwards (ledger, pocket, drafts,
+ * usedNames `entityId`, session `currentSceneId` / `focusEntityId`). Every reader of those ids must
+ * tolerate a missing entity (show the stored text, offer no link) rather than assume it exists.
+ */
 export function deleteEntity(d: RepoDeps, id: string): Promise<void> {
   return d.db.transaction(
     'rw',
@@ -375,17 +412,44 @@ function titleFrom(raw: string): string {
   return t === '' ? 'Untitled' : t;
 }
 
+export type EntityFromCard = { ok: true; input: EntityInput } | { ok: false; reason: 'blocked' };
+
+/**
+ * The card as stored: a field a current line hid keeps its placeholder but loses `hidden`, so the
+ * hidden text is never persisted (it is not the DM's to keep, and a backup would carry it). The
+ * consequence is deliberate: the lined-table notice (D64) can't fire for those fields later.
+ */
+function withoutHidden(card: Card): Card {
+  const fields: Card['fields'] = {};
+  for (const [key, f] of Object.entries(card.fields)) {
+    if (f.hidden === undefined) {
+      fields[key] = f;
+      continue;
+    }
+    const copy = { ...f };
+    delete copy.hidden;
+    fields[key] = copy;
+  }
+  return { ...card, fields };
+}
+
 /**
  * Spec 5.4: the pure mapping from a rolled card to an entity. Fields are copied one to one (a blocked
- * field is not), and from then on the entity's fields are the record (D4).
+ * field is not), and from then on the entity's fields are the record (D4). A card whose line is the
+ * blocked placeholder is refused, so that text is never stored as a title or summary. The DM's own
+ * text is never altered or lost: when it becomes the title but had to be cleaned or cut, the full
+ * text goes in the body.
  */
-export function entityFromCard(card: Card, kind: EntityKind, opts: CardOpts): EntityInput {
+export function entityFromCard(card: Card, kind: EntityKind, opts: CardOpts): EntityFromCard {
   const fields: Record<string, string> = {};
   for (const [key, f] of Object.entries(card.fields)) {
     if (f.blocked || FORBIDDEN_KEYS.has(key) || !FIELD_KEY.test(key)) continue;
     fields[key] = f.value.slice(0, LIMITS.text);
   }
-  const display = card.display;
+  const displayBlocked = card.display === BLOCKED_DISPLAY;
+  const display = displayBlocked ? '' : card.display;
+  const dmText = opts.text?.trim() ?? '';
+  const usesText = (kind === 'truth' || kind === 'scene') && dmText !== '';
   const name = fields['name'];
   let title = display;
   let summary = display;
@@ -397,20 +461,26 @@ export function entityFromCard(card: Card, kind: EntityKind, opts: CardOpts): En
     const tail = name !== undefined && display.startsWith(`${name}, `) ? name.length + 2 : -1;
     const cut = tail >= 0 ? tail : display.indexOf(', ') >= 0 ? display.indexOf(', ') + 2 : -1;
     summary = fields['kind'] ?? fields['size'] ?? (cut >= 0 ? display.slice(cut) : display);
-  } else if (kind === 'truth' || kind === 'scene') {
-    title = opts.text !== undefined && opts.text.trim() !== '' ? opts.text : display;
+  } else if (usesText) {
+    title = dmText;
   }
+  if (!usesText && (title === '' || title === BLOCKED_VALUE))
+    return { ok: false, reason: 'blocked' };
+  if (summary === BLOCKED_VALUE) summary = '';
+
+  const clean = titleFrom(title);
   const input: EntityInput = {
     kind,
-    title: titleFrom(title),
+    title: clean,
     summary: summary.slice(0, LIMITS.text),
     fields,
-    card: serializeCard(card),
+    card: serializeCard(withoutHidden(card)),
     veiled: [...card.flags.veiled],
     origin: opts.origin,
   };
+  if (usesText && clean !== dmText) input.body = dmText.slice(0, LIMITS.body);
   if (opts.subtype !== undefined) input.subtype = opts.subtype;
   if (opts.canon !== undefined) input.canon = opts.canon;
   if (opts.sessionId !== undefined) input.firstSessionId = opts.sessionId;
-  return input;
+  return { ok: true, input };
 }
