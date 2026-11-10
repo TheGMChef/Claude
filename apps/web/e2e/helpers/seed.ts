@@ -44,7 +44,7 @@ export async function seedCampaignRaw(page: Page, name = 'The Salt Marsh Debts')
     { id, name },
   );
   await page.reload();
-  // Attached, not visible: below 768px the keys sit in the collapsed Menu.
-  await expect(page.getByRole('link', { name: 'Forge', exact: true })).toBeAttached();
+  // Attached, not visible: below 768px the keys sit in the collapsed (display: none) Menu.
+  await expect(page.locator('#topbar-modes')).toBeAttached();
   return id;
 }
