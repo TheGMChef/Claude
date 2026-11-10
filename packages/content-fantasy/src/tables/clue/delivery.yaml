@@ -10,16 +10,14 @@ entries:
   - text: a dog that will not go past one door
   - text: a proverb quoted a little wrong by someone who knows better
   - text: a borrowed cloak returned cleaner than it left
-  - text: a gift delivered to the wrong door, with a note for someone else
+  - text: a gift left at an empty house, with a note for someone else
   - text: a half-burnt scrap of paper rescued from the grate
     safety: [fire]
-  - text: a pony that comes home alone, carrying someone else's bags
-    tags: [road]
-    safety: [violence]
-  - text: a pressed flower that does not grow within a week's walk
+  - text: a coat hung to dry beside a cold hearth, still damp
+  - text: a button sewn on with thread of a different colour
   - text: a glove left on a windowsill, still warm
   - text: a child's drawing with one grown-up too many in it
-  - text: a cough that stops whenever a certain name is spoken
+  - text: a caged bird repeating half a sentence it should not know
   - text: an invitation to dinner that arrives before the news does
   - text: a family brooch sold for far less than it is worth
     tags: [family, trade]
@@ -30,11 +28,11 @@ entries:
   - text: a servant who answers every question with a question
   - text: a hush that falls over the room whenever one name comes up
   - text: a stack of unopened post, with one envelope slit
-  - text: a stray cat asleep on the one chair that is never used
+    tags: [urban]
+  - text: a stray cat that follows one person around and hisses at another
   - text: footprints that stop at a wall and do not come back
-  - text: a hat on the wrong peg
+  - text: a chair pulled up to a window that is nailed shut
   - text: a trail of spilled grain leading off the road
     tags: [rural, road]
   - text: a bundle of dried herbs hung over one door and no other
-  - text: a locksmith who will not meet anyone's eye
-    tags: [crime]
+  - text: a pair of spectacles folded inside a book that no one reads

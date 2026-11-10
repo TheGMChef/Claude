@@ -7,6 +7,7 @@ entries:
     tags: [debt]
   - text: the floor gives way into a space no plan shows
     tags: [underground]
+    safety: [claustrophobia]
   - text: a runaway pig bolts through and blocks the only lane
     tags: [road]
   - text: the person they came to see is already leaving, at speed
@@ -24,7 +25,7 @@ entries:
   - text: their horse bolts with the saddlebags
     tags: [road]
   - text: the one they were following turns, smiles and waves
-  - text: two parties both claim to be the real client
+  - text: two parties step forward, each claiming to be the real client
     tags: [trade]
   - text: the host faints, and the household turns on them for an explanation
   - text: a hired hand quits on the spot and takes the tools
@@ -32,8 +33,9 @@ entries:
   - text: an urgent message arrives from home for one of them
     tags: [family]
   - text: the crowd decides someone present is to blame, and starts to close in
+    tags: [urban]
     safety: [violence]
-  - text: the well runs dry in the middle of a long, hot day
+  - text: the bucket comes up empty, and the well is dry
     tags: [rural]
   - text: a wasp nest drops out of the eaves into the room
     safety: [insects]
@@ -46,20 +48,18 @@ entries:
     tags: [crime]
   - text: the torch pitch turns out to be mostly sawdust, and the light fails
   - text: the owner arrives home a week early
-  - text: an old teacher spots them and asks pointedly how the studies are going
   - text: a funeral procession blocks the way, and the mourners expect company
     tags: [family]
-    safety: [death]
-  - text: a lost child wanders in and attaches to one of them
-    tags: [family]
-  - text: the horse throws a shoe at the worst possible moment
+    safety: [death, religion]
+  - text: a lost traveller attaches to one of them, desperate for the road
     tags: [road]
-  - text: someone's pet escapes with the very thing they were carrying
+  - text: the sack they carry splits, and everyone sees what was inside
   - text: a messenger offers a job at triple pay, starting immediately
     tags: [trade]
   - text: their guide demands payment now, or walks away
     tags: [road]
   - text: a fire breaks out in the next building along
+    tags: [urban]
     safety: [fire]
   - text: a stranger shouts that they have been robbed, pointing straight at the party
     tags: [crime]
@@ -71,9 +71,11 @@ entries:
     safety: [violence]
   - text: the thing they carry begins to hum, and heads turn
     tags: [magic]
-  - text: someone mistakes one of them for the long-awaited healer
-  - text: their lodging has been given to someone with a better claim
-    tags: [trade]
+  - text: a villager begs one of them to look at a sick relative, assuming they know medicine
+  - text: the road ahead is blocked by a slide of loose earth
+    tags: [road]
   - text: a flock of crows lifts all at once, every bird facing the same way
     tags: [wilderness]
-  - text: a friendly stranger insists on helping and will not take no
+  - text: a friendly stranger steps in to help and will not take no for an answer
+  - text: a sudden gust scatters every loose paper they are carrying
+  - text: a toast is called, and every eye turns to them for a speech

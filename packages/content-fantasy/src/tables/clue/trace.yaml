@@ -8,22 +8,22 @@ entries:
   - text: that the lock was opened from the inside
   - text: which road the rider took, by the colour of the mud on the horse
     tags: [road]
-  - text: that someone was paid to look away before it happened
+  - text: that a witness was handsomely rewarded for being elsewhere that evening
     tags: [crime]
   - text: that the host knew the visitor well enough to pour two cups
   - text: how long the room has stood empty, to the hour
   - text: that two people told the same lie, word for word
-  - text: that the dust was wiped from one shelf only, and recently
+  - text: that the dust was wiped from one shelf only
   - text: where the missing traveller went first, before running
   - text: that the stolen thing was never in the box when the thief arrived
     tags: [crime]
   - text: a name, spoken in sleep, that no one in the house recognises
-  - text: that the boots were borrowed, and from whom
+  - text: that the boots on the step are two sizes too large for their owner
   - text: that the bed was slept in on top of the covers, boots on
   - text: which neighbour was awake all night, and why
   - text: that whoever was hurt was bandaged by a trained hand
     safety: [violence]
-  - text: that the horse was ridden hard to the edge of the parish, then walked home
+  - text: which visitor came on foot, by the dry mud on the step
   - text: that the traveller who vanished packed for a month, not a night
   - text: that the poison was in the wine jug and never in the cup
     tags: [crime]
@@ -34,37 +34,36 @@ entries:
   - text: that the signature is perfect but was drawn slowly, like a picture
     tags: [crime]
   - text: that someone has been sleeping in the loft and eating well
-  - text: that the cupboard has a false back, newly oiled
+  - text: that the cupboard has a false back, oiled
   - text: that the debt was settled early, in someone else's name
     tags: [debt]
   - text: which of the household left by the back way, from the worn path
-  - text: that the body was moved after it was found
+  - text: that the body was moved before the discovery
     safety: [death]
   - text: that the speech was learned from a pamphlet, misprints included
   - text: that a locksmith was paid to forget a job
-    tags: [crime]
-  - text: that the witness could not have seen what she described from where she stood
-  - text: that the stranger's accent slips whenever he is tired
-  - text: that a second person helped carry it, by the offset prints
+    tags: [crime, urban]
+  - text: that the witness could not have seen what was described from where they stood
+  - text: that the stranger's accent slips when tired
+  - text: that the load was too heavy for one person to have moved
   - text: that the paint on the gate is newer than the fence around it
-  - text: that the landlord's sleeves are new, and were tailored in a hurry
-    tags: [trade]
+  - text: that the guest list was changed after the invitations went out
   - text: that the window was opened on purpose, and the rain let in
-  - text: that the house dog was fed a treat by someone it knew
+  - text: that the house dog stayed quiet all night, as it does for a friend
   - text: that two sets of tracks arrive together and leave apart
   - text: that the loot was taken to be sold, not kept
     tags: [trade, crime]
   - text: that the night porter's cup was sweetened with a sleeping draught
     tags: [crime]
     safety: [violence]
-  - text: that the contract has an extra clause in a fresher hand
+  - text: that the contract has an extra clause in a different hand
     tags: [trade]
-  - text: that the youngest in the family saw it and has been told to say nothing
+  - text: that someone in the house saw what happened and has been told to say nothing
     tags: [family]
   - text: that the visiting priest never set foot in the chapel
     tags: [faith]
     safety: [religion]
   - text: that the paper is thick cream stock, the sort only one family can afford
     tags: [trade]
-  - text: where the borrowed money went, by the sudden new roof on one house
-    tags: [debt, urban]
+  - text: where the money went, by the sudden roof on one house
+    tags: [debt]

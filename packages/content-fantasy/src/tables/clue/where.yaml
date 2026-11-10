@@ -8,7 +8,7 @@ entries:
   - text: inside the hollow handle of a walking stick
   - text: at the bottom of a water butt, in a sealed jar
     tags: [rural]
-  - text: in the margins of a borrowed recipe book
+  - text: in the margins of a worn recipe book
   - text: behind the mirror that sits slightly crooked
     tags: [noble]
   - text: in the message tube of a pigeon on the post-house roof
@@ -16,14 +16,14 @@ entries:
   - text: among the takings in the till, folded very small
     tags: [trade]
   - text: under a loose hearthstone, wrapped in oilcloth
-  - text: in a hollow fence post at the edge of the property
+  - text: behind a loose rail at the edge of the property
     tags: [rural]
   - text: tucked inside the lid of a musical box
   - text: pressed flat beneath the lining of a boot
   - text: under the loft floor, where the squirrels have been busy
   - text: in the one book on the shelf that has never been opened
   - text: at the back of a drawer full of mismatched buttons
-  - text: in the muddy hollow where the stream bends
+  - text: in the mud where the stream bends
     tags: [river]
   - text: scratched small on the underside of the long table
   - text: baked into the middle of a loaf, now going stale
@@ -33,8 +33,8 @@ entries:
     tags: [wilderness]
   - text: in a ring of stones where someone camped and covered their traces
     tags: [wilderness]
-  - text: in the lining of a saddle blanket on the wrong horse
+  - text: in the lining of a saddle blanket from a stranger's mount
     tags: [road]
-  - text: in the bottom of a flour bin, under a fresh layer of flour
+  - text: in the bottom of a flour bin, under a suspiciously even layer
   - text: under the back step, worn hollow by feet
     tags: [ruin]

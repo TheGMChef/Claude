@@ -1,8 +1,8 @@
 {
-  "display": "Their lodging has been given to someone with a better claim",
+  "display": "A friendly stranger steps in to help and will not take no for an answer",
   "fields": {
     "trouble": {
-      "value": "their lodging has been given to someone with a better claim",
+      "value": "a friendly stranger steps in to help and will not take no for an answer",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -10,7 +10,7 @@
       ]
     },
     "twist": {
-      "value": "the helpful local is working for the other side",
+      "value": "the message they were given to deliver is a summons for them",
       "locked": false,
       "nonce": 0,
       "sources": [

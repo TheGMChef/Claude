@@ -1,8 +1,8 @@
 {
-  "display": "A stray cat asleep on the one chair that is never used: that the blaze started in two places at once",
+  "display": "A stray cat that follows one person around and hisses at another: that the blaze started in two places at once",
   "fields": {
     "delivery": {
-      "value": "a stray cat asleep on the one chair that is never used",
+      "value": "a stray cat that follows one person around and hisses at another",
       "locked": false,
       "nonce": 0,
       "sources": [
@@ -18,7 +18,7 @@
       ]
     },
     "where": {
-      "value": "in the margins of a borrowed recipe book",
+      "value": "in the margins of a worn recipe book",
       "locked": false,
       "nonce": 0,
       "sources": [
