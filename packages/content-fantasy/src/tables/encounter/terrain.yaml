@@ -11,49 +11,62 @@ entries:
     tags: [urban]
   - text: a covered arcade of near-identical shopfronts
     tags: [urban, road]
+  - text: a council chamber with the public gallery full
+    tags: [urban]
   - text: a hayloft above a barn full of nervous cattle
     tags: [rural]
   - text: an orchard in full fruit, ladders everywhere
     tags: [rural]
-  - text: a threshing barn on the evening of the dance
+  - text: a cider press in the middle of a farmyard, mid-pressing
     tags: [rural]
   - text: a mill race where the wheel will not stop turning
     tags: [river, rural]
+    safety: [drowning]
   - text: a shingle beach at low tide, with a wreck just uncovered
-    tags: [coastal]
-  - text: a harbour mole in a rising swell
     tags: [coastal]
     safety: [drowning]
   - text: a net loft thick with the smell of tar
     tags: [coastal, urban]
   - text: a cliff path above a loud, grey sea
     tags: [coastal, mountain]
+    safety: [death]
+  - text: a causeway over flooded fields
+    tags: [road, river, coastal]
+    safety: [drowning]
   - text: a peat bog laced with firm paths no two guides agree on
     tags: [wilderness]
+    safety: [drowning]
   - text: a high moor under a restless wind
     tags: [wilderness, mountain]
   - text: a dry riverbed with a high-water mark painted on every tree
     tags: [wilderness, river]
-  - text: a ford with the current running high
-    tags: [river, road]
+  - text: a frozen lake at dusk, with a track across it
+    tags: [wilderness]
     safety: [drowning]
   - text: a landing stage crowded with barges and bargaining
     tags: [river, urban]
-  - text: a plank footbridge over a gorge in a gale
-    tags: [mountain, river]
+  - text: a washing place on the bank, busy with gossip
+    tags: [river, rural]
   - text: a birch wood thick with low mist
     tags: [forest]
   - text: a forest track beneath dripping pines
     tags: [forest, road]
   - text: a coppice of cut stems, thick enough to be a maze
     tags: [forest, rural]
+  - text: a hunters' glade with a half-built hide
+    tags: [forest, rural]
   - text: a scree slope beneath a leaning overhang
     tags: [mountain, wilderness]
+  - text: a high pass with snow coming in
+    tags: [mountain, road]
+  - text: switchbacks up a steep hillside, with a laden wagon stuck on the bend
+    tags: [mountain, rural]
   - text: a wine vault with a single narrow way in and too many barrels
     tags: [underground, urban]
-  - text: a dry cistern with an iron ladder and one lit torch
-    tags: [underground, ruin]
     safety: [claustrophobia]
+  - text: a half-flooded cistern below a ruined bathhouse
+    tags: [underground, ruin]
+    safety: [drowning, claustrophobia]
   - text: a drained mine gallery braced with old timbers
     tags: [underground, mountain]
     safety: [claustrophobia]
@@ -67,6 +80,3 @@ entries:
     tags: [road]
   - text: a crossroads where four wagons have met nose to nose
     tags: [road, rural]
-  - text: a causeway over flooded fields
-    tags: [road, river, coastal]
-    safety: [drowning]

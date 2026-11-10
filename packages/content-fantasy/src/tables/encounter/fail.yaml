@@ -3,34 +3,37 @@ id: fantasy.encounter.fail
 title: If they fail,
 tags: [encounter]
 entries:
-  - text: they get through, and owe the wrong person a favour
+  - text: they come away with nothing, and owe a favour to the person who watched it happen
     tags: [debt]
-  - text: you lose the item, but learn who now has it
-  - text: the plan works, but everyone in town hears about it
-  - text: they escape, leaving something with their name on it behind
-  - text: the other side wins, and offers them work
-  - text: it costs a day, and the trail goes cold in the meantime
+  - text: the other side wins outright, and takes the credit
+  - text: it costs them a full day, and the people they were counting on lose patience
   - text: someone innocent takes the blame, and asks them to fix it
-  - text: they win the argument and lose a friend
-  - text: they get what they came for, and a witness gets a good look at their faces
-  - text: they arrive in time, and are too tired to do anything useful
-  - text: their next move becomes known to the other side
-  - text: they succeed, and a powerful figure starts asking who they are
-  - text: the job gets done, but the result is damaged beyond easy repair
-  - text: they are let go with a warning and a person to avoid
-  - text: a passer-by offers to help, for a price they will not like
-  - text: another crew reaches the goal first, and will share it, at a cost
+  - text: they lose an argument and a friend at the same time
+  - text: their plan is laid bare, and the other side now knows their next move
+  - text: they are known by sight from now on, to people who would rather they were not
+  - text: what they were after is lost for good, or at least out of reach
   - text: talk spreads that they are unreliable, and the next welcome is cooler
-  - text: an ally takes the loss, and expects to be remembered for it
-  - text: they learn the truth, and it makes everything worse
-  - text: the matter ends, but the winners now need a service from them
-  - text: they protect one secret and have to trade away another
-  - text: the way forward opens, and a worse problem waits behind it
+  - text: an ally is left behind to pay for the mistake, and remembers it
+  - text: they learn what really happened, and it is too late to act on it
+  - text: the matter ends in the other side's favour, and a promise is expected of them
+  - text: their best contact stops answering, and does not say why
+  - text: they are named in public in a way that will follow them
+  - text: an enemy gains standing at their expense, and starts to use it
+  - text: something a bystander cared about is ruined, and the bystander knows who to thank
   - text: they are blamed in public, and have until morning to answer it
-  - text: an accident is taken for a deliberate act
+  - text: they end up poorer, the cost paid out of their own pockets
+  - text: something they were trusted with is damaged, and its owner expects it made good
+  - text: a secret they were keeping is out, and a few too many people have heard it
+  - text: someone who believed in them stops believing
+  - text: the matter escalates into something worse, and the authorities take an interest
+    safety: [police]
   - text: a bystander is hurt in the scramble, and it is no one's fault
     safety: [violence]
   - text: one of them is taken into custody, and must be bargained for
     safety: [police]
   - text: a trader's awning burns in the confusion, and they were the closest
     safety: [fire]
+  - text: everything slips to the next day, on worse terms
+  - text: they must choose which of two things to give up, and give up both for a while
+  - text: a mishap is mistaken for a deliberate act, and the injured party wants satisfaction
+    safety: [violence]

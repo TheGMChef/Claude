@@ -3,71 +3,50 @@ id: fantasy.encounter.question
 title: Can they
 tags: [encounter]
 entries:
-  - text: can they talk their way past the gatekeeper without a reference?
-  - text: can they keep the auction fair for one more lot?
-    tags: [urban]
-  - text: can they reach the pass before the snow closes it?
-    tags: [mountain]
-  - text: can they find the right chamber before the household stirs?
-    tags: [urban]
-  - text: can they pass for guests at a dinner they were never invited to?
+  - text: can they talk their way past whoever is guarding the way?
+  - text: can they keep a bargain fair for one more round of haggling?
+    tags: [trade]
+  - text: can they reach the far side before the light goes?
+  - text: can they find the right person before the news spreads?
+  - text: can they pass for people who belong among those who all know each other?
     tags: [noble]
-  - text: can they bring the missing signatory to the hearing before it adjourns?
-    tags: [urban]
-  - text: can they cross the flooded causeway before the tide returns?
-    tags: [coastal]
-    safety: [drowning]
-  - text: can they carry the feverish traveller to shelter before dark?
-    tags: [wilderness]
-  - text: can they bluff an inspector who knows the real cargo?
-    tags: [road]
-  - text: can they spot the forger among a dozen petitioners?
-    tags: [urban]
+  - text: can they bring the one person who matters to the table before talks collapse?
+  - text: can they carry what they are guarding through before anyone looks inside?
+  - text: can they strike a deal with someone who holds all the leverage?
+    tags: [trade]
+  - text: can they spot the liar among several honest-sounding people?
   - text: can they slip a warning to someone whose every move is watched?
-  - text: can they coax two quarrelling heirs into one room, calmly?
-    tags: [noble, family]
-  - text: can they put out the cookhouse blaze before it reaches the grain store?
-    tags: [rural]
-    safety: [fire]
-  - text: can they retrace the trail home in the mist before nightfall?
-    tags: [wilderness]
-  - text: can they persuade a frightened witness to speak in open court?
-    tags: [urban]
-  - text: can they recover the signed contract during the festival procession?
-    tags: [urban, crime]
-  - text: can they stop a quarrel between neighbours from becoming a feud?
-    tags: [rural]
-  - text: can they win the riddling contest without giving anything away?
+  - text: can they coax two people who hate each other into one calm conversation?
+  - text: can they contain a rumour before it reaches the wrong ears?
+  - text: can they retrace what happened before the story hardens into legend?
+  - text: can they persuade a frightened witness to speak?
+  - text: can they recover a signed paper before it is read out?
+  - text: can they stop a quarrel from becoming a feud?
+    safety: [violence]
+  - text: can they win a contest of wits without giving anything away?
   - text: can they make an honest offer sound better than a dishonest one?
     tags: [trade]
-  - text: can they smuggle a message into a cloistered house?
-    tags: [faith]
-    safety: [religion]
-  - text: can they sit out a council meeting without being recognised?
+  - text: can they smuggle a message into a closely guarded place?
+  - text: can they sit through a long meeting without letting slip what they know?
     tags: [urban]
-  - text: can they haul the grain up the switchbacks before the sun goes?
-    tags: [mountain, rural]
-  - text: can they follow the courier across the festival square unseen?
-    tags: [urban]
-  - text: can they walk the frozen lake before the ice thins?
-    tags: [wilderness]
-    safety: [drowning]
-  - text: can they prove who owns the field before the harvest is cut?
-    tags: [rural]
-  - text: can they explain themselves to the night patrol before someone sends for the captain?
+  - text: can they haul a heavy load to its buyer before the buyer gives up on it?
+    tags: [trade, road]
+  - text: can they follow a messenger without being noticed?
+  - text: can they outlast a patient opponent in a test of nerve?
+  - text: can they prove who really owns something before the matter is settled without them?
+  - text: can they explain themselves to the authorities before someone sends for the captain?
     tags: [urban]
     safety: [police]
-  - text: can they brazen out a checkpoint with papers that are not quite right?
+  - text: can they brazen out a check of their papers?
     tags: [road]
-  - text: can they save the festival when its star has vanished?
+    safety: [police]
+  - text: can they save an event when its main attraction has vanished?
     tags: [urban]
-  - text: can they warn the valley below before the sluice is opened?
-    tags: [river]
-    safety: [drowning]
-  - text: can they escape the old cistern before the water rises?
-    tags: [underground]
-    safety: [drowning, claustrophobia]
-  - text: can they pick the one honest face out of a crowded square?
-    tags: [urban]
-  - text: can they read a forest trail before the rain erases it?
-    tags: [forest]
+  - text: can they warn the people who need to know before it is too late?
+  - text: can they withdraw gracefully from a deal that has gone bad?
+    tags: [trade]
+  - text: can they choose between two bad offers before either expires?
+  - text: can they settle a dispute that both sides think they have already won?
+  - text: can they earn the trust of someone who has been lied to before?
+  - text: can they delay a decision long enough for help to arrive?
+  - text: can they convince a skeptic with only half the evidence?

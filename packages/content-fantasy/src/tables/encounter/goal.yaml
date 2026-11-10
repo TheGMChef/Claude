@@ -7,7 +7,7 @@ entries:
   - text: time, so their friends can arrive
   - text: one particular item, and nothing else in the room
   - text: an apology, delivered in public
-  - text: to learn who sent the party
+  - text: to learn who sent them
   - text: to make them leave without anyone getting hurt
     safety: [violence]
   - text: to pass along a message without being caught with it
@@ -16,18 +16,19 @@ entries:
   - text: someone to blame for what has gone wrong
   - text: to be asked nicely, for once
   - text: help, though pride forbids asking for it
-  - text: to keep the visitors talking until the hour is past
   - text: a promise in writing, witnessed by someone respected
-  - text: to look generous in front of the right audience
-  - text: a share of whatever the outsiders came for
-  - text: silence from the party about what they saw
+  - text: a share of whatever they came for
+  - text: silence about what was seen
   - text: to be proven right, even at the cost of the whole plan
-  - text: a way out that lets them leave with dignity
-  - text: to find out whether the newcomers can be trusted with a larger task
+  - text: to find out whether they can be trusted with something larger
   - text: permission from someone senior, more than any object
-  - text: to get the visitors out of the way before the real business starts
+  - text: to get them out of the way before the real business starts
   - text: an ally, any ally, before the sun is down
-  - text: to dump the trouble on a third party and walk away clean
-  - text: to be taken seriously by the person who laughed at them
-  - text: to turn the newcomers' win into their own credit
   - text: a delay of one day, for private reasons
+  - text: a witness who will say what they need to hear
+  - text: a bargain struck before anyone else hears of the offer
+  - text: proof that someone else broke the agreement first
+  - text: the one thing they cannot buy from anyone else
+  - text: to trade something small now for something large later
+  - text: to keep everything exactly as it is
+  - text: to keep their record clean, whatever it takes
