@@ -1,6 +1,6 @@
 kind: table
 id: fantasy.place.sight
-title: What catches the eye first
+title: The first thing you notice is
 tags: [place]
 entries:
   - text: a bedsheet strung between two chimneys, sewn from eleven different shirts
@@ -19,3 +19,86 @@ entries:
     tags: [ruin]
   - text: moss that has swallowed a carved gate, leaving only the hinges
     tags: [ruin, wilderness]
+  - text: laundry strung between the gables like signal flags
+    tags: [urban]
+  - text: a cart propped level on a stack of bricks
+    tags: [road]
+  - text: moss growing in the letters of an old boundary stone
+    tags: [road]
+  - text: a shopfront painted the exact green of the shop opposite
+    tags: [urban]
+  - text: a ladder leaning on nothing, its rungs worn pale
+    tags: [urban]
+  - text: a scarecrow wearing a better coat than anyone in sight
+    tags: [rural]
+  - text: haystacks arranged in a neat ring around a single apple tree
+    tags: [rural]
+  - text: a barn door painted with a map nobody has finished
+    tags: [rural]
+  - text: a boat hauled onto the roof of a net shed
+    tags: [coastal]
+  - text: shells set into a harbour wall, one for every winter
+    tags: [coastal]
+  - text: a lamp room wearing a patched oilskin hood
+    tags: [coastal]
+  - text: a hollow tree with a tiny door and a polished brass knocker
+    tags: [forest]
+  - text: a clearing where every stump holds a teacup
+    tags: [forest, wilderness]
+  - text: mushrooms standing in a ring around a lost boot
+    tags: [forest]
+  - text: a cairn taller than the person who built it
+    tags: [mountain, wilderness]
+  - text: a footbridge repaired plank by plank in five shades of wood
+    tags: [mountain]
+  - text: a goat on a rooftop, looking pleased with itself
+    tags: [mountain, rural]
+  - text: a stretch of heath crossed by one perfectly straight furrow
+    tags: [wilderness]
+  - text: a standing stone wearing a knitted scarf
+    tags: [wilderness, rural]
+  - text: a barge wedged under a bridge that is slightly too low
+    tags: [river, urban]
+  - text: stepping stones, each carved with a different face
+    tags: [river]
+  - text: a washing-place by the water where every stone has a name scratched in
+    tags: [river]
+  - text: fish weirs woven so fine they shimmer
+    tags: [river]
+  - text: a tunnel mouth bricked up, then unbricked, the bricks stacked neatly beside it
+    tags: [underground]
+    safety: [claustrophobia]
+  - text: glow-moss painted over in cheerful yellow along a tunnel wall
+    tags: [underground]
+    safety: [claustrophobia]
+  - text: a cellar door in the middle of a field, with a doormat
+    tags: [underground, rural]
+  - text: a pillar still standing in a field of rubble, topped by a nest
+    tags: [ruin]
+  - text: a mosaic floor open to the sky, swept clean by someone every morning
+    tags: [ruin]
+  - text: a broken arch with a washing line strung through it
+    tags: [ruin, urban]
+  - text: a signpost with five arms and no writing left
+    tags: [road]
+  - text: a toll hut with a roof newer than its walls
+    tags: [road]
+  - text: milestones numbered in a system nobody recognises
+    tags: [road]
+  - text: a table laid for twelve with thirteen different chairs
+    tags: []
+  - text: a mirror hung face to the wall with a note tucked under it
+    tags: []
+    safety: [death]
+  - text: a clock with a ribbon where the minute hand should be
+    tags: []
+  - text: a cat asleep on a ledger, one paw on the last entry
+    tags: []
+  - text: a drawing of the room pinned to the wall, with one extra door
+    tags: []
+  - text: a row of identical umbrellas, each tied shut with a different knot
+    tags: []
+  - text: a window box of herbs labelled in three alphabets
+    tags: []
+  - text: a painted sign promising free soup, faded by several winters
+    tags: []

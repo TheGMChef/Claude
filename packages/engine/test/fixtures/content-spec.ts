@@ -38,8 +38,8 @@ const meaning = (name: string): [string, TableSpec] => [
 const row = (id: string, spec: TableSpec): [string, TableSpec] => [`fantasy.${id}`, spec];
 const line = (family: string, name: string, target: number, extra?: Partial<TableSpec>) =>
   row(`${family}.${name}`, { family, target, full: false, kind: 'line', ...extra });
-const placeLine = (name: string, target: number): [string, TableSpec] =>
-  line('place', name, target, { pocket: true, terrain: true });
+const placeLine = (name: string, target: number, full = false): [string, TableSpec] =>
+  line('place', name, target, { pocket: true, terrain: true, full });
 const pocketLine = (family: string, name: string, target: number): [string, TableSpec] =>
   line(family, name, target, { pocket: true });
 
@@ -50,9 +50,9 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   row('place.word-b', { family: 'place', target: 30, full: false, kind: 'word' }),
   row('place.name', { family: 'place', target: 10, full: false, kind: 'pattern' }),
   placeLine('kind', 30),
-  placeLine('sight', 40),
-  placeLine('sound', 40),
-  placeLine('smell', 40),
+  placeLine('sight', 40, true),
+  placeLine('sound', 40, true),
+  placeLine('smell', 40, true),
   placeLine('happening', 30),
   row('settlement.name', { family: 'settlement', target: 10, full: false, kind: 'pattern' }),
   row('settlement.size', { family: 'settlement', target: 6, full: false, kind: 'fixed' }),

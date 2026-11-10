@@ -1,6 +1,6 @@
 kind: table
 id: fantasy.place.sound
-title: What you hear
+title: Over everything you hear
 tags: [place]
 entries:
   - text: a loose gate-latch keeping uneven time
@@ -19,3 +19,83 @@ entries:
     tags: [rural]
   - text: hooves on stone, slower than the rider seems to be going
     tags: [road, forest]
+  - text: a mooring rope creaking against a wet post
+    tags: [river, coastal]
+  - text: someone practising the same four notes on a fiddle
+    tags: []
+  - text: a cooper's mallet answered by another a street away
+    tags: [urban, trade]
+  - text: cart wheels on cobbles, one with a squeak that sets the tempo
+    tags: [urban, road]
+  - text: shutters banging in a rhythm that is almost a tune
+    tags: [urban]
+  - text: two neighbours trading insults over a fence in friendly voices
+    tags: [urban, rural]
+  - text: a rooster crowing hours after dawn
+    tags: [rural]
+  - text: a hand-mill grinding, stopping, grinding again
+    tags: [rural]
+  - text: a cow lowing, then an answering cow far off
+    tags: [rural]
+  - text: gulls bickering over a dropped pie
+    tags: [coastal]
+  - text: waves dragging pebbles back with a sound like applause
+    tags: [coastal]
+  - text: a buoy clanking out of time with the swell
+    tags: [coastal]
+  - text: a hull settling on the mud with a long groan
+    tags: [coastal, river]
+  - text: an owl asking the same question twice
+    tags: [forest]
+  - text: branches knocking together like a slow conversation
+    tags: [forest]
+  - text: something small crashing through leaf litter, then stopping to listen
+    tags: [forest, wilderness]
+  - text: a woodcutter's axe, three strokes and a rest
+    tags: [forest]
+  - text: a rockfall far above, a long rattle and then silence
+    tags: [mountain]
+  - text: stones clicking underfoot on a scree slope
+    tags: [mountain]
+  - text: wind whistling through a gap in the pass in two alternating pitches
+    tags: [mountain, wilderness]
+  - text: a stream chuckling under a lid of ice
+    tags: [wilderness, river]
+  - text: grass hissing in a wind with no end to it
+    tags: [wilderness]
+  - text: a lone bird repeating a call it clearly learned from someone else
+    tags: [wilderness]
+  - text: water slapping the bridge piers, loud and busy
+    tags: [river]
+  - text: a heron's harsh croak from the reeds
+    tags: [river]
+  - text: a mill-race roaring, then dropping quiet when a sluice is shut
+    tags: [river, rural]
+  - text: dripping that falls in a pattern, like a counting game
+    tags: [underground]
+  - text: footsteps that arrive a moment after the walker stops
+    tags: [underground, ruin]
+    safety: [claustrophobia]
+  - text: an echo that comes back from the wrong direction
+    tags: [underground]
+    safety: [claustrophobia]
+  - text: loose masonry settling with a click and a sigh
+    tags: [ruin]
+  - text: doves clattering out of a roof that has no roof
+    tags: [ruin]
+  - text: a drover's whistle sending sheep round a corner out of sight
+    tags: [road, rural]
+  - text: a wheel rim ringing on a rock, followed by cursing in two accents
+    tags: [road]
+  - text: someone in the next room humming a song with the verses out of order
+    tags: []
+  - text: a kettle working itself up to a whistle that never arrives
+    tags: []
+  - text: a dice cup rattling behind a closed door
+    tags: []
+  - text: a floorboard that answers every step with a different note
+    tags: []
+  - text: a clock that only strikes the half hours
+    tags: []
+  - text: two voices arguing about the price of a single egg
+    tags: []

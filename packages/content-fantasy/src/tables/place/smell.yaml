@@ -1,6 +1,6 @@
 kind: table
 id: fantasy.place.smell
-title: What you smell
+title: The air smells of
 tags: [place]
 entries:
   - text: wet wool and caramel
@@ -20,3 +20,84 @@ entries:
     tags: [urban, rural]
   - text: thin mountain air with a hint of crushed thyme
     tags: [mountain, wilderness]
+  - text: ink, old paper and cold tea
+    tags: [urban]
+  - text: brewing malt drifting over the rooftops
+    tags: [urban, trade]
+  - text: frying onions and wet cobbles
+    tags: [urban]
+  - text: warm stone and someone else's perfume
+    tags: [urban]
+  - text: hot grease from a chop stall
+    tags: [urban, road]
+  - text: cut hay and cold milk
+    tags: [rural]
+  - text: turned earth after rain
+    tags: [rural]
+  - text: apple mash and wasps
+    tags: [rural]
+    safety: [insects]
+  - text: woodsmoke and boiled cabbage
+    tags: [rural]
+    safety: [fire]
+  - text: wet dog and sheep fat
+    tags: [rural]
+  - text: kelp drying on warm stones
+    tags: [coastal]
+  - text: vinegar and fried fish
+    tags: [coastal]
+  - text: a storm coming in off the sea, all metal and cold
+    tags: [coastal]
+  - text: leaf mould and fox
+    tags: [forest]
+  - text: crushed bracken and wild garlic
+    tags: [forest]
+  - text: damp bark and something sweetly fermenting
+    tags: [forest]
+  - text: snow-melt and sun-hot stone
+    tags: [mountain]
+  - text: juniper and goat
+    tags: [mountain]
+  - text: flint and cold mist
+    tags: [mountain]
+  - text: heather baking in the sun
+    tags: [wilderness]
+  - text: peat and rain
+    tags: [wilderness]
+  - text: sun-warmed gorse, sweet as coconut
+    tags: [wilderness]
+  - text: fish, boat paint and wet willow
+    tags: [river]
+  - text: cold current and trodden reeds
+    tags: [river]
+  - text: mineral water dripping on iron
+    tags: [underground]
+  - text: apples kept in a cellar too long
+    tags: [underground]
+  - text: cold air that has not moved in years
+    tags: [underground, ruin]
+    safety: [claustrophobia]
+  - text: sun-baked brick and wild fennel
+    tags: [ruin]
+  - text: wet plaster and pigeon
+    tags: [ruin]
+  - text: dust, mortar and rain on warm stone
+    tags: [ruin]
+  - text: dust and hot axle grease
+    tags: [road]
+  - text: clover crushed under wheels
+    tags: [road]
+  - text: wet canvas and trampled grass
+    tags: [road, wilderness]
+  - text: cinnamon and hot sugar
+    tags: []
+  - text: beeswax polish and cold soup
+    tags: []
+  - text: lemon oil and old books
+    tags: []
+  - text: fresh paint over something damp
+    tags: []
+  - text: boiled linen and starch
+    tags: []
+  - text: new leather and cut cheese
+    tags: []
