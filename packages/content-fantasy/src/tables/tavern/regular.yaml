@@ -3,7 +3,7 @@ id: fantasy.tavern.regular
 title: Always in the corner
 tags: [tavern]
 entries:
-  - text: a retired cooper who taps every barrel as he passes
+  - text: a retired surveyor who taps each wall as he passes and frowns at the answer
     tags: [trade]
   - text: two sisters playing the same card game for nine years, the score never settled
     tags: [family]
@@ -17,3 +17,36 @@ entries:
   - text: a dog at table seven that is always served first
   - text: a courier waiting for a reply to a letter that was never going to come
     tags: [road]
+  - text: two brothers who have not spoken since the harvest and still share a bench
+    tags: [family]
+  - text: a pedlar who sells nothing and rearranges his tray all evening
+  - text: "a lay sister off duty, tallying the room's sins on a slate and rubbing them out unread"
+    tags: [faith]
+    safety: [religion]
+  - text: a tinker mending the same pot while three people hand him better ones
+  - text: a woman reading aloud from a book with half its pages gone, improving the rest
+  - text: a pair of bargemen arguing over a river that has since changed course
+    tags: [river]
+  - text: an old soldier who counts the exits and sits facing the door
+    safety: [war]
+  - text: a young noble in borrowed boots, waiting to be recognised
+    tags: [noble]
+  - text: a piper with a cold, who plays anyway
+  - text: a man laying small bets on who will walk through the door next
+  - text: a physician who diagnoses strangers aloud and is sometimes right
+  - text: three dyers with blue hands who tally the week in silence
+  - text: an apprentice who sleeps standing up beside the barrels
+  - text: a drover who talks to his hat
+  - text: a lamplighter off shift, eyeing the lamps with professional contempt
+  - text: a quiet stranger nursing one cup for hours and sketching everyone present
+  - text: twin brothers dressed differently so as not to be confused, and failing
+    tags: [family]
+  - text: a retired magistrate who settles bar disputes with a coin toss
+    safety: [police]
+  - text: a netmaker knitting a net with one hole left deliberately
+    tags: [coastal]
+  - text: a student copying the scratches on the walls and asking about each
+  - text: a trapper trading pelts for stew, the bundles stacked by the door
+    tags: [wilderness]
+    safety: [animal-harm]
+  - text: a couple marking the anniversary of the day they first quarrelled here

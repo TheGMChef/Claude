@@ -1,13 +1,13 @@
 {
-  "display": "The Leaning Welcome, kept by Otto Fabrance",
+  "display": "The Copper Welcome, kept by Otto Fabrance",
   "fields": {
     "name": {
-      "value": "The Leaning Welcome",
+      "value": "The Copper Welcome",
       "locked": false,
       "nonce": 0,
       "sources": [
         "fantasy.tavern.name#3",
-        "fantasy.tavern.adj#0"
+        "fantasy.tavern.adj#2"
       ]
     },
     "keeper": {
@@ -19,11 +19,11 @@
       ]
     },
     "keeperWay": {
-      "value": "answers every question with another question",
+      "value": "moves guests to a new seat whenever they get comfortable, and blames the draught",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.tavern.keeper-way#4"
+        "fantasy.tavern.keeper-way#14"
       ]
     },
     "sight": {
@@ -51,19 +51,19 @@
       ]
     },
     "menu": {
-      "value": "pickled walnuts and a crumbly white cheese",
+      "value": "a clear spirit from the back room, poured into thimbles and counted",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.tavern.menu#4"
+        "fantasy.tavern.menu#18"
       ]
     },
     "regular": {
-      "value": "a bard who only knows the second half of every song",
+      "value": "a tinker mending the same pot while three people hand him better ones",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.tavern.regular#2"
+        "fantasy.tavern.regular#11"
       ]
     },
     "rumor": {

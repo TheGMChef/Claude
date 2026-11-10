@@ -15,3 +15,31 @@ entries:
   - text: fried bread, honey and a pinch of something green, served on the lid of the flour bin
   - text: turnip soup thick enough to hold the spoon upright
     tags: [rural]
+  - text: rabbit and prune pie under a lid of suet pastry
+    safety: [animal-harm]
+  - text: roast chestnuts in a paper twist, three to a customer
+  - text: "hot spiced cider, watered down by the keeper's own standards"
+  - text: oat porridge with a thumb of butter and a choice of salt or honey
+  - text: grilled sausages sold by the yard and measured against the bar rail
+    safety: [animal-harm]
+  - text: pea and ham soup that has been simmering since Tuesday
+    safety: [animal-harm]
+  - text: a bowl of boiled eggs, each stamped with a tiny crest
+  - text: baked apples stuffed with raisins, served in their own juice
+  - text: cabbage rolls, six to a plate, and an argument about the sixth
+  - text: oatcakes with soured cream and chives
+  - text: a clear spirit from the back room, poured into thimbles and counted
+    safety: [addiction]
+  - text: grilled trout with almonds, boned with great ceremony
+    safety: [animal-harm]
+  - text: bean and barley pottage with a spoonful of mustard on top
+  - text: honey cakes stacked into a tower that the regulars take turns toppling
+  - text: roast squash stuffed with chestnuts and sage
+  - text: lentils with sour plums
+  - text: buckwheat pancakes folded around stewed pears
+  - text: leek and potato broth thin enough to read through
+  - text: flatbread with mashed broad beans and a green oil
+  - text: pease pudding, served in slices like a cake
+  - text: walnuts in the shell and a smooth stone to crack them with
+  - text: peppered mutton broth with bread to sop it up
+    safety: [animal-harm]
