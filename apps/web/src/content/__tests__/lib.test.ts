@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import '@prepdesk/engine';
-import { z } from 'zod';
+import { z } from '../../data/zod';
 import { CULTURES, GENERATORS, lib } from '../lib';
 
 describe('content library', () => {

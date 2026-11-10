@@ -9,6 +9,43 @@ const realTick = (ms: number) => new Promise<void>((r) => realSetTimeout(r, ms))
 let n = 0;
 const uniq = (p: string) => `${p}-${++n}-${Math.random().toString(36).slice(2)}`;
 
+// The plan's v1 strings, copied as literals. STORES_V1 is frozen at the S2 merge (spec 5.8): editing
+// db.ts without editing this copy fails here, and editing this copy needs a version(2) migration.
+const FROZEN_V1: Record<string, string> = {
+  campaigns: 'id, updatedAt',
+  sessions: 'id, campaignId, [campaignId+number], [campaignId+status], status',
+  entities: 'id, campaignId, [campaignId+kind], [campaignId+updatedAt], *tokens, *wikiTargets',
+  links: 'id, campaignId, fromId, toId, [fromId+rel]',
+  ledger: 'id, sessionId, campaignId, [sessionId+at], entityId',
+  shortlist: 'id, campaignId, [campaignId+status], entityId',
+  usedNames: '[campaignId+nameKey], campaignId, [campaignId+at]',
+  pocket: 'id, sessionId, campaignId, [sessionId+section]',
+  drafts: 'id, sessionId, campaignId, [sessionId+step], status',
+  prepAnswers: '[sessionId+step], sessionId, campaignId',
+  settings: 'key',
+};
+
+describe('schema v1 freeze', () => {
+  it('STORES_V1 deep-equals the frozen literal', () => {
+    expect({ ...STORES_V1 }).toEqual(FROZEN_V1);
+  });
+
+  it('every opened table has exactly the frozen primary key and indexes', async () => {
+    const db = createDb(uniq('freeze'));
+    await db.open();
+    for (const [name, spec] of Object.entries(FROZEN_V1)) {
+      const parts = spec.split(',').map((x) => x.trim());
+      const schema = db.table(name).schema;
+      expect(schema.primKey.src, `${name} primary key`).toBe(parts[0]);
+      expect(schema.indexes.map((i) => i.src).sort(), `${name} indexes`).toEqual(
+        parts.slice(1).sort(),
+      );
+    }
+    expect(db.tables.map((t) => t.name).sort()).toEqual(Object.keys(FROZEN_V1).sort());
+    db.close();
+  });
+});
+
 describe('createDb', () => {
   it('opens schema version 1 with exactly the eleven declared stores', async () => {
     const db = createDb(uniq('t1'));

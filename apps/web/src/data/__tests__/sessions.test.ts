@@ -1,20 +1,19 @@
 import { describe, expect, it } from 'vitest';
 import { seedCampaign, testDeps } from '../../test/fixtures';
 import { RepoError } from '../deps';
-import { createSession, listSessions, nextSessionNumber } from '../repo/sessions';
+import { createSession, listSessions } from '../repo/sessions';
 
 describe('sessions', () => {
   it('numbers 1, 2, 3 within a campaign and independently across campaigns', async () => {
     const d = testDeps();
     const a = await seedCampaign(d, { name: 'A' });
     const b = await seedCampaign(d, { name: 'B' });
-    expect(await nextSessionNumber(d, a.id)).toBe(1);
     expect((await createSession(d, a.id)).number).toBe(1);
     expect((await createSession(d, a.id)).number).toBe(2);
     expect((await createSession(d, b.id)).number).toBe(1);
     expect((await createSession(d, a.id)).number).toBe(3);
-    expect(await nextSessionNumber(d, a.id)).toBe(4);
-    expect(await nextSessionNumber(d, b.id)).toBe(2);
+    expect((await createSession(d, b.id)).number).toBe(2);
+    expect((await createSession(d, a.id)).number).toBe(4);
   });
 
   it('gives concurrent creates distinct numbers (the number is read inside the transaction)', async () => {

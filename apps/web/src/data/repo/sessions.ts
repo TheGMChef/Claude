@@ -12,8 +12,8 @@ async function maxNumber(d: RepoDeps, cid: string): Promise<number> {
   return last?.number ?? 0;
 }
 
-/** Max number + 1, or 1. */
-export async function nextSessionNumber(d: RepoDeps, cid: string): Promise<number> {
+/** Max number + 1, or 1. Only safe inside the transaction in `createSession`. */
+async function nextSessionNumber(d: RepoDeps, cid: string): Promise<number> {
   return (await maxNumber(d, cid)) + 1;
 }
 
