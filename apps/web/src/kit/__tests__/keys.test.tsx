@@ -1,12 +1,10 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { createMemoryRouter } from 'react-router';
-import { RouterProvider } from 'react-router/dom';
 import { Button, Chip, DockButton, IconButton, Tabs } from '..';
 import { UpdateChip } from '../../app/UpdateChip';
-import { routes } from '../../app/routes';
-import { ThemeProvider } from '../../app/ThemeProvider';
+import { renderApp } from '../../test/renderApp';
+import { seedCampaign } from '../../test/fixtures';
 
 // R31: every pressable control is a raised rectangular "key"; no pill shapes anywhere.
 const css = (rel: string) => readFileSync(new URL(rel, import.meta.url), 'utf8');
@@ -167,18 +165,19 @@ describe('key components', () => {
     expect(screen.getByRole('button', { name: 'Dismiss update notice' })).toHaveClass('icon-btn');
   });
 
-  it('TopBar nav links and Menu are ringed keys', () => {
-    const router = createMemoryRouter(routes, { initialEntries: ['/prep'] });
-    render(
-      <ThemeProvider>
-        <RouterProvider router={router} />
-      </ThemeProvider>,
-    );
-    const nav = screen.getByRole('navigation', { name: 'Modes' });
+  it('TopBar nav links and Menu are ringed keys', async () => {
+    let cid = '';
+    await renderApp({
+      path: '/placeholder',
+      seed: async (d) => {
+        cid = (await seedCampaign(d)).id;
+      },
+    }).then(({ router }) => router.navigate(`/c/${cid}/forge`));
+    const nav = await screen.findByRole('navigation', { name: 'Campaign' });
     const links = nav.querySelectorAll('.topbar__link');
-    expect(links.length).toBe(4);
+    expect(links.length).toBe(3);
     for (const a of links) expect(a.querySelector('.ink-outline')).not.toBeNull();
-    expect(screen.getByRole('link', { name: 'Prep' })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: 'Forge' })).toHaveAttribute('aria-current', 'page');
     expect(
       screen.getByRole('button', { name: 'Menu' }).querySelector('.ink-outline'),
     ).not.toBeNull();

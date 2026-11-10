@@ -8,10 +8,12 @@ test.skip(({ viewport }) => viewport?.width !== 1194, 'privacy checks run on tab
 
 const ROUTES: Array<{ path: string; h1: string }> = [
   { path: '/', h1: 'Prep Desk' },
-  { path: '/prep', h1: 'Prep' },
-  { path: '/table', h1: 'Table' },
-  { path: '/codex', h1: 'Codex' },
-  { path: '/forge', h1: 'Forge' },
+  { path: '/prep', h1: 'Prep Desk' },
+  { path: '/table', h1: 'Prep Desk' },
+  { path: '/codex', h1: 'Create a campaign' },
+  { path: '/forge', h1: 'Create a campaign' },
+  { path: '/campaigns/new', h1: 'Create a campaign' },
+  { path: '/nope', h1: 'Nothing here' },
   { path: '/kit', h1: 'Kit' },
   { path: '/forge-preview', h1: 'Forge preview' },
 ];

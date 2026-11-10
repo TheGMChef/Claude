@@ -1,16 +1,13 @@
 export interface Mode {
+  /** Path under /c/:cid */
   path: string;
   title: string;
-  description: string;
 }
 
+/** The campaign-scoped keys in the TopBar (M-D2). */
 export const MODES: readonly Mode[] = [
-  { path: '/prep', title: 'Prep', description: 'A six-step interview that loads tonight’s tools.' },
-  {
-    path: '/table',
-    title: 'Table',
-    description: 'Your Pocket, the scene, and the Ledger — live at the table.',
-  },
-  { path: '/codex', title: 'Codex', description: 'Everything your campaign knows, linked.' },
-  { path: '/forge', title: 'Forge', description: 'Every generator, plus your own tables.' },
+  { path: 'forge', title: 'Forge' },
+  { path: 'codex', title: 'Codex' },
 ];
+
+export const SETTINGS_MODE: Mode = { path: 'settings', title: 'Settings' };

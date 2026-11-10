@@ -1,6 +1,7 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import type { Page } from '@playwright/test';
+import { seedCampaignRaw } from './helpers/seed';
 
 // The share code (v2: seed YSFV-53MC, Marsh-folk culture tag, check symbol) of an NPC whose "role"
 // entry carries the `religion` safety tag. Found by scanning probe seeds with the engine; content
@@ -134,6 +135,7 @@ test.describe('Menu at phone width', () => {
   test.skip(({ viewport }) => viewport?.width !== 390, 'the Menu button only shows at phone width');
 
   test('opens, closes on Escape and returns focus to the button', async ({ page }) => {
+    await seedCampaignRaw(page);
     await page.goto('/forge-preview');
     const menu = page.getByRole('button', { name: 'Menu' });
     await expect(menu).toBeVisible();

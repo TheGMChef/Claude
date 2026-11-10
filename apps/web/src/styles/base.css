@@ -129,70 +129,53 @@ a {
   }
 }
 
-/* Mode shell */
-.shell {
+/* Page frame: main content is capped and centred, the app chrome is not (viewports skill) */
+.page {
+  width: 100%;
   max-width: 960px;
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
   display: grid;
-  gap: var(--space-6);
-}
-
-.shell__panel {
-  background: var(--card);
-  border: 1px solid var(--ink-muted);
-  border-radius: var(--radius-card);
-  padding: var(--space-8) var(--space-7);
-  box-shadow: 0 2px 0 var(--rule);
-}
-
-.shell__eyebrow {
-  margin: 0 0 var(--space-3);
-  color: var(--ink-muted);
-  font-size: var(--text-12);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.shell__title {
-  font-size: var(--text-52);
-  font-weight: 700;
-}
-
-.shell__desc {
-  margin: var(--space-3) 0 0;
-  font-size: var(--text-17);
-  max-width: 44ch;
-}
-
-.shell__others {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--space-4);
+  align-content: start;
 }
 
-.shell__link {
-  display: grid;
-  gap: var(--space-1);
-  min-height: 44px;
-  padding: var(--space-4);
-  background: var(--card);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-card);
-  text-decoration: none;
-}
-
-.shell__link:hover {
-  border-color: var(--pencil);
-}
-
-.shell__link-title {
-  font-family: var(--font-display);
+.page__title {
+  font-size: var(--text-34);
   font-weight: 700;
-  font-size: var(--text-21);
+  overflow-wrap: anywhere;
 }
 
-.shell__link-desc {
-  color: var(--ink-muted);
-  font-size: var(--text-13);
+.page__lede {
+  margin: 0;
+  font-size: var(--text-17);
+  max-width: 60ch;
+}
+
+.page--message {
+  justify-items: start;
+  max-width: 640px;
+}
+
+/* Loading skeleton: static blocks that keep the page's geometry (no spinner, no layout shift) */
+.skeleton {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.skeleton__line {
+  height: var(--space-6);
+  border-radius: var(--radius-key);
+  background: var(--rule);
+}
+
+.skeleton__line--title {
+  height: var(--space-8);
+  width: 50%;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-8) var(--space-7);
+  }
 }

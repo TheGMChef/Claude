@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import type { Locator, Page } from '@playwright/test';
+import { seedCampaignRaw } from './helpers/seed';
 
 // R31: pressable controls are raised "keys" that sink on press. Tablet-landscape only.
 test.skip(({ viewport }) => viewport?.width !== 1194, 'key checks run on tablet-landscape');
@@ -86,8 +87,9 @@ test('the selected tab and the current page are pressed in', async ({ page }) =>
   expect(await translateY(other)).toBe(0);
   expect(await edgeOffset(other)).toBe(DEPTH);
 
-  await page.goto('/prep');
-  await expect(page.getByRole('heading', { level: 1, name: 'Prep' })).toBeVisible();
+  const cid = await seedCampaignRaw(page);
+  await page.goto(`/c/${cid}/forge`);
+  await expect(page.getByRole('heading', { level: 1, name: 'Forge' })).toBeVisible();
   const current = page.locator('.topbar__link[aria-current="page"]');
   expect(await translateY(current)).toBeCloseTo(DEPTH, 1);
 });
@@ -175,7 +177,7 @@ test('a pressed outline key looks sunk: different face and an inset shadow', asy
 });
 
 test('the wordmark shares the raised keys centre line', async ({ page }) => {
-  await page.goto('/');
+  await seedCampaignRaw(page);
   const centre = (el: Locator) =>
     el.evaluate((n) => {
       const r = n.getBoundingClientRect();

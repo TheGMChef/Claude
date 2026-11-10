@@ -33,8 +33,10 @@ test('works offline after the first load', async ({ page, context }) => {
   expect(reloaded?.fromServiceWorker()).toBe(true);
   await expect(page.getByText('Prep Desk').first()).toBeVisible();
 
+  // A placeholder path that now redirects: the redirect works offline too.
   await page.goto('/table');
-  await expect(page.getByRole('heading', { level: 1, name: 'Table' })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1, name: 'Prep Desk' })).toBeVisible();
+  expect(new URL(page.url()).pathname).toBe('/');
   // fonts.check() is also true for an undeclared family, so require a real, loaded FontFace.
   await expect
     .poll(() =>
@@ -51,18 +53,13 @@ test('works offline after the first load', async ({ page, context }) => {
     .toEqual({ check: true, faces: expect.arrayContaining(['loaded']) });
   await expect(page.getByText('Update ready')).toHaveCount(0);
 
-  // Client-side navigation between modes keeps working offline.
-  for (const [link, h1] of [
-    ['Codex', 'Codex'],
-    ['Forge', 'Forge'],
-    ['Prep', 'Prep'],
+  // Pages keep loading offline (campaign routes need a campaign; M10 extends this).
+  for (const [path, h1] of [
+    ['/campaigns/new', 'Create a campaign'],
+    ['/kit', 'Kit'],
+    ['/forge-preview', 'Forge preview'],
   ] as const) {
-    await page
-      .getByRole('navigation', { name: /modes/i })
-      .getByRole('link', { name: new RegExp(`^${link}`) })
-      .first()
-      .click();
+    await page.goto(path);
     await expect(page.getByRole('heading', { level: 1, name: h1, exact: true })).toBeVisible();
-    await expect(page).toHaveURL(new RegExp(`/${link.toLowerCase()}$`));
   }
 });
