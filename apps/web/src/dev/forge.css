@@ -215,3 +215,9 @@
 .forge__seed code {
   font-family: var(--font-mono);
 }
+
+.forge__credit {
+  margin-top: var(--space-7);
+  color: var(--ink-muted);
+  font-size: var(--text-13);
+}

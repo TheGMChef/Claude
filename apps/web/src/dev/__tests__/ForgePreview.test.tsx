@@ -469,6 +469,11 @@ describe('ForgePreview', () => {
     );
   });
 
+  it('credits the content licence in the page footer', () => {
+    setup();
+    expect(screen.getByRole('contentinfo')).toHaveTextContent('CC-BY-4.0');
+  });
+
   describe('Roll anything', () => {
     const rollSection = () => screen.getByRole('region', { name: 'Roll anything' });
     const genValue = (field: string) => screen.getByTestId(`gen-field-value-${field}`).textContent;

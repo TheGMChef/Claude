@@ -552,6 +552,10 @@ export function ForgePreview() {
           </section>
         </div>
       </div>
+      <footer className="forge__credit">
+        Generated content is original to Prep Desk and licensed CC-BY-4.0 (see LICENSE-CONTENT in
+        each content package).
+      </footer>
     </main>
   );
 }
