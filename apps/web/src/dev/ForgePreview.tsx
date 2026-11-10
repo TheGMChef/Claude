@@ -27,7 +27,7 @@ import {
   Stamp,
   Tabs,
 } from '../kit';
-import { GENERATORS, lib } from './engine';
+import { GENERATORS, lib } from '../content/lib';
 import './forge.css';
 
 const GENERATOR = 'fantasy.npc';

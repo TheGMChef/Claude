@@ -11,8 +11,14 @@ here; its full text is in the package. Prep Desk content is CC-BY-4.0 (see each 
 | @fontsource-variable/instrument-sans | 5.3.0 | OFL-1.1 |
 | @fontsource-variable/shantell-sans | 5.3.0 | OFL-1.1 |
 | @fontsource/jetbrains-mono | 5.3.0 | OFL-1.1 |
+| @types/prop-types | 15.7.15 | MIT |
+| @types/react | 18.3.31 | MIT |
 | @types/trusted-types | 2.0.7 | MIT |
 | cookie | 1.1.1 | MIT |
+| csstype | 3.2.3 | MIT |
+| dexie | 4.4.7 | Apache-2.0 |
+| dexie-react-hooks | 1.1.7 | Apache-2.0 |
+| fflate | 0.8.3 | MIT |
 | js-tokens | 4.0.0 | MIT |
 | loose-envify | 1.4.0 | MIT |
 | react | 18.3.1 | MIT |

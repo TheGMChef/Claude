@@ -15,3 +15,10 @@ export const GENERATORS: { id: string; title: string }[] = Object.values(
 )
   .map((g) => ({ id: g.id, title: g.title }))
   .sort((a, b) => a.title.localeCompare(b.title));
+
+/** The fantasy cultures the loaded packs ship, by name: the campaign's name-culture choices. */
+export const CULTURES: { id: string; name: string; voice: string }[] = lib.packs
+  .filter((p) => p.genre === 'fantasy')
+  .flatMap((p) => Object.values(p.cultures))
+  .map((c) => ({ id: c.id, name: c.name, voice: c.voice.summary }))
+  .sort((a, b) => a.name.localeCompare(b.name));

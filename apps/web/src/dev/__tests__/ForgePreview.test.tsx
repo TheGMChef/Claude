@@ -12,7 +12,7 @@ import {
   reroll,
 } from '@prepdesk/engine';
 import type { Card, Context } from '@prepdesk/engine';
-import { lib } from '../engine';
+import { lib } from '../../content/lib';
 import { ForgePreview } from '../ForgePreview';
 
 // Seeds are the only randomness in the page: make newSeed a counter (0000-0001, 0000-0002, ...).

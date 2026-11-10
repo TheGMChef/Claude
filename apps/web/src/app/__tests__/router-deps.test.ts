@@ -20,6 +20,17 @@ function sources(dir: string): URL[] {
   });
 }
 
+describe('zod dependency', () => {
+  it("the web app uses exactly the engine's zod range (one instance, so jitless applies)", () => {
+    const enginePkg = JSON.parse(
+      readFileSync(new URL('../../packages/engine/package.json', webRoot), 'utf8'),
+    ) as { dependencies?: Record<string, string> };
+    const range = enginePkg.dependencies?.zod;
+    expect(range).toBeDefined();
+    expect(pkg.dependencies?.zod).toBe(range);
+  });
+});
+
 describe('router dependency', () => {
   it('depends on react-router 7.18 or later and not on react-router-dom', () => {
     const range = pkg.dependencies?.['react-router'];

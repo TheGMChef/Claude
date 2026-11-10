@@ -12,6 +12,11 @@ const HEADERS = parseHeaders(
   readFileSync(fileURLToPath(new URL('./public/_headers', import.meta.url)), 'utf8'),
 )['/*'] as Record<string, string>;
 const CSP = HEADERS['Content-Security-Policy'] as string;
+const APP_VERSION = (
+  JSON.parse(readFileSync(fileURLToPath(new URL('./package.json', import.meta.url)), 'utf8')) as {
+    version: string;
+  }
+).version;
 
 /**
  * Build only (the dev server injects inline scripts): fails the build when an inline script's hash
@@ -38,6 +43,7 @@ function contentSecurityPolicy(): Plugin {
 }
 
 export default defineConfig({
+  define: { __APP_VERSION__: JSON.stringify(APP_VERSION) },
   plugins: [
     contentSecurityPolicy(),
     react(),
