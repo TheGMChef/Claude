@@ -3,19 +3,66 @@ id: fantasy.encounter.opposition
 title: 'Standing in the way:'
 tags: [encounter]
 entries:
-  - text: a toll-keeper with a ledger and no imagination
-    tags: [road]
-  - text: a rival crew who got here first and are already digging
-    tags: [crime]
-  - text: the weather, turning faster than anyone foretold
-  - text: a proud old knight who will only stand aside for a better story
-    tags: [noble]
   - text: a crowd that has already made up its mind
     tags: [urban]
-  - text: a clerk with every form except the one they need
+  - text: a magistrate who enjoys the sound of her own rulings
     tags: [urban]
-  - text: a river spirit who wants a gift, and has opinions about it
-    tags: [river, magic]
+  - text: a proud old knight who will only stand aside for a better story
+    tags: [noble]
+  - text: the weather, turning faster than anyone foretold
+  - text: a marsh-wisp that trades in petty, unfair bargains
+    tags: [wilderness, magic]
   - text: a band of masked riders who take everything that rattles
     tags: [road, crime]
     safety: [violence]
+  - text: a gatekeeper who was told to admit no one and has forgotten why
+  - text: a champion debater who has never lost a round
+    tags: [urban]
+  - text: an agent with a satchel of notices, all signed in advance
+    tags: [urban]
+  - text: a chorus of neighbours who want different things
+    tags: [rural]
+  - text: a hired blade who would rather be bought off
+    tags: [crime]
+    safety: [violence]
+  - text: an inspector who is incorruptible and bored
+    tags: [road]
+  - text: a mastiff the size of a pony, asleep across the only path
+    tags: [rural]
+  - text: a fog that swallows landmarks and sound alike
+    tags: [wilderness]
+  - text: a narrow stair that takes one at a time, and a queue forming
+    tags: [urban]
+  - text: a reputation that arrived ahead of them
+  - text: a witness who remembers everything except what matters
+  - text: a drover with eighty sheep and no intention of hurrying
+    tags: [road, rural]
+  - text: two heirs, each certain the other is cheating
+    tags: [noble, family]
+  - text: an inventor's gate that opens only to a riddle, changed daily
+    tags: [magic]
+  - text: a patrol of the town militia, bored and looking for a reason
+    tags: [urban]
+    safety: [police]
+  - text: a washed-out stretch of road, and a farmer who charges to carry people over
+    tags: [road, rural]
+  - text: a preacher whose sermon has been running since dawn
+    tags: [faith]
+    safety: [religion]
+  - text: a snowfield that hides the true path
+    tags: [mountain]
+  - text: an overworked physician who refuses to leave her patients
+    tags: [urban]
+  - text: twins who answer every question differently
+  - text: a champion bull, a loose gate and an audience
+    tags: [rural]
+  - text: a showman who needs a volunteer, and has picked one
+    tags: [urban]
+  - text: a smouldering haystack no one is willing to touch
+    tags: [rural]
+    safety: [fire]
+  - text: a captain of the guard whose pride was hurt by the earlier visitors
+    tags: [urban]
+    safety: [police]
+  - text: a courier sworn to deliver the message to its addressee alone
+    tags: [road]

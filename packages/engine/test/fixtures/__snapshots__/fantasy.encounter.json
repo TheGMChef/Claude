@@ -1,52 +1,52 @@
 {
-  "display": "Can they talk their way past the gatekeeper without a name?",
+  "display": "Can they carry the feverish traveller to shelter before dark?",
   "fields": {
     "question": {
-      "value": "can they talk their way past the gatekeeper without a name?",
+      "value": "can they carry the feverish traveller to shelter before dark?",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.question#1"
+        "fantasy.encounter.question#7"
       ]
     },
     "opposition": {
-      "value": "a toll-keeper with a ledger and no imagination",
+      "value": "the weather, turning faster than anyone foretold",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.opposition#0"
+        "fantasy.encounter.opposition#3"
       ]
     },
     "goal": {
-      "value": "time, so their friends can arrive",
+      "value": "to make them leave without anyone getting hurt",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.goal#1"
+        "fantasy.encounter.goal#5"
       ]
     },
     "terrain": {
-      "value": "a crowded fish market at dawn",
+      "value": "a theatre's backstage while the play goes on",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.terrain#0"
+        "fantasy.encounter.terrain#2"
       ]
     },
     "turn": {
-      "value": "it starts to pour, and nobody can hear a word",
+      "value": "someone announces a rule no one has heard of, and even the loud ones defer",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.turn#6"
+        "fantasy.encounter.turn#22"
       ]
     },
     "failForward": {
-      "value": "they win the argument and lose a friend",
+      "value": "a trader's awning burns in the confusion, and they were the closest",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.encounter.fail#7"
+        "fantasy.encounter.fail#26"
       ]
     }
   }

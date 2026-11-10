@@ -12,3 +12,25 @@ entries:
   - text: it costs a day, and the trail goes cold in the meantime
   - text: someone innocent takes the blame, and asks them to fix it
   - text: they win the argument and lose a friend
+  - text: they get what they came for, and a witness gets a good look at their faces
+  - text: they arrive in time, and are too tired to do anything useful
+  - text: their next move becomes known to the other side
+  - text: they succeed, and a powerful figure starts asking who they are
+  - text: the job gets done, but the result is damaged beyond easy repair
+  - text: they are let go with a warning and a person to avoid
+  - text: a passer-by offers to help, for a price they will not like
+  - text: another crew reaches the goal first, and will share it, at a cost
+  - text: talk spreads that they are unreliable, and the next welcome is cooler
+  - text: an ally takes the loss, and expects to be remembered for it
+  - text: they learn the truth, and it makes everything worse
+  - text: the matter ends, but the winners now need a service from them
+  - text: they protect one secret and have to trade away another
+  - text: the way forward opens, and a worse problem waits behind it
+  - text: they are blamed in public, and have until morning to answer it
+  - text: an accident is taken for a deliberate act
+  - text: a bystander is hurt in the scramble, and it is no one's fault
+    safety: [violence]
+  - text: one of them is taken into custody, and must be bargained for
+    safety: [police]
+  - text: a trader's awning burns in the confusion, and they were the closest
+    safety: [fire]

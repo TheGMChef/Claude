@@ -5,11 +5,38 @@ tags: [encounter]
 entries:
   - text: an onlooker picks a side
   - text: the thing they came for turns out to be fake
-  - text: a second group arrives wanting the same thing
+  - text: a second group turns up wanting the same thing
   - text: someone on your side changes their mind
   - text: the ground underfoot gives way into something older
     tags: [underground, ruin]
   - text: the leader of the other side is called away, and a hothead takes over
-  - text: it starts to pour, and nobody can hear a word
-  - text: an old debt between two people in the scene comes up
-    tags: [debt]
+  - text: it starts to pour, and no one can hear anything
+  - text: an old grudge between two people in the scene comes up
+  - text: the sun drops behind the ridge, and the pace changes
+    tags: [wilderness, mountain]
+  - text: a messenger comes with news that changes what people want
+  - text: the person you are helping admits they lied about one detail
+  - text: an official turns up to inspect, at the worst possible moment
+    tags: [urban]
+  - text: a passer-by offers their opponents a better deal
+  - text: someone makes a scene that is part of no one's plan
+  - text: the crowd thins, and every remaining face is suddenly visible
+    tags: [urban]
+  - text: the loudest voice among their opponents goes quiet and stays that way
+  - text: a friend you thought lost walks in as though no time had passed
+  - text: a dog bolts across the middle, trailing someone's dinner
+    tags: [rural, urban]
+  - text: you realise their opponents have been right about one thing all along
+  - text: the one witness who mattered is called away
+  - text: the prize is found, and it is much bigger than planned for
+  - text: one of your own is recognised by an old acquaintance
+    tags: [urban]
+  - text: someone announces a rule no one has heard of, and even the loud ones defer
+  - text: a crash elsewhere in the building draws off a third of the audience
+    tags: [urban]
+  - text: the wind turns and carries every whisper to the one listener who matters
+    tags: [wilderness, coastal]
+  - text: two sworn enemies agree to cooperate, for now
+  - text: a person with real authority shows up and takes charge
+  - text: a bet is placed in public, and the stakes jump
+    tags: [urban]

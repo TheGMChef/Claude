@@ -3,19 +3,70 @@ id: fantasy.encounter.terrain
 title: 'Where:'
 tags: [encounter]
 entries:
-  - text: a crowded fish market at dawn
-    tags: [urban, coastal]
-  - text: a rope bridge over a gorge in a high wind
-    tags: [mountain, wilderness]
-  - text: a wine cellar with one door and too many barrels
-    tags: [underground, urban]
-  - text: a mill race where the wheel never stops turning
-    tags: [river, rural]
-  - text: a ruined watchtower with half a floor left
-    tags: [ruin, wilderness]
-  - text: a birch wood thick with low mist
-    tags: [forest]
-  - text: a muddy coaching road at the end of a long day
-    tags: [road]
+  - text: a crowded bakery lane before dawn
+    tags: [urban]
+  - text: a courthouse stairwell during the midday recess
+    tags: [urban]
+  - text: a theatre's backstage while the play goes on
+    tags: [urban]
+  - text: a covered arcade of near-identical shopfronts
+    tags: [urban, road]
   - text: a hayloft above a barn full of nervous cattle
     tags: [rural]
+  - text: an orchard in full fruit, ladders everywhere
+    tags: [rural]
+  - text: a threshing barn on the evening of the dance
+    tags: [rural]
+  - text: a mill race where the wheel will not stop turning
+    tags: [river, rural]
+  - text: a shingle beach at low tide, with a wreck just uncovered
+    tags: [coastal]
+  - text: a harbour mole in a rising swell
+    tags: [coastal]
+    safety: [drowning]
+  - text: a net loft thick with the smell of tar
+    tags: [coastal, urban]
+  - text: a cliff path above a loud, grey sea
+    tags: [coastal, mountain]
+  - text: a peat bog laced with firm paths no two guides agree on
+    tags: [wilderness]
+  - text: a high moor under a restless wind
+    tags: [wilderness, mountain]
+  - text: a dry riverbed with a high-water mark painted on every tree
+    tags: [wilderness, river]
+  - text: a ford with the current running high
+    tags: [river, road]
+    safety: [drowning]
+  - text: a landing stage crowded with barges and bargaining
+    tags: [river, urban]
+  - text: a plank footbridge over a gorge in a gale
+    tags: [mountain, river]
+  - text: a birch wood thick with low mist
+    tags: [forest]
+  - text: a forest track beneath dripping pines
+    tags: [forest, road]
+  - text: a coppice of cut stems, thick enough to be a maze
+    tags: [forest, rural]
+  - text: a scree slope beneath a leaning overhang
+    tags: [mountain, wilderness]
+  - text: a wine vault with a single narrow way in and too many barrels
+    tags: [underground, urban]
+  - text: a dry cistern with an iron ladder and one lit torch
+    tags: [underground, ruin]
+    safety: [claustrophobia]
+  - text: a drained mine gallery braced with old timbers
+    tags: [underground, mountain]
+    safety: [claustrophobia]
+  - text: a ruined watchtower with a single floor left
+    tags: [ruin, wilderness]
+  - text: a roofless hall with a dinner service still laid out
+    tags: [ruin, forest]
+  - text: a toppled statue on a bare plinth in an overgrown square
+    tags: [ruin, urban]
+  - text: a muddy coaching road at dusk
+    tags: [road]
+  - text: a crossroads where four wagons have met nose to nose
+    tags: [road, rural]
+  - text: a causeway over flooded fields
+    tags: [road, river, coastal]
+    safety: [drowning]
