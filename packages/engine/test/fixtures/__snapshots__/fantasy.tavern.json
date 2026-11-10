@@ -67,11 +67,11 @@
       ]
     },
     "rumor": {
-      "value": "a stranger bought every lantern in town and paid in foreign silver",
+      "value": "a swimmer swears she saw something pale sink in the pool below the falls and not rise",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.rumor.text#2"
+        "fantasy.rumor.text#12"
       ]
     }
   }

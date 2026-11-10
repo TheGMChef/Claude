@@ -3,18 +3,47 @@ id: fantasy.rumor.source
 title: Heard from
 tags: [rumor]
 entries:
-  - text: a carter who wants a free drink for it
-    tags: [road]
-  - text: a washerwoman who hears everything said over a tub
-    tags: [urban]
+  - text: a pedlar who heard it two valleys back and has improved it since
+    tags: [road, trade]
   - text: a ribbon seller who repeats her customers word for word
     tags: [trade]
-  - text: a tax clerk who offers it as a warning, then asks for a coin
-  - text: a pedlar who heard it two towns back and has improved it since
-    tags: [road, trade]
-  - text: a ferry passenger who swears it happened to her sister
-    tags: [river, family]
-  - text: a chalk message on the back of the privy door
-    tags: [urban]
-  - text: a shepherd who came down from the high pasture early and won't say why
+  - text: a shepherd who came down from the high pasture a week early
     tags: [mountain, rural]
+  - text: a chalk message on the back of a privy door
+  - text: a regular who tells it every night and is right about half the details
+  - text: a kitchen hand who overheard it through a serving hatch
+  - text: a soldier on leave who swears he had it from a colonel
+    safety: [war]
+  - text: a travelling preacher who works it into every sermon
+    tags: [faith]
+    safety: [religion]
+  - text: a woodcutter who got it from another woodcutter
+    tags: [forest, rural]
+  - text: a groom who listens while saddles are fastened
+    tags: [road]
+  - text: a bargeman who swears it was the talk of three landings
+    tags: [river]
+  - text: a widow who sells it along with her eggs
+    tags: [rural, trade]
+  - text: a courier who wants it passed along, and nothing else
+    tags: [road]
+  - text: a minstrel who has not found a rhyme for it yet and keeps asking
+    tags: [trade]
+  - text: a gravedigger who hears what the bereaved say to the dead
+    safety: [death]
+  - text: a pair of sisters who tell it differently and glare at each other
+    tags: [family]
+  - text: a cobbler who reads everyone's travels in the soles they bring him
+    tags: [trade]
+  - text: an old sailor who says he heard it on three coasts
+    tags: [coastal]
+  - text: a hedge-witch who charges only if it proves true
+    tags: [magic]
+  - text: an apprentice who swears the master told him not to repeat it
+    tags: [trade]
+  - text: an unsigned note pushed under the door in a disguised hand
+  - text: a beggar at the crossroads who sells news by the sentence
+    tags: [road]
+  - text: a pie seller who wraps it up with the change
+    tags: [trade]
+  - text: a parrot that repeats it in a stranger's voice

@@ -5,17 +5,89 @@ tags: [rumor]
 entries:
   - text: the miller's new wheel turns even when the river is low
     tags: [river, rural]
-  - text: '{ctx.front.name|or:the old guild} pays twice the going rate for maps of the hills'
+  - text: '{ctx.front.name|or:a distant buyer} pays silver for ordinary pebbles, sorted by colour'
     tags: [trade]
-  - text: a stranger bought every lantern in town and paid in foreign silver
+  - text: a stranger bought every candle for a day's ride around and paid in foreign silver
     tags: [trade]
-  - text: the ferrywoman knows who will cross before they reach the bank
-    tags: [river, magic]
-  - text: "{ctx.mention.name|or:the reeve's cousin} has been seen digging behind the toll house at night"
-    tags: [crime]
-  - text: the stone bridge groans a different note the day before bad weather
-    tags: [road]
-  - text: a goat wandered into the standing stones and came home wearing a silver bell
-    tags: [rural, magic]
-  - text: the old tanner is lending money and never asks for it back
+  - text: the old cooper is lending money and never asks for it back
     tags: [debt]
+  - text: "{ctx.mention.name|or:the reeve's cousin} has been seen digging under the old oak after dark"
+    tags: [crime]
+  - text: the oldest well gives back a different echo the day before bad weather
+    tags: [rural]
+  - text: a dog walked into the standing stones and came out wearing a silver collar
+    tags: [rural, magic]
+  - text: '{ctx.settlement.name|or:this place} was first built a mile east, and the old site still gets deliveries'
+    tags: [ruin, trade]
+  - text: a hermit in the hills has started buying paint by the barrel
+    tags: [mountain, wilderness]
+  - text: the new landlord has never once been seen in daylight
+    tags: [crime]
+  - text: the last priest to preach here left in the night with the collection
+    tags: [faith, crime]
+    safety: [religion]
+  - text: '{ctx.front.name|or:a quiet buyer} has bought every deed the frost-hit farms had to sell'
+    tags: [trade, rural]
+  - text: a swimmer swears she saw something pale sink in the pool below the falls and not rise
+    tags: [river]
+    safety: [drowning]
+  - text: a deserter from the last war is sleeping in the woodcutters' huts
+    tags: [forest, crime]
+    safety: [war]
+  - text: the old hall's windows light up on the first frost, though no one lives there
+    tags: [ruin, noble]
+  - text: a sickness is passing through the next valley, and travellers are being turned back
+    tags: [road]
+    safety: [death]
+  - text: the sergeant of the watch is paid by both sides of a feud
+    tags: [urban, crime]
+    safety: [police]
+  - text: a quiet circle meets in the quarry on moonless nights
+    tags: [faith, magic]
+    safety: [religion]
+  - text: a woodcutter found a web as wide as a barn door between two oaks
+    tags: [forest]
+    safety: [spiders]
+  - text: the granary cats left in one night, and the rats did not
+    tags: [rural]
+    safety: [rats]
+  - text: the tea from the hill farm makes people agreeable, then forgetful
+    tags: [rural]
+    safety: [addiction]
+  - text: the road to the pass bends half a day further than it did last year
+    tags: [road, mountain, magic]
+  - text: a travelling painter is selling portraits that look like someone else
+    tags: [road, magic]
+  - text: "{ctx.mention.name|or:the widow at the crossroads} has quietly paid off three families' debts"
+    tags: [debt]
+  - text: '{ctx.settlement.name|or:this place} used to have a second name, and an old rhyme still uses it'
+  - text: '{ctx.front.name|or:a masked patron} is paying students to memorise the same dull speech'
+    tags: [trade, noble]
+  - text: a closed coach passes every seventh night and never stops
+    tags: [road]
+  - text: the spring on the south hill has begun to run warm
+    tags: [wilderness, magic]
+  - text: someone has been quietly measuring the old hall for a buyer
+    tags: [noble, trade]
+  - text: the founder's statue was turned to face the wall last night
+    tags: [urban]
+  - text: an inspector is coming to decide which places keep their charter
+    tags: [noble]
+  - text: a trader from the coast has cornered the supply of barrel staves and is waiting for winter
+    tags: [coastal, trade]
+  - text: the herbwife has started refusing payment from anyone with a certain surname
+    tags: [family]
+  - text: something large has been rubbing against the trees along the north ridge
+    tags: [forest, wilderness]
+  - text: the river changed course in the night and left an old wall standing in the mud
+    tags: [river, ruin]
+  - text: a hazel sapling sprouted overnight in the middle of the main road
+    tags: [rural, magic]
+  - text: a troupe is rehearsing a play where every character is based on a local
+    tags: [urban]
+  - text: a courier rides in every dusk from the west with the same empty satchel
+    tags: [road]
+  - text: a retired pilot who knows the old channel is being hunted by two rival captains
+    tags: [coastal]
+  - text: the scarecrow in the east field wears a different coat every morning
+    tags: [rural, magic]
