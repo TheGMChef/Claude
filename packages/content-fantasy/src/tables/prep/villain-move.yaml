@@ -3,10 +3,10 @@ id: fantasy.prep.villain-move
 title: "The front's next move:"
 tags: []
 entries:
-  - text: buys up the debts of someone the party protects
-    tags: [debt]
+  - text: buys up the leases of the people the party protects
+    tags: [trade]
   - text: hires {ctx.mention.name|or:a trusted face} to carry its messages
-  - text: closes the road into {ctx.settlement.name|or:town} with a new toll
+  - text: closes the road into {ctx.settlement.name|or:town} for repairs that never seem to start
     tags: [road]
   - text: spreads a story that the party started the trouble
   - text: sends a generous gift that comes with strings
@@ -14,3 +14,35 @@ entries:
   - text: recruits a disgruntled ally of the party
   - text: calls in a favour from the town council
     tags: [urban]
+  - text: offers a critic of the party a seat at its table
+  - text: calls a meeting for the same night as the one the party arranged
+  - text: replaces a trusted official with a cousin of its own
+  - text: stages a small crisis so that it can be the one to solve it
+  - text: buys the silence of the only witness
+    tags: [crime]
+  - text: sends an envoy with a fair offer and until nightfall to answer
+  - text: arranges a petty theft to see who comes running
+    tags: [crime]
+  - text: writes to a distant authority about {ctx.settlement.name|or:the town}, and mentions the party by name
+  - text: pays for a new fountain, with its own name painted large over the entrance
+  - text: offers work to everyone the old arrangement turned away
+  - text: has someone follow {ctx.mention.name|or:a friend of the party} from market to nightfall
+  - text: swears friendship in public, before witnesses it chose with care
+  - text: rewards informers in {ctx.settlement.name|or:town}, until everybody has something to report
+  - text: sells off land that everyone assumed was common
+    tags: [rural]
+  - text: invites someone dear to the party to a long stay, and does not say when it ends
+  - text: loses a lawsuit on purpose, to look harmless
+    tags: [urban]
+  - text: hires a private watch to keep order in {ctx.settlement.name|or:the town}
+    safety: [police]
+  - text: sets a fire in a building nobody will miss, and blames the nearest enemy
+    safety: [fire]
+  - text: sends hired muscle to lean on a witness
+    safety: [violence]
+  - text: has a priest speak for it from the pulpit
+    safety: [religion]
+  - text: signs on a company of mercenaries, for protection only
+    safety: [war]
+  - text: slows the supply of a staple good, then offers to fix the shortage
+    tags: [trade]

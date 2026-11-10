@@ -32,7 +32,7 @@ const npc = (name: string): [string, TableSpec] => [
 ];
 const meaning = (name: string): [string, TableSpec] => [
   `fantasy.meaning.${name}`,
-  { family: 'oracle', target: 50, stub: 30, full: false, kind: 'word' },
+  { family: 'oracle', target: 50, stub: 30, full: true, kind: 'word' },
 ];
 
 const row = (id: string, spec: TableSpec): [string, TableSpec] => [`fantasy.${id}`, spec];
@@ -96,10 +96,11 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   line('encounter', 'terrain', 30, { terrain: true, full: true }),
   line('encounter', 'turn', 24, { full: true }),
   line('encounter', 'fail', 24, { full: true }),
-  line('prep', 'spotlight-hook', 24),
-  line('prep', 'return', 16),
-  line('prep', 'villain-move', 30),
-  line('prep', 'pressure-rumor', 24),
+  line('prep', 'spotlight-hook', 24, { full: true }),
+  line('prep', 'return', 16, { full: true }),
+  line('prep', 'villain-move', 30, { full: true }),
+  line('prep', 'pressure-rumor', 24, { full: true }),
+  line('prep', 'pressure-turn', 24, { full: true }),
 ]);
 
 /** Every generator under test. */

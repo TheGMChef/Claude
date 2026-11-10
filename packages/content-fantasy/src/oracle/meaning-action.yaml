@@ -16,8 +16,10 @@ entries:
   - text: deceive
   - text: honour
   - text: hunt
+    safety: [violence, animal-harm]
   - text: release
   - text: bind
+    safety: [slavery]
   - text: warn
   - text: scatter
   - text: claim
@@ -31,5 +33,27 @@ entries:
   - text: persuade
   - text: uncover
   - text: surrender
+    safety: [war]
   - text: challenge
+    safety: [violence]
   - text: return
+  - text: lend
+  - text: pledge
+  - text: outwit
+  - text: mislead
+  - text: outbid
+  - text: forge
+  - text: rescue
+  - text: appease
+  - text: repay
+  - text: confide
+  - text: ration
+  - text: cheat
+  - text: rebuild
+  - text: interrupt
+  - text: tempt
+  - text: accuse
+  - text: exile
+  - text: mimic
+  - text: hoard
+  - text: reclaim

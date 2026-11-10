@@ -3,14 +3,39 @@ id: fantasy.prep.pressure-rumor
 title: People are saying
 tags: []
 entries:
-  - text: '{ctx.front.name|or:someone powerful} is quietly hiring in {ctx.settlement.name|or:town}'
+  - text: '{ctx.front.name|or:someone powerful} is hiring in {ctx.settlement.name|or:town}, and not asking for references'
   - text: the price of bread doubled overnight and nobody knows who is buying
     tags: [trade]
   - text: '{ctx.front.name|or:the new landlord} keeps a list of names, and it is growing'
   - text: strangers have been asking which houses stand empty
-  - text: '{ctx.mention.name|or:the reeve} has not been seen since market day'
+  - text: '{ctx.mention.name|or:a well-known face} has not been seen since market day'
   - text: the north road is closed, and the official reason keeps changing
     tags: [road]
-  - text: '{ctx.front.name|or:an old enemy} paid the toll-keeper to look away last week'
+  - text: '{ctx.front.name|or:an old enemy} has paid someone at the gate to look away, twice now'
     tags: [crime]
-  - text: a second ledger has turned up, and someone wants it back
+  - text: a packet addressed to no one has turned up, and someone is offering good money for it
+  - text: '{ctx.front.name|or:the newcomer} has bought three barns and filled none of them'
+    tags: [rural]
+  - text: '{ctx.front.name|or:a local lender} has stopped asking for what is owed, which worries everyone'
+  - text: '{ctx.mention.name|or:a respected local} has stopped speaking against {ctx.front.name|or:the new order}'
+  - text: someone is settling old accounts in {ctx.settlement.name|or:town}, one household at a time
+  - text: the same unmarked barrels reach {ctx.settlement.name|or:town} every week, and nobody has seen one opened
+    tags: [trade]
+  - text: '{ctx.front.name|or:a distant noble} has asked for a count of everyone in {ctx.settlement.name|or:town}'
+    tags: [noble]
+  - text: '{ctx.front.name|or:the new tenant} is paying double for ordinary work and will not say what it is for'
+  - text: '{ctx.mention.name|or:a trusted friend} was seen leaving the old house by the back door'
+  - text: another town has stopped answering messages from {ctx.settlement.name|or:here}
+  - text: everyone who matters in {ctx.settlement.name|or:town} has started wearing the same colour
+  - text: '{ctx.front.name|or:the new landlord} has hired a private watch, and the pay is generous'
+    safety: [police]
+  - text: somebody drove a knife into the shutters of {ctx.mention.name|or:a local organiser}, and nobody saw a thing
+    safety: [violence]
+  - text: three people who crossed {ctx.front.name|or:the newcomer} have died of unlucky accidents
+    safety: [death]
+  - text: the fire at the grain store was no accident, whatever the official report says
+    safety: [fire]
+  - text: '{ctx.front.name|or:someone powerful} has been seen at the shrine at dawn, and the priest has gone quiet'
+    safety: [religion]
+  - text: old soldiers are arriving one by one and settling near {ctx.front.name|or:the new landlord}
+    safety: [war]

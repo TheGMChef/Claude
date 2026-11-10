@@ -1,0 +1,34 @@
+kind: table
+id: fantasy.prep.pressure-turn
+title: 'As time goes on,'
+tags: []
+entries:
+  - text: a second sign of it appears, in a place nobody was watching
+  - text: the cause turns out to be older than anyone assumed
+  - text: the cost starts to land on people who had nothing to do with it
+  - text: someone who has been profiting from it grows frightened and tries to stop
+  - text: a competing cause of the same trouble appears, and the two collide
+  - text: it eases for a week, which is when it is most dangerous
+  - text: the official explanation is withdrawn without comment
+  - text: a respected voice stops calling it nothing
+  - text: it spreads to the next settlement over
+  - text: it turns out to have a cut-off date that nobody announced
+  - text: the people behind it fall out, and one looks for a buyer for what they know
+  - text: the first real benefit appears, and a loyal group forms to defend it
+  - text: it moves out of reach, and the effects stay
+  - text: someone comes forward with proof, and nobody wants it
+  - text: the one person who understood it leaves town
+  - text: it is much larger than it looked, and part of it is already finished elsewhere
+  - text: the loudest critic is hired by the other side
+  - text: the people most affected start organising, with demands of their own
+  - text: an outsider arrives to take advantage of it
+  - text: the first death is blamed on something else
+    safety: [death]
+  - text: a fire breaks out at a place connected to it
+    safety: [fire]
+  - text: preachers begin to call it a sign
+    safety: [religion]
+  - text: it becomes the excuse for a crackdown
+    safety: [police]
+  - text: a meeting about it ends in a brawl
+    safety: [violence]

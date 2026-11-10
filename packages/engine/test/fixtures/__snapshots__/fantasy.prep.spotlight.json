@@ -1,12 +1,12 @@
 {
-  "display": "A stranger knows a hero by a name they have not used in years",
+  "display": "An heirloom of one hero's family shows up in a pawnshop window",
   "fields": {
     "hook": {
-      "value": "a stranger knows a hero by a name they have not used in years",
+      "value": "an heirloom of one hero's family shows up in a pawnshop window",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.prep.spotlight-hook#2"
+        "fantasy.prep.spotlight-hook#7"
       ]
     }
   }

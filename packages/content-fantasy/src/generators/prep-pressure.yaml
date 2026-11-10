@@ -3,5 +3,5 @@ id: fantasy.prep.pressure
 title: Pressure
 fields:
   rumor: { table: fantasy.prep.pressure-rumor }
-  turn: { table: fantasy.complication.twist }
+  turn: { table: fantasy.prep.pressure-turn }
 display: '{rumor|cap}'

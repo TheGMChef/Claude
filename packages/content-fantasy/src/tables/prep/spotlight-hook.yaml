@@ -4,11 +4,31 @@ title: 'Spotlight:'
 tags: []
 entries:
   - text: someone from {ctx.pc.name|or:a hero}'s past turns up needing a favour only they can give
-  - text: a letter for {ctx.pc.name|or:one of the heroes} has been waiting at the inn for a month
+  - text: a parcel addressed to {ctx.pc.name|or:one of the heroes} has been waiting at the coach office for a month
   - text: a stranger knows {ctx.pc.name|or:a hero} by a name they have not used in years
   - text: 'a chance at what {ctx.pc.name|or:one hero} came for: {ctx.pc.want|or:an old debt settled}'
   - text: an old teacher of {ctx.pc.name|or:one of them} needs help and will ask nobody else
   - text: '{ctx.pc.name|or:a hero} is offered a post that would mean leaving the party'
-  - text: a rival of {ctx.pc.name|or:one hero} has been telling stories about them, and some are true
+  - text: someone has been telling stories about {ctx.pc.name|or:one hero} in the next town, and some are true
   - text: an heirloom of {ctx.pc.name|or:one hero}'s family shows up in a pawnshop window
     tags: [family]
+  - text: a problem turns up that only {ctx.pc.name|or:a hero}'s particular talent can solve, and everyone knows it
+  - text: an eager admirer has followed {ctx.pc.name|or:one hero} for three towns and wants to learn their trade
+  - text: '{ctx.pc.name|or:a hero} is mistaken for someone more important, and the mistake turns out to be useful'
+  - text: somebody offers {ctx.pc.name|or:one hero} a shortcut to what they want, with a condition they will hate
+  - text: a stranger quotes back to {ctx.pc.name|or:one of them} a promise they made long ago
+  - text: the person {ctx.pc.name|or:a hero} trusts most is hiding something small that is about to come out
+  - text: two people who both admire {ctx.pc.name|or:one hero} ask them to settle an argument
+  - text: a skill {ctx.pc.name|or:a hero} has let slip is needed again tonight
+  - text: a seat at a table that has always refused {ctx.pc.name|or:one hero} is suddenly offered, with a catch
+  - text: the one place {ctx.pc.name|or:a hero} swore never to go back to sends for them
+  - text: an object {ctx.pc.name|or:one hero} lost years ago comes back, and its bearer has a request ready
+  - text: a former partner of {ctx.pc.name|or:one hero} wants to work together again and has changed
+  - text: an old friend of {ctx.pc.name|or:a hero} cannot stop drinking and has asked for them by name
+    safety: [addiction]
+  - text: '{ctx.pc.name|or:a hero} meets a comrade from their old regiment, who is not doing well'
+    safety: [war]
+  - text: a formal challenge is delivered to {ctx.pc.name|or:one hero}, with a time and a place
+    safety: [violence]
+  - text: the temple {ctx.pc.name|or:a hero} left behind sends a summons they have been ignoring
+    safety: [religion]

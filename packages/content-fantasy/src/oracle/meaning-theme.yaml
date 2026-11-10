@@ -33,3 +33,26 @@ entries:
   - text: song
   - text: envy
   - text: freedom
+  - text: faith
+    safety: [religion]
+  - text: grief
+    safety: [death]
+  - text: thaw
+  - text: orchard
+  - text: refuge
+  - text: scandal
+  - text: treaty
+  - text: shadow
+  - text: tribute
+  - text: loyalty
+  - text: fever
+  - text: kin
+  - text: contract
+  - text: ambition
+  - text: mercy
+  - text: luck
+  - text: whisper
+  - text: tenant
+  - text: cargo
+  - text: ember
+    safety: [fire]

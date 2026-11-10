@@ -1,20 +1,20 @@
 {
-  "display": "An old enemy paid the toll-keeper to look away last week",
+  "display": "The new landlord has hired a private watch, and the pay is generous",
   "fields": {
     "rumor": {
-      "value": "an old enemy paid the toll-keeper to look away last week",
+      "value": "the new landlord has hired a private watch, and the pay is generous",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.prep.pressure-rumor#6"
+        "fantasy.prep.pressure-rumor#18"
       ]
     },
     "turn": {
-      "value": "the answer is in something one of them already carries",
+      "value": "the first death is blamed on something else",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.complication.twist#25"
+        "fantasy.prep.pressure-turn#19"
       ]
     }
   }
