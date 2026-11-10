@@ -77,7 +77,7 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   line('shop', 'oddity', 24, { pocket: true, full: true }),
   line('shop', 'haggle', 20, { pocket: true, full: true }),
   line('rumor', 'text', 40, { pocket: true, full: true }),
-  row('rumor.truth', { family: 'rumor', target: 3, full: false, kind: 'fixed' }),
+  row('rumor.truth', { family: 'rumor', target: 3, full: true, kind: 'fixed' }),
   line('rumor', 'source', 24, { pocket: true, full: true }),
   line('secret', 'text', 40, { full: true }),
   line('clue', 'delivery', 24, { full: true }),

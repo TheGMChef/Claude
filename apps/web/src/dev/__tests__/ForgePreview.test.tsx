@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   SAFETY_VOCABULARY,
+  applySafety,
   askOracle,
   batch,
   cardToShare,
@@ -22,6 +23,7 @@ vi.mock('@prepdesk/engine', async (importOriginal) => {
   return {
     ...actual,
     newSeed: vi.fn(() => `0000-${String(++seedCounter).padStart(4, '0')}`),
+    applySafety: vi.fn(actual.applySafety),
     askOracle: vi.fn(actual.askOracle),
     batch: vi.fn(actual.batch),
     generate: vi.fn(actual.generate),
@@ -77,6 +79,7 @@ describe('ForgePreview', () => {
   beforeEach(() => {
     seedCounter = 0;
     vi.mocked(askOracle).mockClear();
+    vi.mocked(applySafety).mockClear();
     vi.mocked(batch).mockClear();
     vi.mocked(drawMove).mockClear();
     warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -464,5 +467,94 @@ describe('ForgePreview', () => {
     expect(within(article).getByRole('group', { name: 'role' })).toHaveTextContent(
       valueOf('role') ?? '',
     );
+  });
+
+  describe('Roll anything', () => {
+    const rollSection = () => screen.getByRole('region', { name: 'Roll anything' });
+    const genValue = (field: string) => screen.getByTestId(`gen-field-value-${field}`).textContent;
+    const tavern = (seed: number) =>
+      generate(lib, 'fantasy.tavern', { seed: seedN(seed), context: defaultContext() });
+
+    it('lists all 15 generators by title, Place first', () => {
+      setup();
+      const select = within(rollSection()).getByLabelText('Generator') as HTMLSelectElement;
+      expect(select.tagName).toBe('SELECT');
+      expect(within(select).getAllByRole('option')).toHaveLength(15);
+      expect(select.value).toBe('fantasy.place');
+      expect(within(select).getByRole('option', { name: 'Tavern' })).toBeInTheDocument();
+    });
+
+    it('choosing Tavern and pressing Roll shows the engine card, seed included', async () => {
+      const { user } = setup();
+      const section = rollSection();
+      await user.selectOptions(within(section).getByLabelText('Generator'), 'Tavern');
+      await user.click(within(section).getByRole('button', { name: 'Roll' }));
+      const expected = tavern(2);
+      expect(screen.getByTestId('gen-display')).toHaveTextContent(expected.display);
+      for (const [name, f] of Object.entries(expected.fields)) expect(genValue(name)).toBe(f.value);
+      expect(within(section).getByText(expected.seed)).toBeInTheDocument();
+    });
+
+    it('locking keeper and pressing Reroll keeps its value and rerolls the rest', async () => {
+      const { user } = setup();
+      const section = rollSection();
+      await user.selectOptions(within(section).getByLabelText('Generator'), 'Tavern');
+      await user.click(within(section).getByRole('button', { name: 'Roll' }));
+      const first = tavern(2);
+      await user.click(within(section).getByRole('button', { name: 'Hold keeper' }));
+      expect(within(section).getByRole('button', { name: 'Release keeper' })).toHaveAttribute(
+        'aria-pressed',
+        'true',
+      );
+      await user.click(within(section).getByRole('button', { name: 'Roll again' }));
+      const expected = reroll(lib, first, { locks: ['keeper'], context: defaultContext() });
+      expect(genValue('keeper')).toBe(first.fields.keeper?.value);
+      expect(genValue('menu')).toBe(expected.fields.menu?.value);
+      expect(screen.getByTestId('gen-display')).toHaveTextContent(expected.display);
+    });
+
+    it('a Line calls applySafety and leaves every unblocked field unchanged', async () => {
+      const { user } = setup();
+      const section = rollSection();
+      await user.selectOptions(within(section).getByLabelText('Generator'), 'Tavern');
+      await user.click(within(section).getByRole('button', { name: 'Roll' }));
+      const names = Object.keys(tavern(2).fields);
+      const before = names.map((n) => genValue(n));
+      vi.mocked(applySafety).mockClear();
+      await user.click(screen.getByRole('checkbox', { name: 'Line violence' }));
+      expect(applySafety).toHaveBeenCalled();
+      const card = vi
+        .mocked(applySafety)
+        .mock.results.map((r) => r.value as Card)
+        .find((c) => c.generatorId === 'fantasy.tavern');
+      expect(card).toBeDefined();
+      names.forEach((n, i) => {
+        if (!card?.fields[n]?.blocked) expect(genValue(n)).toBe(before[i]);
+      });
+    });
+
+    it('stamps BLOCKED on a blocked field and shows the dash', async () => {
+      const { user } = setup();
+      const section = rollSection();
+      const real = vi.mocked(generate).getMockImplementation()!;
+      vi.mocked(generate).mockImplementationOnce((...args) => {
+        const card = real(...args);
+        return {
+          ...card,
+          fields: { ...card.fields, menu: { ...card.fields.menu!, blocked: true, value: '' } },
+        };
+      });
+      await user.click(within(section).getByRole('button', { name: 'Roll' }));
+      expect(within(section).getByText('BLOCKED')).toBeInTheDocument();
+    });
+
+    it('changing the generator clears the card', async () => {
+      const { user } = setup();
+      const section = rollSection();
+      await user.click(within(section).getByRole('button', { name: 'Roll' }));
+      expect(screen.getByTestId('gen-display')).toBeInTheDocument();
+      await user.selectOptions(within(section).getByLabelText('Generator'), 'Shop');
+      expect(screen.queryByTestId('gen-display')).not.toBeInTheDocument();
+    });
   });
 });

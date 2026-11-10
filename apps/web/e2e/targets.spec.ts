@@ -12,7 +12,7 @@ test.skip(
 // `min` elements so the check can never silently shrink to the top bar again. Floors come from a
 // green run: tablet top bar = 6 (wordmark, 4 modes, theme); phone top bar = 3 (wordmark, Menu,
 // theme). Each mode page adds 3 links to the other modes, home adds 4; /kit measured 62/59 and
-// /forge-preview 80/77 (tablet/phone).
+// /forge-preview 89/86 with a rolled generator card (tablet/phone).
 type Floor = { tablet: number; phone: number };
 const PAGES: { path: string; ready: (p: Page) => Locator; min: Floor }[] = [
   {
@@ -48,7 +48,7 @@ const PAGES: { path: string; ready: (p: Page) => Locator; min: Floor }[] = [
   {
     path: '/forge-preview',
     ready: (p) => p.getByRole('button', { name: 'Lock name' }),
-    min: { tablet: 72, phone: 70 },
+    min: { tablet: 81, phone: 78 },
   },
 ];
 
@@ -57,6 +57,7 @@ for (const { path, ready, min } of PAGES) {
     await page.goto(path);
     if (path === '/forge-preview') {
       await page.getByRole('button', { name: 'Create NPC' }).click();
+      await page.getByRole('button', { name: 'Roll', exact: true }).click();
     }
     await expect(ready(page)).toBeVisible();
     const { checked, small } = await measureTargets(page);

@@ -27,10 +27,11 @@ import {
   Stamp,
   Tabs,
 } from '../kit';
-import { lib } from './engine';
+import { GENERATORS, lib } from './engine';
 import './forge.css';
 
 const GENERATOR = 'fantasy.npc';
+const DEFAULT_ROLL = 'fantasy.place';
 const ORACLE = 'fantasy.oracle';
 const DECK = 'core.gm-moves';
 const BAD_CODE = "That code doesn't look right. Check it and try again.";
@@ -60,11 +61,27 @@ const toggle = (list: string[], tag: string, on: boolean): string[] =>
 const lockedNames = (card: Card): string[] =>
   Object.keys(card.fields).filter((k) => card.fields[k]?.locked === true);
 
-function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: string) => void }) {
+interface GenCardProps {
+  card: Card;
+  onToggleLock: (field: string) => void;
+  /** The NPC card keeps its original labels and test ids; the picker card has its own. */
+  variant: 'npc' | 'gen';
+}
+
+/** One card of any generator: display, veiled flag, and a row per field with a lock key. */
+function GenCard({ card, onToggleLock, variant }: GenCardProps) {
+  const npc = variant === 'npc';
+  const heading = npc
+    ? (lib.culture(String(card.context.cultureId))?.name ?? '')
+    : (lib.generator(card.generatorId)?.title ?? '');
+  const valueId = npc ? 'field-value' : 'gen-field-value';
+  const labelId = npc ? 'field-label' : 'gen-field-label';
   return (
     <KitCard variant="ruled">
-      <SectionLabel>{lib.culture(String(card.context.cultureId))?.name ?? ''}</SectionLabel>
-      <h2 className="forge__display">{card.display}</h2>
+      <SectionLabel>{heading}</SectionLabel>
+      <h2 className="forge__display" data-testid={npc ? undefined : 'gen-display'}>
+        {card.display}
+      </h2>
       {card.flags.veiled.length > 0 && (
         <p className="forge__flags">
           <Stamp tone="pencil" rotate={-3}>
@@ -76,12 +93,12 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
       <ul className="forge__fields" role="list">
         {Object.entries(card.fields).map(([name, f]) => (
           <li className="forge__row" key={name}>
-            <div className="forge__row-body" role="group" aria-labelledby={`field-label-${name}`}>
-              <div id={`field-label-${name}`}>
+            <div className="forge__row-body" role="group" aria-labelledby={`${labelId}-${name}`}>
+              <div id={`${labelId}-${name}`}>
                 <SectionLabel>{name}</SectionLabel>
               </div>
               <div
-                data-testid={`field-value-${name}`}
+                data-testid={`${valueId}-${name}`}
                 className={name === 'voice' ? 'forge__value forge__value--hand' : 'forge__value'}
               >
                 {f.blocked ? '—' : f.value}
@@ -102,7 +119,15 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
             </div>
             <IconButton
               icon={f.locked ? 'lock' : 'unlock'}
-              label={f.locked ? `Unlock ${name}` : `Lock ${name}`}
+              label={
+                npc
+                  ? f.locked
+                    ? `Unlock ${name}`
+                    : `Lock ${name}`
+                  : f.locked
+                    ? `Release ${name}`
+                    : `Hold ${name}`
+              }
               aria-pressed={f.locked}
               onClick={() => onToggleLock(name)}
             />
@@ -112,6 +137,11 @@ function NpcCard({ card, onToggleLock }: { card: Card; onToggleLock: (field: str
     </KitCard>
   );
 }
+
+const withLockToggled = (card: Card, field: string): Card => {
+  const f = card.fields[field];
+  return f ? { ...card, fields: { ...card.fields, [field]: { ...f, locked: !f.locked } } } : card;
+};
 
 export function ForgePreview() {
   const [cultureId, setCultureId] = useState(CULTURES[0]?.id ?? '');
@@ -142,6 +172,8 @@ export function ForgePreview() {
   );
 
   const [card, setCard] = useState<Card | null>(null);
+  const [rollId, setRollId] = useState(DEFAULT_ROLL);
+  const [rolled, setRolled] = useState<Card | null>(null);
 
   const names = useMemo(
     () => batch(lib, [{ cultureId, count: 10 }], { seed: nameSeed, context }) as NameResult[],
@@ -178,10 +210,19 @@ export function ForgePreview() {
   };
 
   const toggleLock = (field: string) => {
-    if (!card) return;
-    const f = card.fields[field];
-    if (!f) return;
-    setCard({ ...card, fields: { ...card.fields, [field]: { ...f, locked: !f.locked } } });
+    if (card) setCard(withLockToggled(card, field));
+  };
+
+  const toggleRolledLock = (field: string) => {
+    if (rolled) setRolled(withLockToggled(rolled, field));
+  };
+  const roll = () => setRolled(generate(lib, rollId, { seed: newSeed(), context }));
+  const rerollRolled = () => {
+    if (rolled) setRolled(reroll(lib, rolled, { locks: lockedNames(rolled), context }));
+  };
+  const pickGenerator = (id: string) => {
+    setRollId(id);
+    setRolled(null);
   };
 
   const rerollCard = () => {
@@ -193,10 +234,9 @@ export function ForgePreview() {
     setVeils(nextVeils);
     // Lines override locks (R22), so re-apply to the card on screen straight away. applySafety
     // rerolls nothing: unrelated fields stay and a hidden value returns when its line goes (M2).
-    if (card) {
-      const safety = { lines: nextLines, veils: nextVeils };
-      setCard(applySafety(lib, card, { context: { ...context, safety } }));
-    }
+    const safety = { lines: nextLines, veils: nextVeils };
+    if (card) setCard(applySafety(lib, card, { context: { ...context, safety } }));
+    if (rolled) setRolled(applySafety(lib, rolled, { context: { ...context, safety } }));
   };
 
   // cardToShare rebuilds the card to work out `exact`, so only recompute when the card changes.
@@ -253,7 +293,7 @@ export function ForgePreview() {
           </div>
           {card ? (
             <>
-              <NpcCard card={card} onToggleLock={toggleLock} />
+              <GenCard variant="npc" card={card} onToggleLock={toggleLock} />
               <div className="forge__share">
                 <SectionLabel>Share code</SectionLabel>
                 <div className="forge__code-row">
@@ -339,6 +379,47 @@ export function ForgePreview() {
         </section>
 
         <div className="forge__col">
+          <section aria-labelledby="forge-roll">
+            <h2 id="forge-roll" className="forge__heading">
+              Roll anything
+            </h2>
+            <div className="field">
+              <label htmlFor="forge-generator" className="field__label">
+                Generator
+              </label>
+              <select
+                id="forge-generator"
+                className="field__control forge__select"
+                value={rollId}
+                onChange={(e) => pickGenerator(e.target.value)}
+              >
+                {GENERATORS.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="forge__actions">
+              <Button onClick={roll}>Roll</Button>
+              <Button variant="outline" onClick={rerollRolled} disabled={!rolled}>
+                Roll again
+              </Button>
+            </div>
+            {rolled ? (
+              <>
+                <GenCard variant="gen" card={rolled} onToggleLock={toggleRolledLock} />
+                <p className="forge__seed">
+                  Seed <code>{rolled.seed}</code>
+                </p>
+              </>
+            ) : (
+              <p className="forge__muted">
+                <MarginNote>press Roll to begin</MarginNote>
+              </p>
+            )}
+          </section>
+
           <section aria-labelledby="forge-names">
             <h2 id="forge-names" className="forge__heading">
               Names

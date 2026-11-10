@@ -10,6 +10,7 @@ import type { CompiledTable } from '../src/schema';
 import { FACETS } from '../src/schema';
 import { allSituations } from './fixtures/content-helpers';
 import {
+  CULTURES_SPEC,
   DECK_SPEC,
   GENERATORS,
   SITUATIONS,
@@ -23,6 +24,13 @@ const CULTURES = ['fantasy.culture.marsh', 'fantasy.culture.highland', 'fantasy.
 const fullLines = { lines: [...SAFETY_VOCABULARY], veils: [] };
 
 describe('starter packs', () => {
+  it('S1 content is complete: every spec row is full', () => {
+    expect(Object.values(TABLE_SPEC).every((s) => s.full)).toBe(true);
+    expect(SITUATIONS.full).toBe(true);
+    expect(CULTURES_SPEC.full).toBe(true);
+    expect(DECK_SPEC.full).toBe(true);
+  });
+
   it('both lint clean', () => {
     expect(lintPack(corePack)).toEqual([]);
     expect(lintPack(fantasyPack)).toEqual([]);

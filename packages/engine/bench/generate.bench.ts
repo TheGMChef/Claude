@@ -16,6 +16,21 @@ const sixtyItems: BatchRequest[] = [
   { tableId: 'fantasy.meaning.theme', count: 8 },
 ];
 
+// The Pocket set: what one "fill my pocket" press asks for.
+const pocketBatch: BatchRequest[] = [
+  { generatorId: 'fantasy.npc', count: 6 },
+  { cultureId: 'fantasy.culture.marsh', count: 6 },
+  { cultureId: 'fantasy.culture.highland', count: 6 },
+  { cultureId: 'fantasy.culture.imperial', count: 6 },
+  { generatorId: 'fantasy.tavern', count: 1 },
+  { generatorId: 'fantasy.shop', count: 1 },
+  { generatorId: 'fantasy.place', count: 2 },
+  { generatorId: 'fantasy.rumor', count: 6 },
+  { generatorId: 'fantasy.treasure', count: 3 },
+  { generatorId: 'fantasy.trinket', count: 3 },
+  { generatorId: 'fantasy.complication', count: 6 },
+];
+
 let n = 0;
 
 describe('starter packs', () => {
@@ -25,5 +40,9 @@ describe('starter packs', () => {
 
   bench('batch 60 items (6 NPCs + 30 names + 24 table rolls)', () => {
     batch(lib, sixtyItems, { seed: `bench-${n++}`, context });
+  });
+
+  bench('Pocket batch (46 results)', () => {
+    batch(lib, pocketBatch, { seed: `bench-${n++}`, context });
   });
 });

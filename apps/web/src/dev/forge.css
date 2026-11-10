@@ -199,3 +199,19 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 }
+
+.forge__select {
+  width: 100%;
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.forge__seed {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: var(--text-13);
+}
+
+.forge__seed code {
+  font-family: var(--font-mono);
+}
