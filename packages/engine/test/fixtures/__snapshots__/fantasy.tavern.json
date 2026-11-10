@@ -27,27 +27,27 @@
       ]
     },
     "sight": {
-      "value": "a barge wedged under a bridge that is slightly too low",
+      "value": "fish weirs woven so fine they shimmer",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.sight#27"
+        "fantasy.place.sight#29"
       ]
     },
     "sound": {
-      "value": "doves clattering out of a roof that has no roof",
+      "value": "a wheel rim ringing on a rock, followed by cursing in two accents",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.sound#38"
+        "fantasy.place.sound#40"
       ]
     },
     "smell": {
-      "value": "turned earth after rain",
+      "value": "woodsmoke and boiled cabbage",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.place.smell#14"
+        "fantasy.place.smell#16"
       ]
     },
     "menu": {

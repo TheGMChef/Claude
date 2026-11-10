@@ -18,7 +18,7 @@ entries:
     tags: [road]
   - text: bread from an oven nobody can find
     tags: [urban, rural]
-  - text: thin mountain air with a hint of crushed thyme
+  - text: crushed thyme underfoot on a high slope
     tags: [mountain, wilderness]
   - text: ink, old paper and cold tea
     tags: [urban]
@@ -70,11 +70,11 @@ entries:
     tags: [river]
   - text: cold current and trodden reeds
     tags: [river]
-  - text: mineral water dripping on iron
+  - text: mineral water and wet iron
     tags: [underground]
   - text: apples kept in a cellar too long
     tags: [underground]
-  - text: cold air that has not moved in years
+  - text: stale stone-dust and air that has not moved in years
     tags: [underground, ruin]
     safety: [claustrophobia]
   - text: sun-baked brick and wild fennel
@@ -90,14 +90,22 @@ entries:
   - text: wet canvas and trampled grass
     tags: [road, wilderness]
   - text: cinnamon and hot sugar
-    tags: []
+    tags: [urban]
   - text: beeswax polish and cold soup
-    tags: []
+    tags: [urban]
   - text: lemon oil and old books
-    tags: []
+    tags: [urban]
   - text: fresh paint over something damp
     tags: []
-  - text: boiled linen and starch
-    tags: []
+  - text: starch and warm cotton
+    tags: [urban]
   - text: new leather and cut cheese
+    tags: [urban]
+  - text: cold iron and old rain
+    tags: []
+  - text: dust and dry paper
+    tags: []
+  - text: fallen fruit going sweet and slow
+    tags: []
+  - text: milk just on the turn
     tags: []

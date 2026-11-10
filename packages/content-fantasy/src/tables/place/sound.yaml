@@ -7,7 +7,7 @@ entries:
     tags: [urban]
   - text: water dripping into a bucket someone keeps emptying
     tags: [rural]
-  - text: distant bells, never quite agreeing
+  - text: ferry bells and market bells, never quite agreeing
     tags: [urban]
   - text: geese arguing behind a wall
     tags: [rural]
@@ -17,8 +17,9 @@ entries:
     tags: [urban, trade]
   - text: a skipping rhyme chanted in a house with every shutter open
     tags: [rural]
+    safety: [death]
   - text: hooves on stone, slower than the rider seems to be going
-    tags: [road, forest]
+    tags: [road]
   - text: a mooring rope creaking against a wet post
     tags: [river, coastal]
   - text: someone practising the same four notes on a fiddle
@@ -27,7 +28,7 @@ entries:
     tags: [urban, trade]
   - text: cart wheels on cobbles, one with a squeak that sets the tempo
     tags: [urban, road]
-  - text: shutters banging in a rhythm that is almost a tune
+  - text: a loose roof tile tapping a rhythm that is almost a tune
     tags: [urban]
   - text: two neighbours trading insults over a fence in friendly voices
     tags: [urban, rural]
@@ -71,7 +72,7 @@ entries:
     tags: [river]
   - text: a mill-race roaring, then dropping quiet when a sluice is shut
     tags: [river, rural]
-  - text: dripping that falls in a pattern, like a counting game
+  - text: water ticking down a wall like a counting game
     tags: [underground]
   - text: footsteps that arrive a moment after the walker stops
     tags: [underground, ruin]
@@ -88,14 +89,20 @@ entries:
   - text: a wheel rim ringing on a rock, followed by cursing in two accents
     tags: [road]
   - text: someone in the next room humming a song with the verses out of order
-    tags: []
+    tags: [urban]
   - text: a kettle working itself up to a whistle that never arrives
-    tags: []
+    tags: [urban]
   - text: a dice cup rattling behind a closed door
-    tags: []
+    tags: [urban]
   - text: a floorboard that answers every step with a different note
-    tags: []
+    tags: [urban]
   - text: a clock that only strikes the half hours
     tags: []
   - text: two voices arguing about the price of a single egg
+    tags: []
+  - text: wind finding every gap in the walls, each with its own note
+    tags: []
+  - text: a long silence, then one cough from somewhere close
+    tags: []
+  - text: something heavy being dragged and set down, twice
     tags: []

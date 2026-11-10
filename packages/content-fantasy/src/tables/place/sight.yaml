@@ -16,11 +16,10 @@ entries:
   - text: a road paved with broken crockery, glittering after rain
     tags: [road]
   - text: tally marks scratched into a doorframe, thousands of them
-    tags: [ruin]
+    tags: []
+    safety: [claustrophobia]
   - text: moss that has swallowed a carved gate, leaving only the hinges
     tags: [ruin, wilderness]
-  - text: laundry strung between the gables like signal flags
-    tags: [urban]
   - text: a cart propped level on a stack of bricks
     tags: [road]
   - text: moss growing in the letters of an old boundary stone
@@ -39,6 +38,7 @@ entries:
     tags: [coastal]
   - text: shells set into a harbour wall, one for every winter
     tags: [coastal]
+    safety: [death]
   - text: a lamp room wearing a patched oilskin hood
     tags: [coastal]
   - text: a hollow tree with a tiny door and a polished brass knocker
@@ -49,6 +49,7 @@ entries:
     tags: [forest]
   - text: a cairn taller than the person who built it
     tags: [mountain, wilderness]
+    safety: [death]
   - text: a footbridge repaired plank by plank in five shades of wood
     tags: [mountain]
   - text: a goat on a rooftop, looking pleased with itself
@@ -61,7 +62,7 @@ entries:
     tags: [river, urban]
   - text: stepping stones, each carved with a different face
     tags: [river]
-  - text: a washing-place by the water where every stone has a name scratched in
+  - text: a river landing where every stone has a name scratched in
     tags: [river]
   - text: fish weirs woven so fine they shimmer
     tags: [river]
@@ -72,12 +73,12 @@ entries:
     tags: [underground]
     safety: [claustrophobia]
   - text: a cellar door in the middle of a field, with a doormat
-    tags: [underground, rural]
+    tags: [rural]
   - text: a pillar still standing in a field of rubble, topped by a nest
     tags: [ruin]
   - text: a mosaic floor open to the sky, swept clean by someone every morning
     tags: [ruin]
-  - text: a broken arch with a washing line strung through it
+  - text: a broken arch with a door fitted into the gap and a brass number on it
     tags: [ruin, urban]
   - text: a signpost with five arms and no writing left
     tags: [road]
@@ -90,15 +91,23 @@ entries:
   - text: a mirror hung face to the wall with a note tucked under it
     tags: []
     safety: [death]
-  - text: a clock with a ribbon where the minute hand should be
+  - text: a doorway hung with a hundred keys, none labelled
     tags: []
   - text: a cat asleep on a ledger, one paw on the last entry
     tags: []
   - text: a drawing of the room pinned to the wall, with one extra door
     tags: []
   - text: a row of identical umbrellas, each tied shut with a different knot
-    tags: []
+    tags: [urban]
   - text: a window box of herbs labelled in three alphabets
-    tags: []
+    tags: [urban]
   - text: a painted sign promising free soup, faded by several winters
+    tags: [urban]
+  - text: a street of identical doors, each with a different lock
+    tags: [urban]
+  - text: an iron ring set in a flagstone, polished by use
+    tags: [underground, urban]
+  - text: a puddle that stays perfectly still while the wind moves everything else
+    tags: []
+  - text: footprints leading in and none leading out
     tags: []
