@@ -4,6 +4,14 @@ import type { RepoDeps } from '../deps';
 import { ENTITY_KINDS, STATES_BY_KIND, SUBTYPES_BY_KIND } from '../schema';
 import type { Canon, Entity, EntityKind } from '../schema';
 import { entityTokens, fold, validTitle } from '../text';
+import {
+  deriveWikiLinks,
+  makeResolver,
+  nameKeys,
+  reresolveIncoming,
+  rewriteTargets,
+  wikiTargets,
+} from '../wiki';
 
 export type EntityInput = {
   kind: EntityKind;
@@ -143,7 +151,7 @@ function build(kind: EntityKind, input: Partial<Omit<EntityInput, 'kind'>>, base
     veiled: cleanVeiled(input.veiled ?? base?.veiled ?? []),
     origin,
     tokens: [],
-    wikiTargets: base?.wikiTargets ?? [],
+    wikiTargets: [],
     createdAt: base?.createdAt ?? 0,
     updatedAt: 0,
   };
@@ -154,16 +162,93 @@ function build(kind: EntityKind, input: Partial<Omit<EntityInput, 'kind'>>, base
   if (firstSessionId !== undefined) entity.firstSessionId = firstSessionId;
   if (base?.lastSessionId !== undefined) entity.lastSessionId = base.lastSessionId;
   entity.tokens = entityTokens(entity);
+  entity.wikiTargets = wikiTargets(entity);
   return entity;
 }
 
+const campaignEntities = (d: RepoDeps, cid: string) =>
+  d.db.entities.where('campaignId').equals(cid).toArray();
+
 /**
- * The seam Task 5 fills: runs inside the write transaction after the entity row is stored, to derive
- * wiki links and re-resolve incoming ones.
+ * Inside the write transaction, after the row is stored: derives this entity's wiki links and, when
+ * it is new or its title or aliases changed, re-derives every entity whose text names it (D56).
  */
-export type WriteChange = { created: boolean; titlesChanged: boolean };
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function afterWrite(_d: RepoDeps, _entity: Entity, _change: WriteChange): Promise<void> {}
+async function afterWrite(d: RepoDeps, entity: Entity, before?: Entity): Promise<void> {
+  const resolve = makeResolver(await campaignEntities(d, entity.campaignId));
+  await deriveWikiLinks(d, entity, resolve);
+  const keys = nameKeys(entity);
+  const old = before ? nameKeys(before) : [];
+  const same = before && keys.length === old.length && keys.every((k) => old.includes(k));
+  if (!same) {
+    await reresolveIncoming(
+      d,
+      entity.campaignId,
+      [...new Set([...keys, ...old])],
+      resolve,
+      entity.id,
+    );
+  }
+}
+
+/**
+ * D47 and D56. Inside a transaction: rewrites `[[Old]]` in every entity that mentions this one
+ * from text and resolves the old title to it, stores the new title (old one added as an alias, plus
+ * any other `rest` of the patch), then re-derives links.
+ */
+async function renameCore(
+  d: RepoDeps,
+  before: Entity,
+  newTitle: string,
+  rest: Partial<Omit<EntityInput, 'kind' | 'title'>>,
+): Promise<Entity> {
+  const title = cleanTitle(newTitle);
+  const now = d.now();
+  const oldKey = fold(before.title);
+  const retitled = oldKey !== fold(title);
+  const list = await campaignEntities(d, before.campaignId);
+  const byId = new Map(list.map((e) => [e.id, e]));
+  const resolveBefore = makeResolver(list);
+
+  const rewritten: string[] = [];
+  if (retitled) {
+    const inbound = await d.db.links.where('toId').equals(before.id).toArray();
+    const referrers = new Set(
+      inbound.filter((l) => l.origin === 'wiki' && l.rel === 'mentions').map((l) => l.fromId),
+    );
+    for (const rid of referrers) {
+      const r = byId.get(rid);
+      // The old title must mean THIS entity from the referrer's side, not an older duplicate.
+      if (!r || r.id === before.id || resolveBefore(oldKey, r.id)?.id !== before.id) continue;
+      const body = rewriteTargets(r.body, before.title, title);
+      const summary = rewriteTargets(r.summary, before.title, title);
+      const fields = Object.fromEntries(
+        Object.entries(r.fields).map(([k, v]) => [k, rewriteTargets(v, before.title, title)]),
+      );
+      const changed =
+        body !== r.body ||
+        summary !== r.summary ||
+        Object.keys(fields).some((k) => fields[k] !== r.fields[k]);
+      if (!changed) continue;
+      await d.db.entities.put({ ...build(r.kind, { body, summary, fields }, r), updatedAt: now });
+      rewritten.push(r.id);
+    }
+  }
+
+  const aliases = [...(rest.aliases ?? before.aliases), ...(retitled ? [before.title] : [])];
+  const next = { ...build(before.kind, { ...rest, title, aliases }, before), updatedAt: now };
+  await d.db.entities.put(next);
+
+  const resolve = makeResolver(await campaignEntities(d, before.campaignId));
+  for (const rid of rewritten) {
+    const r = await d.db.entities.get(rid);
+    if (r) await deriveWikiLinks(d, r, resolve);
+  }
+  await deriveWikiLinks(d, next, resolve);
+  const keys = [...new Set([...nameKeys(before), ...nameKeys(next)])];
+  await reresolveIncoming(d, before.campaignId, keys, resolve, next.id);
+  await d.db.campaigns.update(before.campaignId, { updatedAt: now });
+  return (await d.db.entities.get(next.id)) as Entity;
+}
 
 async function touchCampaign(d: RepoDeps, cid: string, now: number): Promise<void> {
   await d.db.campaigns.update(cid, { updatedAt: now });
@@ -186,7 +271,7 @@ export function createEntity(d: RepoDeps, cid: string, input: EntityInput): Prom
       updatedAt: now,
     };
     await d.db.entities.add(entity);
-    await afterWrite(d, entity, { created: true, titlesChanged: true });
+    await afterWrite(d, entity);
     await touchCampaign(d, cid, now);
     return (await d.db.entities.get(entity.id)) as Entity;
   });
@@ -200,14 +285,25 @@ export function updateEntity(
   return d.db.transaction('rw', [d.db.entities, d.db.links, d.db.campaigns], async () => {
     const before = await d.db.entities.get(id);
     if (!before) throw new RepoError('not-found', 'That entry is gone.');
+    if (patch.title !== undefined && cleanTitle(patch.title) !== before.title) {
+      const { title, ...rest } = patch;
+      return renameCore(d, before, title, rest);
+    }
     const now = d.now();
     const next = { ...build(before.kind, patch, before), updatedAt: now };
     await d.db.entities.put(next);
-    const titlesChanged =
-      next.title !== before.title || next.aliases.join('\u0000') !== before.aliases.join('\u0000');
-    await afterWrite(d, next, { created: false, titlesChanged });
+    await afterWrite(d, next, before);
     await touchCampaign(d, next.campaignId, now);
     return (await d.db.entities.get(id)) as Entity;
+  });
+}
+
+/** Changes the title: rewrites `[[Old]]` links elsewhere and keeps the old title as an alias. */
+export function renameEntity(d: RepoDeps, id: string, newTitle: string): Promise<Entity> {
+  return d.db.transaction('rw', [d.db.entities, d.db.links, d.db.campaigns], async () => {
+    const before = await d.db.entities.get(id);
+    if (!before) throw new RepoError('not-found', 'That entry is gone.');
+    return renameCore(d, before, newTitle, {});
   });
 }
 
@@ -245,6 +341,9 @@ export function deleteEntity(d: RepoDeps, id: string): Promise<void> {
       await d.db.links.where('toId').equals(id).delete();
       await d.db.shortlist.where('entityId').equals(id).delete();
       await d.db.entities.delete(id);
+      // Text is never rewritten, but a duplicate title elsewhere may now be what a link means.
+      const resolve = makeResolver(await campaignEntities(d, e.campaignId));
+      await reresolveIncoming(d, e.campaignId, nameKeys(e), resolve);
       await touchCampaign(d, e.campaignId, d.now());
     },
   );
