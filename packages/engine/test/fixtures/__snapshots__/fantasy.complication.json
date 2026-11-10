@@ -1,20 +1,20 @@
 {
-  "display": "The rain turns to hail, and the only shelter belongs to a rival",
+  "display": "Their lodging has been given to someone with a better claim",
   "fields": {
     "trouble": {
-      "value": "the rain turns to hail, and the only shelter belongs to a rival",
+      "value": "their lodging has been given to someone with a better claim",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.complication.trouble#7"
+        "fantasy.complication.trouble#38"
       ]
     },
     "twist": {
-      "value": "both sides are paying the same go-between",
+      "value": "the helpful local is working for the other side",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.complication.twist#2"
+        "fantasy.complication.twist#8"
       ]
     }
   }

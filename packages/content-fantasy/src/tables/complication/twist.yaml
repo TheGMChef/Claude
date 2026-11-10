@@ -7,10 +7,45 @@ entries:
     tags: [crime]
   - text: the person asking for help caused the problem
   - text: both sides are paying the same go-between
-  - text: the map is right, but the river has moved since
+  - text: the directions are right, but the river has moved since
     tags: [river]
   - text: the employer has already hired a second crew for the same job
+    tags: [trade]
   - text: the missing person left on purpose and has a new name
   - text: the reward was never real, and the notice is bait
     tags: [crime]
-  - text: the quiet one in the corner owns the whole building
+  - text: the stranger in the corner owns the whole building
+    tags: [urban]
+  - text: the helpful local is working for the other side
+  - text: the prize is a fake, and the real one was never in danger
+    tags: [crime]
+  - text: the message they were given to deliver is a summons for them
+  - text: the informant is telling the truth, which is the problem
+  - text: what they were hired to protect is what is causing the trouble
+  - text: the feud ended years ago, and both sides are too proud to say so
+    tags: [family]
+  - text: the creditor is as much a victim as the debtor
+    tags: [debt]
+  - text: whoever hired them wanted them far away on one particular night
+  - text: the culprit has already confessed, to the wrong person
+  - text: an old friend of one of them has taken the other side's pay
+  - text: the thing is already on its way to the owner, carried by someone innocent
+  - text: the search is a distraction, and the real business is next door
+  - text: the oldest local legend about the place was invented ten years ago, on purpose
+  - text: the witness is lying to protect someone who did nothing wrong
+  - text: the dangerous stranger is a bodyguard hired by the target
+    safety: [violence]
+  - text: the target hired the thieves in the first place
+    tags: [crime]
+  - text: the one who asked no longer wants it found
+  - text: there are two of the person they seek, and only one is sworn to the cause
+  - text: the due date is invented, and someone profits from the haste
+    tags: [trade]
+  - text: the party was expected, and has been for days
+  - text: the answer is in something one of them already carries
+  - text: the debt is real, but owed to someone else entirely
+    tags: [debt]
+  - text: the rescue has already happened, and the rescuer wants no thanks
+  - text: the warrant names someone with a name very like one of theirs
+    tags: [crime]
+    safety: [police]

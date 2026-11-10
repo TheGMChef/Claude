@@ -1,28 +1,28 @@
 {
-  "display": "A coin from a mint that closed years ago: which road the cart took, by the colour of its mud",
+  "display": "A stray cat asleep on the one chair that is never used: that the blaze started in two places at once",
   "fields": {
     "delivery": {
-      "value": "a coin from a mint that closed years ago",
+      "value": "a stray cat asleep on the one chair that is never used",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.clue.delivery#6"
+        "fantasy.clue.delivery#21"
       ]
     },
     "trace": {
-      "value": "which road the cart took, by the colour of its mud",
+      "value": "that the blaze started in two places at once",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.clue.trace#3"
+        "fantasy.clue.trace#19"
       ]
     },
     "where": {
-      "value": "sewn into the lining of a coat on the wrong peg",
+      "value": "in the margins of a borrowed recipe book",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.clue.where#1"
+        "fantasy.clue.where#4"
       ]
     }
   }

@@ -40,8 +40,12 @@ const line = (family: string, name: string, target: number, extra?: Partial<Tabl
   row(`${family}.${name}`, { family, target, full: false, kind: 'line', ...extra });
 const placeLine = (name: string, target: number, full = false): [string, TableSpec] =>
   line('place', name, target, { pocket: true, terrain: true, full });
-const pocketLine = (family: string, name: string, target: number): [string, TableSpec] =>
-  line(family, name, target, { pocket: true });
+const pocketLine = (
+  family: string,
+  name: string,
+  target: number,
+  full = false,
+): [string, TableSpec] => line(family, name, target, { pocket: true, full });
 
 export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   ...['role', 'look', 'want', 'secret', 'tell'].map(npc),
@@ -76,11 +80,11 @@ export const TABLE_SPEC: Record<string, TableSpec> = Object.fromEntries([
   row('rumor.truth', { family: 'rumor', target: 3, full: false, kind: 'fixed' }),
   line('rumor', 'source', 24, { pocket: true, full: true }),
   line('secret', 'text', 40, { full: true }),
-  line('clue', 'delivery', 24),
-  line('clue', 'trace', 40),
-  line('clue', 'where', 24),
-  pocketLine('complication', 'trouble', 40),
-  pocketLine('complication', 'twist', 30),
+  line('clue', 'delivery', 24, { full: true }),
+  line('clue', 'trace', 40, { full: true }),
+  line('clue', 'where', 24, { full: true }),
+  pocketLine('complication', 'trouble', 40, true),
+  pocketLine('complication', 'twist', 30, true),
   pocketLine('trinket', 'item', 50),
   pocketLine('trinket', 'detail', 30),
   pocketLine('treasure', 'item', 40),

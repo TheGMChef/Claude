@@ -5,11 +5,36 @@ tags: [clue]
 entries:
   - text: a receipt in the wrong pocket
   - text: a smell that should not be in this room
-  - text: a witness who corrects one detail too quickly
+  - text: an eyewitness account that is exact about one detail and vague about the rest
   - text: a muddy print on a freshly swept floor
-  - text: a page torn out of an otherwise careful ledger
-    tags: [trade]
   - text: a dog that will not go past one door
-  - text: a coin from a mint that closed years ago
-    tags: [trade]
-  - text: a song the children sing with the wrong words in one verse
+  - text: a proverb quoted a little wrong by someone who knows better
+  - text: a borrowed cloak returned cleaner than it left
+  - text: a gift delivered to the wrong door, with a note for someone else
+  - text: a half-burnt scrap of paper rescued from the grate
+    safety: [fire]
+  - text: a pony that comes home alone, carrying someone else's bags
+    tags: [road]
+    safety: [violence]
+  - text: a pressed flower that does not grow within a week's walk
+  - text: a glove left on a windowsill, still warm
+  - text: a child's drawing with one grown-up too many in it
+  - text: a cough that stops whenever a certain name is spoken
+  - text: an invitation to dinner that arrives before the news does
+  - text: a family brooch sold for far less than it is worth
+    tags: [family, trade]
+  - text: a last whisper through a door, half heard
+    safety: [death]
+  - text: a stain on the floorboards, scrubbed so hard the wood is pale
+    safety: [violence]
+  - text: a servant who answers every question with a question
+  - text: a hush that falls over the room whenever one name comes up
+  - text: a stack of unopened post, with one envelope slit
+  - text: a stray cat asleep on the one chair that is never used
+  - text: footprints that stop at a wall and do not come back
+  - text: a hat on the wrong peg
+  - text: a trail of spilled grain leading off the road
+    tags: [rural, road]
+  - text: a bundle of dried herbs hung over one door and no other
+  - text: a locksmith who will not meet anyone's eye
+    tags: [crime]
