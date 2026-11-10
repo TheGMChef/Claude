@@ -1,0 +1,48 @@
+kind: situation
+id: fantasy.situation.wolf-tax
+title: Wolf tax
+summary: The pass villages leave tribute for a wolf pack that keeps the road safe, and this year it went missing.
+tags: [situation, mountain, wilderness]
+safety: []
+facets:
+  enemy:
+    - text: a drover who took the tribute to feed his own flock and hopes the wolves blame someone else
+    - text: a pelt-buyer from the lowlands who has paid for twenty wolf skins and means to collect
+      tags: [trade]
+      safety: [animal-harm]
+    - text: an inspector sent up from the lowlands, who calls the tribute an illegal levy
+    - text: a village headwoman who wants to stop paying and already has the votes
+  friend:
+    - text: the old woman who sets out the tribute each year and has never once seen a wolf
+    - text: a mule-driver who counts the pack every dusk and swears it is smaller
+      tags: [road]
+    - text: a lowland naturalist whose notes show the pack shrinking for years
+    - text: the waystation cook, who shares scraps with the pack at the back step
+      tags: [trade]
+  complication:
+    - text: the pack is the reason no brigands work this pass
+      tags: [crime]
+    - text: the tribute was never meant for wolves, and the oldest families know who it was for
+      safety: [religion]
+    - text: nobody can read the terms of the old bargain, which is cut into the stone in a forgotten script
+    - text: every village pays a different amount, and each swears theirs is the correct one
+  thing:
+    - text: a worn iron bowl, left at the standing stone each year and never taken by any human hand
+    - text: a wolf-skin cloak that fits no one comfortably and belongs to the stone's keeper
+      safety: [animal-harm]
+    - text: a knotted cord recording every year's offering, with the newest knots cut
+    - text: a horn whistle carved with marks the pack seems to answer
+  place:
+    - text: the standing stone at the head of the pass, ringed with old bowls
+    - text: a shepherds' hut with fresh tracks circling it
+    - text: the waystation kitchen, warm, crowded and gossiping
+      tags: [road]
+    - text: the registry in the foothill town, where permits for the pass are stamped
+      tags: [urban]
+  pressure:
+    - text: when the first snow falls the pack comes down from the ridge to see who has paid
+    - text: at the autumn gathering the villages vote to stop paying, or to pay triple
+    - text: before the thaw the lowland inspectors will end the custom by decree
+    - text: after the first hard frost the pack moves down to the sheep folds
+      tags: [rural]
+      safety: [animal-harm]

@@ -1,74 +1,74 @@
 {
-  "display": "Two-mayor town meets Stolen weather",
+  "display": "Wandering boundary meets Wreck claim",
   "fields": {
     "a": {
-      "value": "Two-mayor town",
+      "value": "Wandering boundary",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#3"
+        "fantasy.situations#7"
       ]
     },
     "b": {
-      "value": "Stolen weather",
+      "value": "Wreck claim",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#2"
+        "fantasy.situations#9"
       ]
     },
     "enemy": {
-      "value": "the new mayor's backers, who paid for votes and want a return",
+      "value": "a rival surveyor who sells readings of the old survey to the highest bidder",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#3",
-        "fantasy.situation.two-mayor-town.enemy#1"
+        "fantasy.situations#7",
+        "fantasy.situation.wandering-boundary.enemy#1"
       ]
     },
     "friend": {
-      "value": "the weather-witch's apprentice, who never agreed to any of this",
+      "value": "a notary who knows the salvage law and wishes somebody would ask",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#2",
-        "fantasy.situation.stolen-weather.friend#3"
+        "fantasy.situations#9",
+        "fantasy.situation.wreck-claim.friend#3"
       ]
     },
     "complication": {
-      "value": "opening the jars needs a word only the thief knows",
+      "value": "the wreck lies in two parishes, and each wants to be the one that claims it",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#2",
-        "fantasy.situation.stolen-weather.complication#1"
+        "fantasy.situations#9",
+        "fantasy.situation.wreck-claim.complication#1"
       ]
     },
     "thing": {
-      "value": "the charter page that says how a mayor is chosen",
+      "value": "the founding survey, in two halves, one kept by each lord",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#3",
-        "fantasy.situation.two-mayor-town.thing#1"
+        "fantasy.situations#7",
+        "fantasy.situation.wandering-boundary.thing#1"
       ]
     },
     "place": {
-      "value": "a cellar lined with shelves of humming jars",
+      "value": "a boathouse stacked to the rafters with damp crates",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#2",
-        "fantasy.situation.stolen-weather.place#1"
+        "fantasy.situations#9",
+        "fantasy.situation.wreck-claim.place#1"
       ]
     },
     "pressure": {
-      "value": "by quarter-day, two sets of tax collectors knock on every door",
+      "value": "when the hay is cut both lords ride out to walk the line, each with a full retinue",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.situations#3",
-        "fantasy.situation.two-mayor-town.pressure#0"
+        "fantasy.situations#7",
+        "fantasy.situation.wandering-boundary.pressure#0"
       ]
     }
   }

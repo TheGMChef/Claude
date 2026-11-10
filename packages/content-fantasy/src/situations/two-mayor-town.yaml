@@ -9,7 +9,7 @@ facets:
     - text: the old mayor, who refuses to hand back the chain of office
     - text: the new mayor's backers, who paid for votes and want a return
       tags: [crime]
-    - text: a clerk who serves both mayors and sells each the other's plans
+    - text: a secretary who serves both mayors and sells each the other's plans
     - text: a landlord who collects rent for both and pays tax to neither
       tags: [debt]
   friend:
@@ -36,7 +36,7 @@ facets:
     - text: the town hall, split down the middle with a chalk line
     - text: the market square, where both mayors hold court at noon
       tags: [trade]
-    - text: the archive cellar, damp since last spring and never sorted
+    - text: the archive vault, damp since last spring and never sorted
       tags: [underground]
     - text: the tavern both camps drink at, on alternating nights
   pressure:

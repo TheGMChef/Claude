@@ -1,0 +1,46 @@
+kind: situation
+id: fantasy.situation.wreck-claim
+title: Wreck claim
+summary: A merchant ship broke on the rocks, and three parties say the cargo is theirs.
+tags: [situation, coastal, trade]
+safety: []
+facets:
+  enemy:
+    - text: the cargo's underwriter, who needs it proven that the wreck was no accident
+    - text: a village headwoman who says custom gives the shore whatever it catches
+      tags: [rural]
+    - text: a harbour pilot who moved the channel markers an hour before the storm
+      tags: [crime]
+    - text: the shipowner's brother, who wants the cargo lost and the family debt cancelled
+      tags: [debt, family]
+  friend:
+    - text: the ship's cook, who walked ashore with a salvaged sea chest and an unwilling story
+      safety: [drowning]
+    - text: a tide-reader who can say exactly when the wreck will be reachable
+    - text: a net-mender who found something strange in the wreckage and keeps it from the village
+    - text: a notary who knows the salvage law and wishes somebody would ask
+      tags: [urban]
+  complication:
+    - text: the manifest lists spices, but a third of the crates are far too heavy
+    - text: the wreck lies in two parishes, and each wants to be the one that claims it
+    - text: the cargo was insured twice by two firms, each sure the other is liable
+    - text: tide and law agree for only two hours a day, and both parties know it
+  thing:
+    - text: a strongbox wedged in the rocks beneath the stern
+    - text: the ship's log, water-stained, with the last three entries in a different hand
+    - text: a crate of porcelain with every cup wrapped in love letters
+    - text: a split figurehead with something rattling inside
+  place:
+    - text: the rock shelf where the wreck lies, reachable only at low tide
+      safety: [drowning]
+    - text: a boathouse stacked to the rafters with damp crates
+    - text: the harbour office, where the salvage forms are three weeks behind
+      tags: [urban]
+    - text: the cove where the last crates washed up, guarded by gulls and ankle-deep in weed
+  pressure:
+    - text: at the next spring tide the wreck breaks up and takes the cargo with it
+      safety: [drowning]
+    - text: by the end of the month the underwriter's inspectors arrive, and tampering gets harder to hide
+    - text: when the storm season returns, anyone who has not claimed a share loses it to the sea
+    - text: within three days the village will have stripped the wreck bare
+      tags: [crime]

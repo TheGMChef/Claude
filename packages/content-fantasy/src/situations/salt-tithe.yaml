@@ -11,12 +11,12 @@ facets:
       tags: [noble]
     - text: a smuggler who profits from the tithe and wants it kept
       tags: [crime]
-    - text: the young heir, eager to prove the tithe can be raised
+    - text: the steward's nephew, eager to prove the tithe can be raised
       tags: [noble]
   friend:
     - text: a retired salt-boiler who knows which scales are crooked
     - text: a cooper who wants an honest weight for his barrels
-    - text: the harbourmaster's clerk, who keeps her own copy of the tallies
+    - text: the harbourmaster's niece, who keeps her own count of every sack
     - text: a fishing family who cannot cure their catch without cheap salt
       tags: [family]
   complication:
@@ -28,8 +28,8 @@ facets:
   thing:
     - text: an honest set of brass scales, wrapped in oilcloth
     - text: the original charter, which names a much smaller tithe
-    - text: a ledger in two hands showing two different totals
-    - text: a cart of untithed salt hidden under drying nets
+    - text: two weigh-bills for the same sack, in different hands
+    - text: a wagon-load of untithed salt hidden under drying nets
       tags: [crime]
   place:
     - text: the boiling sheds, where nobody can hear a word over the pans
@@ -41,6 +41,6 @@ facets:
     - text: at the next new moon the tithe doubles, and the reeve brings a longer list
     - text: by the autumn catch, families start leaving for the next bay
       tags: [family]
-    - text: when the frost comes, the boilers sell their pans to the house for a song
+    - text: when the frost comes, the boilers sell their pans to the house at half price
     - text: before the fair, someone will burn the weighing house down
       safety: [fire]

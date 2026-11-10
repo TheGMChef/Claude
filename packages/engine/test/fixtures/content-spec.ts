@@ -188,9 +188,9 @@ export const FREE_TEXT_KEYS = ['pc.want', 'truth.text'];
 export const SITUATIONS = {
   required: true,
   target: 20,
-  stub: 4,
+  stub: 10,
   facetTarget: 4,
-  facetStub: 3,
+  facetStub: 4,
   full: false,
 };
 

@@ -1,0 +1,43 @@
+kind: situation
+id: fantasy.situation.long-masquerade
+title: Long masquerade
+summary: A festival of masks has run for nine days, and the rules forbid unmasking before the contest is settled.
+tags: [situation, urban, noble]
+safety: []
+facets:
+  enemy:
+    - text: a masked noble who uses the festival's anonymity to say what he could never say bare-faced
+    - text: a master maskmaker who wants the festival prolonged because sales are brisk
+      tags: [trade]
+    - text: the festival warden, who fines anyone caught with a bare face
+    - text: someone in a copy of the duchess's mask, giving orders in her name
+      tags: [crime]
+  friend:
+    - text: a tired water-seller who has seen every face behind every mask and told no one
+    - text: a street poet who rhymes the festival's secrets at dusk
+    - text: the contest judge, who has no idea who is winning and desperately wants it over
+    - text: a runaway journeyman hiding in plain sight inside a stolen costume
+  complication:
+    - text: no one may be named while masked, so accusations must be made by description
+    - text: half the masks are rented, and the renter's records got mixed up
+    - text: festival law forbids leaving town masked and forbids unmasking, so the gates are jammed
+    - text: the contest goes to whoever stays unrecognised longest, and some of them are cheating
+  thing:
+    - text: a mask of pale glazed clay that three different people have lost this week
+    - text: the rental register of who wore which mask, missing its last pages
+    - text: a crown of paper laurel stuffed with a rolled petition
+    - text: a pair of identical masks worn by two people who are not related
+  place:
+    - text: the ballroom in the old dye-works, where the floor is stained blue
+    - text: the maskmaker's attic, a forest of faces on pegs
+    - text: the covered arcade, where nobody can say who came in or went out
+    - text: the city gate, where a queue of the masked argues with the gatekeeper
+      tags: [road]
+  pressure:
+    - text: on the tenth night a winner is crowned and everyone must unmask at once
+    - text: by the weekend the stalls close, because nobody can sign for goods
+      tags: [trade]
+    - text: when the visiting duke arrives he will expect to be greeted by name
+      tags: [noble]
+    - text: before the final night someone will use the confusion to slip away with something important
+      tags: [crime]

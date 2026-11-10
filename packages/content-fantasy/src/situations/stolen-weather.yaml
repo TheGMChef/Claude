@@ -28,12 +28,12 @@ facets:
   thing:
     - text: a stoppered jar that sloshes and rumbles like distant thunder
     - text: a weathervane that points to wherever the rain is hidden
-    - text: the witch's ledger of who bought which storm
+    - text: the witch's customer list, scratched inside a barrel lid
       tags: [trade]
     - text: a cloak that is always wet, even in full sun
   place:
     - text: the cracked reservoir above the village, empty for the first time
-    - text: a cellar lined with shelves of humming jars
+    - text: a root store lined with shelves of humming jars
       tags: [underground]
     - text: the hilltop where clouds gather every night and never break
       tags: [mountain]
@@ -42,6 +42,6 @@ facets:
   pressure:
     - text: by midsummer the wells fail and the herds are sold off cheap
     - text: at the next full moon the witch sells the autumn rain too
-    - text: when the harvest fails, the landowner buys the valley for a song
+    - text: when the harvest fails, the landowner buys the valley at a quarter of its worth
     - text: before the month is out, the dry grass will catch and burn
       safety: [fire]

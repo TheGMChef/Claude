@@ -1,0 +1,44 @@
+kind: situation
+id: fantasy.situation.wandering-boundary
+title: Wandering boundary
+summary: Marker stones between two lordships keep turning up in new places, and each side blames the other.
+tags: [situation, noble, rural]
+safety: []
+facets:
+  enemy:
+    - text: a border-baron who moves the markers by night, a few paces at a time
+    - text: a rival surveyor who sells readings of the old survey to the highest bidder
+      tags: [trade]
+    - text: a farmer whose field would change lordship, and who has been nudging markers his way
+    - text: a border steward who profits from fines levied on both sides
+  friend:
+    - text: an old shepherd who remembers where the stones were set and is not believed
+    - text: a registrar's junior who found the land register has been altered
+    - text: a stonecutter who carved the original markers and signed each one underneath
+    - text: a smuggler who crosses the line daily and knows exactly where it really runs
+      tags: [crime]
+  complication:
+    - text: one of the markers really is moving, slowly, and nobody can say why
+      tags: [magic]
+    - text: the old survey used two different units of length, so both claims can be true
+    - text: the disputed strip holds the only spring for three villages
+    - text: both lords' ancestors swore the line would never be redrawn, and neither will break the oath first
+  thing:
+    - text: a surveyor's chain, four links shorter than regulation
+    - text: the founding survey, in two halves, one kept by each lord
+    - text: a marker with a face carved on its underside that nobody remembers
+    - text: a brass plumb-weight that always swings toward the line's true course
+      tags: [magic]
+  place:
+    - text: the disputed strip, a long narrow meadow with a spring at its centre
+    - text: the border post, where both lords' officers share a single table
+      tags: [road]
+    - text: a wayside inn built exactly on the line, with two sets of taxes and one kitchen
+      tags: [road, trade]
+    - text: the stonecutter's yard, with spare markers stacked and uncounted
+  pressure:
+    - text: when the hay is cut both lords ride out to walk the line, each with a full retinue
+    - text: when the spring runs low in late summer, three villages need the same water
+    - text: by autumn a royal commissioner arrives to settle it, and will favour whoever looks calmer
+    - text: at the turn of the year all trade across the line is suspended until it is agreed
+      tags: [trade]
