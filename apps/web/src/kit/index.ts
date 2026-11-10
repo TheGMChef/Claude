@@ -14,3 +14,8 @@ export { Tabs } from './Tabs';
 export { Clock } from './Clock';
 export { Field } from './Field';
 export { DockButton } from './DockButton';
+export { Dialog } from './Dialog';
+export type { DialogProps } from './Dialog';
+export { useFocusTrap } from './useFocusTrap';
+export { EmptyState } from './EmptyState';
+export { Pagination } from './Pagination';

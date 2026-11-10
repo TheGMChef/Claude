@@ -14,7 +14,9 @@ export type IconName =
   | 'dice'
   | 'copy'
   | 'auto'
-  | 'close';
+  | 'close'
+  | 'plus'
+  | 'restore';
 
 const PATHS: Record<IconName, string> = {
   name: 'M4 17 L4 5 L11 14 L18 5 L18 17',
@@ -35,6 +37,8 @@ const PATHS: Record<IconName, string> = {
   auto: 'M11 19 A8 8 0 1 0 11 3 A8 8 0 1 0 11 19 Z M11 3 L11 19 M11 7 L7 7 M11 11 L6 11 M11 15 L7 15',
   copy: 'M8 8 L18 8 L18 19 L8 19 Z M4 14 L4 3 L14 3',
   close: 'M5 5 L17 17 M17 5 L5 17',
+  plus: 'M11 4 L11 18 M4 11 L18 11',
+  restore: 'M4 11 A7 7 0 1 0 6.1 6 M3.5 3 L3.5 7.5 L8 7.5 M11 7 L11 11 L14 13',
 };
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {

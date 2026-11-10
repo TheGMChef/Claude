@@ -6,13 +6,16 @@ import {
   Card,
   Chip,
   Clock,
+  Dialog,
   DockButton,
+  EmptyState,
   Field,
   Highlight,
   Icon,
   IconButton,
   InkOutline,
   MarginNote,
+  Pagination,
   SectionLabel,
   Stamp,
   Tabs,
@@ -35,6 +38,8 @@ const ICONS: IconName[] = [
   'dice',
   'copy',
   'auto',
+  'plus',
+  'restore',
 ];
 
 const TABS = [
@@ -55,6 +60,8 @@ function Group({ title, children }: { title: string; children: React.ReactNode }
 function Sample({ theme }: { theme: 'light' | 'dark' }) {
   const [tab, setTab] = useState('cast');
   const [filled, setFilled] = useState(2);
+  const [dialog, setDialog] = useState<'plain' | 'destructive' | null>(null);
+  const [page, setPage] = useState(2);
   return (
     <div className="kit-theme" data-theme={theme}>
       <h2>{theme === 'light' ? 'Light' : 'Dark'}</h2>
@@ -166,6 +173,54 @@ function Sample({ theme }: { theme: 'light' | 'dark' }) {
         <DockButton icon="npc" label="NPC" />
         <DockButton icon="place" label="Place" />
         <DockButton icon="twist" label="Twist" />
+      </Group>
+
+      <Group title="Dialog">
+        <Button variant="outline" onClick={() => setDialog('destructive')}>
+          Delete entry (demo)
+        </Button>
+        <Button variant="outline" onClick={() => setDialog('plain')}>
+          Leave page (demo)
+        </Button>
+        <Dialog
+          open={dialog === 'destructive'}
+          title="Delete entry 'Captain Vell'?"
+          confirmLabel="Delete entry"
+          tone="destructive"
+          onConfirm={() => setDialog(null)}
+          onCancel={() => setDialog(null)}
+        >
+          <p>This removes Captain Vell and the links that point to it. You can't undo this.</p>
+        </Dialog>
+        <Dialog
+          open={dialog === 'plain'}
+          title="Leave without saving this entry?"
+          confirmLabel="Leave page"
+          cancelLabel="Keep editing"
+          onConfirm={() => setDialog(null)}
+          onCancel={() => setDialog(null)}
+        >
+          <p>Your changes are not saved yet.</p>
+        </Dialog>
+      </Group>
+
+      <Group title="Empty state">
+        <EmptyState
+          title="No entries yet"
+          sentence="Entries keep your people, places and notes in one place you can search."
+          primary={<Button>Create entry</Button>}
+          secondary={<a href="#kit">Restore from backup</a>}
+        />
+      </Group>
+
+      <Group title="Pagination">
+        <Pagination
+          page={page}
+          pageSize={50}
+          total={312}
+          onPage={setPage}
+          label={`Entries pages (${theme})`}
+        />
       </Group>
 
       <Group title="Icons">

@@ -21,12 +21,14 @@
   --key-solid-hover: #38312a;
   --key-face-sunk: #ece3d0;
   --key-inset: rgb(60 45 25 / 0.28);
+  --scrim: rgb(31 27 22 / 0.55);
 
   /* Layers: tokens only, no bare z-index numbers in component CSS */
   --z-content: 0;
   --z-dock: 30;
   --z-notice: 40;
   --z-tooltip: 50;
+  --z-dialog: 60;
   /* Height a docked surface (Table Mode dock) adds so the update notice sits above it */
   --dock-clearance: 0px;
 
@@ -87,6 +89,7 @@
   --key-solid-hover: #fffaf0;
   --key-face-sunk: #100e0c;
   --key-inset: rgb(0 0 0 / 0.55);
+  --scrim: rgb(0 0 0 / 0.65);
   color-scheme: dark;
 }
 
@@ -109,6 +112,7 @@
     --key-solid-hover: #fffaf0;
     --key-face-sunk: #100e0c;
     --key-inset: rgb(0 0 0 / 0.55);
+    --scrim: rgb(0 0 0 / 0.65);
     color-scheme: dark;
   }
 }
