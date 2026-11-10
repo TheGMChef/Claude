@@ -64,6 +64,9 @@ describe('data layer boundary (D51)', () => {
     expect(offenders).toEqual([]);
   });
 
-  // Enabled in Task 2, once data/db.ts exists: proves the scanner sees real Dexie imports.
-  it.todo('the scanner finds dexie in data/db.ts');
+  // Proves the scanner sees real imports in a real data module (db.ts imports Dexie).
+  it('the scanner finds dexie in data/db.ts', () => {
+    const db = new URL('db.ts', dataDir);
+    expect(importSpecifiers(readFileSync(db, 'utf8'))).toContain('dexie');
+  });
 });

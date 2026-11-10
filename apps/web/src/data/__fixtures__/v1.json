@@ -1,0 +1,264 @@
+{
+  "campaigns": [
+    {
+      "id": "cmp_00000000000000A1",
+      "name": "The Salt Marsh Debts",
+      "genre": "fantasy",
+      "safety": {
+        "lines": ["child-harm"],
+        "veils": ["spiders"]
+      },
+      "cultureIds": ["fantasy.culture.marsh"],
+      "createdAt": 1000,
+      "updatedAt": 3000,
+      "lastExportedAt": 2500
+    }
+  ],
+  "sessions": [
+    {
+      "id": "ses_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "number": 1,
+      "status": "prepping",
+      "prepStep": 3,
+      "stepsVisited": [1, 2, 3],
+      "stepsSkipped": [4],
+      "prepElapsedMs": 60000,
+      "presentPcIds": ["ent_00000000000000A1"],
+      "spotlightPcIds": ["ent_00000000000000A1"],
+      "plannedTicks": {
+        "ent_00000000000000A3": 1
+      },
+      "sceneOrder": ["ent_00000000000000A2"],
+      "currentSceneId": "ent_00000000000000A2",
+      "focusEntityId": "ent_00000000000000A1",
+      "pocketSeed": "TEST-0001",
+      "pocketRolledAt": 1500,
+      "startedAt": 1600,
+      "pausedAt": 1700,
+      "pausedMs": 100,
+      "endedAt": 1800,
+      "recap": "We found the mill.",
+      "recapSavedAt": 1900,
+      "createdAt": 1100,
+      "updatedAt": 2100
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "kind": "npc",
+      "subtype": "",
+      "title": "Odrin Vey",
+      "aliases": ["Odrin Vey (alias)"],
+      "summary": "A summary of Odrin Vey",
+      "fields": {
+        "want": "to be left alone"
+      },
+      "body": "Body mentioning [[Mill Ford]].",
+      "canon": "kept",
+      "state": "open",
+      "clock": {
+        "size": 6,
+        "filled": 2,
+        "doom": "The mill floods."
+      },
+      "card": "{\"v\":1,\"generatorId\":\"fantasy.npc\"}",
+      "veiled": ["spiders"],
+      "origin": "prep",
+      "firstSessionId": "ses_00000000000000A1",
+      "lastSessionId": "ses_00000000000000A1",
+      "tokens": ["odrin", "vey"],
+      "wikiTargets": ["mill ford"],
+      "createdAt": 1000,
+      "updatedAt": 2000
+    },
+    {
+      "id": "ent_00000000000000A2",
+      "campaignId": "cmp_00000000000000A1",
+      "kind": "place",
+      "subtype": "tavern",
+      "title": "The Mill Ford Inn",
+      "aliases": ["The Mill Ford Inn (alias)"],
+      "summary": "A summary of The Mill Ford Inn",
+      "fields": {
+        "want": "to be left alone"
+      },
+      "body": "Body mentioning [[Odrin Vey]].",
+      "canon": "kept",
+      "state": "open",
+      "clock": {
+        "size": 6,
+        "filled": 2,
+        "doom": "The mill floods."
+      },
+      "card": "{\"v\":1,\"generatorId\":\"fantasy.npc\"}",
+      "veiled": ["spiders"],
+      "origin": "prep",
+      "firstSessionId": "ses_00000000000000A1",
+      "lastSessionId": "ses_00000000000000A1",
+      "tokens": ["the", "mill", "ford", "inn"],
+      "wikiTargets": ["mill ford"],
+      "createdAt": 1001,
+      "updatedAt": 2001
+    },
+    {
+      "id": "ent_00000000000000A3",
+      "campaignId": "cmp_00000000000000A1",
+      "kind": "clue",
+      "subtype": "",
+      "title": "A ledger page",
+      "aliases": ["A ledger page (alias)"],
+      "summary": "A summary of A ledger page",
+      "fields": {
+        "want": "to be left alone"
+      },
+      "body": "Body mentioning [[Odrin Vey]].",
+      "canon": "kept",
+      "state": "open",
+      "clock": {
+        "size": 6,
+        "filled": 2,
+        "doom": "The mill floods."
+      },
+      "card": "{\"v\":1,\"generatorId\":\"fantasy.npc\"}",
+      "veiled": ["spiders"],
+      "origin": "prep",
+      "firstSessionId": "ses_00000000000000A1",
+      "lastSessionId": "ses_00000000000000A1",
+      "tokens": ["a", "ledger", "page"],
+      "wikiTargets": ["mill ford"],
+      "createdAt": 1002,
+      "updatedAt": 2002
+    }
+  ],
+  "links": [
+    {
+      "id": "lnk_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "fromId": "ent_00000000000000A1",
+      "toId": "ent_00000000000000A2",
+      "rel": "at",
+      "origin": "explicit",
+      "createdAt": 1200
+    },
+    {
+      "id": "lnk_00000000000000A2",
+      "campaignId": "cmp_00000000000000A1",
+      "fromId": "ent_00000000000000A3",
+      "toId": "ent_00000000000000A1",
+      "rel": "points-to",
+      "origin": "wiki",
+      "createdAt": 1201
+    }
+  ],
+  "ledger": [
+    {
+      "id": "evt_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "sessionId": "ses_00000000000000A1",
+      "at": 1650,
+      "t": 5000,
+      "kind": "npc-improvised",
+      "text": "Odrin Vey, ferryman",
+      "entityId": "ent_00000000000000A1",
+      "review": "ask",
+      "undo": {
+        "createdEntityIds": ["ent_00000000000000A1"],
+        "createdLinkIds": ["lnk_00000000000000A1"],
+        "createdShortlistIds": ["sho_00000000000000A1"],
+        "usedNameKeys": ["odrin"],
+        "usedPocketIds": ["poc_00000000000000A1"],
+        "clock": {
+          "entityId": "ent_00000000000000A3",
+          "from": 1
+        },
+        "state": {
+          "entityId": "ent_00000000000000A3",
+          "from": "hidden"
+        },
+        "scene": {
+          "from": "ent_00000000000000A2"
+        }
+      }
+    }
+  ],
+  "shortlist": [
+    {
+      "id": "sho_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "fromSessionId": "ses_00000000000000A1",
+      "entityId": "ent_00000000000000A1",
+      "card": "{\"v\":1}",
+      "label": "Improvised NPC",
+      "title": "Odrin Vey",
+      "question": "Keep Odrin?",
+      "yesLabel": "Yes, flesh out",
+      "status": "open",
+      "deferrals": 1,
+      "createdAt": 1700,
+      "decidedAt": 1750
+    }
+  ],
+  "usedNames": [
+    {
+      "campaignId": "cmp_00000000000000A1",
+      "nameKey": "odrin vey",
+      "name": "Odrin Vey",
+      "cultureId": "fantasy.culture.marsh",
+      "sessionId": "ses_00000000000000A1",
+      "entityId": "ent_00000000000000A1",
+      "at": 1650
+    }
+  ],
+  "pocket": [
+    {
+      "id": "poc_00000000000000A1",
+      "sessionId": "ses_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "section": "names",
+      "order": 0,
+      "locked": true,
+      "card": "{\"v\":1}",
+      "name": {
+        "name": "Odrin Vey",
+        "cultureId": "fantasy.culture.marsh"
+      },
+      "usedAt": 1660,
+      "usedNote": "Ferryman",
+      "entityId": "ent_00000000000000A1"
+    }
+  ],
+  "drafts": [
+    {
+      "id": "drf_00000000000000A1",
+      "sessionId": "ses_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "step": 2,
+      "kind": "rumor",
+      "line": "They say the mill is cursed.",
+      "card": "{\"v\":1}",
+      "status": "draft",
+      "entityId": "ent_00000000000000A3",
+      "order": 0
+    }
+  ],
+  "prepAnswers": [
+    {
+      "sessionId": "ses_00000000000000A1",
+      "campaignId": "cmp_00000000000000A1",
+      "step": 1,
+      "answers": {
+        "q1": "a"
+      },
+      "updatedAt": 1300
+    }
+  ],
+  "settings": [
+    {
+      "key": "currentCampaignId",
+      "value": "cmp_00000000000000A1"
+    }
+  ]
+}
