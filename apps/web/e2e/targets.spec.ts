@@ -32,7 +32,7 @@ const PAGES: { path: string; ready: (p: Page) => Locator; min: Floor; seeded?: t
   {
     path: '/',
     seeded: true,
-    ready: (p) => p.getByRole('link', { name: 'Settings', exact: true }),
+    ready: (p) => p.getByRole('heading', { level: 1, name: 'The Salt Marsh Debts' }),
     min: { tablet: 5, phone: 3 },
   },
   {
