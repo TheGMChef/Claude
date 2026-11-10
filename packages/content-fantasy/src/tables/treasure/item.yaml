@@ -5,15 +5,77 @@ tags: [loot]
 entries:
   - text: a bolt of sea-green silk, still sealed in waxed cloth
     tags: [trade, coastal]
-  - text: a chess set in jet and pearl with one pawn missing
+  - text: a game set of jet and pearl pieces, the smallest one missing
     tags: [noble]
-  - text: a silver ewer stamped with the arms of a house that lost its lands
+  - text: a gilded ewer stamped with the arms of a house that lost its lands
     tags: [noble]
-  - text: a strongbox of copper coins minted for a king nobody remembers
+  - text: a coffer of cast bars, minted for a king nobody remembers
     tags: [trade]
   - text: a lute with a mother-of-pearl moon set into its neck
-  - text: a cask of forty-year brandy, the seal unbroken
+  - text: a lead-lined box of saffron threads, enough to buy a farm
     tags: [trade]
   - text: a jeweller's case of loose garnets, sorted by size
   - text: a bronze astrolabe that points somewhere other than north
     tags: [magic]
+  - text: a set of surveyor's instruments in a velvet-lined case
+    tags: [trade]
+  - text: a folio of hand-coloured paintings of moths, one page cut out
+    safety: [insects]
+  - text: a coronet too small for any adult head
+    tags: [noble]
+  - text: an unsigned grant of land in a country that has since changed its name
+    tags: [noble]
+  - text: a lacquered writing desk with a drawer that opens only on the third pull
+  - text: a necklace of jade beads, one a slightly different green
+  - text: a crate of blue-glazed tiles from a demolished palace, each numbered on the back
+    tags: [noble]
+  - text: an orrery of wire and enamel, stopped at a date next month
+    tags: [magic]
+  - text: an enamelled reliquary, empty, with the saint's name worn off the lid
+    tags: [faith]
+    safety: [religion]
+  - text: a ceremonial sword with a jewelled hilt, never once drawn
+    tags: [noble]
+    safety: [violence]
+  - text: a printer's drawer of lead type for a script nobody prints any more
+    tags: [trade]
+  - text: a rolled tapestry of a coronation in which one courtier has been unpicked
+    tags: [noble]
+  - text: a matched pair of ceremonial daggers in a fitted case
+    safety: [violence]
+  - text: a trade licence, signed and sealed, with the holder's name left blank
+    tags: [trade, crime]
+  - text: a case of rare bulbs, labelled in a gardener's shorthand
+    tags: [rural]
+  - text: a keg of indigo powder, enough to dye a river
+    tags: [trade]
+  - text: a mask of painted wood from a festival that no longer happens
+  - text: a perfume case with forty tiny bottles, thirty-nine of them empty
+  - text: a veil of lace so fine it is nearly invisible
+    tags: [noble]
+  - text: a snuffbox of enamel, the lid painted with a lake nobody has found
+  - text: a lump of dark metal that fell from the sky, wrapped in sacking
+    tags: [magic]
+  - text: a rare orchid, alive, in a hothouse case on wheels
+  - text: a poisoner's case of tiny bottles, each neatly labelled
+    safety: [death]
+  - text: a sedan chair upholstered in green velvet, with no bearers and no owner's mark
+    tags: [urban]
+  - text: a cedar chest of fine linen sheets that have never been slept on
+  - text: a ship's figurehead carved as a laughing woman, weathered grey
+    tags: [coastal]
+  - text: a carpet with a border in a language that has no living speakers
+  - text: an amphora of olive oil, older than the town
+    tags: [trade]
+  - text: a bundle of vanilla pods tied with twine
+    tags: [trade]
+  - text: six goblets of blue glass, one of them cracked
+  - text: a stained-glass panel lifted whole from a chapel window
+    tags: [faith]
+    safety: [religion]
+  - text: a roll of heavy sailcloth dyed the deep purple few can afford
+    tags: [trade, coastal]
+  - text: a pair of dancing slippers resoled in red leather
+    tags: [noble]
+  - text: a rack of court gowns in the style of three reigns ago
+    tags: [noble]

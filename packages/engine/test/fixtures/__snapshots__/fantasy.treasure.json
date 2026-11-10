@@ -1,28 +1,28 @@
 {
-  "display": "A jeweller's case of loose garnets, sorted by size",
+  "display": "A cedar chest of fine linen sheets that have never been slept on",
   "fields": {
     "item": {
-      "value": "a jeweller's case of loose garnets, sorted by size",
+      "value": "a cedar chest of fine linen sheets that have never been slept on",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.treasure.item#6"
+        "fantasy.treasure.item#32"
       ]
     },
     "worth": {
-      "value": "worth exactly one large favour from the right person",
+      "value": "worth a season's grain for a whole hamlet",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.treasure.worth#4"
+        "fantasy.treasure.worth#8"
       ]
     },
     "hook": {
-      "value": "every fence in the region has been told to look out for it",
+      "value": "whoever hid it left word of the one person who must never see it",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.treasure.hook#2"
+        "fantasy.treasure.hook#8"
       ]
     }
   }

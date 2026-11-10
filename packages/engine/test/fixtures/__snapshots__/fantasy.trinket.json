@@ -1,20 +1,20 @@
 {
-  "display": "A key on a ribbon, much too small for any door",
+  "display": "A scrap of slate scratched with the board of a game nobody can name",
   "fields": {
     "item": {
-      "value": "a key on a ribbon, much too small for any door",
+      "value": "a scrap of slate scratched with the board of a game nobody can name",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.trinket.item#6"
+        "fantasy.trinket.item#38"
       ]
     },
     "detail": {
-      "value": "a second, smaller one is hidden inside it",
+      "value": "someone has written \"do not lose\" on it three times, in three hands",
       "locked": false,
       "nonce": 0,
       "sources": [
-        "fantasy.trinket.detail#7"
+        "fantasy.trinket.detail#29"
       ]
     }
   }
