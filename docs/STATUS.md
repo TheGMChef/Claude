@@ -11,12 +11,12 @@ Updated 2026-11-14. This is the lock-down list: the product is done when every b
 - [x] Works offline as an installable web app; nothing leaves the device.
 - [x] Edit an entry's text, add wiki links, create a missing page straight from a link, create entries by hand.
 - [ ] Home polish: list of campaigns and a restore button on the first-run screen.
-- [ ] README ("Run and deploy", what is and is not in this release) and `_redirects` for hosting.
+- [x] README (run, deploy, what is and is not in this release) and `_redirects` for hosting.
 - [ ] One final safety and data-loss review pass.
 
 ## Proof (verified, not claimed)
 
-- Unit tests: 1,327 passing. E2E: 237 passing across tablet, desktop and phone widths, including the full journey
+- Unit tests: 1,327 passing. E2E: 245 passing across tablet, desktop and phone widths, including the full journey
   (create campaign, roll, hold, roll again, save, search, open, delete), accessibility (44 px targets, no horizontal
   scroll), and privacy (no third-party requests).
 - GitHub Actions on the branch is the final word; check the latest run.

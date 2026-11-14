@@ -18,7 +18,6 @@ here; its full text is in the package. Prep Desk content is CC-BY-4.0 (see each 
 | csstype | 3.2.3 | MIT |
 | dexie | 4.4.7 | Apache-2.0 |
 | dexie-react-hooks | 1.1.7 | Apache-2.0 |
-| fflate | 0.8.3 | MIT |
 | js-tokens | 4.0.0 | MIT |
 | loose-envify | 1.4.0 | MIT |
 | react | 18.3.1 | MIT |
