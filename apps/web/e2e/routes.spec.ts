@@ -45,8 +45,8 @@ test('campaign routes render their h1, the redirects follow the current campaign
     [`/c/${cid}/forge`, 'Forge'],
     [`/c/${cid}/codex`, 'Codex'],
     [`/c/${cid}/codex/new`, 'Create an entry'],
-    [`/c/${cid}/settings`, 'Campaign settings'],
-    [`/c/${cid}/codex/ent_X`, 'Entry'],
+    [`/c/${cid}/settings`, 'Settings'],
+    [`/c/${cid}/codex/ent_X`, 'Nothing here'],
     [`/c/${cid}/codex/ent_X/edit`, 'Edit entry'],
   ];
   for (const [path, h1] of routes) {

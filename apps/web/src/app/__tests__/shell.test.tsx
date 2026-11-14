@@ -131,8 +131,8 @@ describe('campaign routes (stubs with their final h1)', () => {
     ['/codex', 'Codex'],
     ['/codex/new', 'Create an entry'],
     ['/codex/ent_X/edit', 'Edit entry'],
-    ['/codex/ent_X', 'Entry'],
-    ['/settings', 'Campaign settings'],
+    ['/codex/ent_X', 'Nothing here'],
+    ['/settings', 'Settings'],
   ];
   it.each(CASES)('%s renders %s', async (sub, title) => {
     let cid = '';

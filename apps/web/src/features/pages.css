@@ -1,0 +1,190 @@
+/* Shared layout for the campaign, Forge and Codex pages. Tokens only. */
+.stack {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.muted {
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.pg-error {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--stamp);
+  border-radius: var(--radius-key);
+  background: var(--card);
+}
+
+.pg-ok {
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-key);
+  background: var(--card);
+}
+
+.safety {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.safety__group {
+  display: grid;
+  gap: var(--space-2);
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.safety__group legend {
+  font-family: var(--font-display);
+  font-size: var(--text-17);
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: var(--space-2);
+}
+
+.safety__topic {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-3);
+}
+
+.safety__topic label {
+  flex: 1 1 10rem;
+}
+
+.safety__topic select {
+  min-height: 44px;
+  min-width: 9rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-key);
+  padding: 0 var(--space-3);
+}
+
+.forge-page {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 720px;
+}
+
+.forge-page select {
+  min-height: 44px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-key);
+  padding: 0 var(--space-3);
+  max-width: 100%;
+}
+
+.fcard {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.fcard__display {
+  font-size: var(--text-21);
+  overflow-wrap: anywhere;
+}
+
+.fcard__rows {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fcard__row {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.fcard__body {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.fcard__value {
+  overflow-wrap: anywhere;
+}
+
+.entry-list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.entry-list a {
+  display: grid;
+  gap: 2px;
+  min-height: 44px;
+  padding: var(--space-3);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-key);
+  background: var(--card);
+  text-decoration: none;
+}
+
+.entry-list a:hover {
+  border-color: var(--ink);
+}
+
+.tiles {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.tile {
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.detail dl {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.detail dt {
+  font-weight: 700;
+}
+
+.detail dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+/* A link standing on its own line is a 44px target (the a11y floor) */
+.textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: var(--space-1);
+}
