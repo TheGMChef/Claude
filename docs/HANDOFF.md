@@ -18,9 +18,9 @@ lines** that always win, backup and restore, and offline PWA use. No AI, no acco
   `pnpm test:coverage` (engine, 97% statements), `pnpm content:lint`, `pnpm audit --audit-level moderate`
   (1 waived low), `node scripts/licenses.mjs --check`, `pnpm build`, and the Playwright e2e (233 passed, 71 skipped
   by design).
-- **The shipped app is not usable yet.** The real routes exist, with their final headings, but every page except
-  the shell is a stub. The only working generator UI is the dev-only `/forge-preview` page (run `pnpm --filter web dev`
-  and open `/forge-preview`). That page is the code to promote into the real Forge.
+- **The app is now usable end to end** (as of commit 72125fb): create a campaign, roll in the Forge, hold and roll
+  again, save to the Codex, search, open and delete entries, edit safety, back up and restore. See `docs/STATUS.md`
+  for the checklist of what is left (entry editing page, Home polish, README, final review).
 
 ### Done (all reviewed, all green)
 
