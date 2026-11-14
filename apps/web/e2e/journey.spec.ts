@@ -77,3 +77,39 @@ test('write an entry with a wiki link, create the missing page from the link, an
 
   expect(errors).toEqual([]);
 });
+
+test('back up a campaign, delete it, restore it from the first-run screen', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Restore me');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  const codexUrl = page.url().replace(/forge$/, 'codex');
+  await page.goto(page.url().replace(/forge$/, 'codex/new'));
+  await page.getByLabel('Title').fill('Keep this');
+  await page.getByRole('button', { name: 'Create entry' }).click();
+  await expect(page.getByRole('heading', { name: 'Keep this', level: 1 })).toBeVisible();
+
+  // Back up from Settings.
+  await page.goto(page.url().replace(/codex\/.*$/, 'settings'));
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download backup' }).click();
+  const file = await download;
+  const path = await file.path();
+
+  // Delete the campaign: the desk is back to the first-run screen.
+  await page.getByRole('button', { name: 'Delete this campaign' }).click();
+  await page.getByRole('button', { name: 'Delete campaign' }).click();
+  await expect(page.getByText('Start your first campaign')).toBeVisible();
+
+  // Restore from the first-run screen.
+  await page.locator('input[type=file]').setInputFiles(path);
+  await page.getByRole('button', { name: 'Restore backup' }).click();
+  await expect(page.getByRole('heading', { name: 'Codex', level: 1 })).toBeVisible();
+  await expect(page.locator('.entry-list a', { hasText: 'Keep this' })).toBeVisible();
+  expect(page.url()).toBe(codexUrl);
+
+  expect(errors).toEqual([]);
+});

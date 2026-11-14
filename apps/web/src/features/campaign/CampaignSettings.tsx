@@ -1,18 +1,12 @@
 // Page pattern: 5, Settings / Configuration. Safety saves the moment you change it.
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Button, Dialog, Field } from '../../kit';
 import { useCampaign, useDeps } from '../../data/hooks';
 import { RepoError } from '../../data/deps';
 import { deleteCampaign, renameCampaign, setSafety } from '../../data/repo/campaigns';
 import { exportJson } from '../../data/export/json';
-import {
-  RESTORE_MESSAGES,
-  droppedMessage,
-  readBackup,
-  restoreBackup,
-} from '../../data/export/restore';
-import type { CheckedBackup } from '../../data/export/restore';
+import { RestoreBackup } from './RestoreBackup';
 import type { Safety } from '../../data/schema';
 import { SafetyPicker } from '../SafetyPicker';
 import { NotFound } from '../../app/NotFound';
@@ -24,13 +18,9 @@ export function CampaignSettings() {
   const { campaign, loading, missing } = useCampaign(cid);
   const deps = useDeps();
   const navigate = useNavigate();
-  const fileRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState<string | undefined>();
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
-  const [pending, setPending] = useState<
-    { backup: CheckedBackup; note: string; existing?: string } | undefined
-  >();
   const [deleting, setDeleting] = useState(false);
 
   if (loading) return <Skeleton />;
@@ -68,40 +58,6 @@ export function CampaignSettings() {
       setMessage('Backup downloaded. Keep the file somewhere safe.');
     } catch (err) {
       fail(err, "We couldn't make the backup. Try again.");
-    }
-  }
-
-  async function pick(file: File | undefined) {
-    if (!file) return;
-    setError('');
-    setMessage('');
-    const result = await readBackup(deps, file);
-    if (!result.ok) {
-      setError(RESTORE_MESSAGES[result.error]);
-      return;
-    }
-    const notes = [
-      result.dropped > 0 ? droppedMessage(result.droppedCards) : '',
-      result.droppedCultures.length > 0
-        ? 'Some name cultures in the file are not in this version and were left out.'
-        : '',
-    ].filter(Boolean);
-    setPending({
-      backup: result.backup,
-      note: notes.join(' '),
-      ...(result.existingName !== undefined ? { existing: result.existingName } : {}),
-    });
-  }
-
-  async function confirmRestore() {
-    if (!pending) return;
-    try {
-      const restored = await restoreBackup(deps, pending.backup);
-      setPending(undefined);
-      navigate(`/c/${restored.id}/codex`);
-    } catch (err) {
-      setPending(undefined);
-      fail(err, "We couldn't restore that file. Nothing on this device changed.");
     }
   }
 
@@ -148,20 +104,7 @@ export function CampaignSettings() {
         </p>
         <div className="row">
           <Button onClick={backup}>Download backup</Button>
-          <Button variant="outline" onClick={() => fileRef.current?.click()}>
-            Restore from backup
-          </Button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="application/json,.json"
-            hidden
-            aria-label="Backup file"
-            onChange={(e) => {
-              void pick(e.target.files?.[0]);
-              e.target.value = '';
-            }}
-          />
+          <RestoreBackup />
         </div>
       </section>
 
@@ -185,21 +128,6 @@ export function CampaignSettings() {
         </div>
       </section>
 
-      <Dialog
-        open={pending !== undefined}
-        title={pending?.existing ? `Replace “${pending.existing}”?` : 'Restore this backup?'}
-        confirmLabel={pending?.existing ? 'Replace campaign' : 'Restore backup'}
-        tone={pending?.existing ? 'destructive' : undefined}
-        onConfirm={confirmRestore}
-        onCancel={() => setPending(undefined)}
-      >
-        <p>
-          {pending?.existing
-            ? 'The campaign on this device is replaced by the one in the file.'
-            : 'This adds the campaign in the file to this device.'}
-          {pending?.note ? ` ${pending.note}` : ''}
-        </p>
-      </Dialog>
       <Dialog
         open={deleting}
         title={`Delete “${current.name}”?`}

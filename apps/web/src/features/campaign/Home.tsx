@@ -3,12 +3,14 @@ import { Link } from 'react-router';
 import { Card, EmptyState } from '../../kit';
 import { useCurrentCampaign, useDeps, useLive } from '../../data/hooks';
 import { campaignCounts } from '../../data/repo/campaigns';
+import { RestoreBackup } from './RestoreBackup';
 import { Skeleton } from '../../app/Skeleton';
 import '../pages.css';
 
 export function Home() {
   const { campaign, loading } = useCurrentCampaign();
   const deps = useDeps();
+  const all = useLive(() => deps.db.campaigns.orderBy('updatedAt').reverse().toArray(), [deps]);
   const counts = useLive(
     async () => (campaign ? campaignCounts(deps, campaign.id) : undefined),
     [deps, campaign?.id],
@@ -27,6 +29,7 @@ export function Home() {
               Create campaign
             </Link>
           }
+          secondary={<RestoreBackup />}
         />
       </main>
     );
@@ -70,11 +73,30 @@ export function Home() {
           </div>
         </Card>
       </div>
-      <p>
-        <Link className="textlink" to="/campaigns/new">
-          New campaign
-        </Link>
-      </p>
+      <section className="stack" aria-labelledby="campaigns-h">
+        <h2 id="campaigns-h">Your campaigns</h2>
+        <ul className="entry-list" role="list">
+          {(all ?? []).map((c) => (
+            <li key={c.id}>
+              <Link
+                to={`/c/${c.id}/forge`}
+                aria-current={c.id === campaign.id ? 'true' : undefined}
+              >
+                <strong>{c.name}</strong>
+                <span className="muted">
+                  {c.id === campaign.id ? 'Current campaign' : 'Switch to this campaign'}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="row">
+          <Link className="key btn btn--outline btn--md" to="/campaigns/new">
+            New campaign
+          </Link>
+          <RestoreBackup />
+        </div>
+      </section>
     </main>
   );
 }
