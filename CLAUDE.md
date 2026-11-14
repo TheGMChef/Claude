@@ -55,7 +55,7 @@ Before committing, run `pnpm lint && pnpm typecheck && pnpm test && pnpm test:co
 
 ## Subagent-driven build
 
-The plan is being executed task by task by fresh subagents, each reviewed before the next starts. The controller keeps a ledger at `.superpowers/sdd/2026-11-08-foundations-and-content-engine/progress.md` (gitignored). It records progress, deferred minor findings, and every numbered controller ruling (`R1`, `R2`, …). If a session restarts, trust the ledger and `git log`, and never redo a task marked complete.
+The plan is being executed task by task by fresh subagents, each reviewed before the next starts. The controller keeps a ledger at `.superpowers/sdd/2026-11-08-foundations-and-content-engine/progress.md` (gitignored; copies of all three ledgers live in `docs/handoff/`, and `docs/HANDOFF.md` is the entry point for a new session). It records progress, deferred minor findings, and every numbered controller ruling (`R1`, `R2`, …). If a session restarts, trust the ledger and `git log`, and never redo a task marked complete.
 
 ## UI/UX skills
 
