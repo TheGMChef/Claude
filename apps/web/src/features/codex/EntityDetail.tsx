@@ -5,7 +5,8 @@ import { Button, Card, Dialog } from '../../kit';
 import { fieldLabel } from '../../content/fields';
 import { KIND_LABELS } from '../../content/labels';
 import { useDeps, useLive } from '../../data/hooks';
-import { deleteEntity, getEntity } from '../../data/repo/entities';
+import { deleteEntity, getEntity, listEntities } from '../../data/repo/entities';
+import { WikiText } from './WikiText';
 import { NotFound } from '../../app/NotFound';
 import { Skeleton } from '../../app/Skeleton';
 import '../pages.css';
@@ -15,10 +16,14 @@ export function EntityDetail() {
   const deps = useDeps();
   const navigate = useNavigate();
   const [confirming, setConfirming] = useState(false);
-  const found = useLive(async () => ({ entity: await getEntity(deps, eid) }), [deps, eid]);
+  const found = useLive(
+    async () => ({ entity: await getEntity(deps, eid), all: await listEntities(deps, cid) }),
+    [deps, eid, cid],
+  );
 
   if (!found) return <Skeleton />;
   const entity = found.entity;
+  const all = found.all;
   if (!entity || entity.campaignId !== cid) return <NotFound what="entry" />;
 
   async function remove() {
@@ -36,26 +41,37 @@ export function EntityDetail() {
         {entity.subtype ? ` · ${entity.subtype}` : ''}
       </p>
       <h1 className="page__title">{entity.title}</h1>
-      {entity.summary ? <p className="page__lede">{entity.summary}</p> : null}
+      {entity.summary ? (
+        <p className="page__lede">
+          <WikiText text={entity.summary} entities={all} cid={cid} selfId={entity.id} />
+        </p>
+      ) : null}
       <Card variant="ruled">
         <div className="detail">
           <dl>
             {Object.entries(entity.fields).map(([key, value]) => (
               <div key={key}>
                 <dt>{fieldLabel(key)}</dt>
-                <dd>{value}</dd>
+                <dd>
+                  <WikiText text={value} entities={all} cid={cid} selfId={entity.id} />
+                </dd>
               </div>
             ))}
             {entity.body ? (
               <div>
                 <dt>Notes</dt>
-                <dd>{entity.body}</dd>
+                <dd>
+                  <WikiText text={entity.body} entities={all} cid={cid} selfId={entity.id} />
+                </dd>
               </div>
             ) : null}
           </dl>
         </div>
       </Card>
       <div className="row">
+        <Link className="key btn btn--outline btn--md" to={`/c/${cid}/codex/${entity.id}/edit`}>
+          Edit entry
+        </Link>
         <Button variant="outline" className="btn--destructive" onClick={() => setConfirming(true)}>
           Delete this entry
         </Button>

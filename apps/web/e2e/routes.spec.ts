@@ -47,7 +47,7 @@ test('campaign routes render their h1, the redirects follow the current campaign
     [`/c/${cid}/codex/new`, 'Create an entry'],
     [`/c/${cid}/settings`, 'Settings'],
     [`/c/${cid}/codex/ent_X`, 'Nothing here'],
-    [`/c/${cid}/codex/ent_X/edit`, 'Edit entry'],
+    [`/c/${cid}/codex/ent_X/edit`, 'Nothing here'],
   ];
   for (const [path, h1] of routes) {
     await page.goto(path);

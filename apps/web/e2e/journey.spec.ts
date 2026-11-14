@@ -43,3 +43,37 @@ test('create campaign, roll, save to the Codex, search, open and delete', async 
 
   expect(errors).toEqual([]);
 });
+
+test('write an entry with a wiki link, create the missing page from the link, and edit', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Links');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  await page.goto(page.url().replace(/forge$/, 'codex/new'));
+
+  await page.getByLabel('Title').fill('Odrin Vey');
+  await page.getByLabel('Notes').fill('Owes a debt to [[Marl Hollow]].');
+  await page.getByRole('button', { name: 'Create entry' }).click();
+  await expect(page.getByRole('heading', { name: 'Odrin Vey', level: 1 })).toBeVisible();
+
+  // The target doesn't exist yet: the page offers to create it, and returns here afterwards.
+  await page.getByRole('link', { name: 'Create “Marl Hollow”' }).click();
+  await expect(page.getByLabel('Title')).toHaveValue('Marl Hollow');
+  await page.getByRole('button', { name: 'Create entry' }).click();
+  await expect(page.getByRole('heading', { name: 'Odrin Vey', level: 1 })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Marl Hollow', exact: true })).toBeVisible();
+
+  // Edit: change the summary, keep everything else.
+  await page.getByRole('link', { name: 'Edit entry' }).click();
+  await page.getByLabel('Summary').fill('A ferryman in debt');
+  await page.getByRole('button', { name: 'Save changes' }).click();
+  await expect(page.getByText('A ferryman in debt')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Marl Hollow', exact: true })).toBeVisible();
+
+  expect(errors).toEqual([]);
+});

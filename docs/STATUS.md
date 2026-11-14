@@ -9,7 +9,7 @@ Updated 2026-11-14. This is the lock-down list: the product is done when every b
 - [x] Codex: list, search, open an entry, delete an entry.
 - [x] Settings: edit safety (applies at once), download a backup, restore from a backup, delete the campaign.
 - [x] Works offline as an installable web app; nothing leaves the device.
-- [ ] Edit an entry's text and wiki links in the UI (data layer done; page still to build).
+- [x] Edit an entry's text, add wiki links, create a missing page straight from a link, create entries by hand.
 - [ ] Home polish: list of campaigns and a restore button on the first-run screen.
 - [ ] README ("Run and deploy", what is and is not in this release) and `_redirects` for hosting.
 - [ ] One final safety and data-loss review pass.

@@ -130,7 +130,7 @@ describe('campaign routes (stubs with their final h1)', () => {
     ['/forge', 'Forge'],
     ['/codex', 'Codex'],
     ['/codex/new', 'Create an entry'],
-    ['/codex/ent_X/edit', 'Edit entry'],
+    ['/codex/ent_X/edit', 'Nothing here'],
     ['/codex/ent_X', 'Nothing here'],
     ['/settings', 'Settings'],
   ];

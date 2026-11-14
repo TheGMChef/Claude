@@ -28,6 +28,11 @@ export function CodexList() {
   return (
     <main className="page" id="main">
       <h1 className="page__title">Codex</h1>
+      <div className="row">
+        <Link className="key btn btn--outline btn--md" to={`/c/${cid}/codex/new`}>
+          New entry
+        </Link>
+      </div>
       {entities.length === 0 ? (
         <EmptyState
           title="Your Codex is empty"
