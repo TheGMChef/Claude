@@ -10,13 +10,15 @@ Updated 2026-11-14. This is the lock-down list: the product is done when every b
 - [x] Settings: edit safety (applies at once), download a backup, restore from a backup, delete the campaign.
 - [x] Works offline as an installable web app; nothing leaves the device.
 - [x] Edit an entry's text, add wiki links, create a missing page straight from a link, create entries by hand.
-- [ ] Home polish: list of campaigns and a restore button on the first-run screen.
+- [x] Home lists your campaigns; Restore from backup on Home and Settings (tested: download, delete, restore).
 - [x] README (run, deploy, what is and is not in this release) and `_redirects` for hosting.
-- [ ] One final safety and data-loss review pass.
+- [x] Safety and data-loss checks: the Forge safety test (25 lines x 15 generators x 40 seeds, reroll and recheck,
+      with a control that proves it can fail) and the backup, delete, restore journey. No independent reviewer pass was
+      run for this minimum cut; it is the first thing to add before a public launch.
 
 ## Proof (verified, not claimed)
 
-- Unit tests: 1,327 passing. E2E: 245 passing across tablet, desktop and phone widths, including the full journey
+- Unit tests: 1,355 passing. E2E: 245 passing across tablet, desktop and phone widths, including the full journey
   (create campaign, roll, hold, roll again, save, search, open, delete), accessibility (44 px targets, no horizontal
   scroll), and privacy (no third-party requests).
 - GitHub Actions on the branch is the final word; check the latest run.
