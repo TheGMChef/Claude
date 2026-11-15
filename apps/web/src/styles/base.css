@@ -94,6 +94,7 @@ a {
 /* Current page: the key stays pressed in (kit.css) on a highlighter face */
 .topbar__link[aria-current='page'] {
   --key-face: var(--highlight);
+  --key-pressed-face: var(--highlight);
   --key-face-hover-c: var(--highlight);
   --key-edge-c: var(--ink);
   color: var(--on-highlight);

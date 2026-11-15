@@ -94,6 +94,22 @@ export async function setSafety(d: RepoDeps, cid: string, safety: Safety): Promi
   return change(d, cid, () => ({ safety: clean }));
 }
 
+/** One topic's level, applied to the row inside the transaction (never a whole-object overwrite). */
+export async function setTopicLevel(
+  d: RepoDeps,
+  cid: string,
+  topic: string,
+  level: 'ok' | 'veil' | 'line',
+): Promise<Campaign> {
+  return change(d, cid, (c) => {
+    const lines = c.safety.lines.filter((t) => t !== topic);
+    const veils = c.safety.veils.filter((t) => t !== topic);
+    if (level === 'line') lines.push(topic);
+    if (level === 'veil') veils.push(topic);
+    return { safety: normalizeSafety({ lines, veils }) };
+  });
+}
+
 export async function setCultures(d: RepoDeps, cid: string, ids: string[]): Promise<Campaign> {
   const clean = cleanCultures(ids);
   return change(d, cid, () => ({ cultureIds: clean }));

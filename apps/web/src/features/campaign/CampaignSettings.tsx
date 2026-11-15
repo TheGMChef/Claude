@@ -4,10 +4,9 @@ import { useNavigate, useParams } from 'react-router';
 import { Button, Dialog, Field } from '../../kit';
 import { useCampaign, useDeps } from '../../data/hooks';
 import { RepoError } from '../../data/deps';
-import { deleteCampaign, renameCampaign, setSafety } from '../../data/repo/campaigns';
+import { deleteCampaign, renameCampaign, setTopicLevel } from '../../data/repo/campaigns';
 import { exportJson } from '../../data/export/json';
 import { RestoreBackup } from './RestoreBackup';
-import type { Safety } from '../../data/schema';
 import { SafetyPicker } from '../SafetyPicker';
 import { NotFound } from '../../app/NotFound';
 import { Skeleton } from '../../app/Skeleton';
@@ -22,6 +21,7 @@ export function CampaignSettings() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [deleting, setDeleting] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   if (loading) return <Skeleton />;
   if (missing || !campaign) return <NotFound what="campaign" />;
@@ -30,10 +30,10 @@ export function CampaignSettings() {
   const fail = (err: unknown, fallback: string) =>
     setError(err instanceof RepoError ? err.message : fallback);
 
-  async function saveSafety(next: Safety) {
+  async function saveTopic(topic: string, level: 'ok' | 'veil' | 'line') {
     setError('');
     try {
-      await setSafety(deps, current.id, next);
+      await setTopicLevel(deps, current.id, topic, level);
     } catch (err) {
       fail(err, "We couldn't save that. Try again.");
     }
@@ -62,8 +62,16 @@ export function CampaignSettings() {
   }
 
   async function remove() {
-    await deleteCampaign(deps, current.id);
-    navigate('/');
+    if (busy) return;
+    setBusy(true);
+    try {
+      await deleteCampaign(deps, current.id);
+      navigate('/');
+    } catch (err) {
+      setDeleting(false);
+      setBusy(false);
+      fail(err, "We couldn't delete the campaign. Try again in a moment.");
+    }
   }
 
   return (
@@ -92,9 +100,10 @@ export function CampaignSettings() {
       <section className="stack" aria-labelledby="safety-h">
         <h2 id="safety-h">Safety</h2>
         <p className="muted">
-          Changes apply to every roll straight away. Cards already on screen are re-checked.
+          Fine: may appear. Veil it: can happen off-screen, never described. Line: never appears.
+          Changes apply to every roll straight away, and cards already on screen are re-checked.
         </p>
-        <SafetyPicker value={current.safety} onChange={saveSafety} />
+        <SafetyPicker value={current.safety} onTopic={saveTopic} />
       </section>
 
       <section className="stack" aria-labelledby="data-h">

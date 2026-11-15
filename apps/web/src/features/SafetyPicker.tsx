@@ -19,12 +19,16 @@ function withLevel(s: Safety, topic: string, level: Level): Safety {
  * Session zero in one list: for each topic, "Fine", "Veil" (it can happen off-screen, never in
  * detail) or "Line" (never appears at all). Native selects, so the keyboard and screen readers work.
  */
+/** Fine = may appear; Veil it = can happen off-screen, never in detail; Line = never appears. */
 export function SafetyPicker({
   value,
   onChange,
+  onTopic,
 }: {
   value: Safety;
-  onChange: (next: Safety) => void;
+  onChange?: (next: Safety) => void;
+  /** Per-topic change (read-modify-write in the repository); wins over `onChange`. */
+  onTopic?: (topic: string, level: Level) => void;
 }) {
   const known = new Set(SAFETY_VOCABULARY);
   return (
@@ -40,7 +44,11 @@ export function SafetyPicker({
                 <select
                   id={`safety-${topic}`}
                   value={levelOf(value, topic)}
-                  onChange={(e) => onChange(withLevel(value, topic, e.target.value as Level))}
+                  onChange={(e) => {
+                    const level = e.target.value as Level;
+                    if (onTopic) onTopic(topic, level);
+                    else onChange?.(withLevel(value, topic, level));
+                  }}
                 >
                   <option value="ok">Fine</option>
                   <option value="veil">Veil it</option>

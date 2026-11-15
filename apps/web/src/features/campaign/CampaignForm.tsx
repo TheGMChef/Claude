@@ -53,6 +53,9 @@ export function CampaignForm() {
           required
         />
         <h2>Session zero</h2>
+        <p className="muted">
+          Fine: may appear. Veil it: can happen off-screen, never described. Line: never appears.
+        </p>
         <SafetyPicker value={safety} onChange={setSafety} />
         {error ? (
           <p role="alert" className="pg-error">

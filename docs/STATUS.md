@@ -13,12 +13,12 @@ Updated 2026-11-14. This is the lock-down list: the product is done when every b
 - [x] Home lists your campaigns; Restore from backup on Home and Settings (tested: download, delete, restore).
 - [x] README (run, deploy, what is and is not in this release) and `_redirects` for hosting.
 - [x] Safety and data-loss checks: the Forge safety test (25 lines x 15 generators x 40 seeds, reroll and recheck,
-      with a control that proves it can fail) and the backup, delete, restore journey. No independent reviewer pass was
-      run for this minimum cut; it is the first thing to add before a public launch.
+      with a control that proves it can fail) and the backup, delete, restore journey. An independent reviewer then went through the new pages (safety, data loss, injection, accessibility): no
+      Criticals; the 4 Important findings and the safety/data-loss Minors are fixed, each with a test.
 
 ## Proof (verified, not claimed)
 
-- Unit tests: 1,355 passing. E2E: 245 passing across tablet, desktop and phone widths, including the full journey
+- Unit tests: 1,356 passing. E2E: 257 passing across tablet, desktop and phone widths, including the full journey
   (create campaign, roll, hold, roll again, save, search, open, delete), accessibility (44 px targets, no horizontal
   scroll), and privacy (no third-party requests).
 - GitHub Actions on the branch is the final word; check the latest run.

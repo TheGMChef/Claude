@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
 import { Button, Card, Dialog } from '../../kit';
 import { fieldLabel } from '../../content/fields';
-import { KIND_LABELS } from '../../content/labels';
-import { useDeps, useLive } from '../../data/hooks';
+import { KIND_LABELS, TOPIC_LABELS } from '../../content/labels';
+import { useCampaign, useDeps, useLive } from '../../data/hooks';
+import { linedTopics } from '../../content/safety';
 import { deleteEntity, getEntity, listEntities } from '../../data/repo/entities';
 import { WikiText } from './WikiText';
 import { NotFound } from '../../app/NotFound';
@@ -16,6 +17,9 @@ export function EntityDetail() {
   const deps = useDeps();
   const navigate = useNavigate();
   const [confirming, setConfirming] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+  const { campaign } = useCampaign(cid);
   const found = useLive(
     async () => ({ entity: await getEntity(deps, eid), all: await listEntities(deps, cid) }),
     [deps, eid, cid],
@@ -26,9 +30,22 @@ export function EntityDetail() {
   const all = found.all;
   if (!entity || entity.campaignId !== cid) return <NotFound what="entry" />;
 
+  // D12: a saved roll whose table entries now touch one of the campaign's lines gets a notice.
+  // The DM's kept text is never changed or hidden.
+  const touched =
+    entity.card && campaign ? linedTopics(entity.card, campaign.safety) : ([] as string[]);
+
   async function remove() {
-    await deleteEntity(deps, eid);
-    navigate(`/c/${cid}/codex`);
+    if (busy) return;
+    setBusy(true);
+    try {
+      await deleteEntity(deps, eid);
+      navigate(`/c/${cid}/codex`);
+    } catch {
+      setConfirming(false);
+      setBusy(false);
+      setError("We couldn't delete that. Try again in a moment.");
+    }
   }
 
   return (
@@ -44,6 +61,12 @@ export function EntityDetail() {
       {entity.summary ? (
         <p className="page__lede">
           <WikiText text={entity.summary} entities={all} cid={cid} selfId={entity.id} />
+        </p>
+      ) : null}
+      {Array.isArray(touched) && touched.length > 0 ? (
+        <p role="note" className="pg-ok">
+          Part of this came from a table that touches one of your lines:{' '}
+          {touched.map((t) => TOPIC_LABELS[t] ?? t).join(', ')}. Your text is kept as it is.
         </p>
       ) : null}
       <Card variant="ruled">
@@ -68,6 +91,11 @@ export function EntityDetail() {
           </dl>
         </div>
       </Card>
+      {error ? (
+        <p role="alert" className="pg-error">
+          {error}
+        </p>
+      ) : null}
       <div className="row">
         <Link className="key btn btn--outline btn--md" to={`/c/${cid}/codex/${entity.id}/edit`}>
           Edit entry

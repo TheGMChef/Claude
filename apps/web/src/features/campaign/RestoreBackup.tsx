@@ -20,11 +20,18 @@ export function RestoreBackup({ variant = 'outline' }: { variant?: 'solid' | 'ou
   const fileRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState('');
   const [pending, setPending] = useState<Pending | undefined>();
+  const [busy, setBusy] = useState(false);
 
   async function pick(file: File | undefined) {
     if (!file) return;
     setError('');
-    const result = await readBackup(deps, file);
+    let result: Awaited<ReturnType<typeof readBackup>>;
+    try {
+      result = await readBackup(deps, file);
+    } catch {
+      setError("We couldn't read that file. Nothing on this device changed.");
+      return;
+    }
     if (!result.ok) {
       setError(RESTORE_MESSAGES[result.error]);
       return;
@@ -43,13 +50,16 @@ export function RestoreBackup({ variant = 'outline' }: { variant?: 'solid' | 'ou
   }
 
   async function confirm() {
-    if (!pending) return;
+    if (!pending || busy) return;
+    setBusy(true);
     try {
       const restored = await restoreBackup(deps, pending.backup);
       setPending(undefined);
+      setBusy(false);
       navigate(`/c/${restored.id}/codex`);
     } catch (err) {
       setPending(undefined);
+      setBusy(false);
       setError(
         err instanceof RepoError
           ? err.message
@@ -89,7 +99,7 @@ export function RestoreBackup({ variant = 'outline' }: { variant?: 'solid' | 'ou
       >
         <p>
           {pending?.existing
-            ? 'The campaign on this device is replaced by the one in the file.'
+            ? 'The campaign on this device is replaced by the one in the file: its name, safety lines and entries go back to what the file holds, and anything newer on this device is lost.'
             : 'This adds the campaign in the file to this device.'}
           {pending?.note ? ` ${pending.note}` : ''}
         </p>

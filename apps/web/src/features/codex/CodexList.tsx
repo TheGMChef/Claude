@@ -57,8 +57,12 @@ export function CodexList() {
           />
           <p className="muted" role="status">
             {q.trim() === ''
-              ? `${entities.length} ${entities.length === 1 ? 'entry' : 'entries'}`
-              : `${shown.length} ${shown.length === 1 ? 'match' : 'matches'}`}
+              ? entities.length > shown.length
+                ? `Showing the ${shown.length} newest of ${entities.length} entries. Search to find the rest.`
+                : `${entities.length} ${entities.length === 1 ? 'entry' : 'entries'}`
+              : shown.length >= 20
+                ? 'The 20 best matches. Add more words to narrow it.'
+                : `${shown.length} ${shown.length === 1 ? 'match' : 'matches'}`}
           </p>
           {shown.length === 0 ? (
             <EmptyState

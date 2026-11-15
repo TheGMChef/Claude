@@ -28,7 +28,7 @@ function EntryFormView({
   cid,
   mode,
   entity,
-  initial,
+  initial: initialProp,
   from,
 }: {
   cid: string;
@@ -39,6 +39,9 @@ function EntryFormView({
 }) {
   const deps = useDeps();
   const navigate = useNavigate();
+  // The form's baseline is the entry as it was when the page opened. A change made elsewhere
+  // meanwhile must not look like something this form changed (it would be written back).
+  const [initial] = useState(initialProp);
   const [kind, setKind] = useState<EntityKind>(entity?.kind ?? 'note');
   const [subtype, setSubtype] = useState<string | undefined>(entity?.subtype);
   const [values, setValues] = useState<Values>(initial);
@@ -243,7 +246,8 @@ export function CreateEntryPage() {
   const { cid = '' } = useParams();
   const [params] = useSearchParams();
   const initial: Values = { ...EMPTY, title: (params.get('title') ?? '').slice(0, LIMITS.title) };
-  const from = params.get('from') ?? undefined;
+  const fromParam = params.get('from') ?? '';
+  const from = /^ent_[0-9A-Za-z]{16}$/.test(fromParam) ? fromParam : undefined;
   return (
     <EntryFormView
       cid={cid}

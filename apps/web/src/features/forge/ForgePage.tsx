@@ -1,7 +1,7 @@
 // Page pattern: 3, Form (page). One job: roll a card under the campaign's safety and keep it.
-import { newSeed } from '@prepdesk/engine';
+import { BLOCKED_DISPLAY, newSeed } from '@prepdesk/engine';
 import type { Card as EngineCard } from '@prepdesk/engine';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { Button, Card, IconButton, SectionLabel, Stamp } from '../../kit';
 import { GENERATORS } from '../../content/lib';
@@ -27,9 +27,16 @@ export function ForgePage() {
   const [held, setHeld] = useState<string[]>([]);
   const [saved, setSaved] = useState<{ id: string; title: string } | undefined>();
   const [error, setError] = useState('');
+  const savingRef = useRef(false);
+  const latestSafety = useRef(campaign?.safety);
+  latestSafety.current = campaign?.safety;
 
   const safetyKey = campaign ? JSON.stringify(campaign.safety) : '';
-  const culture = cultureId || campaign?.cultureIds[0] || '';
+  // A culture the campaign no longer has falls back to its first one.
+  const culture =
+    campaign && campaign.cultureIds.includes(cultureId)
+      ? cultureId
+      : (campaign?.cultureIds[0] ?? '');
   const lineCount = campaign?.safety.lines.length ?? 0;
   const veilCount = campaign?.safety.veils.length ?? 0;
   const generator = useMemo(() => GENERATORS.find((g) => g.id === generatorId), [generatorId]);
@@ -52,23 +59,29 @@ export function ForgePage() {
     if (!campaign) return;
     setError('');
     setSaved(undefined);
+    savingRef.current = false;
     setHeld([]);
-    setCard(
-      rollGenerator(generatorId, campaign.safety, { seed: newSeed(), extras: await extras() }),
-    );
+    const extra = await extras();
+    // Safety may have changed while the names loaded: always apply the latest.
+    const safety = latestSafety.current ?? campaign.safety;
+    setCard(rollGenerator(generatorId, safety, { seed: newSeed(), extras: extra }));
   }
 
   async function rollAgain() {
     if (!campaign || !card) return;
     setError('');
     setSaved(undefined);
-    setCard(rerollCard(card, campaign.safety, { locks: held, extras: await extras() }));
+    savingRef.current = false;
+    const extra = await extras();
+    const safety = latestSafety.current ?? campaign.safety;
+    setCard(rerollCard(card, safety, { locks: held, extras: extra }));
   }
 
   async function save() {
-    if (!campaign || !card) return;
+    if (!campaign || !card || savingRef.current) return;
     const kind = GENERATOR_KINDS[generatorId];
     if (!kind) return;
+    savingRef.current = true;
     const made = entityFromCard(card, kind.kind, {
       campaignId: campaign.id,
       origin: 'manual',
@@ -78,6 +91,7 @@ export function ForgePage() {
       setError(
         'Nothing fits your safety settings for this roll. Roll again to get a different card.',
       );
+      savingRef.current = false;
       return;
     }
     try {
@@ -87,6 +101,7 @@ export function ForgePage() {
       setError(
         err instanceof RepoError ? err.message : "We couldn't save that. Try again in a moment.",
       );
+      savingRef.current = false;
     }
   }
 
@@ -186,7 +201,10 @@ export function ForgePage() {
               <Button variant="outline" onClick={rollAgain}>
                 Roll again
               </Button>
-              <Button onClick={save} disabled={saved !== undefined}>
+              <Button
+                onClick={save}
+                disabled={saved !== undefined || card.display === BLOCKED_DISPLAY}
+              >
                 Save to Codex
               </Button>
             </div>

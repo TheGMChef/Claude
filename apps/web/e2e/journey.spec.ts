@@ -113,3 +113,70 @@ test('back up a campaign, delete it, restore it from the first-run screen', asyn
 
   expect(errors).toEqual([]);
 });
+
+test('a double-click on Save to Codex saves one entry', async ({ page }) => {
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Once');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  await page.getByRole('button', { name: /^Roll/ }).click();
+  await expect(page.getByTestId('forge-display')).not.toBeEmpty();
+  await page.getByRole('button', { name: 'Save to Codex' }).dblclick();
+  await expect(page.getByRole('status').filter({ hasText: 'Saved' })).toBeVisible();
+  await page.goto(page.url().replace(/forge$/, 'codex'));
+  await expect(page.getByText('1 entry')).toBeVisible();
+});
+
+test("an edit in a stale tab does not overwrite another tab's change", async ({ context }) => {
+  const a = await context.newPage();
+  await a.goto('/campaigns/new');
+  await a.getByLabel('Campaign name').fill('Two tabs');
+  await a.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(a.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  await a.goto(a.url().replace(/forge$/, 'codex/new'));
+  await a.getByLabel('Title').fill('Original title');
+  await a.getByRole('button', { name: 'Create entry' }).click();
+  await expect(a.getByRole('heading', { name: 'Original title', level: 1 })).toBeVisible();
+  const detailUrl = a.url();
+
+  // Tab A opens the edit form and waits.
+  await a.getByRole('link', { name: 'Edit entry' }).click();
+  await expect(a.getByLabel('Title')).toHaveValue('Original title');
+
+  // Tab B renames the entry.
+  const b = await context.newPage();
+  await b.goto(`${detailUrl}/edit`);
+  await b.getByLabel('Title').fill('Renamed in tab B');
+  await b.getByRole('button', { name: 'Save changes' }).click();
+  await expect(b.getByRole('heading', { name: 'Renamed in tab B', level: 1 })).toBeVisible();
+
+  // Tab A changes only the notes and saves: the new title must survive.
+  await a.getByLabel('Notes').fill('Notes from tab A');
+  await a.getByRole('button', { name: 'Save changes' }).click();
+  await expect(a.getByRole('heading', { level: 1 })).toHaveText('Renamed in tab B');
+  await expect(a.getByText('Notes from tab A')).toBeVisible();
+});
+
+test('the active top-bar tab is readable in dark mode', async ({ page, isMobile }) => {
+  test.skip(isMobile === true, 'the phone collapses the bar into a Menu');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Dark');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  const ratio = await page.locator('.topbar__link[aria-current="page"]').evaluate((el) => {
+    const parse = (c: string) => (c.match(/[\d.]+/g) ?? []).slice(0, 3).map(Number);
+    const lum = ([r, g, b]: number[]) => {
+      const f = (v: number) => {
+        const s = (v ?? 0) / 255;
+        return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+      };
+      return 0.2126 * f(r ?? 0) + 0.7152 * f(g ?? 0) + 0.0722 * f(b ?? 0);
+    };
+    const cs = getComputedStyle(el);
+    const l1 = lum(parse(cs.color));
+    const l2 = lum(parse(cs.backgroundColor));
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  });
+  expect(ratio).toBeGreaterThanOrEqual(4.5);
+});
