@@ -9,6 +9,8 @@ link them together. System-agnostic. No accounts, no AI, nothing leaves your dev
 - **Campaigns with session-zero safety.** Choose lines (never appear) and veils (off-screen only). They apply to
   every roll, always, and override locks.
 - **The Forge.** 15 generators of original content. Roll, hold the fields you like, roll again, save to the Codex.
+- **The Table.** A live console: one tap rolls an NPC, rumor, complication, encounter, place, tavern, shop, clue,
+  treasure or trinket; ask the oracle a yes or no question; draw a GM move. Save any roll to the Codex.
 - **The Codex.** Save, search, open, edit and delete entries. Link entries with `[[double brackets]]`; a link to a
   page that doesn't exist yet offers to create it.
 - **Backup and restore.** Download a JSON backup; restore it on this or another device. A restore is all-or-nothing.
@@ -16,7 +18,7 @@ link them together. System-agnostic. No accounts, no AI, nothing leaves your dev
 
 ## Not in this release yet
 
-Table Mode (live session tools), the six-step prep interview, session wrap-up and shortlist, Markdown export, the
+Session tracking and scenes at the table (the Table page is a lean first version), the six-step prep interview, session wrap-up and shortlist, Markdown export, the
 quick-find palette, an entry history tab, a connections tab, and a few settings (name cultures, front clocks).
 
 ## Run it

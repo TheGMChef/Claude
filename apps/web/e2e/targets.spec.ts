@@ -86,7 +86,7 @@ test.describe('phone Menu', () => {
     await page.getByRole('button', { name: 'Menu' }).click();
     const nav = page.locator('#topbar-modes');
     await expect(nav).toBeVisible();
-    await expect(nav.getByRole('link')).toHaveCount(3);
+    await expect(nav.getByRole('link')).toHaveCount(4);
     const { checked, small } = await measureTargets(page);
     // wordmark, Menu, theme, 3 open campaign links
     expect(checked).toBeGreaterThanOrEqual(6);

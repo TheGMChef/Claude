@@ -3,8 +3,8 @@
  * required `Safety` and always puts it in the context, over anything a stored or imported card
  * carries. ESLint bans importing the raw functions anywhere else in apps/web/src.
  */
-import { applySafety, generate, parseCard, reroll } from '@prepdesk/engine';
-import type { Card, Context } from '@prepdesk/engine';
+import { applySafety, askOracle, drawMove, generate, parseCard, reroll } from '@prepdesk/engine';
+import type { Card, Context, Likelihood, MoveCard, OracleResult } from '@prepdesk/engine';
 import type { Safety } from '../data/schema';
 import { lib } from './lib';
 
@@ -78,4 +78,31 @@ export function linedTopics(cardJson: string, safety: Safety): string[] | 'unrea
   } catch {
     return 'unreadable';
   }
+}
+
+const ORACLE_ID = 'fantasy.oracle';
+const DECK_ID = 'core.gm-moves';
+
+/** A yes/no answer with two meaning words, always under the campaign's current lines. */
+export function askTheOracle(
+  likelihood: Likelihood,
+  safety: Safety,
+  opts: { seed?: string } = {},
+): OracleResult {
+  return askOracle(lib, ORACLE_ID, likelihood, {
+    ...(opts.seed !== undefined ? { seed: opts.seed } : {}),
+    safety: { lines: [...safety.lines], veils: [...safety.veils] },
+  });
+}
+
+/** A GM move, never one a current line excludes. */
+export function drawAMove(
+  safety: Safety,
+  opts: { seed?: string; exclude?: string[] } = {},
+): MoveCard {
+  return drawMove(lib, DECK_ID, {
+    ...(opts.seed !== undefined ? { seed: opts.seed } : {}),
+    ...(opts.exclude !== undefined ? { exclude: opts.exclude } : {}),
+    safety: { lines: [...safety.lines], veils: [...safety.veils] },
+  });
 }

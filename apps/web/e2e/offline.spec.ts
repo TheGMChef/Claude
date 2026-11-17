@@ -34,7 +34,7 @@ test('works offline after the first load', async ({ page, context }) => {
   await expect(page.getByText('Prep Desk').first()).toBeVisible();
 
   // A placeholder path that now redirects: the redirect works offline too.
-  await page.goto('/table');
+  await page.goto('/prep');
   await expect(page.getByRole('heading', { level: 1, name: 'Prep Desk' })).toBeVisible();
   expect(new URL(page.url()).pathname).toBe('/');
   // fonts.check() is also true for an undeclared family, so require a real, loaded FontFace.

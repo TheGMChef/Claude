@@ -8,6 +8,7 @@ import { CodexList } from '../features/codex/CodexList';
 import { EntityDetail } from '../features/codex/EntityDetail';
 import { CreateEntryPage, EditEntryPage } from '../features/codex/EntryForm';
 import { ForgePage } from '../features/forge/ForgePage';
+import { TablePage } from '../features/table/TablePage';
 import { App } from './App';
 import { NotFound } from './NotFound';
 import { CampaignEntry, CampaignScope, ToCurrentCampaign, ToDesk } from './Redirects';
@@ -21,6 +22,7 @@ const children: RouteObject[] = [
     children: [
       { index: true, element: <CampaignEntry /> },
       { path: 'forge', element: <ForgePage /> },
+      { path: 'table', element: <TablePage /> },
       { path: 'codex', element: <CodexList /> },
       { path: 'codex/new', element: <CreateEntryPage /> },
       { path: 'codex/:eid', element: <EntityDetail /> },
@@ -31,7 +33,7 @@ const children: RouteObject[] = [
   { path: 'forge', element: <ToCurrentCampaign section="forge" /> },
   { path: 'codex', element: <ToCurrentCampaign section="codex" /> },
   { path: 'prep', element: <ToDesk /> },
-  { path: 'table', element: <ToDesk /> },
+  { path: 'table', element: <ToCurrentCampaign section="table" /> },
 ];
 
 // Dev pages: lazy-loaded inside a statically-replaced gate so production builds drop them.

@@ -26,24 +26,27 @@ Do these in order. Each step says what you should see.
    says how many lines and veils it is rolling under.
 3. **Roll.** Pick Instant NPC, press Roll. You see a card: a name, a role, a look, a want, a secret, a voice, a tell.
 4. **Hold and Roll again.** Press the lock icon beside Name, then Roll again. Everything changes except the held name.
-5. **Try the other generators.** Tavern, Shop, Rumor, Secret, Clue, Treasure, Encounter, Adventure seed, and so on.
+5. **The Table.** Open Table in the top bar. Tap NPC, Rumor, Complication and the others: each result lands in "On the
+   table" and can be saved or dismissed. Tap Even odds for an oracle answer (yes or no, with two meaning words) and
+   Draw a GM move.
+6. **Try the other generators.** Tavern, Shop, Rumor, Secret, Clue, Treasure, Encounter, Adventure seed, and so on.
    Names come from the culture you pick under Names from.
-6. **Save.** Press Save to Codex. A line says it is saved, with an Open it link.
-7. **Codex.** Open Codex in the top bar. Your entry is listed. Type part of its name in the search box. Type nonsense:
+7. **Save.** Press Save to Codex. A line says it is saved, with an Open it link.
+8. **Codex.** Open Codex in the top bar. Your entry is listed. Type part of its name in the search box. Type nonsense:
    you get "Nothing matches that" and a Clear the search button.
-8. **Links.** Press New entry. Title "Marl Hollow's ferryman". In Notes write `Works for [[Odrin Vey]].` Create entry. On
+9. **Links.** Press New entry. Title "Marl Hollow's ferryman". In Notes write `Works for [[Odrin Vey]].` Create entry. On
    the detail page, "Odrin Vey" shows "Create “Odrin Vey”". Click it, create the entry, and you are returned to the
    ferryman with the name now a live link.
-9. **Edit.** Open an entry, press Edit entry, change the summary, Save changes. Try leaving the form with unsaved text:
+10. **Edit.** Open an entry, press Edit entry, change the summary, Save changes. Try leaving the form with unsaved text:
    it asks first.
-10. **Safety changes.** Open Settings. Change a topic to **Line: never**. Go back to the Forge: the line count updated,
+11. **Safety changes.** Open Settings. Change a topic to **Line: never**. Go back to the Forge: the line count updated,
     and a card already on screen is re-checked.
-11. **Backup and restore.** In Settings press Download backup (a `.json` file downloads). Press Delete this campaign and
+12. **Backup and restore.** In Settings press Download backup (a `.json` file downloads). Press Delete this campaign and
     confirm. You are back at the first-run screen. Press Restore from backup, choose the file, confirm. Your campaign and
     entries are back.
-12. **Dark mode and phone.** Press the sun/moon key in the top bar. Narrow the browser window to phone width: the top bar
+13. **Dark mode and phone.** Press the sun/moon key in the top bar. Narrow the browser window to phone width: the top bar
     collapses into a Menu.
-13. **Offline.** In Chrome open DevTools, Network, tick Offline, reload. The app still loads and works.
+14. **Offline.** In Chrome open DevTools, Network, tick Offline, reload. The app still loads and works.
 
 ## 3. Test on a real tablet (after you deploy)
 

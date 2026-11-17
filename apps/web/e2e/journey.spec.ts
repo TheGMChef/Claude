@@ -180,3 +180,32 @@ test('the active top-bar tab is readable in dark mode', async ({ page, isMobile 
   });
   expect(ratio).toBeGreaterThanOrEqual(4.5);
 });
+
+test('the Table: one-tap roll, oracle, GM move, save a roll to the Codex', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Live');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  await page.goto(page.url().replace(/forge$/, 'table'));
+  await expect(page.getByRole('heading', { name: 'Table', level: 1 })).toBeVisible();
+  await expect(page.getByText('Nothing yet. Tap a roll above.')).toBeVisible();
+
+  await page.getByRole('button', { name: 'NPC', exact: true }).click();
+  await expect(page.getByTestId('table-roll')).not.toBeEmpty();
+  await page.getByRole('button', { name: 'Even odds' }).click();
+  await expect(page.getByTestId('table-oracle')).toContainText(/Yes|No/);
+  await page.getByRole('button', { name: 'Draw a GM move' }).click();
+  await expect(page.getByTestId('table-move')).not.toBeEmpty();
+
+  const roll = await page.getByTestId('table-roll').innerText();
+  await page.getByRole('button', { name: 'Save to Codex' }).dblclick();
+  await page.getByRole('link', { name: 'Open in Codex' }).click();
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await page.goto(page.url().replace(/codex\/.*$/, 'codex'));
+  await expect(page.getByText('1 entry')).toBeVisible();
+  expect(roll.length).toBeGreaterThan(0);
+  expect(errors).toEqual([]);
+});

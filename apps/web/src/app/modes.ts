@@ -7,6 +7,7 @@ export interface Mode {
 /** The campaign-scoped keys in the TopBar (M-D2). */
 export const MODES: readonly Mode[] = [
   { path: 'forge', title: 'Forge' },
+  { path: 'table', title: 'Table' },
   { path: 'codex', title: 'Codex' },
 ];
 

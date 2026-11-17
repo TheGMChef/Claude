@@ -27,7 +27,7 @@ describe('first run (no campaign)', () => {
     ['/codex', '/campaigns/new'],
     ['/forge', '/campaigns/new'],
     ['/prep', '/'],
-    ['/table', '/'],
+    ['/table', '/campaigns/new'],
   ])('%s lands on %s', async (from, to) => {
     const { router } = await renderApp({ path: from });
     await waitFor(() => expect(router.state.location.pathname).toBe(to));
@@ -95,7 +95,7 @@ describe('with a campaign', () => {
     expect(settings).not.toHaveAttribute('aria-current');
   });
 
-  it('uses the Forge and Codex modes only in the nav list (no Prep or Table)', async () => {
+  it('lists Forge, Table, Codex and Settings, and no Prep', async () => {
     await renderApp({
       path: '/',
       seed: async (d) => {
@@ -104,7 +104,7 @@ describe('with a campaign', () => {
     });
     await topbar().findByRole('link', { name: 'Forge' });
     expect(topbar().queryByRole('link', { name: 'Prep' })).toBeNull();
-    expect(topbar().queryByRole('link', { name: 'Table' })).toBeNull();
+    expect(topbar().getByRole('link', { name: 'Table' })).toBeInTheDocument();
   });
 });
 

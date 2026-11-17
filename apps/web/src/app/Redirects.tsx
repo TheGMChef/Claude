@@ -6,7 +6,7 @@ import { NotFound } from './NotFound';
 import { Skeleton } from './Skeleton';
 
 /** `/forge` and `/codex`: the current campaign's page, else the create-campaign page. */
-export function ToCurrentCampaign({ section }: { section: 'forge' | 'codex' }) {
+export function ToCurrentCampaign({ section }: { section: 'forge' | 'table' | 'codex' }) {
   const { campaign, loading } = useCurrentCampaign();
   if (loading) return <Skeleton />;
   return <Navigate to={campaign ? `/c/${campaign.id}/${section}` : '/campaigns/new'} replace />;

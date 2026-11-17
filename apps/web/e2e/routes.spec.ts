@@ -19,7 +19,7 @@ async function noHorizontalScroll(page: Page) {
 const FIRST_RUN: { path: string; h1: string; lands: string }[] = [
   { path: '/', h1: 'Prep Desk', lands: '/' },
   { path: '/prep', h1: 'Prep Desk', lands: '/' },
-  { path: '/table', h1: 'Prep Desk', lands: '/' },
+  { path: '/table', h1: 'Create a campaign', lands: '/campaigns/new' },
   { path: '/codex', h1: 'Create a campaign', lands: '/campaigns/new' },
   { path: '/forge', h1: 'Create a campaign', lands: '/campaigns/new' },
   { path: '/campaigns/new', h1: 'Create a campaign', lands: '/campaigns/new' },
@@ -43,6 +43,7 @@ test('campaign routes render their h1, the redirects follow the current campaign
   const cid = await seedCampaignRaw(page);
   const routes: [string, string][] = [
     [`/c/${cid}/forge`, 'Forge'],
+    [`/c/${cid}/table`, 'Table'],
     [`/c/${cid}/codex`, 'Codex'],
     [`/c/${cid}/codex/new`, 'Create an entry'],
     [`/c/${cid}/settings`, 'Settings'],

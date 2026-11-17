@@ -175,7 +175,7 @@ describe('key components', () => {
     }).then(({ router }) => router.navigate(`/c/${cid}/forge`));
     const nav = await screen.findByRole('navigation', { name: 'Campaign' });
     const links = nav.querySelectorAll('.topbar__link');
-    expect(links.length).toBe(3);
+    expect(links.length).toBe(4);
     for (const a of links) expect(a.querySelector('.ink-outline')).not.toBeNull();
     expect(screen.getByRole('link', { name: 'Forge' })).toHaveAttribute('aria-current', 'page');
     expect(
