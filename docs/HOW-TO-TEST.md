@@ -44,9 +44,12 @@ Do these in order. Each step says what you should see.
 12. **Backup and restore.** In Settings press Download backup (a `.json` file downloads). Press Delete this campaign and
     confirm. You are back at the first-run screen. Press Restore from backup, choose the file, confirm. Your campaign and
     entries are back.
-13. **Dark mode and phone.** Press the sun/moon key in the top bar. Narrow the browser window to phone width: the top bar
+13. **Quick find and filters.** Press Ctrl (or Cmd) + K anywhere: type a name and press Enter to jump to it. On the
+    Codex, use Show to filter by kind. In Settings, Download as Markdown gives one `.md` file with your `[[links]]`.
+    The Table keeps your rolls when you leave the page and come back (this tab only).
+14. **Dark mode and phone.** Press the sun/moon key in the top bar. Narrow the browser window to phone width: the top bar
     collapses into a Menu.
-14. **Offline.** In Chrome open DevTools, Network, tick Offline, reload. The app still loads and works.
+15. **Offline.** In Chrome open DevTools, Network, tick Offline, reload. The app still loads and works.
 
 ## 3. Test on a real tablet (after you deploy)
 
@@ -75,5 +78,5 @@ site data deletes it. Use Download backup before you try anything risky.
 
 ## Known limits of this release
 
-No Table Mode, Prep interview, wrap-up, shortlist, Markdown export or quick-find palette yet. Only the first 100 entries
+No session tracking or scenes at the table, no Prep interview, wrap-up or shortlist, and no zip vault export yet. Only the first 100 entries
 are listed when you are not searching; use the search box beyond that.

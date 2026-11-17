@@ -209,3 +209,67 @@ test('the Table: one-tap roll, oracle, GM move, save a roll to the Codex', async
   expect(roll.length).toBeGreaterThan(0);
   expect(errors).toEqual([]);
 });
+
+test('Codex kind filter, quick find, Table survives leaving, Markdown export', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+
+  await page.goto('/campaigns/new');
+  await page.getByLabel('Campaign name').fill('Features');
+  await page.getByRole('button', { name: 'Create campaign' }).click();
+  await expect(page.getByRole('heading', { name: 'Forge', level: 1 })).toBeVisible();
+  const base = page.url().replace(/\/forge$/, '');
+
+  // Two entries of different kinds.
+  await page.goto(`${base}/codex/new`);
+  await page.getByLabel('Kind').selectOption('npc');
+  await page.getByLabel('Title').fill('Odrin Vey');
+  await page.getByLabel('Notes').fill('Drinks at [[The Otter]].');
+  await page.getByRole('button', { name: 'Create entry' }).click();
+  await expect(page.getByRole('heading', { name: 'Odrin Vey', level: 1 })).toBeVisible();
+  await page.goto(`${base}/codex/new`);
+  await page.getByLabel('Kind').selectOption('place');
+  await page.getByLabel('Title').fill('The Otter');
+  await page.getByRole('button', { name: 'Create entry' }).click();
+  await expect(page.getByRole('heading', { name: 'The Otter', level: 1 })).toBeVisible();
+
+  // Kind filter.
+  await page.goto(`${base}/codex`);
+  await expect(page.locator('.entry-list a')).toHaveCount(2);
+  await page.getByLabel('Show').selectOption('npc');
+  await expect(page.locator('.entry-list a')).toHaveCount(1);
+  await expect(page.locator('.entry-list a', { hasText: 'Odrin Vey' })).toBeVisible();
+
+  // Quick find with the keyboard.
+  await page.keyboard.press('Control+k');
+  await expect(page.getByRole('dialog', { name: 'Quick find' })).toBeVisible();
+  await page.keyboard.type('otter');
+  await expect(
+    page.getByRole('dialog', { name: 'Quick find' }).getByText('The Otter'),
+  ).toBeVisible();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('heading', { name: 'The Otter', level: 1 })).toBeVisible();
+  await page.keyboard.press('Control+k');
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog', { name: 'Quick find' })).toHaveCount(0);
+
+  // The Table stack survives leaving the page.
+  await page.goto(`${base}/table`);
+  await page.getByRole('button', { name: 'Rumor', exact: true }).click();
+  const rumor = await page.getByTestId('table-roll').innerText();
+  await page.goto(`${base}/codex`);
+  await page.goto(`${base}/table`);
+  await expect(page.getByTestId('table-roll')).toHaveText(rumor);
+
+  // Markdown export downloads a file with the entries and their links.
+  await page.goto(`${base}/settings`);
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download as Markdown' }).click();
+  const file = await download;
+  expect(file.suggestedFilename()).toMatch(/^prepdesk-features-.*\.md$/);
+  const text = (await import('node:fs')).readFileSync((await file.path()) as string, 'utf8');
+  expect(text).toContain('### Odrin Vey');
+  expect(text).toContain('[[The Otter]]');
+
+  expect(errors).toEqual([]);
+});

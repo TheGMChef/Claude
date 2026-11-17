@@ -211,3 +211,10 @@
 .table-page {
   max-width: 720px;
 }
+
+.quickfind {
+  display: grid;
+  gap: var(--space-3);
+  align-self: start;
+  margin-top: var(--space-8);
+}

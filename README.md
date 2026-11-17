@@ -11,15 +11,16 @@ link them together. System-agnostic. No accounts, no AI, nothing leaves your dev
 - **The Forge.** 15 generators of original content. Roll, hold the fields you like, roll again, save to the Codex.
 - **The Table.** A live console: one tap rolls an NPC, rumor, complication, encounter, place, tavern, shop, clue,
   treasure or trinket; ask the oracle a yes or no question; draw a GM move. Save any roll to the Codex.
-- **The Codex.** Save, search, open, edit and delete entries. Link entries with `[[double brackets]]`; a link to a
+- **The Codex.** Save, search, filter by kind, open, edit and delete entries. Link entries with `[[double brackets]]`; a link to a
   page that doesn't exist yet offers to create it.
-- **Backup and restore.** Download a JSON backup; restore it on this or another device. A restore is all-or-nothing.
+- **Quick find.** Press Ctrl or Cmd + K anywhere to jump to an entry or a page.
+- **Backup, restore and Markdown.** Download a JSON backup and restore it on this or another device (a restore is
+  all-or-nothing), or download the Codex as one Markdown file that keeps your `[[links]]`.
 - **Works offline** as an installable web app (a PWA). Light and dark themes. Tablet first, works on phones.
 
 ## Not in this release yet
 
-Session tracking and scenes at the table (the Table page is a lean first version), the six-step prep interview, session wrap-up and shortlist, Markdown export, the
-quick-find palette, an entry history tab, a connections tab, and a few settings (name cultures, front clocks).
+Session tracking and scenes at the table (the Table page is a lean first version), the six-step prep interview, session wrap-up and shortlist, a zip vault export, an entry history tab, a connections tab, and a few settings (name cultures, front clocks).
 
 ## Run it
 

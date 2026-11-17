@@ -50,7 +50,11 @@ export async function buildBackup(d: RepoDeps, cid: string): Promise<Backup> {
 const pad = (n: number) => String(n).padStart(2, '0');
 
 /** `prepdesk-<slug>-<yyyy-mm-dd>.<ext>`: slug is folded ASCII words joined by "-", at most 40 (D65). */
-export function exportName(campaign: { name: string }, ext: 'json' | 'zip', date: Date): string {
+export function exportName(
+  campaign: { name: string },
+  ext: 'json' | 'zip' | 'md',
+  date: Date,
+): string {
   const slug = fold(campaign.name)
     .split(/[^a-z0-9]+/)
     .filter((w) => w !== '')

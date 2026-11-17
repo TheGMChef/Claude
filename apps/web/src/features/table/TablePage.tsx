@@ -1,12 +1,12 @@
 // Page pattern: 4, Dashboard / Overview, as a live console: tiles to tap, a stack of what you rolled.
 import { newSeed } from '@prepdesk/engine';
 import type { Card as EngineCard, Likelihood, MoveCard, OracleResult } from '@prepdesk/engine';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { Button, Card, SectionLabel, Stamp } from '../../kit';
 import { GENERATORS } from '../../content/lib';
 import { GENERATOR_KINDS } from '../../content/fields';
-import { askTheOracle, drawAMove, rollGenerator } from '../../content/safety';
+import { askTheOracle, drawAMove, recheckCard, rollGenerator } from '../../content/safety';
 import { useCampaign, useDeps } from '../../data/hooks';
 import { RepoError } from '../../data/deps';
 import { createEntity, entityFromCard } from '../../data/repo/entities';
@@ -42,6 +42,29 @@ type Item =
 type NewItem<T = Item> = T extends unknown ? Omit<T, 'key'> : never;
 
 const MAX_ITEMS = 30;
+const storeKey = (cid: string) => `prepdesk.table.${cid}`;
+
+/** The stack survives leaving the page, for this tab only (sessionStorage); it is never a record. */
+function loadItems(cid: string): Item[] {
+  try {
+    const raw = sessionStorage.getItem(storeKey(cid));
+    const list: unknown = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(list)) return [];
+    return list
+      .filter((i): i is Item => typeof i === 'object' && i !== null && 'key' in i && 'type' in i)
+      .slice(0, MAX_ITEMS);
+  } catch {
+    return [];
+  }
+}
+
+function saveItems(cid: string, items: Item[]) {
+  try {
+    sessionStorage.setItem(storeKey(cid), JSON.stringify(items));
+  } catch {
+    // Storage full or blocked: the page still works, it just won't survive leaving.
+  }
+}
 
 export function TablePage() {
   const { cid = '' } = useParams();
@@ -51,12 +74,32 @@ export function TablePage() {
   const [error, setError] = useState('');
   const counter = useRef(0);
   const saving = useRef(new Set<string>());
+  const loadedFor = useRef('');
+
+  // Restore the stack once the campaign is known, re-checking every stored roll against the
+  // campaign's CURRENT lines (they may have changed since it was rolled).
+  useEffect(() => {
+    if (!campaign || loadedFor.current === campaign.id) return;
+    loadedFor.current = campaign.id;
+    const back = loadItems(campaign.id).map((i) =>
+      i.type === 'roll' ? { ...i, card: recheckCard(i.card, campaign.safety) } : i,
+    );
+    counter.current = back.length;
+    setItems(back);
+  }, [campaign]);
+
+  useEffect(() => {
+    if (campaign && loadedFor.current === campaign.id) saveItems(campaign.id, items);
+  }, [items, campaign]);
 
   if (!campaign) return <Skeleton />;
   const safety = campaign.safety;
   const push = (item: NewItem) =>
     setItems((list) =>
-      [{ ...item, key: `i${++counter.current}` } as Item, ...list].slice(0, MAX_ITEMS),
+      [{ ...item, key: `i${Date.now().toString(36)}${++counter.current}` } as Item, ...list].slice(
+        0,
+        MAX_ITEMS,
+      ),
     );
 
   async function quick(generatorId: string) {

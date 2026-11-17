@@ -6,6 +6,7 @@ import { useCampaign, useDeps } from '../../data/hooks';
 import { RepoError } from '../../data/deps';
 import { deleteCampaign, renameCampaign, setTopicLevel } from '../../data/repo/campaigns';
 import { exportJson } from '../../data/export/json';
+import { exportMarkdown } from '../../data/export/markdown';
 import { RestoreBackup } from './RestoreBackup';
 import { SafetyPicker } from '../SafetyPicker';
 import { NotFound } from '../../app/NotFound';
@@ -48,6 +49,16 @@ export function CampaignSettings() {
       setMessage('Name saved.');
     } catch (err) {
       fail(err, "We couldn't save the name. Try again.");
+    }
+  }
+
+  async function markdown() {
+    setError('');
+    try {
+      await exportMarkdown(deps, { id: current.id, name: current.name });
+      setMessage('Markdown downloaded. It keeps your [[links]] for note apps like Obsidian.');
+    } catch (err) {
+      fail(err, "We couldn't make the Markdown file. Try again.");
     }
   }
 
@@ -113,6 +124,9 @@ export function CampaignSettings() {
         </p>
         <div className="row">
           <Button onClick={backup}>Download backup</Button>
+          <Button variant="outline" onClick={markdown}>
+            Download as Markdown
+          </Button>
           <RestoreBackup />
         </div>
       </section>

@@ -3,6 +3,8 @@ import { useMemo } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router';
 import { Button, EmptyState, Field } from '../../kit';
 import { KIND_LABELS } from '../../content/labels';
+import { ENTITY_KINDS } from '../../data/schema';
+import type { EntityKind } from '../../data/schema';
 import { useLive } from '../../data/hooks';
 import { listEntities } from '../../data/repo/entities';
 import { useDeps } from '../../data/hooks';
@@ -15,15 +17,27 @@ export function CodexList() {
   const deps = useDeps();
   const [params, setParams] = useSearchParams();
   const q = params.get('q') ?? '';
+  const kindParam = params.get('kind') ?? '';
+  const kind = (ENTITY_KINDS as readonly string[]).includes(kindParam)
+    ? (kindParam as EntityKind)
+    : undefined;
+  const update = (next: { q?: string; kind?: string }) => {
+    const merged = { q, kind: kind ?? '', ...next };
+    const out: Record<string, string> = {};
+    if (merged.q) out['q'] = merged.q;
+    if (merged.kind) out['kind'] = merged.kind;
+    setParams(out, { replace: true });
+  };
   const entities = useLive(() => listEntities(deps, cid), [deps, cid]);
   const index = useMemo(() => (entities ? buildIndex(entities) : undefined), [entities]);
 
   if (!entities || !index) return <Skeleton />;
 
+  const ofKind = kind ? entities.filter((e) => e.kind === kind) : entities;
   const shown =
     q.trim() === ''
-      ? [...entities].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, 100)
-      : search(index, q, { limit: 20 }).map((h) => h.entity);
+      ? [...ofKind].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, 100)
+      : search(index, q, { limit: 20, ...(kind ? { kinds: [kind] } : {}) }).map((h) => h.entity);
 
   return (
     <main className="page" id="main">
@@ -49,17 +63,33 @@ export function CodexList() {
             label="Search your Codex"
             type="search"
             value={q}
-            onChange={(e) =>
-              setParams(e.target.value ? { q: e.target.value } : {}, { replace: true })
-            }
+            onChange={(e) => update({ q: e.target.value })}
             placeholder="a name, a place, a word"
             autoComplete="off"
           />
+          <div className="field">
+            <label className="field__label" htmlFor="codex-kind">
+              Show
+            </label>
+            <select
+              id="codex-kind"
+              className="entry-select"
+              value={kind ?? ''}
+              onChange={(e) => update({ kind: e.target.value })}
+            >
+              <option value="">Everything</option>
+              {ENTITY_KINDS.filter((k) => entities.some((e) => e.kind === k)).map((k) => (
+                <option key={k} value={k}>
+                  {KIND_LABELS[k]}
+                </option>
+              ))}
+            </select>
+          </div>
           <p className="muted" role="status">
             {q.trim() === ''
-              ? entities.length > shown.length
-                ? `Showing the ${shown.length} newest of ${entities.length} entries. Search to find the rest.`
-                : `${entities.length} ${entities.length === 1 ? 'entry' : 'entries'}`
+              ? ofKind.length > shown.length
+                ? `Showing the ${shown.length} newest of ${ofKind.length} entries. Search to find the rest.`
+                : `${ofKind.length} ${ofKind.length === 1 ? 'entry' : 'entries'}`
               : shown.length >= 20
                 ? 'The 20 best matches. Add more words to narrow it.'
                 : `${shown.length} ${shown.length === 1 ? 'match' : 'matches'}`}
@@ -69,7 +99,7 @@ export function CodexList() {
               title="Nothing matches that"
               sentence="Try fewer words, or a name you saved."
               primary={
-                <Button variant="outline" onClick={() => setParams({}, { replace: true })}>
+                <Button variant="outline" onClick={() => update({ q: '', kind: '' })}>
                   Clear the search
                 </Button>
               }
